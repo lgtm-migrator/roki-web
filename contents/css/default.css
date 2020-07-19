@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+
+html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: 'Ubuntu Mono', monospace;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+#my_name {
+    font-family: 'EB Garamond', serif;
+}
+
+.main {
+    flex: 1;
+}
+
+.container p, .container a {
+    display: inline;
+}
+
+ul.is-unstyled {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.blured-my-prof {
+    content: url("/images/prof_black.png");
+    margin-top: 27px;
+    border-radius: 10px;
+}
+
+.footer {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #fff;
+}
+
+hr.footer-dec {
+    margin: 0 0 9px 0;
+    background: url(/images/footer_dec.svg) no-repeat center center;
+    background-size: 400px;
+    width: 100%;
+    height: 40px;
+    display: block;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card p, .card h2 {
+}

@@ -1,0 +1,27 @@
+name:       roki-web
+version:    0.1.0.0
+category:   Web
+author:     Roki
+maintainer: falgon53@yahoo.co.jp
+copyright:  Copyright (c) 2020 Roki
+license:    BSD3
+github:     roki/roki-web
+
+extra-source-files:
+    - README.md
+
+dependencies:
+    - aeson
+    - base
+    - hakyll
+    - hakyll-sass
+    - tagsoup
+    - process
+    - bytestring
+    - unordered-containers
+
+executables:
+    site:
+        source-dirs: src
+        main:        Site.hs
+        ghc-options: -threaded -Wall

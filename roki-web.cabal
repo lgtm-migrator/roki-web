@@ -1,0 +1,48 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: b92812706a8044fb71a6a76210a3ffddd6e5527559b53e2c1bb0e74ce0981992
+
+name:           roki-web
+version:        0.1.0.0
+category:       Web
+homepage:       https://github.com/roki/roki-web#readme
+bug-reports:    https://github.com/roki/roki-web/issues
+author:         Roki
+maintainer:     falgon53@yahoo.co.jp
+copyright:      Copyright (c) 2020 Roki
+license:        BSD3
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/roki/roki-web
+
+executable site
+  main-is: Site.hs
+  other-modules:
+      FontAwesome
+      FontAwesome.Compiler
+      FontAwesome.Core
+      Media
+      Media.SVG
+      Utils
+      Paths_roki_web
+  hs-source-dirs:
+      src
+  ghc-options: -threaded -Wall
+  build-depends:
+      aeson
+    , base
+    , bytestring
+    , hakyll
+    , hakyll-sass
+    , process
+    , tagsoup
+    , unordered-containers
+  default-language: Haskell2010
