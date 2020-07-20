@@ -12,6 +12,11 @@ body {
     flex-direction: column;
 }
 
+::selection {
+    background-color: #3297FD; /* Chrome default color */
+    color: #fff;
+}
+
 #my_name {
     font-family: 'EB Garamond', serif;
 }
@@ -57,4 +62,24 @@ hr.footer-dec {
 }
 
 .card p, .card h2 {
+}
+
+span.both-lined {
+    display: flex;
+    flex-direction: row;
+}
+
+span.both-lined:before, span.both-lined:after {
+    content: "";
+    flex: 1 1;
+    border-bottom: 1px dashed #dedede;
+    margin: auto;
+}
+
+span.both-lined:before {
+    margin-right: 10px;
+}
+
+span.both-lined:after {
+    margin-left: 10px;
 }
