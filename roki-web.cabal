@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b92812706a8044fb71a6a76210a3ffddd6e5527559b53e2c1bb0e74ce0981992
+-- hash: 64bfb56feb3eefcf564327ceae6ad09bb3797dc3094092937da0aa71f051f48c
 
 name:           roki-web
 version:        0.1.0.0
@@ -26,6 +26,10 @@ source-repository head
 executable site
   main-is: Site.hs
   other-modules:
+      Config
+      Contexts
+      Contexts.Core
+      Contexts.Field
       FontAwesome
       FontAwesome.Compiler
       FontAwesome.Core
@@ -39,10 +43,14 @@ executable site
   build-depends:
       aeson
     , base
+    , basic-prelude
     , bytestring
+    , filepath
     , hakyll
     , hakyll-sass
+    , pandoc
     , process
     , tagsoup
+    , time
     , unordered-containers
   default-language: Haskell2010

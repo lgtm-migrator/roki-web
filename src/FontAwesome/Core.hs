@@ -7,12 +7,12 @@ module FontAwesome.Core (
     loadFontAwesome
 ) where
 
-import Data.Aeson
+import Data.Aeson (FromJSON (..), decode, withObject, (.!=), (.:), (.:?))
 import qualified Data.ByteString.Lazy.Char8 as B
 import qualified Data.HashMap.Strict as M
 import System.Process (readProcess)
-import Text.HTML.TagSoup
-import Text.HTML.TagSoup.Tree
+import Text.HTML.TagSoup (Attribute)
+import Text.HTML.TagSoup.Tree (TagTree (..))
 
 data Elem = Elem { tag :: String, attr :: [Attribute String], child :: [Elem] } deriving Show
 

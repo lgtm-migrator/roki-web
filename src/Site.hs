@@ -4,22 +4,15 @@ module Main (main) where
 import Data.Foldable (fold)
 import Hakyll
 import Hakyll.Web.Sass
-import qualified FontAwesome as FA
+
+import Config
+import Contexts (postCtx)
 import Media
+import Utils (absolutizeUrls)
+import qualified FontAwesome as FA
 
-hakyllConfig :: Configuration
-hakyllConfig = defaultConfiguration {
-    destinationDirectory = "doc"
-  , storeDirectory = ".cache"
-  , tmpDirectory = ".cache/tmp"
-  , previewHost = "127.0.0.1"
-  , previewPort = 8888
-  }
-
-main :: IO ()
-main = hakyllWith hakyllConfig $ do
-    faIcons <- fold <$> preprocess FA.loadFontAwesome
-    
+mediaRules :: Rules ()
+mediaRules = do
     match "contents/images/**/*.svg" $ do
         route $ gsubRoute "contents/" $ const ""
         compile $ optimizeSVGCompiler ["-p", "4"]
@@ -27,18 +20,9 @@ main = hakyllWith hakyllConfig $ do
     match "contents/images/*" $ do
         route $ gsubRoute "contents/" $ const ""
         compile copyFileCompiler
-
-    match "contents/css/*" $ do
-        route $ gsubRoute "contents/css/" $ const "style/"
-        compile compressCssCompiler
-
-    scssDepend <- makePatternDependency "contents/scss/*/**.scss"
-    match "contents/scss/*/**.scss" $ compile getResourceBody
-    rulesExtraDependencies [scssDepend] $
-        match "contents/scss/*.scss" $ do
-            route $ gsubRoute "contents/scss/" $ const "style/"
-            compile $ fmap compressCss <$> sassCompiler
-
+    
+vendorRules :: Rules ()
+vendorRules = do
     match "node_modules/@fortawesome/fontawesome-svg-core/styles.css" $ do
         route $ constRoute "vendor/fontawesome/style.css"
         compile compressCssCompiler
@@ -50,28 +34,54 @@ main = hakyllWith hakyllConfig $ do
     match "node_modules/@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css" $ do
         route $ constRoute "vendor/bulma/bulma-tooltip.min.css"
         compile compressCssCompiler
+    
+styleRules :: Rules ()
+styleRules = do
+    match "contents/css/*" $ do
+        route $ gsubRoute "contents/css/" $ const "style/"
+        compile compressCssCompiler
+
+    scssDepend <- makePatternDependency "contents/scss/*/**.scss"
+    match "contents/scss/*/**.scss" $ compile getResourceBody
+    rulesExtraDependencies [scssDepend] $
+        match "contents/scss/*.scss" $ do
+            route $ gsubRoute "contents/scss/" $ const "style/"
+            compile $ fmap compressCss <$> sassCompiler
+
+
+main :: IO ()
+main = hakyllWith hakyllConfig $ do
+    faIcons <- fold <$> preprocess FA.loadFontAwesome
+
+    mediaRules >> vendorRules >> styleRules
 
     match (fromList ["contents/pages/about.rst", "contents/pages/contact.markdown"]) $ do
         route $ gsubRoute "contents/pages/" (const "") `composeRoutes` setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "contents/templates/default.html" defaultContext
             >>= relativizeUrls
-
-    match "contents/posts/*" $ do
-        route $ setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "contents/templates/post.html"    postCtx
+    
+    match entryPattern $ do
+        route $ gsubRoute "contents/" (const "") `composeRoutes` setExtension "html"
+        compile $ pandocCompilerWith readerOptions defaultHakyllWriterOptions
+            >>= absolutizeUrls
+            >>= saveSnapshot "content"
+            >>= loadAndApplyTemplate "contents/templates/post.html" postCtx
             >>= loadAndApplyTemplate "contents/templates/default.html" postCtx
-            >>= relativizeUrls
+            >>= FA.render faIcons
+            >>= relativizeUrls 
+
+    match entryFilesPattern $ do
+        route $ gsubRoute "contents/" (const "")
+        compile copyFileCompiler
 
     create ["archive.html"] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "contents/posts/*"
-            let archiveCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "Archives"            `mappend`
-                    defaultContext
+            posts <- recentFirst =<< loadAllSnapshots entryPattern "content"
+            let archiveCtx = listField "posts" postCtx (return posts)
+                    <> constField "title" "Archives"
+                    <> defaultContext
 
             makeItem ""
                 >>= loadAndApplyTemplate "contents/templates/archive.html" archiveCtx
@@ -79,12 +89,11 @@ main = hakyllWith hakyllConfig $ do
                 >>= relativizeUrls
 
     match "contents/pages/index.html" $ do
-        route $ constRoute "index.html"
+        route $ gsubRoute "contents/pages/" (const "")
         compile $ do
-            posts <- recentFirst =<< loadAll "contents/posts/*"
-            let indexCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    defaultContext
+            posts <- recentFirst =<< loadAllSnapshots entryPattern "content"
+            let indexCtx = listField "posts" postCtx (return posts)
+                    <> defaultContext
 
             getResourceBody
                 >>= applyAsTemplate indexCtx
@@ -94,8 +103,3 @@ main = hakyllWith hakyllConfig $ do
 
     match "contents/templates/*" $ compile templateBodyCompiler
 
-
-postCtx :: Context String
-postCtx =
-    dateField "date" "%B %e, %Y" `mappend`
-    defaultContext

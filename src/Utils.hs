@@ -1,15 +1,13 @@
 module Utils (
-    tagSoupOption
+    absolutizeUrls
 ) where
 
-import Data.Char (toLower)
-import qualified Text.HTML.TagSoup as T
+import Hakyll 
+import System.FilePath ((</>), takeDirectory, normalise, isRelative)
 
-tagSoupOption :: T.RenderOptions String
-tagSoupOption = T.RenderOptions {
-    T.optRawTag = (`elem` ["script", "style"]) . map toLower
-  , T.optMinimize = (`elem` minimize) . map toLower
-  , T.optEscape = T.escapeHTML
-  }
-  where
-    minimize = ["area", "br", "col", "embed", "hr", "img", "input", "meta", "link", "param"]
+absolutizeUrls :: Item String -> Compiler (Item String)
+absolutizeUrls item = getUnderlying >>= fmap (maybe item (flip fmap item . withUrls . f)) . getRoute
+    where
+        f r u
+            | not (isExternal u) && isRelative u = normalise $ "/" </> takeDirectory r </> u
+            | otherwise = u
