@@ -6,7 +6,7 @@ import Hakyll
 import Hakyll.Web.Sass
 
 import Config
-import Contexts (postCtx)
+import Contexts (postCtx, siteCtx)
 import Media
 import Utils (absolutizeUrls)
 import qualified FontAwesome as FA
@@ -17,7 +17,7 @@ mediaRules = do
         route $ gsubRoute "contents/" $ const ""
         compile $ optimizeSVGCompiler ["-p", "4"]
 
-    match "contents/images/*" $ do
+    match "contents/images/**" $ do
         route $ gsubRoute "contents/" $ const ""
         compile copyFileCompiler
     
@@ -58,7 +58,7 @@ main = hakyllWith hakyllConfig $ do
     match (fromList ["contents/pages/about.rst", "contents/pages/contact.markdown"]) $ do
         route $ gsubRoute "contents/pages/" (const "") `composeRoutes` setExtension "html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "contents/templates/default.html" defaultContext
+            >>= loadAndApplyTemplate "contents/templates/default.html" postCtx
             >>= relativizeUrls
     
     match entryPattern $ do
@@ -82,6 +82,7 @@ main = hakyllWith hakyllConfig $ do
             let archiveCtx = listField "posts" postCtx (return posts)
                     <> constField "title" "Archives"
                     <> defaultContext
+                    <> siteCtx
 
             makeItem ""
                 >>= loadAndApplyTemplate "contents/templates/archive.html" archiveCtx
@@ -94,6 +95,7 @@ main = hakyllWith hakyllConfig $ do
             posts <- recentFirst =<< loadAllSnapshots entryPattern "content"
             let indexCtx = listField "posts" postCtx (return posts)
                     <> defaultContext
+                    <> siteCtx
 
             getResourceBody
                 >>= applyAsTemplate indexCtx
