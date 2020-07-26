@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html lang="$lang$">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta content="$author-name$" name="author" />
+        $if(description)$
+        <meta content="$description$" name="description" />
+        <meta property="og:description" content="$description$" />
+        $else$
+        <meta content="$site-description$" name="description" />
+        <meta property="og:description" content="$site-description$" />
+        $endif$
+        <meta content="Hakyll" name="generator" />
+        <meta property="twitter:card" content="summary" />
+        <meta property="twitter:site" content="@$author-twitter$" />
+        <meta property="twitter:creator" content="$author-twitter$" />
+        <meta property="og:type" content="website" />
+        $if(sub-ctx)$
+            $if(sub-title)$
+            <title>$title$ - $sub-ctx$/$sub-title$</title>
+            <meta property="og:title" content="$title$ - $sub-title$" />
+            $else$
+            <title>$title$ - $sub-ctx$</title>
+            <meta property="og:title" content="$title$" />
+            $endif$
+        $else$
+        <title>$title$</title>
+        <meta property="og:title" content="$title$" />
+        $endif$
+        <meta property="og:site_name" content="$site-title$" />
+
+        <link rel="stylesheet" href="/vendor/bulma/bulma.min.css" />
+        <link rel="stylesheet" href="/vendor/bulma/bulma-tooltip.min.css" />
+        <link rel="stylesheet" href="/vendor/fontawesome/style.css" />
+        <link rel="stylesheet" href="/style/default.css" />
+        <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbarBurgers = Array
+                .prototype
+                .slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if (navbarBurgers.length > 0) {
+                navbarBurgers.forEach( el => {
+                    el.addEventListener('click', () => {
+                        const target = document.getElementById(el.dataset.target);
+                        el.classList.toggle('is-active');
+                        target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+        </script>
+    </head>
+
+    <body>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item title pt-5" href="/roki.log">
+                    <i class="fas fa-cogs mr-2"></i>
+                    roki.log
+                </a>
+                <a role="button" 
+                   class="navbar-burger burger" 
+                   aria-label="menu" 
+                   aria-expanded="false" 
+                   data-target="roki-log-navbar">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+                
+            <div id="roki-log-navbar" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item">
+                        <i class="fas fa-tags mr-1"></i>
+                        Tags
+                    </a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+                            More
+                        </a>
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item" href="/">
+                                <i class="fas fa-home fa-fw mr-2"></i>
+                                Roki Web
+                            </a>
+                            <a class="navbar-item">
+                                <i class="fas fa-question fa-fw mr-2"></i>
+                                About
+                            </a>
+                            <hr class="navbar-divider">
+                            <a class="navbar-item">
+                                <i class="fas fa-bug fa-fw mr-2"></i>
+                                Report an issue
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-primaty">
+                                <strong>Search</strong>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="section main" role="main">
+            <div class="container">
+                $body$
+            </div>
+        </main>
+
+        <footer class="footer">
+            <hr class="footer-dec">
+            <div class="content has-text-centered">
+                <small>$copyright$</small>
+                <p>Site proudly generated by <a href="http://jaspervdj.be/hakyll">Hakyll</a></p>
+            </div>
+        </footer>
+
+    </body>
+</html>

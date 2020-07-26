@@ -6,6 +6,7 @@ import Hakyll
 import Hakyll.Web.Sass
 
 import Config
+import qualified Config.RokiLog as CRL
 import Contexts (postCtx, siteCtx)
 import Media
 import Utils (absolutizeUrls)
@@ -48,6 +49,54 @@ styleRules = do
             route $ gsubRoute "contents/scss/" $ const "style/"
             compile $ fmap compressCss <$> sassCompiler
 
+indexPageRule :: FA.FontAwesomeIcons -> Rules ()
+indexPageRule faIcons = do
+    match "contents/pages/index.html" $ do
+        route $ gsubRoute "contents/pages/" (const "")
+        compile $ do
+            posts <- recentFirst =<< loadAllSnapshots CRL.entryPattern "content"
+            let indexCtx = listField "posts" postCtx (return posts)
+                    <> defaultContext
+                    <> siteCtx
+
+            getResourceBody
+                >>= applyAsTemplate indexCtx
+                >>= loadAndApplyTemplate "contents/templates/default.html" indexCtx
+                >>= relativizeUrls
+                >>= FA.render faIcons
+
+rokiLogRule :: FA.FontAwesomeIcons -> Rules ()
+rokiLogRule faIcons = do
+    -- each posts
+    match CRL.entryPattern $ do
+        route $ gsubRoute "contents/" (const "") `composeRoutes` setExtension "html"
+        compile $ pandocCompilerWith readerOptions defaultHakyllWriterOptions
+            >>= absolutizeUrls
+            >>= saveSnapshot "content"
+            >>= loadAndApplyTemplate "contents/templates/post.html" postCtx
+            >>= loadAndApplyTemplate "contents/templates/roki.log/default.html" postCtx
+            >>= FA.render faIcons
+            >>= relativizeUrls 
+
+    match CRL.entryFilesPattern $ do
+        route $ gsubRoute "contents/" (const "")
+        compile copyFileCompiler
+
+    -- the index page of roki.log 
+    create ["roki.log/index.html"] $ do
+        route idRoute
+        compile $ do
+            posts <- recentFirst =<< loadAllSnapshots CRL.entryPattern "content"
+            let blogCtx = listField "posts" postCtx (return posts)
+                    <> constField "title" "Archives"
+                    <> defaultContext
+                    <> siteCtx
+
+            makeItem ""
+                >>= loadAndApplyTemplate "contents/templates/blog.html" blogCtx
+                >>= loadAndApplyTemplate "contents/templates/roki.log/default.html" blogCtx
+                >>= FA.render faIcons
+                >>= relativizeUrls
 
 main :: IO ()
 main = hakyllWith hakyllConfig $ do
@@ -61,47 +110,8 @@ main = hakyllWith hakyllConfig $ do
             >>= loadAndApplyTemplate "contents/templates/default.html" postCtx
             >>= relativizeUrls
     
-    match entryPattern $ do
-        route $ gsubRoute "contents/" (const "") `composeRoutes` setExtension "html"
-        compile $ pandocCompilerWith readerOptions defaultHakyllWriterOptions
-            >>= absolutizeUrls
-            >>= saveSnapshot "content"
-            >>= loadAndApplyTemplate "contents/templates/post.html" postCtx
-            >>= loadAndApplyTemplate "contents/templates/default.html" postCtx
-            >>= FA.render faIcons
-            >>= relativizeUrls 
-
-    match entryFilesPattern $ do
-        route $ gsubRoute "contents/" (const "")
-        compile copyFileCompiler
-
-    create ["archive.html"] $ do
-        route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAllSnapshots entryPattern "content"
-            let archiveCtx = listField "posts" postCtx (return posts)
-                    <> constField "title" "Archives"
-                    <> defaultContext
-                    <> siteCtx
-
-            makeItem ""
-                >>= loadAndApplyTemplate "contents/templates/archive.html" archiveCtx
-                >>= loadAndApplyTemplate "contents/templates/default.html" archiveCtx
-                >>= relativizeUrls
-
-    match "contents/pages/index.html" $ do
-        route $ gsubRoute "contents/pages/" (const "")
-        compile $ do
-            posts <- recentFirst =<< loadAllSnapshots entryPattern "content"
-            let indexCtx = listField "posts" postCtx (return posts)
-                    <> defaultContext
-                    <> siteCtx
-
-            getResourceBody
-                >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate "contents/templates/default.html" indexCtx
-                >>= relativizeUrls
-                >>= FA.render faIcons
-
-    match "contents/templates/*" $ compile templateBodyCompiler
+    rokiLogRule faIcons
+    indexPageRule faIcons
+    
+    match "contents/templates/**" $ compile templateBodyCompiler
 

@@ -19,7 +19,7 @@ render icons = return . fmap
             Nothing -> [tag]
         render' tag = [tag]
         
-        toFontAwesome (p:('f':'a':'-':name):cs) = (`appendClasses` cs) <$> (fontAwesome icons p name)
+        toFontAwesome (p:('f':'a':'-':name):cs) = (`appendClasses` cs) <$> fontAwesome icons p name
         toFontAwesome _ = Nothing
 
         appendClasses t [] = t
