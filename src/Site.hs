@@ -54,8 +54,9 @@ indexPageRule faIcons = do
     match "contents/pages/index.html" $ do
         route $ gsubRoute "contents/pages/" (const "")
         compile $ do
-            posts <- recentFirst =<< loadAllSnapshots CRL.entryPattern "content"
+            posts <- recentFirst =<< loadAllSnapshots CRL.entryPattern CRL.contentSnapshot
             let indexCtx = listField "posts" postCtx (return posts)
+                    <> constField "title" "Roki Web"
                     <> defaultContext
                     <> siteCtx
 
@@ -72,7 +73,7 @@ rokiLogRule faIcons = do
         route $ gsubRoute "contents/" (const "") `composeRoutes` setExtension "html"
         compile $ pandocCompilerWith readerOptions defaultHakyllWriterOptions
             >>= absolutizeUrls
-            >>= saveSnapshot "content"
+            >>= saveSnapshot CRL.contentSnapshot
             >>= loadAndApplyTemplate "contents/templates/post.html" postCtx
             >>= loadAndApplyTemplate "contents/templates/roki.log/default.html" postCtx
             >>= FA.render faIcons
@@ -86,9 +87,9 @@ rokiLogRule faIcons = do
     create ["roki.log/index.html"] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAllSnapshots CRL.entryPattern "content"
+            posts <- recentFirst =<< loadAllSnapshots CRL.entryPattern CRL.contentSnapshot
             let blogCtx = listField "posts" postCtx (return posts)
-                    <> constField "title" "Archives"
+                    <> constField "title" "roki.log"
                     <> defaultContext
                     <> siteCtx
 

@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Config.RokiLog (
     entryPattern,
-    entryFilesPattern
+    entryFilesPattern,
+    contentSnapshot
 ) where
 
 import Hakyll
@@ -24,3 +25,6 @@ entryFilesPattern = fromRegex $
     "(^" 
     <> intercalateDir [postRoot, yyyy, mm, dd, ".+", ".+"] 
     <> "$)"
+
+contentSnapshot :: Snapshot
+contentSnapshot = "roki_log_content"
