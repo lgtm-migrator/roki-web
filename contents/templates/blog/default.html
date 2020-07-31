@@ -35,26 +35,38 @@
         <link rel="stylesheet" href="/vendor/bulma/bulma-tooltip.min.css" />
         <link rel="stylesheet" href="/vendor/fontawesome/style.css" />
         <link rel="stylesheet" href="/style/default.css" />
+        <link rel="stylesheet" href="/style/roki.log/default.css" />
         <link rel="shortcut icon" href="/images/avator/favicon.ico" />
+        
+        <script type="text/javascript" src="/js/components.js"></script>
         <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', () => {
-            const navbarBurgers = Array
-                .prototype
-                .slice.call(document.querySelectorAll('.navbar-burger'), 0);
-            if (navbarBurgers.length > 0) {
-                navbarBurgers.forEach( el => {
-                    el.addEventListener('click', () => {
-                        const target = document.getElementById(el.dataset.target);
-                        el.classList.toggle('is-active');
-                        target.classList.toggle('is-active');
-                    });
-                });
-            }
-        });
+            addEventNavBar();
+            addEventModal();
         </script>
     </head>
 
     <body>
+        <div class="modal" id="modal-about">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">
+                    <i class="fas fa-question fa-fw mr-2"></i>About
+                    </p>
+                    <button class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    roki.log is a blog written about efforts and learning related to technology, 
+                    mathematics, etc (Most of the content of the article is written in Japanese).
+                    <strong>All opinions expressed by Author on this blog is solely 
+                    Author’s opinions and do not reflect the opinions of the company to 
+                    which I belong.</strong>
+                    For more infomation about author Roki, see 
+                    <a href="/">roki.comb</a>.
+                </section>
+            </div>
+        </div>
+
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item title pt-5" href="/roki.log">
@@ -73,40 +85,35 @@
             </div>
                 
             <div id="roki-log-navbar" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item">
-                        <i class="fas fa-tags mr-1"></i>
-                        Tags
-                    </a>
+                <div class="navbar-end">
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">
+                            <i class="fas fa-info mr-2"></i>
                             More
                         </a>
                         <div class="navbar-dropdown">
                             <a class="navbar-item" href="/">
                                 <i class="fas fa-home fa-fw mr-2"></i>
-                                Roki Web
+                                roki.com
                             </a>
-                            <a class="navbar-item">
+                            <a class="navbar-item" id="modal-target" data-target="modal-about">
                                 <i class="fas fa-question fa-fw mr-2"></i>
                                 About
                             </a>
                             <hr class="navbar-divider">
-                            <a class="navbar-item">
+                            <a class="navbar-item" href="$tech-blog-issue-req$">
                                 <i class="fas fa-bug fa-fw mr-2"></i>
                                 Report an issue
                             </a>
                         </div>
                     </div>
-                </div>
-                    
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-primaty">
-                                <strong>Search</strong>
-                            </a>
-                        </div>
+                    <div class="navbar-item field">
+                        <p class="control has-icons-right">
+                            <input class="input" type="search" placeholder="Search...">
+                            <span class="icon is-small is-right">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -117,14 +124,8 @@
                 $body$
             </div>
         </main>
-
-        <footer class="footer">
-            <hr class="footer-dec">
-            <div class="content has-text-centered">
-                <small>$copyright$</small>
-                <p>Site proudly generated by <a href="http://jaspervdj.be/hakyll">Hakyll</a></p>
-            </div>
-        </footer>
+        
+        $partial("contents/templates/blog/footer.html")$
 
     </body>
 </html>

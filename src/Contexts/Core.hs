@@ -1,17 +1,31 @@
 module Contexts.Core (
+    rokiWebCtx,
+    rokiLogCtx,
+    rokiDumpCtx,
     siteCtx,
-    postCtx
+    postCtx,
+    listCtx
 ) where
 
 import Config (timeZoneJST, defaultTimeLocale')
-import Contexts.Field (localDateField)
+import Contexts.Field (localDateField, tagsField', descriptionField, imageField)
 import Hakyll
+
+rokiWebCtx :: Context String
+rokiWebCtx = titleField "Roki Web"
+
+rokiLogCtx :: Context String
+rokiLogCtx = titleField "roki.log - Roki Web"
+
+rokiDumpCtx :: Context String
+rokiDumpCtx = titleField "roki.dump - Roki Web"
 
 dateCtx :: Context String
 dateCtx = localDateField defaultTimeLocale' timeZoneJST "date" "%Y/%m/%d %R"
 
 techBlogCtx :: Context String
 techBlogCtx = constField "tech-blog-title" "roki.log"
+    <> constField "tech-blog-issue-req" "https://github.com/falgon/roki-web/issues/new/choose"
 
 privBlogCtx :: Context String
 privBlogCtx = constField "priv-blog-title" "roki.dump"
@@ -31,9 +45,9 @@ authorCtx = constField "author-name" "Roki"
     <> constField "author-github" "falgon"
     <> constField "author-twitter" "530506"
     <> constField "author-tumblr" "0x35"
-    <> constField "author-stackoverflow" "8345717/roki"
+    <> constField "author-stackoverflow" "8345717"
     <> constField "author-steam" "r0k1"
-    <> constField "author-yukicoder" "3223/Roki"
+    <> constField "author-yukicoder" "3223"
     <> constField "author-teratail" "kjfkhfhgx"
 
 siteCtx :: Context String
@@ -44,7 +58,18 @@ siteCtx = constField "lang" "ja"
     <> blogCtx
     <> authorCtx
 
-postCtx :: Context String
-postCtx = dateCtx
+postCtx :: Tags -> Context String
+postCtx tags = dateCtx
+    <> tagsField' "tags" tags
+    <> descriptionField "description" 150
+    <> imageField "image"
     <> siteCtx
     <> defaultContext
+
+listCtx :: Context String
+listCtx = siteCtx
+    <> bodyField "body"
+    <> metadataField
+    <> urlField "url"
+    <> pathField "path"
+

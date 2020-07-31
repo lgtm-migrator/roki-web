@@ -3,116 +3,121 @@ module Main (main) where
 
 import Data.Foldable (fold)
 import Hakyll
-import Hakyll.Web.Sass
+import System.FilePath ((</>))
 
+import Archives
 import Config
 import qualified Config.RokiLog as CRL
-import Contexts (postCtx, siteCtx)
-import Media
-import Utils (absolutizeUrls)
+import Contexts (postCtx, siteCtx, listCtx)
+import Contexts.Field (tagCloudField')
+import Utils (absolutizeUrls, makePageIdentifier, modifyExternalLinkAttr)
 import qualified FontAwesome as FA
 
-mediaRules :: Rules ()
-mediaRules = do
-    match "contents/images/**/*.svg" $ do
-        route $ gsubRoute "contents/" $ const ""
-        compile $ optimizeSVGCompiler ["-p", "4"]
+import qualified Rules.Media as Media
+import qualified Rules.Vendor as Vendor
+import qualified Rules.Src.Style as Style
+import qualified Rules.Src.JavaScript as Js
+import qualified Rules.IndexPage as IP
 
-    match "contents/images/**" $ do
-        route $ gsubRoute "contents/" $ const ""
-        compile copyFileCompiler
-    
-vendorRules :: Rules ()
-vendorRules = do
-    match "node_modules/@fortawesome/fontawesome-svg-core/styles.css" $ do
-        route $ constRoute "vendor/fontawesome/style.css"
-        compile compressCssCompiler
+listPageRules :: Maybe String -> FA.FontAwesomeIcons -> Tags -> Snapshot -> Paginate -> Rules ()
+listPageRules title faIcons tags snp pgs = paginateRules pgs $ \pn pat -> do
+    route idRoute
+    compile $ do
+        posts <- recentFirst =<< loadAllSnapshots pat snp
+        let blogCtx = listField "posts" postCtx' (return posts)
+                <> paginateContext pgs pn
+                <> maybe missingField (constField "title") title
+                <> listCtx
+                <> tagCloudField' "tag-cloud" tags
+            postCtx' = teaserField "teaser" snp <> postCtx tags
 
-    match "node_modules/bulma/css/bulma.min.css" $ do
-        route $ constRoute "vendor/bulma/bulma.min.css"
-        compile compressCssCompiler
+        makeItem ""
+            >>= loadAndApplyTemplate "contents/templates/blog/content.html" blogCtx
+            >>= loadAndApplyTemplate "contents/templates/blog/default.html" blogCtx
+            >>= modifyExternalLinkAttr
+            >>= FA.render faIcons
 
-    match "node_modules/@creativebulma/bulma-tooltip/dist/bulma-tooltip.min.css" $ do
-        route $ constRoute "vendor/bulma/bulma-tooltip.min.css"
-        compile compressCssCompiler
-    
-styleRules :: Rules ()
-styleRules = do
-    match "contents/css/*" $ do
-        route $ gsubRoute "contents/css/" $ const "style/"
-        compile compressCssCompiler
 
-    scssDepend <- makePatternDependency "contents/scss/*/**.scss"
-    match "contents/scss/*/**.scss" $ compile getResourceBody
-    rulesExtraDependencies [scssDepend] $
-        match "contents/scss/*.scss" $ do
-            route $ gsubRoute "contents/scss/" $ const "style/"
-            compile $ fmap compressCss <$> sassCompiler
+rokiLogRules :: FA.FontAwesomeIcons -> Rules Tags
+rokiLogRules faIcons = do
+    tags <- CRL.buildTags 
+    let postCtx' = postCtx tags <> tagCloudField' "tag-cloud" tags
 
-indexPageRule :: FA.FontAwesomeIcons -> Rules ()
-indexPageRule faIcons = do
-    match "contents/pages/index.html" $ do
-        route $ gsubRoute "contents/pages/" (const "")
-        compile $ do
-            posts <- recentFirst =<< loadAllSnapshots CRL.entryPattern CRL.contentSnapshot
-            let indexCtx = listField "posts" postCtx (return posts)
-                    <> constField "title" "Roki Web"
-                    <> defaultContext
-                    <> siteCtx
-
-            getResourceBody
-                >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate "contents/templates/default.html" indexCtx
-                >>= relativizeUrls
-                >>= FA.render faIcons
-
-rokiLogRule :: FA.FontAwesomeIcons -> Rules ()
-rokiLogRule faIcons = do
     -- each posts
     match CRL.entryPattern $ do
         route $ gsubRoute "contents/" (const "") `composeRoutes` setExtension "html"
         compile $ pandocCompilerWith readerOptions defaultHakyllWriterOptions
             >>= absolutizeUrls
             >>= saveSnapshot CRL.contentSnapshot
-            >>= loadAndApplyTemplate "contents/templates/post.html" postCtx
-            >>= loadAndApplyTemplate "contents/templates/roki.log/default.html" postCtx
+            >>= loadAndApplyTemplate "contents/templates/post.html" postCtx'
+            >>= loadAndApplyTemplate "contents/templates/blog/default.html" postCtx'
+            >>= modifyExternalLinkAttr
             >>= FA.render faIcons
-            >>= relativizeUrls 
 
     match CRL.entryFilesPattern $ do
         route $ gsubRoute "contents/" (const "")
         compile copyFileCompiler
+
+    -- tag rules
+    tagsRules tags $ \tag pat ->
+        let grouper = fmap (paginateEvery 5) . sortRecentFirst
+            makeId = makePageIdentifier $ CRL.tagPagesPath tag
+            title = "Tagged posts: " <> tag
+        in buildPaginateWith grouper pat makeId 
+            >>= listPageRules (Just title) faIcons tags CRL.contentSnapshot
+
+    -- yearly paginate
+    yearlyArchives <- CRL.buildYearlyArchives
+    archivesRules yearlyArchives $ \year pat ->
+        let grouper = fmap (paginateEvery 5) . sortRecentFirst
+            makeId = makePageIdentifier $ CRL.yearlyPagePath year
+            title = "Yearly posts: " <> year
+        in buildPaginateWith grouper pat makeId 
+            >>= listPageRules (Just title) faIcons tags CRL.contentSnapshot 
+
+    -- monthly paginate
+    monthlyArchives <- CRL.buildMonthlyArchives
+    archivesRules monthlyArchives $ \key@(year, month) pat ->
+        let grouper = fmap (paginateEvery 5) . sortRecentFirst 
+            makeId = makePageIdentifier $ CRL.monthlyPagePath key
+            title = "Monthly posts: " <> year </> month
+        in buildPaginateWith grouper pat makeId
+            >>= listPageRules (Just title) faIcons tags CRL.contentSnapshot
+
+    -- all tags
+    let allTagsPagePath = "roki.log" </> "tags" </> "index.html"
+    listPageRules (Just "tags") faIcons tags CRL.contentSnapshot =<<
+        let grouper = fmap (paginateEvery 5) . sortRecentFirst
+            makeId = makePageIdentifier allTagsPagePath
+        in buildPaginateWith grouper CRL.entryPattern makeId
 
     -- the index page of roki.log 
     create ["roki.log/index.html"] $ do
         route idRoute
         compile $ do
             posts <- recentFirst =<< loadAllSnapshots CRL.entryPattern CRL.contentSnapshot
-            let blogCtx = listField "posts" postCtx (return posts)
+            let blogCtx = listField "posts" (postCtx tags) (return posts)
                     <> constField "title" "roki.log"
+                    <> tagCloudField' "tag-cloud" tags
                     <> defaultContext
                     <> siteCtx
 
             makeItem ""
-                >>= loadAndApplyTemplate "contents/templates/blog.html" blogCtx
-                >>= loadAndApplyTemplate "contents/templates/roki.log/default.html" blogCtx
+                >>= loadAndApplyTemplate "contents/templates/blog/content.html" blogCtx
+                >>= loadAndApplyTemplate "contents/templates/blog/default.html" blogCtx
+                >>= modifyExternalLinkAttr
                 >>= FA.render faIcons
-                >>= relativizeUrls
+
+    return tags
 
 main :: IO ()
 main = hakyllWith hakyllConfig $ do
     faIcons <- fold <$> preprocess FA.loadFontAwesome
 
-    mediaRules >> vendorRules >> styleRules
-
-    match (fromList ["contents/pages/about.rst", "contents/pages/contact.markdown"]) $ do
-        route $ gsubRoute "contents/pages/" (const "") `composeRoutes` setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "contents/templates/default.html" postCtx
-            >>= relativizeUrls
+    Media.rules >> Vendor.rules >> Style.rules >> Js.rules
     
-    rokiLogRule faIcons
-    indexPageRule faIcons
+    tags <- rokiLogRules faIcons
+    IP.rules faIcons tags 
     
     match "contents/templates/**" $ compile templateBodyCompiler
 

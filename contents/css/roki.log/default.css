@@ -1,0 +1,17 @@
+.navbar {
+    background: transparent;
+}
+
+.navbar-brand a:hover {
+    color: #4a4a4a;
+}
+
+#right-corner-ornament {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-image: url(/images/right-corner.svg);
+    background-size: 300px;
+    width: 300px;
+    height: 300px;
+}

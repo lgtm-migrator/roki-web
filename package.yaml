@@ -23,6 +23,13 @@ dependencies:
     - pandoc
     - filepath
     - time
+    - text
+    - lucid
+    - mtl
+    - containers
+    - hjsmin
+    - extra
+    - dhall
 
 executables:
     site:

@@ -2,6 +2,7 @@
 title: Tu Quoque
 author: Julius
 date: 2015-12-07 09:21:43+0900
+tags: egtag
 ---
 
 Vestibulum leo turpis, dignissim quis ultrices sit amet, iaculis ac ligula.

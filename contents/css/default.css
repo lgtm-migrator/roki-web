@@ -23,6 +23,9 @@ body {
 
 .main {
     flex: 1;
+    margin: 0;
+    padding: 0;
+    padding-top: 1.5rem;
 }
 
 .container p, .container a {
@@ -83,3 +86,25 @@ span.both-lined:before {
 span.both-lined:after {
     margin-left: 10px;
 }
+
+.blog-title {
+    padding: 0;
+    margin: 0;
+}
+
+.blog-title a {
+    padding: 0;
+    margin: 0;
+    color: #363636;
+}
+
+.blog-title a:hover {
+    color: #363636;
+}
+
+#contributions_table {
+    height: 250px;
+    width: 100%;
+    overflow-y: scroll;
+}
+
