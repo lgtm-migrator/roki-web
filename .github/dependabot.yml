@@ -21,4 +21,4 @@ updates:
       - "dependabot/npm"
       - "dependencies"
     pull-request-branch-name:
-      - separator: "/"
+      separator: "/"
