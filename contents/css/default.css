@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Sawarabi+Mincho');
+@import url('https://fonts.googleapis.com/css?family=Sawarabi+Gothic');
 
 html {
     height: 100%;
@@ -6,7 +8,10 @@ html {
 }
 
 body {
-    font-family: 'Ubuntu Mono', monospace;
+    font-family: 
+        'Ubuntu Mono', 
+        'Sawarabi Mincho',
+        monospace;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
@@ -17,8 +22,30 @@ body {
     color: #fff;
 }
 
+.gothic {
+    font-family: 
+        'Ubuntu Mono', 
+        'Avenir',
+        'Helvetica Neue',
+        'Arial',
+        'Sawarabi Gothic', 
+        'Hiragino Sans',
+        'ヒラギノ角ゴシック',
+        'YuGothic',
+        'Yu Gothic',
+        'メイリオ', 
+        'Meiryo',
+        'ＭＳ Ｐゴシック',
+        'MS PGothic',
+        sans-serif;
+}
+
 #my_name {
-    font-family: 'EB Garamond', serif;
+    font-family: 
+        'Avenir'
+        'Helvetica Neue',
+        'Arial',
+        sans-serif;
 }
 
 .main {
@@ -50,15 +77,15 @@ ul.is-unstyled {
     padding-bottom: 20px;
     background-color: #fff;
 }
-
+/*
 hr.footer-dec {
     margin: 0 0 9px 0;
     background: url(/images/footer_dec.svg) no-repeat center center;
     background-size: 400px;
     width: 100%;
-    height: 40px;
+    height: 100%;
     display: block;
-}
+}*/
 
 .card {
     border-radius: 10px;
@@ -110,4 +137,9 @@ span.both-lined:after {
 
 .reverse-row-order {
     flex-direction: row-reverse;
+}
+
+.footer-dec {
+    content: url(/images/footer_dec.svg); 
+    max-width: 500px;
 }

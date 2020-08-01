@@ -2,43 +2,13 @@
 <div class="columns is-multiline is-hidden-desktop is-hidden-tablet">
 
 $partial("contents/templates/site/column/begin.html")$
-    <h1 class="title is-2 no-cl-change">
-        Welcome to <a href="/">roki.com</a>
-    </h1>
-    This is the personal website of Roki, a person who creates things.
+    $partial("contents/templates/site/welcome.html")$
 $partial("contents/templates/site/column/end.html")$
-
  
-$partial("contents/templates/site/author-info.html")$
-
+$partial("contents/templates/site/author-info/sp.html")$
 
 $partial("contents/templates/site/column/begin.html")$
-    <h2 class="no-cl-change">
-        <i class="fas fa-book"></i>
-        <a href="/$tech-blog-title$">$tech-blog-title$</a>
-    </h2>
-    <p>
-        <a href="/$tech-blog-title$">$tech-blog-title$</a> 
-        is a blog written about efforts and learning 
-        related to technology, mathematics, etc
-        (Most of the content of the article is written in Japanese).
-        The recent posts are:
-    </p>
-    $partial("contents/templates/post-list.html")$
-    <p>…or you can read more in the <a href="/$tech-blog-title$">$tech-blog-title$</a></p>
-    <h2 class="no-cl-change">
-        <i class="fas fa-book"></i>
-        <a href="/$tech-blog-title$">$tech-blog-title$</a>
-    </h2>
-    <p>
-        <a href="/$tech-blog-title$">$tech-blog-title$</a> 
-        is a blog written about efforts and learning 
-        related to technology, mathematics, etc
-        (Most of the content of the article is written in Japanese).
-        The recent posts are:
-    </p>
-    $partial("contents/templates/post-list.html")$
-    <p>…or you can read more in the <a href="/$tech-blog-title$">$tech-blog-title$</a></p>
+    $partial("contents/templates/site/blogs.html")$
 $partial("contents/templates/site/column/end.html")$
 
 </div>

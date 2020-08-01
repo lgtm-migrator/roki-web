@@ -48,3 +48,10 @@ const addEventModal = () => {
         }
     });
 }
+
+const openLink = () => {
+    let ls = Array.from(document.getElementsByClassName('open_links'));
+    ls.forEach((l) => {
+        l.style.display = (l.style.display == 'none') ? 'block' : 'none';
+    });
+}
