@@ -19,25 +19,30 @@ const addEventNavBar = () => {
 
 const addEventModal = () => {
     document.addEventListener('DOMContentLoaded', () => {
-        const modalTarget = document.getElementById('modal-target');
+        const modalTargets = Array.from(document.getElementsByClassName('modal-target'));
         const modalCloses = Array
         .prototype
         .slice.call(document.querySelectorAll('.delete, .modal-background'), 0);
     
         // modal
-        modalTarget.addEventListener('click', () => {
-            document
-                .getElementById(modalTarget.dataset.target)
-                .classList
-                .add('is-active');
+        modalTargets.forEach((modalTarget) => {
+            modalTarget.addEventListener('click', () => {
+                document
+                    .getElementById(modalTarget.dataset.target)
+                    .classList
+                    .add('is-active');
+            });
         });
+
         if (modalCloses.length > 0) {
             modalCloses.forEach(el => {
                 el.addEventListener('click', () => { 
-                    document
-                        .getElementById(modalTarget.dataset.target)
-                        .classList
-                        .remove('is-active');
+                    modalTargets.forEach((modalTarget) => {
+                        document
+                            .getElementById(modalTarget.dataset.target)
+                            .classList
+                            .remove('is-active');
+                    });
                 });
             })
         }

@@ -4,6 +4,7 @@ module Config.Contributions (
     renderContributionsTable
 ) where
 
+import Control.Monad (forM_)
 import Control.Monad.Fix (fix)
 import qualified Data.Text.Lazy as TL
 import Data.Functor.Identity (Identity)
@@ -46,7 +47,7 @@ renderProjectsList :: IO String
 renderProjectsList = do
     ps <- loadProjects
     return $ TL.unpack $ renderText $ 
-        dl_ $ flip mapM_ ps $ \p -> do
+        dl_ $ forM_ ps $ \p -> do
             dt_ [class_ "title is-4"] $ do
                 a_ [href_ $ fromString $ projLink p] $ fromString $ projName p
                 span_ [class_ "ml-2 tag is-success is-light"] $ fromString $ lang p

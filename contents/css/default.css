@@ -87,18 +87,18 @@ span.both-lined:after {
     margin-left: 10px;
 }
 
-.blog-title {
+.no-cl-change {
     padding: 0;
     margin: 0;
 }
 
-.blog-title a {
+.no-cl-change a {
     padding: 0;
     margin: 0;
     color: #363636;
 }
 
-.blog-title a:hover {
+.no-cl-change a:hover {
     color: #363636;
 }
 
@@ -108,3 +108,6 @@ span.both-lined:after {
     overflow-y: scroll;
 }
 
+.reverse-row-order {
+    flex-direction: row-reverse;
+}

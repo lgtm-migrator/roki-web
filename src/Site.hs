@@ -112,9 +112,9 @@ rokiLogRules faIcons = do
 
 main :: IO ()
 main = hakyllWith hakyllConfig $ do
-    faIcons <- fold <$> preprocess FA.loadFontAwesome
-
     Media.rules >> Vendor.rules >> Style.rules >> Js.rules
+    
+    faIcons <- fold <$> preprocess FA.loadFontAwesome
     
     tags <- rokiLogRules faIcons
     IP.rules faIcons tags 
