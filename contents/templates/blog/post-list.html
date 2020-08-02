@@ -1,0 +1,43 @@
+<main class="section main" role="main">
+    <article class="container">
+            
+        $for(posts)$
+        <div class="card mb-2 is-shadowless">
+            <div class="card-content">
+                <header>
+                    <h2 class="title is-3">
+                        <a href="$url$">$title$</a>
+                    </h2>
+                    <ul>
+                        <li>
+                            <i class="fas fa-calendar-alt fa-fw"></i>
+                            $date$
+                        </li>
+                        $if(tags)$
+                            <li>
+                                <div class="is-inline-block" style="vertical-align: middle;">
+                                    <i class="fas fa-tags fa-fw"></i>
+                                </div>
+                                <div class="is-inline-block" style="vertical-align: middle;">
+                                <div class="tags">
+                                    $tags$
+                                </div>
+                                </div>
+                            </li>
+                        $endif$
+                    </ul>
+                </header>
+
+                <section class="mt-5">
+                    $if(teaser)$
+                        $teaser$<a href="$url$">Read More</a>
+                    $else$
+                        $body$
+                    $endif$
+                </section>
+            </div>
+        </div>
+        $endfor$
+
+    </article>
+</main>

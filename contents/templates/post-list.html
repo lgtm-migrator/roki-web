@@ -1,7 +1,9 @@
 <ul class="fa-ul" style="list-style: none;">
     $for(posts)$
-    <li><span class="fa-li"><i class="fas fa-pencil-alt"></i></span>
-            『<a href="$url$">$title$</a>』, $date$
+        <li>
+            <span class="fa-li"><i class="fas fa-pencil-alt"></i></span>
+            『<a href="$url$">$title$</a>』, 
+            <i class="fas fa-calendar-alt fa-fw mr-1"></i>$date$
         </li>
     $endfor$
 </ul>

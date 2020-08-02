@@ -1,6 +1,7 @@
 ---
 title: Carpe Diem
 date: 2015-11-28 14:52:22+0900
+tags:
 ---
 
 Fusce tortor quam, egestas in posuere quis, porttitor vel turpis. Donec

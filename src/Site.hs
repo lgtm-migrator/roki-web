@@ -2,6 +2,10 @@
 module Main (main) where
 
 import Data.Foldable (fold)
+import Data.Time.Format (formatTime)
+import Data.Time.LocalTime (utcToLocalTime)
+import Control.Monad (forM_)
+import Control.Monad.Except (MonadError (..))
 import Hakyll
 import System.FilePath ((</>))
 
@@ -19,6 +23,16 @@ import qualified Rules.Src.Style as Style
 import qualified Rules.Src.JavaScript as Js
 import qualified Rules.IndexPage as IP
 
+appendFooter locale zone item = do
+    utc <- fmap Just (getItemUTC locale (itemIdentifier item))
+        `catchError` const (return Nothing)
+    let y = fmap (formatTime locale "%Y" . utcToLocalTime zone) utc
+    appendFooterWith y item
+    where 
+        appendFooterWith y item = do
+            footer <- loadBody $ setVersion y "dy-footer.html"
+            withItemBody (return . (<> footer)) item
+
 listPageRules :: Maybe String -> FA.FontAwesomeIcons -> Tags -> Snapshot -> Paginate -> Rules ()
 listPageRules title faIcons tags snp pgs = paginateRules pgs $ \pn pat -> do
     route idRoute
@@ -32,7 +46,8 @@ listPageRules title faIcons tags snp pgs = paginateRules pgs $ \pn pat -> do
             postCtx' = teaserField "teaser" snp <> postCtx tags
 
         makeItem ""
-            >>= loadAndApplyTemplate "contents/templates/blog/content.html" blogCtx
+            >>= loadAndApplyTemplate "contents/templates/blog/post-list.html" blogCtx
+            >>= appendFooter defaultTimeLocale' timeZoneJST
             >>= loadAndApplyTemplate "contents/templates/blog/default.html" blogCtx
             >>= modifyExternalLinkAttr
             >>= FA.render faIcons
@@ -42,7 +57,7 @@ rokiLogRules :: FA.FontAwesomeIcons -> Rules Tags
 rokiLogRules faIcons = do
     tags <- CRL.buildTags 
     let postCtx' = postCtx tags <> tagCloudField' "tag-cloud" tags
-
+    
     -- each posts
     match CRL.entryPattern $ do
         route $ gsubRoute "contents/" (const "") `composeRoutes` setExtension "html"
@@ -50,6 +65,7 @@ rokiLogRules faIcons = do
             >>= absolutizeUrls
             >>= saveSnapshot CRL.contentSnapshot
             >>= loadAndApplyTemplate "contents/templates/post.html" postCtx'
+            >>= appendFooter defaultTimeLocale' timeZoneJST
             >>= loadAndApplyTemplate "contents/templates/blog/default.html" postCtx'
             >>= modifyExternalLinkAttr
             >>= FA.render faIcons
@@ -103,10 +119,22 @@ rokiLogRules faIcons = do
                     <> siteCtx
 
             makeItem ""
-                >>= loadAndApplyTemplate "contents/templates/blog/content.html" blogCtx
+                >>= loadAndApplyTemplate "contents/templates/blog/post-list.html" blogCtx
+                >>= appendFooter defaultTimeLocale' timeZoneJST
                 >>= loadAndApplyTemplate "contents/templates/blog/default.html" blogCtx
                 >>= modifyExternalLinkAttr
                 >>= FA.render faIcons
+
+    -- footer
+    forM_ (Nothing:map Just (map fst $ archivesMap yearlyArchives)) $ \year -> maybe id version year $
+        create ["dy-footer.html"] $
+            compile $ do
+                recent <- fmap (take 5) . recentFirst =<< 
+                    loadAllSnapshots CRL.entryPattern CRL.contentSnapshot
+                let ctx = listField "recent-posts" (postCtx tags) (return recent)
+                        <> tagCloudField' "tag-cloud" tags
+                        <> siteCtx
+                makeItem "" >>= loadAndApplyTemplate "contents/templates/blog/footer.html" ctx
 
     return tags
 

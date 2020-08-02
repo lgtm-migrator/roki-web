@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Contexts.Field (
     localDateField,
     tagsField',
@@ -14,7 +15,7 @@ import Data.Time.LocalTime (TimeZone (..), utcToLocalTime)
 import Data.Maybe (catMaybes)
 import Data.List (isSuffixOf)
 import qualified Text.HTML.TagSoup as TS
-import Lucid.Base (Html, toHtml, renderText)
+import Lucid.Base (Html, toHtml, renderText, ToHtml (..))
 import Lucid.Html5
 import Hakyll
 
@@ -38,8 +39,8 @@ imageField key = field key $ \item ->
             in TS.isTagOpenName "img" tag && cond
 
 descriptionField :: String -> Int -> Context String
-descriptionField key len = field key $ \_ ->
-  take len . escapeHtml . concat . lines . itemBody <$> getResourceBody
+descriptionField key len = field key $ const $ 
+    take len . escapeHtml . concat . lines . itemBody <$> getResourceBody
 
 tagsField' :: String -> Tags -> Context a
 tagsField' key tags = field key $ \item -> do
@@ -47,11 +48,13 @@ tagsField' key tags = field key $ \item -> do
     links <- catMaybes <$> mapM (liftM2 (<$>) toLink' (getRoute . tagsMakeId tags)) tags'
     if null links 
         then noResult ("Field " ++ key ++ ": tag not set (" ++ show (itemIdentifier item) ++ ")")
-        else return $ TL.unpack $ renderText $ mconcat $ map li_ links
+        else return $ TL.unpack $ renderText $ mconcat $ map (span_ [class_ "tag is-dark"]) links
     where
         toLink' tag = fmap (toLink tag)
 
 tagCloudField' :: String -> Tags -> Context a
-tagCloudField' key tags = field key $ const $ renderTags toLink' concat tags
+tagCloudField' key tags = field key $ const $
+    TL.unpack . renderText . div_ [class_ "tags"] . toHtmlRaw <$> renderTags toLink' concat tags
     where
-        toLink' tag path = const $ const $ const $ TL.unpack $ renderText $ li_ $ toLink tag path
+        toLink' tag path = const $ const $ const $ 
+            TL.unpack $ renderText $ span_ [class_ "tag is-dark"] $ toLink tag path

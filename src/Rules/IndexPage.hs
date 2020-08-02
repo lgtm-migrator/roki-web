@@ -6,7 +6,7 @@ import Config (contentsRoot)
 import Config.RegexUtils (intercalateDir)
 import Config.Contributions
 import qualified Config.RokiLog as CRL
-import Contexts (postCtx, siteCtx, rokiWebCtx)
+import Contexts (postCtx, siteCtx)
 import Utils (absolutizeUrls, modifyExternalLinkAttr)
 import qualified FontAwesome as FA
 
@@ -21,7 +21,7 @@ data OneBlogSetting = OneBlogSetting {
 
 mkBlogCtx :: OneBlogSetting -> Compiler (Context String)
 mkBlogCtx obs = do
-    posts <- recentFirst =<< loadAllSnapshots (bEntryPatten obs) (bSnapShot obs)
+    posts <- fmap (take 4) . recentFirst =<< loadAllSnapshots (bEntryPatten obs) (bSnapShot obs)
     return (listField (bKeyName obs) (postCtx $ bTags obs) (return posts) <> defaultContext <> siteCtx)
 
 rules :: FA.FontAwesomeIcons -> Tags -> Rules ()
@@ -32,19 +32,19 @@ rules faIcons tags = do
     match indexPath $ do
         route $ gsubRoute "contents/pages/" (const "")
         compile $ do
-            aBlogCtx <- addForBlogCtx projs conts <$> mkBlogCtx rokiLogSetting
+            aBlogCtx <- moreCtx projs conts <$> mkBlogCtx rokiLogSetting
             getResourceBody
                 >>= absolutizeUrls
                 >>= applyAsTemplate aBlogCtx
-                >>= loadAndApplyTemplate defaultTemplate aBlogCtx
+                >>= loadAndApplyTemplate rootTemplate aBlogCtx
                 >>= modifyExternalLinkAttr
                 >>= FA.render faIcons
     where
-        addForBlogCtx p c = mappend (constField "projs" p)
+        moreCtx p c = mappend (constField "title" "roki.dev")
+            . mappend (constField "projs" p)
             . mappend (constField "contable" c)
-            . mappend rokiWebCtx
         indexPath = fromGlob $ intercalateDir [contentsRoot, "pages", "index.html"]
-        defaultTemplate = fromFilePath $ intercalateDir [contentsRoot, "templates", "default.html"]
+        rootTemplate = fromFilePath $ intercalateDir [contentsRoot, "templates", "site", "default.html"]
         rokiLogSetting = 
             OneBlogSetting 
                 CRL.entryPattern

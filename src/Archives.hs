@@ -7,23 +7,23 @@ module Archives (
   , archivesRules
   , buildYearlyArchives
   , buildMonthlyArchives
-  , yearMonthArchiveField
+ -- , yearMonthArchiveField
 ) where
 
 import Control.Monad
-import Control.Monad.Trans (lift)
-import Data.Function (on)
-import Data.List (sortBy)
+-- import Control.Monad.Trans (lift)
+-- import Data.Function (on)
+-- import Data.List (sortBy)
 import qualified Data.Map as M
-import Data.Maybe
+-- import Data.Maybe
 import qualified Data.Set as S
-import qualified Data.Text as T
-import qualified Data.Text.Lazy as TL
+-- import qualified Data.Text as T
+-- import qualified Data.Text.Lazy as TL
 import Data.Time.Format
 import Data.Time.LocalTime
 import Hakyll
-import Lucid.Base
-import Lucid.Html5
+-- import Lucid.Base
+-- import Lucid.Html5
 
 data Archives k = Archives { 
     archivesMap :: [(k, [Identifier])]
@@ -62,6 +62,7 @@ buildMonthlyArchives locale zone = buildArchivesWith $ \i -> do
         m = formatTime locale "%m" time
     return [(y, m)]
 
+{-
 yearMonthArchiveField :: String -> YearlyArchives -> MonthlyArchives -> Maybe String -> Context a
 yearMonthArchiveField key ya ma pageYear = field key $ const $ 
     buildYearMonthArchiveField ya ma pageYear
@@ -94,3 +95,4 @@ buildYearMonthArchiveField ya ma pageYear = fmap TL.unpack $ renderTextT $
                             murl <- getUrl $ archivesMakeId ma mk
                             a_ [href_ (T.pack murl)] $
                                 toHtml $ year ++ "/" ++ month ++  " (" ++ show (length mids) ++ ")"
+                                -}

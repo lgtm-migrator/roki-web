@@ -12,13 +12,13 @@ import Contexts.Field (localDateField, tagsField', descriptionField, imageField)
 import Hakyll
 
 rokiWebCtx :: Context String
-rokiWebCtx = titleField "Roki Web"
+rokiWebCtx = titleField "roki.dev"
 
 rokiLogCtx :: Context String
-rokiLogCtx = titleField "roki.log - Roki Web"
+rokiLogCtx = titleField "roki.log - roki.dev"
 
 rokiDumpCtx :: Context String
-rokiDumpCtx = titleField "roki.dump - Roki Web"
+rokiDumpCtx = titleField "roki.dump - roki.dev"
 
 dateCtx :: Context String
 dateCtx = localDateField defaultTimeLocale' timeZoneJST "date" "%Y/%m/%d %R"

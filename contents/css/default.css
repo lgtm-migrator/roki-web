@@ -134,3 +134,11 @@ span.both-lined:after {
     content: url(/images/footer_dec.svg); 
     max-width: 500px;
 }
+
+.tag a {
+    color: #fff;
+}
+
+.tags-ul li {
+    margin-right: 5px;
+}
