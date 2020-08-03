@@ -2,7 +2,7 @@
     <article class="container">
             
         $for(posts)$
-        <div class="card mb-2 is-shadowless">
+        <div class="card mb-1 is-shadowless">
             <div class="card-content">
                 <header>
                     <h2 class="title is-3">
@@ -19,9 +19,9 @@
                                     <i class="fas fa-tags fa-fw"></i>
                                 </div>
                                 <div class="is-inline-block is-valign-middle">
-                                <div class="tags">
-                                    $tags$
-                                </div>
+                                    <div class="tags">
+                                        $tags$
+                                    </div>
                                 </div>
                             </li>
                         $endif$
@@ -30,14 +30,57 @@
 
                 <section class="mt-5">
                     $if(teaser)$
-                        $teaser$<a href="$url$">Read More</a>
+                        $teaser$<a href="$url$">Read More...</a>
                     $else$
                         $body$
                     $endif$
                 </section>
+                <hr class="hr" />
             </div>
         </div>
         $endfor$
 
     </article>
+
+    $if(currentPageNum)$
+    <div class="container">
+        <div class="card mb-1 is-shadowless">
+            <div class="card-content">
+                <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                    $if(previousPageUrl)$
+                    <a href="$previousPageUrl$" class="pagination-previous">
+                    $else$
+                    <a href="#" class="pagination-previous" disabled>
+                    $endif$
+                        <div class="is-inline-block is-valign-middle">
+                            <i class="fas fa-angle-double-left mr-1"></i>
+                        </div>
+                        <div class="is-inline-block is-valign-middle">
+                            <p>Prev</p>
+                        </div>
+                    </a>
+
+                    <div class="pagination-list ml-2 mr-2">
+                        $currentPageNum$ of $numPages$
+                    </div>
+
+                    $if(nextPageUrl)$
+                    <a href="$nextPageUrl$" class="pagination-next">
+                    $else$
+                    <a href="#" class="pagination-next" disabled>
+                    $endif$
+                        <div class="is-inline-block is-valign-middle">
+                            <p>Next</p>
+                        </div>
+                        <div class="is-inline-block is-valign-middle">
+                            <i class="fas fa-angle-double-right ml-1"></i>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+    $endif$
+
+
 </main>

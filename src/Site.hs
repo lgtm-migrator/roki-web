@@ -46,7 +46,8 @@ listPageRules title faIcons tags snp pgs = paginateRules pgs $ \pn pat -> do
                 <> maybe missingField (constField "title") title
                 <> listCtx
                 <> tagCloudField' "tag-cloud" tags
-            postCtx' = teaserField "teaser" snp <> postCtx tags
+            postCtx' = teaserField "teaser" snp 
+                <> postCtx tags
 
         makeItem ""
             >>= loadAndApplyTemplate "contents/templates/blog/post-list.html" blogCtx
