@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2e71ed20c6e6d5f8a6f75bb0370a642beb6d7aab932e1576ddc9b49fd06d9bdd
+-- hash: c805e5df0cc233ae076eb52b73911158e4ccc166060b86c087fdb06ddbfd08fd
 
 name:           roki-web
 version:        0.1.0.0
@@ -55,6 +55,7 @@ executable site
       aeson
     , base
     , basic-prelude
+    , binary
     , bytestring
     , containers
     , dhall

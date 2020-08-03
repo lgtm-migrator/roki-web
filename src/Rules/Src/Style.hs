@@ -15,7 +15,7 @@ rules = do
         compile compressCssCompiler
 
     scssDepend <- makePatternDependency scssDep
-    match scss $ compile getResourceBody
+    match scssDep $ compile getResourceBody
     rulesExtraDependencies [scssDepend] $
         match scss $ do
             route $ 

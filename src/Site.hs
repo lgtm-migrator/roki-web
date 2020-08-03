@@ -1,9 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main (main) where
 
+import Data.Binary (Binary)
 import Data.Foldable (fold)
-import Data.Time.Format (formatTime)
-import Data.Time.LocalTime (utcToLocalTime)
+import Data.Time.Format (formatTime, TimeLocale)
+import Data.Time.LocalTime (utcToLocalTime, TimeZone)
+import Data.Typeable (Typeable)
 import Control.Monad (forM_)
 import Control.Monad.Except (MonadError (..))
 import Hakyll
@@ -23,15 +25,16 @@ import qualified Rules.Src.Style as Style
 import qualified Rules.Src.JavaScript as Js
 import qualified Rules.IndexPage as IP
 
+appendFooter :: (Binary a, Typeable a, Semigroup a) => TimeLocale -> TimeZone -> Item a -> Compiler (Item a)
 appendFooter locale zone item = do
     utc <- fmap Just (getItemUTC locale (itemIdentifier item))
         `catchError` const (return Nothing)
     let y = fmap (formatTime locale "%Y" . utcToLocalTime zone) utc
     appendFooterWith y item
     where 
-        appendFooterWith y item = do
+        appendFooterWith y item' = do
             footer <- loadBody $ setVersion y "dy-footer.html"
-            withItemBody (return . (<> footer)) item
+            withItemBody (return . (<> footer)) item'
 
 listPageRules :: Maybe String -> FA.FontAwesomeIcons -> Tags -> Snapshot -> Paginate -> Rules ()
 listPageRules title faIcons tags snp pgs = paginateRules pgs $ \pn pat -> do
@@ -108,22 +111,10 @@ rokiLogRules faIcons = do
         in buildPaginateWith grouper CRL.entryPattern makeId
 
     -- the index page of roki.log 
-    create ["roki.log/index.html"] $ do
-        route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAllSnapshots CRL.entryPattern CRL.contentSnapshot
-            let blogCtx = listField "posts" (postCtx tags) (return posts)
-                    <> constField "title" "roki.log"
-                    <> tagCloudField' "tag-cloud" tags
-                    <> defaultContext
-                    <> siteCtx
-
-            makeItem ""
-                >>= loadAndApplyTemplate "contents/templates/blog/post-list.html" blogCtx
-                >>= appendFooter defaultTimeLocale' timeZoneJST
-                >>= loadAndApplyTemplate "contents/templates/blog/default.html" blogCtx
-                >>= modifyExternalLinkAttr
-                >>= FA.render faIcons
+    listPageRules (Just "roki.log") faIcons tags CRL.contentSnapshot =<<
+        let grouper = fmap (paginateEvery 5) . sortRecentFirst
+            makeId = makePageIdentifier "roki.log/index.html"
+        in buildPaginateWith grouper CRL.entryPattern makeId
 
     -- footer
     forM_ (Nothing:map Just (map fst $ archivesMap yearlyArchives)) $ \year -> maybe id version year $
