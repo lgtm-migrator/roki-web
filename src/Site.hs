@@ -18,6 +18,7 @@ import Contexts (postCtx, siteCtx, listCtx)
 import Contexts.Field (tagCloudField')
 import Utils (absolutizeUrls, makePageIdentifier, modifyExternalLinkAttr)
 import qualified FontAwesome as FA
+import qualified KaTeX 
 
 import qualified Rules.Media as Media
 import qualified Rules.Vendor as Vendor
@@ -65,8 +66,9 @@ rokiLogRules faIcons = do
     -- each posts
     match CRL.entryPattern $ do
         route $ gsubRoute "contents/" (const "") `composeRoutes` setExtension "html"
-        compile $ pandocCompilerWith readerOptions defaultHakyllWriterOptions
+        compile $ pandocCompilerWith readerOptions writerOptions
             >>= absolutizeUrls
+            >>= KaTeX.render
             >>= saveSnapshot CRL.contentSnapshot
             >>= loadAndApplyTemplate "contents/templates/post.html" postCtx'
             >>= appendFooter defaultTimeLocale' timeZoneJST

@@ -3,6 +3,7 @@ module Config.Core (
     contentsRoot,
     hakyllConfig,
     readerOptions,
+    writerOptions,
     tagSoupOption,
     timeZoneJST,
     defaultTimeLocale'
@@ -15,7 +16,13 @@ import Data.Time.Format (TimeLocale (..), defaultTimeLocale)
 import Data.Time.LocalTime (TimeZone (..))
 import Hakyll
 import System.FilePath (takeFileName)
-import Text.Pandoc.Options (ReaderOptions (..), Extension (..), enableExtension, disableExtension)
+import Text.Pandoc.Options (
+    HTMLMathMethod ( KaTeX )
+  , ReaderOptions (..)
+  , WriterOptions (..)
+  , Extension (..)
+  , enableExtension
+  , disableExtension)
 import qualified Text.HTML.TagSoup as T
 
 contentsRoot :: FilePath
@@ -35,10 +42,16 @@ hakyllConfig = defaultConfiguration {
     ignoreFile' = foldr1 (liftM2 (||)) 
         [isPrefixOf ".", isPrefixOf "#", isSuffixOf "~", isSuffixOf ".swp"] . takeFileName
 
+writerOptions :: WriterOptions
+writerOptions = defaultHakyllWriterOptions {
+    writerHTMLMathMethod = KaTeX ""
+  }
+
 readerOptions :: ReaderOptions
 readerOptions = defaultHakyllReaderOptions {
     readerExtensions = enableExtension Ext_east_asian_line_breaks $
         enableExtension Ext_emoji $
+        enableExtension Ext_tex_math_double_backslash $
         disableExtension Ext_citations $
         readerExtensions defaultHakyllReaderOptions
     }
