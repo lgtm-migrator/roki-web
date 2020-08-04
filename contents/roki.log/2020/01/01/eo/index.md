@@ -1,6 +1,6 @@
 ---
 title: hoge
-date: 2018-08-12 14:54:23+0900
+date: 2020-08-12 14:54:23+0900
 tags: hoge
 ---
 
@@ -17,6 +17,7 @@ main :: IO ()
 main = return ()
 ```
 
+<!--more-->
 hoge 
 
 ```cpp

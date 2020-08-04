@@ -127,6 +127,7 @@ rokiLogRules faIcons = do
                     loadAllSnapshots CRL.entryPattern CRL.contentSnapshot
                 let ctx = listField "recent-posts" (postCtx tags) (return recent)
                         <> tagCloudField' "tag-cloud" tags
+                        <> yearMonthArchiveField "archives" yearlyArchives monthlyArchives year
                         <> siteCtx
                 makeItem "" >>= loadAndApplyTemplate "contents/templates/blog/footer.html" ctx
 
