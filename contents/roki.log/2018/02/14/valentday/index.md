@@ -12,5 +12,18 @@ e^{i\pi}+1=0
 
 :+1: is written by `:+1:` and this is cite test [^1]
 
+```haskell
+main :: IO ()
+main = return ()
+```
+
+hoge 
+
+```cpp
+int main()
+{
+    std::cout << "hello" << std::endl;
+}
+```
 
 [^1]: hoge

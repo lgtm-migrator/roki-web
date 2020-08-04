@@ -14,11 +14,12 @@ vendRule inpat outpath = match inpat $ do
 rules :: Rules ()
 rules = do
     zipWithM_ vendRule
-        [fontAwesomeSVGPath, bulmaPath, bulmaToolTipPath, katexPath]
+        [fontAwesomeSVGPath, bulmaPath, bulmaToolTipPath, katexPath, highlightPath]
         [intercalateDir ["vendor", "fontawesome", "style.css"]
        , intercalateDir ["vendor", "bulma", "bulma.min.css"]
        , intercalateDir ["vendor", "bulma", "bulma-tooltip.min.css"]
        , intercalateDir ["vendor", "katex", "katex.min.css"]
+       , intercalateDir ["vendor", "highlight", "highlight.css"]
        ]
     match (fromGlob $ intercalateDir ["node_modules", "katex", "dist", "fonts", "**"]) $ do
         route $ gsubRoute "node_modules/katex/dist/" (const "vendor/katex/")
@@ -32,3 +33,5 @@ rules = do
             ["node_modules", "@creativebulma", "bulma-tooltip", "dist", "bulma-tooltip.min.css"]
         katexPath = fromGlob $ intercalateDir
             ["node_modules", "katex", "dist", "katex.min.css"]
+        highlightPath = fromGlob $ intercalateDir
+            ["external", "hakyll-css", "css", "tango.css"]
