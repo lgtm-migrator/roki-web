@@ -63,7 +63,7 @@ renderContributionsTable = do
                 th_ $ abbr_ [title_ "Contents"] "Contents" 
                 th_ $ abbr_ [title_ "Genre"] "Genre" 
                 th_ $ abbr_ [title_ "Date"] "Date"
-            tbody_ $ ($ (cs, 1 :: Int)) $ fix $ \f (cs', !i) -> do
+            tbody_ $ ($ (cs, 1 :: Int)) $ fix $ \f (cs', !i) ->
                 if null cs' then return mempty :: HtmlT Identity () else let c = head cs' in do
                     tr_ $ do
                         td_ $ fromString $ show i

@@ -8,7 +8,7 @@ import Config.RegexUtils (intercalateDir)
 
 vendRule :: Pattern -> FilePath -> Rules ()
 vendRule inpat outpath = match inpat $ do
-    route $ constRoute $ outpath
+    route $ constRoute outpath
     compile compressCssCompiler
 
 rules :: Rules ()

@@ -1,4 +1,4 @@
-module FontAwesome.Compiler (
+module Vendor.FontAwesome.Compiler (
     render
 ) where
 
@@ -8,7 +8,7 @@ import Hakyll
 import qualified Text.HTML.TagSoup.Tree as TT
 
 import Config (tagSoupOption)
-import FontAwesome.Core
+import Vendor.FontAwesome.Core
 
 render :: FontAwesomeIcons -> Item String -> Compiler (Item String)
 render icons = return . fmap

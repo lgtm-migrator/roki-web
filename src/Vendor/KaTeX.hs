@@ -1,5 +1,5 @@
 {-# LANGUAGE LambdaCase #-}
-module KaTeX (
+module Vendor.KaTeX (
     render
 ) where
 

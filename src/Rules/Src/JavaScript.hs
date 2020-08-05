@@ -8,9 +8,8 @@ import Config.RegexUtils (intercalateDir)
 import Media (compressJsCompiler)
 
 rules :: Rules ()
-rules = do
-    match jsPath $ do
-        route $ gsubRoute "contents/" $ const ""
-        compile compressJsCompiler
+rules = match jsPath $ do
+    route $ gsubRoute "contents/" $ const ""
+    compile compressJsCompiler
     where
         jsPath = fromGlob $ intercalateDir ["contents", "js", "**"]

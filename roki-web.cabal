@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9faf78cbd419edb489ec7e5beda1ffede4770c72ea5fff4bfe384e52e5828710
+-- hash: 00ba754494245c03b08b5b495e910f972dd7773cbcc03056a1e97f36e8e454ea
 
 name:           roki-web
 version:        0.1.0.0
@@ -35,10 +35,6 @@ executable site
       Contexts
       Contexts.Core
       Contexts.Field
-      FontAwesome
-      FontAwesome.Compiler
-      FontAwesome.Core
-      KaTeX
       Media
       Media.JS
       Media.SVG
@@ -48,6 +44,10 @@ executable site
       Rules.Src.Style
       Rules.Vendor
       Utils
+      Vendor.FontAwesome
+      Vendor.FontAwesome.Compiler
+      Vendor.FontAwesome.Core
+      Vendor.KaTeX
       Paths_roki_web
   hs-source-dirs:
       src

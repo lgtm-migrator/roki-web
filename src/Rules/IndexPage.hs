@@ -8,7 +8,7 @@ import Config.Contributions
 import qualified Config.RokiLog as CRL
 import Contexts (postCtx, siteCtx)
 import Utils (absolutizeUrls, modifyExternalLinkAttr)
-import qualified FontAwesome as FA
+import qualified Vendor.FontAwesome as FA
 
 type EntryPattern = Pattern
 

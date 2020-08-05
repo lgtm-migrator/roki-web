@@ -4,20 +4,25 @@ module Contexts.Field (
     tagsField',
     tagCloudField',
     descriptionField,
-    imageField
+    imageField,
+    yearMonthArchiveField
 ) where
 
-import Control.Monad (liftM2)
+import Control.Monad (liftM2, forM_)
+import Control.Monad.Trans (lift)
+import Data.Function (on)
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
 import Data.Time.Format (TimeLocale (..), formatTime)
 import Data.Time.LocalTime (TimeZone (..), utcToLocalTime)
-import Data.Maybe (catMaybes)
-import Data.List (isSuffixOf)
+import Data.Maybe (catMaybes, fromMaybe)
+import Data.List (isSuffixOf, sortBy)
 import qualified Text.HTML.TagSoup as TS
-import Lucid.Base (Html, toHtml, renderText, ToHtml (..))
+import Lucid.Base (Html, toHtml, renderText, renderTextT, ToHtml (..))
 import Lucid.Html5
 import Hakyll
+
+import Archives (YearlyArchives, MonthlyArchives, Archives (..))
 
 toLink :: String -> String -> Html ()
 toLink text path = a_ [href_ (T.pack $ toUrl path)] $ span_ $ toHtml text
@@ -58,3 +63,37 @@ tagCloudField' key tags = field key $ const $
     where
         toLink' tag path = const $ const $ const $ 
             TL.unpack $ renderText $ span_ [class_ "tag is-dark"] $ toLink tag path
+  
+
+{-# INLINE buildYearMonthArchiveField #-}
+buildYearMonthArchiveField :: YearlyArchives -> MonthlyArchives -> Maybe String -> Compiler String
+buildYearMonthArchiveField ya ma pageYear = fmap TL.unpack $ renderTextT $
+    ul_ [class_ "archive-tree"] $ do
+        let yearMap = sortBy (flip compare `on` (read :: String -> Int) . fst) $ archivesMap ya
+            getUrl = lift . fmap (toUrl . fromMaybe "#") . getRoute
+
+        forM_ yearMap $ \(year, yids) ->
+            li_ $ do
+                let monthMap = sortBy (flip compare `on` (read :: String -> Int) . snd . fst) $
+                        filter ((== year) . fst . fst) $ archivesMap ma
+                    treeLael = T.pack $ "tree-label-" ++ year
+
+                input_ $ [class_ "tree-toggle", type_ "checkbox", id_ treeLael] ++
+                    [checked_ | Just year == pageYear]
+                label_ [class_ "tree-toggle-button", for_ treeLael] $ do
+                    i_ [classes_ ["fas", "fa-angle-right", "fa-fw"]] ""
+                    i_ [classes_ ["fas", "fa-angle-down", "fa-fw"]] ""
+
+                yurl <- getUrl $ archivesMakeId ya year
+                a_ [href_ (T.pack yurl)] $
+                    toHtml $ year ++ " (" ++ show (length yids) ++ ")"
+
+                ul_ [class_ "tree-child"] $
+                    forM_ monthMap $ \(mk@(_, month), mids) ->
+                        li_ $ do
+                            murl <- getUrl $ archivesMakeId ma mk
+                            a_ [href_ (T.pack murl)] $
+                                toHtml $ year ++ "/" ++ month ++  " (" ++ show (length mids) ++ ")"
+
+yearMonthArchiveField :: String -> YearlyArchives -> MonthlyArchives -> Maybe String -> Context a
+yearMonthArchiveField key ya ma s = field key $ const $ buildYearMonthArchiveField ya ma s

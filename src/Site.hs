@@ -15,10 +15,10 @@ import Archives
 import Config
 import qualified Config.RokiLog as CRL
 import Contexts (postCtx, siteCtx, listCtx)
-import Contexts.Field (tagCloudField')
+import Contexts.Field (tagCloudField', yearMonthArchiveField)
 import Utils (absolutizeUrls, makePageIdentifier, modifyExternalLinkAttr)
-import qualified FontAwesome as FA
-import qualified KaTeX 
+import qualified Vendor.FontAwesome as FA
+import qualified Vendor.KaTeX as KaTeX
 
 import qualified Rules.Media as Media
 import qualified Rules.Vendor as Vendor
@@ -70,7 +70,7 @@ rokiLogRules faIcons = do
             >>= absolutizeUrls
             >>= KaTeX.render
             >>= saveSnapshot CRL.contentSnapshot
-            >>= loadAndApplyTemplate "contents/templates/post.html" postCtx'
+            >>= loadAndApplyTemplate "contents/templates/blog/post.html" postCtx'
             >>= appendFooter defaultTimeLocale' timeZoneJST
             >>= loadAndApplyTemplate "contents/templates/blog/default.html" postCtx'
             >>= modifyExternalLinkAttr
@@ -120,7 +120,7 @@ rokiLogRules faIcons = do
         in buildPaginateWith grouper CRL.entryPattern makeId
 
     -- footer
-    forM_ (Nothing:map Just (map fst $ archivesMap yearlyArchives)) $ \year -> maybe id version year $
+    forM_ (Nothing:map (Just . fst) (archivesMap yearlyArchives)) $ \year -> maybe id version year $
         create ["dy-footer.html"] $
             compile $ do
                 recent <- fmap (take 5) . recentFirst =<< 

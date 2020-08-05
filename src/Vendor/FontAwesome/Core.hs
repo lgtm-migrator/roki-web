@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 
-module FontAwesome.Core (
+module Vendor.FontAwesome.Core (
     FontAwesomeIcons,
     fontAwesome,
     loadFontAwesome
