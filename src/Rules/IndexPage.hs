@@ -5,7 +5,7 @@ import Hakyll
 import Config (contentsRoot)
 import Config.RegexUtils (intercalateDir)
 import Config.Contributions
-import qualified Config.RokiLog as CRL
+import qualified Config.TechBlog as TechBlog
 import Contexts (postCtx, siteCtx)
 import Utils (absolutizeUrls, modifyExternalLinkAttr)
 import qualified Vendor.FontAwesome as FA
@@ -47,7 +47,7 @@ rules faIcons tags = do
         rootTemplate = fromFilePath $ intercalateDir [contentsRoot, "templates", "site", "default.html"]
         rokiLogSetting = 
             OneBlogSetting 
-                CRL.entryPattern
-                CRL.contentSnapshot
+                TechBlog.entryPattern
+                TechBlog.contentSnapshot
                 tags
                 "posts"

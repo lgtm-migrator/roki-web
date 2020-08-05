@@ -13,8 +13,8 @@ import System.FilePath ((</>))
 
 import Archives
 import Config
-import qualified Config.RokiLog as CRL
-import Contexts (postCtx, siteCtx, listCtx)
+import qualified Config.TechBlog as TechBlog
+import Contexts (postCtx, siteCtx, listCtx, blogTitleCtx)
 import Contexts.Field (tagCloudField', yearMonthArchiveField)
 import Utils (absolutizeUrls, makePageIdentifier, modifyExternalLinkAttr)
 import qualified Vendor.FontAwesome as FA
@@ -47,6 +47,7 @@ listPageRules title faIcons tags snp pgs = paginateRules pgs $ \pn pat -> do
                 <> maybe missingField (constField "title") title
                 <> listCtx
                 <> tagCloudField' "tag-cloud" tags
+                <> blogTitleCtx TechBlog.blogName
             postCtx' = teaserField "teaser" snp 
                 <> postCtx tags
 
@@ -58,73 +59,75 @@ listPageRules title faIcons tags snp pgs = paginateRules pgs $ \pn pat -> do
             >>= FA.render faIcons
 
 
-rokiLogRules :: FA.FontAwesomeIcons -> Rules Tags
-rokiLogRules faIcons = do
-    tags <- CRL.buildTags 
-    let postCtx' = postCtx tags <> tagCloudField' "tag-cloud" tags
+blogRules :: FA.FontAwesomeIcons -> Rules Tags
+blogRules faIcons = do
+    tags <- TechBlog.buildTags 
+    let postCtx' = postCtx tags 
+            <> tagCloudField' "tag-cloud" tags
+            <> blogTitleCtx TechBlog.blogName
     
     -- each posts
-    match CRL.entryPattern $ do
+    match TechBlog.entryPattern $ do
         route $ gsubRoute "contents/" (const "") `composeRoutes` setExtension "html"
         compile $ pandocCompilerWith readerOptions writerOptions
             >>= absolutizeUrls
             >>= KaTeX.render
-            >>= saveSnapshot CRL.contentSnapshot
+            >>= saveSnapshot TechBlog.contentSnapshot
             >>= loadAndApplyTemplate "contents/templates/blog/post.html" postCtx'
             >>= appendFooter defaultTimeLocale' timeZoneJST
             >>= loadAndApplyTemplate "contents/templates/blog/default.html" postCtx'
             >>= modifyExternalLinkAttr
             >>= FA.render faIcons
 
-    match CRL.entryFilesPattern $ do
+    match TechBlog.entryFilesPattern $ do
         route $ gsubRoute "contents/" (const "")
         compile copyFileCompiler
 
     -- tag rules
     tagsRules tags $ \tag pat ->
         let grouper = fmap (paginateEvery 5) . sortRecentFirst
-            makeId = makePageIdentifier $ CRL.tagPagesPath tag
+            makeId = makePageIdentifier $ TechBlog.tagPagesPath tag
             title = "Tagged posts: " <> tag
         in buildPaginateWith grouper pat makeId 
-            >>= listPageRules (Just title) faIcons tags CRL.contentSnapshot
+            >>= listPageRules (Just title) faIcons tags TechBlog.contentSnapshot
 
     -- yearly paginate
-    yearlyArchives <- CRL.buildYearlyArchives
+    yearlyArchives <- TechBlog.buildYearlyArchives
     archivesRules yearlyArchives $ \year pat ->
         let grouper = fmap (paginateEvery 5) . sortRecentFirst
-            makeId = makePageIdentifier $ CRL.yearlyPagePath year
+            makeId = makePageIdentifier $ TechBlog.yearlyPagePath year
             title = "Yearly posts: " <> year
         in buildPaginateWith grouper pat makeId 
-            >>= listPageRules (Just title) faIcons tags CRL.contentSnapshot 
+            >>= listPageRules (Just title) faIcons tags TechBlog.contentSnapshot 
 
     -- monthly paginate
-    monthlyArchives <- CRL.buildMonthlyArchives
+    monthlyArchives <- TechBlog.buildMonthlyArchives
     archivesRules monthlyArchives $ \key@(year, month) pat ->
         let grouper = fmap (paginateEvery 5) . sortRecentFirst 
-            makeId = makePageIdentifier $ CRL.monthlyPagePath key
+            makeId = makePageIdentifier $ TechBlog.monthlyPagePath key
             title = "Monthly posts: " <> year </> month
         in buildPaginateWith grouper pat makeId
-            >>= listPageRules (Just title) faIcons tags CRL.contentSnapshot
+            >>= listPageRules (Just title) faIcons tags TechBlog.contentSnapshot
 
     -- all tags
-    let allTagsPagePath = "roki.log" </> "tags" </> "index.html"
-    listPageRules (Just "tags") faIcons tags CRL.contentSnapshot =<<
+    let allTagsPagePath = TechBlog.blogName </> "tags" </> "index.html"
+    listPageRules (Just "tags") faIcons tags TechBlog.contentSnapshot =<<
         let grouper = fmap (paginateEvery 5) . sortRecentFirst
             makeId = makePageIdentifier allTagsPagePath
-        in buildPaginateWith grouper CRL.entryPattern makeId
+        in buildPaginateWith grouper TechBlog.entryPattern makeId
 
-    -- the index page of roki.log 
-    listPageRules (Just "roki.log") faIcons tags CRL.contentSnapshot =<<
+    -- the index page of tech blog 
+    listPageRules Nothing faIcons tags TechBlog.contentSnapshot =<<
         let grouper = fmap (paginateEvery 5) . sortRecentFirst
-            makeId = makePageIdentifier "roki.log/index.html"
-        in buildPaginateWith grouper CRL.entryPattern makeId
+            makeId = makePageIdentifier (TechBlog.blogName </> "index.html")
+        in buildPaginateWith grouper TechBlog.entryPattern makeId
 
     -- footer
     forM_ (Nothing:map (Just . fst) (archivesMap yearlyArchives)) $ \year -> maybe id version year $
         create ["dy-footer.html"] $
             compile $ do
                 recent <- fmap (take 5) . recentFirst =<< 
-                    loadAllSnapshots CRL.entryPattern CRL.contentSnapshot
+                    loadAllSnapshots TechBlog.entryPattern TechBlog.contentSnapshot
                 let ctx = listField "recent-posts" (postCtx tags) (return recent)
                         <> tagCloudField' "tag-cloud" tags
                         <> yearMonthArchiveField "archives" yearlyArchives monthlyArchives year
@@ -139,7 +142,7 @@ main = hakyllWith hakyllConfig $ do
     
     faIcons <- fold <$> preprocess FA.loadFontAwesome
     
-    tags <- rokiLogRules faIcons
+    tags <- blogRules faIcons
     IP.rules faIcons tags 
     
     match "contents/templates/**" $ compile templateBodyCompiler

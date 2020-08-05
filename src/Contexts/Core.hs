@@ -1,30 +1,23 @@
 module Contexts.Core (
-    rokiWebCtx,
-    rokiLogCtx,
-    rokiDumpCtx,
+    blogTitleCtx,
     siteCtx,
     postCtx,
     listCtx
 ) where
 
 import Config (timeZoneJST, defaultTimeLocale')
+import qualified Config.TechBlog as TB
 import Contexts.Field (localDateField, tagsField', descriptionField, imageField)
 import Hakyll
-
-rokiWebCtx :: Context String
-rokiWebCtx = titleField "roki.dev"
-
-rokiLogCtx :: Context String
-rokiLogCtx = titleField "roki.log - roki.dev"
-
-rokiDumpCtx :: Context String
-rokiDumpCtx = titleField "roki.dump - roki.dev"
 
 dateCtx :: Context String
 dateCtx = localDateField defaultTimeLocale' timeZoneJST "date" "%Y/%m/%d %R"
 
+blogTitleCtx :: String -> Context String
+blogTitleCtx = constField "blog-title"
+
 techBlogCtx :: Context String
-techBlogCtx = constField "tech-blog-title" "roki.log"
+techBlogCtx = constField "tech-blog-title" TB.blogName
     <> constField "tech-blog-issue-req" "https://github.com/falgon/roki-web/issues/new/choose"
 
 privBlogCtx :: Context String
@@ -52,7 +45,7 @@ authorCtx = constField "author-name" "Roki"
 
 siteCtx :: Context String
 siteCtx = constField "lang" "ja"
-    <> constField "site-title" "Roki Web"
+    <> constField "site-title" "roki.dev"
     <> constField "site-description" "This is a Roki's website."
     <> constField "copyright" "copyright &copy; 2016~ Roki All Rights Reserved."
     <> blogCtx

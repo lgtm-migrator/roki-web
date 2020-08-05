@@ -3,6 +3,7 @@ module Utils (
     modifyExternalLinkAttr,
     sanitizeTagName,
     makePageIdentifier,
+    getStringField
 ) where
 
 import Control.Monad (liftM2)
@@ -37,3 +38,10 @@ makePageIdentifier p 1 = fromFilePath p
 makePageIdentifier p n = fromFilePath $ takeDirectory' p </> "page" </> show n </> takeFileName p
     where 
         takeDirectory' x = let x' = takeDirectory x in if x' == "." then "" else x'
+
+getStringField :: String -> Context String -> Compiler (Maybe String)
+getStringField key cs = do
+    s <- unContext cs key [] (Item (fromFilePath "") "")
+    return $ case s of
+        StringField x -> Just x
+        _ -> Nothing

@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Config.RokiLog (
+module Config.TechBlog (
+    blogName,
     entryPattern,
     entryFilesPattern,
     contentSnapshot,
