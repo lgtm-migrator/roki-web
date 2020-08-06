@@ -30,6 +30,59 @@
                     $body$
                 </section>
                 <hr class="hr" />
+                <style>
+                </style>
+                <div class="container">
+                    <div class="card mb-1 is-shadowless">
+                        <div class="card-content">
+                            <nav class="pagination is-centered" 
+                                 role="navigation" 
+                                 aria-label="pagination">
+                                $if(nextPageUrl)$
+				                <a href="$nextPageUrl$" class="pagination-previous">
+                                    <div class="is-inline-block is-valign-middle">
+                                        <i class="fas fa-angle-double-left mr-1"></i>
+                                    </div>
+                                    <div class="is-inline-block is-valign-middle">
+                                        <i class="fas fa-calendar-alt mr-1"></i>$nextPageDate$
+                                        <i class="fas fa-pencil-alt ml-1 mr-1"></i>$nextPageTitle$
+                                    </div>
+                                </a>
+                                $else$
+                                <a href="/$blog-title$" class="pagination-previous">
+                                    <div class="is-inline-block is-valign-middle">
+                                        <i class="fas fa-home mr-1"></i>
+                                    </div>
+                                    <div class="is-inline-block is-valign-middle">
+                                        <p>Home</p>
+                                    </div>
+                                </a>
+                                $endif$
+
+                                $if(previousPageUrl)$
+				                <a href="$previousPageUrl$" class="pagination-next">
+                                    <div class="is-inline-block is-valign-middle">
+                                        <i class="fas fa-calendar-alt mr-1"></i>$previousPageDate$
+                                        <i class="fas fa-pencil-alt ml-1 mr-1"></i>$previousPageTitle$
+                                    </div>
+                                    <div class="ml-1 is-inline-block is-valign-middle">
+                                        <i class="fas fa-angle-double-right"></i>
+                                    </div>
+                                </a>
+                                $else$
+                                <a href="/$blog-title$" class="pagination-next">
+                                    <div class="is-inline-block is-valign-middle">
+                                        <p>Home</p>
+                                    </div>
+                                    <div class="ml-1 is-inline-block is-valign-middle">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                </a>
+                                $endif$
+                            </nav>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </article>

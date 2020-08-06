@@ -1,7 +1,7 @@
 ---
 title: Tu Quoque
 author: Julius
-date: 2015-12-07 09:21:43+0900
+date: 2015-12-07 09:21:43
 tags: egtag, hoge, foo
 ---
 

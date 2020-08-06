@@ -6,6 +6,7 @@ import Data.Foldable (fold)
 import Data.Time.Format (formatTime, TimeLocale)
 import Data.Time.LocalTime (utcToLocalTime, TimeZone)
 import Data.Typeable (Typeable)
+import Data.Maybe (catMaybes)
 import Control.Monad (forM_)
 import Control.Monad.Except (MonadError (..))
 import Hakyll
@@ -37,6 +38,30 @@ appendFooter locale zone item = do
             footer <- loadBody $ setVersion y "dy-footer.html"
             withItemBody (return . (<> footer)) item'
 
+eachPostsSeries :: [Identifier] -> (Context String -> Rules ()) -> Rules ()
+eachPostsSeries postIDs rules = do
+    forM_ (zip3 postIDs nextPosts prevPosts) $ \(pID, np, pp) -> create [pID] $ do
+        rules $ mconcat $ catMaybes [
+            (field "previousPageUrl" . pageUrlOf) <$> pp
+          , (field "previousPageTitle" . pageTitleOf) <$> pp
+          , (field "previousPageDate" . pageDateOf) <$> pp
+          , (field "nextPageUrl" . pageUrlOf) <$> np
+          , (field "nextPageTitle" . pageTitleOf) <$> np
+          , (field "nextPageDate" . pageDateOf) <$> np
+          ]
+    where
+        nextPosts = tail $ map Just postIDs ++ [Nothing] 
+        prevPosts = Nothing : map Just postIDs
+        pageTitleOf i = const $ do
+            t <- getMetadataField i "title" 
+            case t of
+                Nothing -> fail "no 'title' field"
+                Just t' -> return $ if length t' > 6 then take 6 t' <> "..." else t'
+        pageUrlOf i = const (getRoute i >>= maybe (fail "no route") (return . toUrl))
+        pageDateOf i = const $ 
+            getMetadataField i "date" 
+                >>= maybe (fail "no 'date' field") (return . map (\x -> if x == '-' then '/' else x))
+
 listPageRules :: Maybe String -> FA.FontAwesomeIcons -> Tags -> Snapshot -> Paginate -> Rules ()
 listPageRules title faIcons tags snp pgs = paginateRules pgs $ \pn pat -> do
     route idRoute
@@ -67,21 +92,18 @@ blogRules faIcons = do
             <> blogTitleCtx TechBlog.blogName
     
     -- each posts
-    match TechBlog.entryPattern $ do
+    postIDs <- sortChronological =<< getMatches TechBlog.entryPattern
+    eachPostsSeries postIDs $ \s -> do
         route $ gsubRoute "contents/" (const "") `composeRoutes` setExtension "html"
         compile $ pandocCompilerWith readerOptions writerOptions
             >>= absolutizeUrls
             >>= KaTeX.render
             >>= saveSnapshot TechBlog.contentSnapshot
-            >>= loadAndApplyTemplate "contents/templates/blog/post.html" postCtx'
+            >>= loadAndApplyTemplate "contents/templates/blog/post.html" (s <> postCtx')
             >>= appendFooter defaultTimeLocale' timeZoneJST
             >>= loadAndApplyTemplate "contents/templates/blog/default.html" postCtx'
             >>= modifyExternalLinkAttr
             >>= FA.render faIcons
-
-    match TechBlog.entryFilesPattern $ do
-        route $ gsubRoute "contents/" (const "")
-        compile copyFileCompiler
 
     -- tag rules
     tagsRules tags $ \tag pat ->
