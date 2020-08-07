@@ -18,7 +18,7 @@ import Archives
 import Config
 import Contexts (postCtx, siteCtx, listCtx, blogTitleCtx)
 import Contexts.Field (tagCloudField', yearMonthArchiveField)
-import Utils (absolutizeUrls, makePageIdentifier, modifyExternalLinkAttr, prependBaseUrl)
+import Utils (absolutizeUrls, makePageIdentifier, modifyExternalLinkAttr, prependBaseUrl, sanitizeDisqusName)
 import qualified Vendor.FontAwesome as FA
 import qualified Vendor.KaTeX as KaTeX
 
@@ -86,7 +86,7 @@ listPageRules title faIcons tags bc pgs = paginateRules pgs $ \pn pat -> do
     route idRoute
     compile $ do
         posts <- recentFirst =<< loadAllSnapshots pat (blogContentSnapshot bc)
-        let blogCtx = listField "posts" (postCtx' <> blogTitleCtx (blogName bc)) (return posts)
+        let blogCtx = listField "posts" postCtx' (return posts)
                 <> paginateContext pgs pn
                 <> maybe missingField (constField "title") title
                 <> listCtx
@@ -94,6 +94,7 @@ listPageRules title faIcons tags bc pgs = paginateRules pgs $ \pn pat -> do
                 <> blogTitleCtx (blogName bc)
             postCtx' = teaserField "teaser" (blogContentSnapshot bc)
                 <> postCtx tags
+                <> blogTitleCtx (blogName bc)
 
         makeItem ""
             >>= loadAndApplyTemplate "contents/templates/blog/post-list.html" blogCtx
@@ -118,7 +119,8 @@ blogRules bc faIcons = do
             >>= saveSnapshot "feed-content"
             >>= KaTeX.render
             >>= saveSnapshot (blogContentSnapshot bc)
-            >>= loadAndApplyTemplate "contents/templates/blog/post.html" (s <> postCtx')
+            >>= loadAndApplyTemplate "contents/templates/blog/post.html" 
+                (s <> postCtx' <> constField "disqus" (sanitizeDisqusName (blogName bc)))
             >>= appendFooter bc defaultTimeLocale' timeZoneJST
             >>= loadAndApplyTemplate "contents/templates/blog/default.html" postCtx'
             >>= modifyExternalLinkAttr

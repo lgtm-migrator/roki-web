@@ -2,6 +2,7 @@ module Utils (
     absolutizeUrls,
     modifyExternalLinkAttr,
     sanitizeTagName,
+    sanitizeDisqusName,
     makePageIdentifier,
     getStringField,
     prependBaseUrl
@@ -53,3 +54,6 @@ prependBaseUrl base = return . fmap (withUrls prependBaseUrl')
         prependBaseUrl' u
             | not (isExternal u) && isAbsolute u = base <> u
             | otherwise = u
+
+sanitizeDisqusName :: String -> String
+sanitizeDisqusName = map (\x -> if x == '.' then '-' else x)
