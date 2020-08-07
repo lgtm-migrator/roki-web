@@ -7,7 +7,7 @@ import Hakyll
 import Config (contentsRoot, siteName)
 import Config.RegexUtils (intercalateDir)
 import Config.Contributions
-import Contexts (siteCtx)
+import Contexts (siteCtx, blogTitleCtx)
 import Utils (absolutizeUrls, modifyExternalLinkAttr)
 import qualified Vendor.FontAwesome as FA
 import Rules.Blog (BlogConfig (..))
@@ -15,7 +15,7 @@ import Rules.Blog (BlogConfig (..))
 mkBlogCtx :: String -> BlogConfig m -> Compiler (Context String)
 mkBlogCtx key obs = do
     posts <- fmap (take 4) . recentFirst =<< loadAllSnapshots (blogEntryPattern obs) (blogContentSnapshot obs)
-    return $ listField key (siteCtx <> defaultContext) (return posts) 
+    return $ listField key (siteCtx <> blogTitleCtx (blogName obs) <> defaultContext) (return posts) 
         <> defaultContext 
         <> siteCtx
 

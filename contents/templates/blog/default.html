@@ -87,6 +87,27 @@
                 
             <div id="roki-log-navbar" class="navbar-menu">
                 <div class="navbar-end">
+                    <a class="navbar-item modal-target" data-target="modal-about">
+                        <i class="fas fa-question fa-fw mr-2"></i>
+                        About
+                    </a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+                            <i class="fas fa-rss mr-2"></i>
+                            RSS
+                        </a>
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item" href="/$blog-title$/feed/$blog-title$.xml">
+                                <i class="fas fa-rss fa-fw mr-2"></i>
+                                Feed
+                            </a>
+                            <a class="navbar-item" 
+                                href="https://feedly.com/i/subscription/feed/https://$site-title$/$blog-title$/feed/$blog-title$.xml">
+                                <i class="fas fa-rss-square fa-fw mr-2"></i>
+                                Feedly
+                            </a>
+                        </div>
+                    </div>
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">
                             <i class="fas fa-info mr-2"></i>
@@ -96,10 +117,6 @@
                             <a class="navbar-item" href="/">
                                 <i class="fas fa-home fa-fw mr-2"></i>
                                 $site-title$
-                            </a>
-                            <a class="navbar-item modal-target" data-target="modal-about">
-                                <i class="fas fa-question fa-fw mr-2"></i>
-                                About
                             </a>
                             <hr class="navbar-divider">
                             <a class="navbar-item" href="$tech-blog-issue-req$">

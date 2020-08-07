@@ -86,7 +86,7 @@ listPageRules title faIcons tags bc pgs = paginateRules pgs $ \pn pat -> do
     route idRoute
     compile $ do
         posts <- recentFirst =<< loadAllSnapshots pat (blogContentSnapshot bc)
-        let blogCtx = listField "posts" postCtx' (return posts)
+        let blogCtx = listField "posts" (postCtx' <> blogTitleCtx (blogName bc)) (return posts)
                 <> paginateContext pgs pn
                 <> maybe missingField (constField "title") title
                 <> listCtx
@@ -181,7 +181,7 @@ blogRules bc faIcons = do
                 makeItem "" >>= loadAndApplyTemplate footerPath ctx
 
     -- Atom Feed
-    create [fromFilePath ("feed" </> blogName bc <> ".xml")] $ do
+    create [fromFilePath (blogName bc </> "feed" </> blogName bc <> ".xml")] $ do
         route idRoute
         compile $
             loadAllSnapshots (blogEntryPattern bc) "feed-content"
