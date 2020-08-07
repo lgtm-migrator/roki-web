@@ -5,8 +5,9 @@ module Contexts.Core (
     listCtx
 ) where
 
-import Config (timeZoneJST, defaultTimeLocale')
-import qualified Config.TechBlog as TB
+import Config (timeZoneJST, defaultTimeLocale', siteName)
+import qualified Config.Blog.TechBlog as TB
+import qualified Config.Blog.AnotherBlog as BA
 import Contexts.Field (localDateField, tagsField', descriptionField, imageField)
 import Hakyll
 
@@ -21,7 +22,7 @@ techBlogCtx = constField "tech-blog-title" TB.blogName
     <> constField "tech-blog-issue-req" "https://github.com/falgon/roki-web/issues/new/choose"
 
 privBlogCtx :: Context String
-privBlogCtx = constField "priv-blog-title" "roki.dump"
+privBlogCtx = constField "diary-title" BA.blogName
 
 blogCtx :: Context String
 blogCtx = techBlogCtx <> privBlogCtx
@@ -45,7 +46,7 @@ authorCtx = constField "author-name" "Roki"
 
 siteCtx :: Context String
 siteCtx = constField "lang" "ja"
-    <> constField "site-title" "roki.dev"
+    <> constField "site-title" siteName
     <> constField "site-description" "This is a Roki's website."
     <> constField "copyright" "copyright &copy; 2016~ Roki All Rights Reserved."
     <> blogCtx

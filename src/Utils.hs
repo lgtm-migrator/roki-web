@@ -3,13 +3,14 @@ module Utils (
     modifyExternalLinkAttr,
     sanitizeTagName,
     makePageIdentifier,
-    getStringField
+    getStringField,
+    prependBaseUrl
 ) where
 
 import Control.Monad (liftM2)
 import Data.Char (toLower, isAlphaNum)
 import Hakyll 
-import System.FilePath ((</>), takeDirectory, takeFileName, normalise, isRelative)
+import System.FilePath ((</>), takeDirectory, takeFileName, normalise, isRelative, isAbsolute)
 import qualified Text.HTML.TagSoup as TS
 
 absolutizeUrls :: Item String -> Compiler (Item String)
@@ -45,3 +46,10 @@ getStringField key cs = do
     return $ case s of
         StringField x -> Just x
         _ -> Nothing
+
+prependBaseUrl :: String -> Item String -> Compiler (Item String)
+prependBaseUrl base = return . fmap (withUrls prependBaseUrl')
+    where
+        prependBaseUrl' u
+            | not (isExternal u) && isAbsolute u = base <> u
+            | otherwise = u

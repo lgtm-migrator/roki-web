@@ -1,38 +1,39 @@
 module Rules.IndexPage (rules) where
 
+import Control.Monad (forM)
+import System.FilePath ((</>))
 import Hakyll
 
-import Config (contentsRoot)
+import Config (contentsRoot, siteName)
 import Config.RegexUtils (intercalateDir)
 import Config.Contributions
-import qualified Config.TechBlog as TechBlog
-import Contexts (postCtx, siteCtx)
+import Contexts (siteCtx)
 import Utils (absolutizeUrls, modifyExternalLinkAttr)
 import qualified Vendor.FontAwesome as FA
+import Rules.Blog (BlogConfig (..))
 
-type EntryPattern = Pattern
+mkBlogCtx :: String -> BlogConfig m -> Compiler (Context String)
+mkBlogCtx key obs = do
+    posts <- fmap (take 4) . recentFirst =<< loadAllSnapshots (blogEntryPattern obs) (blogContentSnapshot obs)
+    return $ listField key (siteCtx <> defaultContext) (return posts) 
+        <> defaultContext 
+        <> siteCtx
 
-data OneBlogSetting = OneBlogSetting {
-    bEntryPatten :: EntryPattern
-  , bSnapShot :: Snapshot
-  , bTags :: Tags
-  , bKeyName :: String
-  }
-
-mkBlogCtx :: OneBlogSetting -> Compiler (Context String)
-mkBlogCtx obs = do
-    posts <- fmap (take 4) . recentFirst =<< loadAllSnapshots (bEntryPatten obs) (bSnapShot obs)
-    return (listField (bKeyName obs) (postCtx $ bTags obs) (return posts) <> defaultContext <> siteCtx)
-
-rules :: FA.FontAwesomeIcons -> Tags -> Rules ()
-rules faIcons tags = do
+rules :: [BlogConfig m] -> FA.FontAwesomeIcons -> Rules ()
+rules bcs faIcons = do
     projs <- preprocess renderProjectsList
     conts <- preprocess renderContributionsTable
-    
+
     match indexPath $ do
-        route $ gsubRoute "contents/pages/" (const "")
+        route $ gsubRoute (contentsRoot </> "pages/") (const "")
         compile $ do
-            aBlogCtx <- moreCtx projs conts <$> mkBlogCtx rokiLogSetting
+            blogs <- mconcat <$> forM bcs (\bc -> mkBlogCtx (blogName bc <> "-" <> "posts") bc)
+            
+            let aBlogCtx = constField "title" siteName
+                    <> constField "projs" projs
+                    <> constField "contable" conts
+                    <> blogs
+            
             getResourceBody
                 >>= absolutizeUrls
                 >>= applyAsTemplate aBlogCtx
@@ -40,14 +41,5 @@ rules faIcons tags = do
                 >>= modifyExternalLinkAttr
                 >>= FA.render faIcons
     where
-        moreCtx p c = mappend (constField "title" "roki.dev")
-            . mappend (constField "projs" p)
-            . mappend (constField "contable" c)
         indexPath = fromGlob $ intercalateDir [contentsRoot, "pages", "index.html"]
         rootTemplate = fromFilePath $ intercalateDir [contentsRoot, "templates", "site", "default.html"]
-        rokiLogSetting = 
-            OneBlogSetting 
-                TechBlog.entryPattern
-                TechBlog.contentSnapshot
-                tags
-                "posts"

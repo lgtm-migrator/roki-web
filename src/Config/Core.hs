@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Config.Core (
+    siteName,
     contentsRoot,
     hakyllConfig,
     readerOptions,
@@ -24,6 +25,9 @@ import Text.Pandoc.Options (
   , enableExtension
   , disableExtension)
 import qualified Text.HTML.TagSoup as T
+
+siteName :: String
+siteName = "roki.dev"
 
 contentsRoot :: FilePath
 contentsRoot = "contents"

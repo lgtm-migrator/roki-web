@@ -17,18 +17,8 @@
         <meta property="twitter:site" content="@$author-twitter$" />
         <meta property="twitter:creator" content="$author-twitter$" />
         <meta property="og:type" content="website" />
-        $if(sub-ctx)$
-            $if(sub-title)$
-            <title>$title$ - $sub-ctx$/$sub-title$</title>
-            <meta property="og:title" content="$title$ - $sub-title$" />
-            $else$
-            <title>$title$ - $sub-ctx$</title>
-            <meta property="og:title" content="$title$" />
-            $endif$
-        $else$
         <title>$title$</title>
         <meta property="og:title" content="$title$" />
-        $endif$
         <meta property="og:site_name" content="$site-title$" />
         <link rel="shortcut icon" href="/images/avator/favicon.ico" />
         <link rel="stylesheet" href="/vendor/bulma/bulma.min.css" />
