@@ -30,6 +30,7 @@ techBlogConf = B.BlogConfig {
   , B.blogMonthlyArchivesBuilder = TB.buildMonthlyArchives
   , B.blogYearlyPagePath = TB.yearlyPagePath
   , B.blogMonthlyPagePath = TB.monthlyPagePath
+  , B.blogGoogleCx = "002573853708615501531:c0ipiy0rxaw"
   }
 
 diaryConf :: B.BlogConfig Rules
@@ -45,6 +46,7 @@ diaryConf = B.BlogConfig {
   , B.blogMonthlyArchivesBuilder = AB.buildMonthlyArchives
   , B.blogYearlyPagePath = AB.yearlyPagePath
   , B.blogMonthlyPagePath = AB.monthlyPagePath
+  , B.blogGoogleCx = "002573853708615501531:rzk_3jogdf4"
   }
 
 main :: IO ()
