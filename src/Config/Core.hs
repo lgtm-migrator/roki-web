@@ -5,6 +5,7 @@ module Config.Core (
     hakyllConfig,
     readerOptions,
     writerOptions,
+    writerPreviewOptions,
     tagSoupOption,
     timeZoneJST,
     defaultTimeLocale'
@@ -18,7 +19,7 @@ import Data.Time.LocalTime (TimeZone (..))
 import Hakyll
 import System.FilePath (takeFileName)
 import Text.Pandoc.Options (
-    HTMLMathMethod ( KaTeX )
+    HTMLMathMethod ( KaTeX, MathJax )
   , ReaderOptions (..)
   , WriterOptions (..)
   , Extension (..)
@@ -50,6 +51,11 @@ writerOptions :: WriterOptions
 writerOptions = defaultHakyllWriterOptions {
     writerHTMLMathMethod = KaTeX ""
   }
+    
+writerPreviewOptions :: WriterOptions
+writerPreviewOptions = defaultHakyllWriterOptions { 
+    writerHTMLMathMethod = MathJax ""
+ }
 
 readerOptions :: ReaderOptions
 readerOptions = defaultHakyllReaderOptions {
@@ -75,5 +81,4 @@ timeZoneJST = TimeZone (9 * 60) False "JST"
 defaultTimeLocale' :: TimeLocale
 defaultTimeLocale' = defaultTimeLocale {
     knownTimeZones = knownTimeZones defaultTimeLocale <> [timeZoneJST]
-    }
-
+  }

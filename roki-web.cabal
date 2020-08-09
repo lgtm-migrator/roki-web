@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1ceb633312225fce559150befee5206fe2bc9f02471adb61368f20a6f5a38c9f
+-- hash: f5235c2c5cecb9c3cb134af8a9893dbb076ff7e10c71aff15b6811c28a6359e7
 
 name:           roki-web
 version:        0.1.0.0
@@ -23,9 +23,8 @@ source-repository head
   type: git
   location: https://github.com/roki/roki-web
 
-executable site
-  main-is: Site.hs
-  other-modules:
+library
+  exposed-modules:
       Archives
       Config
       Config.Blog.AnotherBlog
@@ -41,6 +40,7 @@ executable site
       Media.JS
       Media.SVG
       Rules.Blog
+      Rules.Blog.BlogConfig
       Rules.Blog.Core
       Rules.Blog.Search
       Rules.IndexPage
@@ -53,10 +53,10 @@ executable site
       Vendor.FontAwesome.Compiler
       Vendor.FontAwesome.Core
       Vendor.KaTeX
+  other-modules:
       Paths_roki_web
   hs-source-dirs:
       src
-  ghc-options: -threaded -Wall
   build-depends:
       aeson
     , base
@@ -67,13 +67,48 @@ executable site
     , dhall
     , extra
     , filepath
+    , gitrev
     , hakyll
     , hakyll-sass
     , hjsmin
     , lucid
     , mtl
+    , optparse-applicative
     , pandoc
     , process
+    , tagsoup
+    , text
+    , time
+    , unordered-containers
+  default-language: Haskell2010
+
+executable site
+  main-is: site/Main.hs
+  other-modules:
+      Paths_roki_web
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -Wall -O2
+  build-depends:
+      aeson
+    , base
+    , basic-prelude
+    , binary
+    , bytestring
+    , containers
+    , dhall
+    , extra
+    , filepath
+    , gitrev
+    , hakyll
+    , hakyll-sass
+    , hjsmin
+    , lucid
+    , mtl
+    , optparse-applicative
+    , pandoc
+    , process
+    , roki-web
     , tagsoup
     , text
     , time

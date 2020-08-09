@@ -1,15 +1,21 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Contexts.Core (
     blogTitleCtx,
     siteCtx,
     postCtx,
-    listCtx
+    listCtx,
+    katexJsCtx
 ) where
+
+import qualified Data.Text.Lazy as TL
+import Lucid.Base (renderText)
+import Lucid.Html5
+import Hakyll
 
 import Config (timeZoneJST, defaultTimeLocale', siteName)
 import qualified Config.Blog.TechBlog as TB
 import qualified Config.Blog.AnotherBlog as BA
 import Contexts.Field (localDateField, tagsField', descriptionField, imageField)
-import Hakyll
 
 dateCtx :: Context String
 dateCtx = localDateField defaultTimeLocale' timeZoneJST "date" "%Y/%m/%d %R"
@@ -52,18 +58,24 @@ siteCtx = constField "lang" "ja"
     <> blogCtx
     <> authorCtx
 
-postCtx :: Tags -> Context String
-postCtx tags = dateCtx
+postCtx :: Bool -> Tags -> Context String
+postCtx isPreview tags = dateCtx
     <> tagsField' "tags" tags
     <> descriptionField "description" 150
     <> imageField "image"
     <> siteCtx
     <> defaultContext
+    <> if isPreview then katexJsCtx else mempty
 
-listCtx :: Context String
-listCtx = siteCtx
+listCtx :: Bool -> Context String
+listCtx isPreview = siteCtx
     <> bodyField "body"
     <> metadataField
     <> urlField "url"
     <> pathField "path"
+    <> if isPreview then katexJsCtx else mempty
 
+katexJsCtx :: Context String
+katexJsCtx = constField "katex-script" $ TL.unpack $ renderText $ do
+    script_ [defer_ "", type_ "text/javascript", src_ "/vendor/katex/katex.min.js"] TL.empty
+    script_ [defer_ "", type_ "text/javascript", src_ "/vendor/katex/auto-render.min.js"] TL.empty

@@ -31,9 +31,20 @@ dependencies:
     - hjsmin
     - extra
     - dhall
+    - optparse-applicative
+    - gitrev
+
+library:
+    source-dirs:
+        - src
 
 executables:
     site:
-        source-dirs: src
-        main:        Site.hs
-        ghc-options: -threaded -Wall
+        source-dirs: app
+        main:        site/Main.hs
+        ghc-options: 
+        - -threaded 
+        - -Wall
+        - -O2
+        dependencies:
+        - roki-web

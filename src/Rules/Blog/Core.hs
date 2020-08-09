@@ -16,28 +16,21 @@ import System.FilePath ((</>))
 
 import Archives
 import Config
-import Contexts (postCtx, siteCtx, listCtx, blogTitleCtx)
+import Contexts (postCtx, siteCtx, listCtx, blogTitleCtx, katexJsCtx)
 import Contexts.Field (tagCloudField', yearMonthArchiveField)
 import Config.RegexUtils (intercalateDir)
+import Rules.Blog.BlogConfig
 import Rules.Blog.Search
-import Utils (absolutizeUrls, makePageIdentifier, modifyExternalLinkAttr, prependBaseUrl, sanitizeDisqusName)
+import Utils (
+    absolutizeUrls
+  , makePageIdentifier
+  , modifyExternalLinkAttr
+  , prependBaseUrl
+  , sanitizeDisqusName)
 import qualified Vendor.FontAwesome as FA
 import qualified Vendor.KaTeX as KaTeX
 
-data BlogConfig m = BlogConfig {
-    blogName :: String
-  , blogTagBuilder :: m Tags
-  , blogTagPagesPath :: FilePath -> FilePath
-  , blogEntryPattern :: Pattern
-  , blogEntryFilesPattern :: Pattern
-  , blogAtomConfig :: FeedConfiguration
-  , blogContentSnapshot :: String
-  , blogYearlyArchivesBuilder :: m YearlyArchives
-  , blogMonthlyArchivesBuilder :: m MonthlyArchives
-  , blogYearlyPagePath :: FilePath -> FilePath
-  , blogMonthlyPagePath :: (FilePath, FilePath) -> FilePath
-  , blogGoogleCx :: String
-  }
+import Text.Pandoc.Options (WriterOptions (..),  HTMLMathMethod (..))
 
 appendFooter :: (Binary a, Typeable a, Semigroup a) 
     => BlogConfig m
@@ -79,25 +72,26 @@ eachPostsSeries postIDs rules =
                 >>= maybe (fail "no 'date' field") (return . map (\x -> if x == '-' then '/' else x))
 
 
-listPageRules :: Maybe String
+listPageRules :: Bool
+    -> Maybe String
     -> FA.FontAwesomeIcons
     -> Tags
     -> BlogConfig m
     -> Paginate
     -> Rules ()
-listPageRules title faIcons tags bc pgs = paginateRules pgs $ \pn pat -> do
+listPageRules isPreview title faIcons tags bc pgs = paginateRules pgs $ \pn pat -> do
     route idRoute
     compile $ do
         posts <- recentFirst =<< loadAllSnapshots pat (blogContentSnapshot bc)
         let blogCtx = listField "posts" postCtx' (return posts)
                 <> paginateContext pgs pn
                 <> maybe missingField (constField "title") title
-                <> listCtx
+                <> listCtx isPreview
                 <> tagCloudField' "tag-cloud" tags
                 <> blogTitleCtx (blogName bc)
                 <> constField "google-cx" (blogGoogleCx bc)
             postCtx' = teaserField "teaser" (blogContentSnapshot bc)
-                <> postCtx tags
+                <> postCtx isPreview tags
                 <> blogTitleCtx (blogName bc)
 
         makeItem ""
@@ -107,22 +101,24 @@ listPageRules title faIcons tags bc pgs = paginateRules pgs $ \pn pat -> do
             >>= modifyExternalLinkAttr
             >>= FA.render faIcons
 
-blogRules :: BlogConfig Rules -> FA.FontAwesomeIcons -> Rules ()
-blogRules bc faIcons = do
+blogRules :: Bool -> BlogConfig Rules -> FA.FontAwesomeIcons -> Rules ()
+blogRules isPreview bc faIcons = do
     tags <- blogTagBuilder bc 
-    let postCtx' = postCtx tags 
+    let postCtx' = postCtx isPreview tags 
             <> tagCloudField' "tag-cloud" tags
             <> blogTitleCtx (blogName bc)
             <> constField "google-cx" (blogGoogleCx bc)
+            <> if isPreview then katexJsCtx else mempty
     
     -- each posts
+            -- writerOptions
     postIDs <- sortChronological =<< getMatches (blogEntryPattern bc)
     eachPostsSeries postIDs $ \s -> do
         route $ gsubRoute "contents/" (const "") `composeRoutes` setExtension "html"
-        compile $ pandocCompilerWith readerOptions writerOptions
+        compile $ pandocCompilerWith readerOptions (blogWriterOptions bc) 
             >>= absolutizeUrls
             >>= saveSnapshot "feed-content"
-            >>= KaTeX.render
+            >>= (if isPreview then return else KaTeX.render)
             >>= saveSnapshot (blogContentSnapshot bc)
             >>= loadAndApplyTemplate "contents/templates/blog/post.html" 
                 (s <> postCtx' <> constField "disqus" (sanitizeDisqusName (blogName bc)))
@@ -141,7 +137,7 @@ blogRules bc faIcons = do
             makeId = makePageIdentifier $ blogTagPagesPath bc tag
             title = "Tagged posts: " <> tag
         in buildPaginateWith grouper pat makeId 
-            >>= listPageRules (Just title) faIcons tags bc
+            >>= listPageRules isPreview (Just title) faIcons tags bc
 
     -- yearly paginate
     yearlyArchives <- blogYearlyArchivesBuilder bc
@@ -150,7 +146,7 @@ blogRules bc faIcons = do
             makeId = makePageIdentifier $ blogYearlyPagePath bc year
             title = "Yearly posts: " <> year
         in buildPaginateWith grouper pat makeId 
-            >>= listPageRules (Just title) faIcons tags bc 
+            >>= listPageRules isPreview (Just title) faIcons tags bc 
 
     -- monthly paginate
     monthlyArchives <- blogMonthlyArchivesBuilder bc
@@ -159,17 +155,17 @@ blogRules bc faIcons = do
             makeId = makePageIdentifier $ blogMonthlyPagePath bc key
             title = "Monthly posts: " <> year </> month
         in buildPaginateWith grouper pat makeId
-            >>= listPageRules (Just title) faIcons tags bc 
+            >>= listPageRules isPreview (Just title) faIcons tags bc 
 
     -- all tags
     let allTagsPagePath = blogName bc </> "tags" </> "index.html"
-    listPageRules (Just "tags") faIcons tags bc =<<
+    listPageRules isPreview (Just "tags") faIcons tags bc =<<
         let grouper = fmap (paginateEvery 5) . sortRecentFirst
             makeId = makePageIdentifier allTagsPagePath
         in buildPaginateWith grouper (blogEntryPattern bc) makeId
 
     -- the index page of tech blog 
-    listPageRules Nothing faIcons tags bc =<<
+    listPageRules isPreview Nothing faIcons tags bc =<<
         let grouper = fmap (paginateEvery 5) . sortRecentFirst
             makeId = makePageIdentifier (blogName bc </> "index.html")
         in buildPaginateWith grouper (blogEntryPattern bc) makeId
@@ -181,7 +177,7 @@ blogRules bc faIcons = do
             compile $ do
                 recent <- fmap (take 5) . recentFirst =<< 
                     loadAllSnapshots (blogEntryPattern bc) (blogContentSnapshot bc)
-                let ctx = listField "recent-posts" (postCtx tags) (return recent)
+                let ctx = listField "recent-posts" (postCtx isPreview tags) (return recent)
                         <> tagCloudField' "tag-cloud" tags
                         <> yearMonthArchiveField "archives" yearlyArchives monthlyArchives year
                         <> siteCtx

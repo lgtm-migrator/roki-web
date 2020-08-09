@@ -10,7 +10,7 @@ import Config.Contributions
 import Contexts (siteCtx, blogTitleCtx)
 import Utils (absolutizeUrls, modifyExternalLinkAttr)
 import qualified Vendor.FontAwesome as FA
-import Rules.Blog (BlogConfig (..))
+import Rules.Blog.BlogConfig
 
 mkBlogCtx :: String -> BlogConfig m -> Compiler (Context String)
 mkBlogCtx key obs = do
