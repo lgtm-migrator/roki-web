@@ -114,12 +114,12 @@ DeclareMathOperator{\lcm}{lcm}
   <div class="panel-body" style="overflow:scroll">
   扱う文字を全て整数とし, \\(\lambda(n)\\) は
   \begin{array}{lcl}
-  \lambda(1)&:=&1\\\
-  \lambda(2)&:=&1\\\
-  \lambda(4)&:=&4\\\
-  \lambda(2^k)&:=&\phi(2^k)\ (0\leq k\leq 2)\\\
-  \lambda(2^k)&:=&2^{k-2}=\dfrac{\phi(2^k)}{2}\ (e\geq 3)\\\
-  \lambda(p^h)&:=&\phi(p^h)=(p-1)\cdot p^{h-1}\ (p\ is\ an\ odd\ prime, h\geq 1)\\\
+  \lambda(1)&:=&1\\
+  \lambda(2)&:=&1\\
+  \lambda(4)&:=&4\\
+  \lambda(2^k)&:=&\phi(2^k)\ (0\leq k\leq 2)\\
+  \lambda(2^k)&:=&2^{k-2}=\dfrac{\phi(2^k)}{2}\ (e\geq 3)\\
+  \lambda(p^h)&:=&\phi(p^h)=(p-1)\cdot p^{h-1}\ (p\ is\ an\ odd\ prime, h\geq 1)\\
   \lambda(2^kp_1^{h_1}p_2^{h_2}p_3^{h_3}\cdots p_t^{h_t})&:=&\lcm(\lambda(2^k),\lambda(p_1^{h_1}),\lambda(p_2^{h_2}),\lambda(p_3^{h_3}),\cdots,\lambda(p_t^{h_t}))\ (p_n\ is\ an\ odd\ prime, k\geq 0, h_n\geq 1)
   \end{array}
   と定義する.

@@ -126,9 +126,9 @@ tags: math, Python
 これが, \\(u,v\\) 座標系における微小面積である. 
 この四角形のそれぞれの頂点は, 直交座標の言葉で(\\(\phi, \psi\\) 関数を使って),
 \begin{array}{l}
-O(\phi(u,v),\psi(u,v)) \\\
-A(\phi(u+\Delta u, v), \psi(u+\Delta u,v)) \\\
-B(\phi(u,v+\Delta v), \psi(u,v+\Delta v)) \\\
+O(\phi(u,v),\psi(u,v)) \\
+A(\phi(u+\Delta u, v), \psi(u+\Delta u,v)) \\
+B(\phi(u,v+\Delta v), \psi(u,v+\Delta v)) \\
 C(\phi(u+\Delta u,v+\Delta v), \psi(u+\Delta,v+\Delta v))
 \end{array}
 などと書き表わせる(頂点それぞれに, 適当に記号を割り振った. また, わかり易さのために頂点 \\(C\\) を書いたが, 今回これは使わない).
@@ -137,45 +137,45 @@ C(\phi(u+\Delta u,v+\Delta v), \psi(u+\Delta,v+\Delta v))
 従って, その平行四辺形の面積 \\(S\\) を求めるために, $(\overrightarrow{OA}, \overrightarrow{OB})$ の行列式を求めることとする[^5].
 まず, $\overrightarrow{OA}$ について考える. これは単に, \\(A\\) の座標から \\(O\\) の座標を引けば良いが, これは[偏微分](#PartialDerivative)そのもので, 線形近似により,
 
-\begin{eqnarray}
-\phi(u+\Delta u, v)-\phi(u,v)&\approx&\dfrac{\partial \phi}{\partial u}\Delta u \\\
+\begin{aligned}
+\phi(u+\Delta u, v)-\phi(u,v)&\approx&\dfrac{\partial \phi}{\partial u}\Delta u \\
 \psi(u+\Delta u, v)-\psi(u,v)&\approx&\dfrac{\partial \psi}{\partial u}\Delta u
-\end{eqnarray}
+\end{aligned}
 
 と書ける. 従って, $\overrightarrow{OB}$ についても同様に,
 
-\begin{eqnarray}
-\overrightarrow{OA}&\approx&(\dfrac{\partial \phi}{\partial u}\Delta u,\dfrac{\partial \psi}{\partial u}\Delta u) \\\
+\begin{aligned}
+\overrightarrow{OA}&\approx&(\dfrac{\partial \phi}{\partial u}\Delta u,\dfrac{\partial \psi}{\partial u}\Delta u) \\
 \overrightarrow{OB}&\approx&(\dfrac{\partial \phi}{\partial v}\Delta v,\dfrac{\partial \psi}{\partial v}\Delta v)
-\end{eqnarray}
+\end{aligned}
 
 と書ける. あとは, これらから成る行列の行列式の絶対値を求めれば良いから,
 
-\begin{eqnarray}
+\begin{aligned}
 S&\approx&\left|{\rm det}(
 \begin{array}{cc}
-\dfrac{\partial \phi}{\partial u}\Delta u&\dfrac{\partial \phi}{\partial v}\Delta v \\\
+\dfrac{\partial \phi}{\partial u}\Delta u&\dfrac{\partial \phi}{\partial v}\Delta v \\
 \dfrac{\partial \psi}{\partial u}\Delta u&\dfrac{\partial \psi}{\partial v}\Delta v
 \end{array}
-)\right| \\\
+)\right| \\
 &\approx&\left|{\rm det}(
 \begin{array}{cc}
-\dfrac{\partial \phi}{\partial u}&\dfrac{\partial \phi}{\partial v} \\\
+\dfrac{\partial \phi}{\partial u}&\dfrac{\partial \phi}{\partial v} \\
 \dfrac{\partial \psi}{\partial u}&\dfrac{\partial \psi}{\partial v}
 \end{array}
 )\right|\Delta u\Delta v
-\end{eqnarray}
+\end{aligned}
 
 \\(\Delta u, \Delta v\\) の無限小の極限をとり, 微小増分の式に書き換えれば,
 
-\begin{eqnarray}
+\begin{aligned}
 &\approx&\left|{\rm det}(
 \begin{array}{cc}
-\dfrac{\partial \phi}{\partial u}&\dfrac{\partial \phi}{\partial v} \\\
+\dfrac{\partial \phi}{\partial u}&\dfrac{\partial \phi}{\partial v} \\
 \dfrac{\partial \psi}{\partial u}&\dfrac{\partial \psi}{\partial v}
 \end{array}
 )\right|dudv\tag{1}
-\end{eqnarray}
+\end{aligned}
 
 \\(\\) の行列式の絶対値がヤコビアンである.
 いま求めた式 \\(\\) は, 後に述べている全微分といわれる操作に相当している.
@@ -197,10 +197,10 @@ S&\approx&\left|{\rm det}(
 </div>
 
 である. 要するに, \\(f\\) が 2 変数関数であれば, 
-\begin{eqnarray}
-\frac{\partial f(x, y)}{\partial x} &:=& \lim_{\Delta \to 0} \frac{f(x + \Delta, y) - f(x, y)}{\Delta}\\\
+\begin{aligned}
+\frac{\partial f(x, y)}{\partial x} &:=& \lim_{\Delta \to 0} \frac{f(x + \Delta, y) - f(x, y)}{\Delta}\\
 \frac{\partial f(x, y)}{\partial y} &:=& \lim_{\Delta \to 0} \frac{f(x, y + \Delta) - f(x, y)}{\Delta}
-\end{eqnarray}
+\end{aligned}
 
 である. これを踏まえて, 2 変数関数における全微分を導出することを考える.
 簡単に言ってしまえば, 
@@ -210,36 +210,36 @@ S&\approx&\left|{\rm det}(
 まず変数 \\(x, y\\) が各々で微小量 \\(\Delta x,\Delta y\\) だけ変化するとき, 
 その全体の変化量 \\(\Delta f\\) を次のように表せる.
 
-\begin{eqnarray}
-\Delta f&=&f(x+\Delta x, y+\Delta y)-f(x,y) \\\
+\begin{aligned}
+\Delta f&=&f(x+\Delta x, y+\Delta y)-f(x,y) \\
 &=&f(x+\Delta x, y+\Delta y)-f(x,y+\Delta y)+f(x,y+\Delta y)-f(x,y) \tag{2}
-\end{eqnarray}
+\end{aligned}
 
 式 \\(\\) の改行位置を変えるとわかりやすいが,
 
-\begin{eqnarray}
-\Delta f&=&f(x+\Delta x, y+\Delta y)-f(x,y+\Delta y) \tag{3}\\\
+\begin{aligned}
+\Delta f&=&f(x+\Delta x, y+\Delta y)-f(x,y+\Delta y) \tag{3}\\
 &+&f(x,y+\Delta y)-f(x,y) \tag{4}
-\end{eqnarray}
+\end{aligned}
 
 いま, それぞれの部分に着目すると, \\(\\) 部分は \\(x\\) のみを変化させたときの \\(f\\) の変化量で,
 \\(\\) 部分は \\(y\\) のみを変化させたときの \\(f\\) の変化量となっていることがわかる.
 この式 \\(\\) をさらに変形させると,
 
-\begin{eqnarray}
+\begin{aligned}
 \displaystyle
-\Delta f&=&\dfrac{f(x+\Delta x, y+\Delta y)-f(x,y+\Delta y)}{\Delta x}\Delta x \\\
+\Delta f&=&\dfrac{f(x+\Delta x, y+\Delta y)-f(x,y+\Delta y)}{\Delta x}\Delta x \\
 &+&\dfrac{f(x,y+\Delta y)-f(x,y)}{\Delta y}\Delta y
-\end{eqnarray}
+\end{aligned}
 
 この式が微分の定義式と酷似していることに気づけば, 
 \\(\Delta x,\Delta y\\) の無限小の極限をとり, 微小増分の式に書き換えて,
 
-\begin{eqnarray}
+\begin{aligned}
 \displaystyle
-df&=&\lim_{dx,dy\to 0}\dfrac{f(x+dx, y+dy)-f(x,y+dy)}{dx}dx \tag{5} \\\
+df&=&\lim_{dx,dy\to 0}\dfrac{f(x+dx, y+dy)-f(x,y+dy)}{dx}dx \tag{5} \\
 &+&\lim_{dx,dy\to 0}\dfrac{f(x,y+dy)-f(x,y)}{dy}dy \tag{6}
-\end{eqnarray}
+\end{aligned}
 
 \\(\displaystyle\lim_{dx,dy\to 0}\\) を考えると,
 \\(\\) 部分はもはや \\(\displaystyle\lim_{dx,dy\to 0}\dfrac{f(x+dx, y)-f(x,y)}{dx}\\) と同然であるので,
@@ -251,39 +251,39 @@ df&=&\lim_{dx,dy\to 0}\dfrac{f(x+dx, y+dy)-f(x,y+dy)}{dx}dx \tag{5} \\\
 #### 全積分とヤコビアン
 
 先に \\(x=\phi(u,v), y=\psi(u,v)\\) としていたので, \\(x,y\\) の全微分は
-\begin{eqnarray}
-dx&=&\dfrac{\partial\phi}{\partial u}du+\dfrac{\partial\phi}{\partial v}dv \\\
+\begin{aligned}
+dx&=&\dfrac{\partial\phi}{\partial u}du+\dfrac{\partial\phi}{\partial v}dv \\
 dy&=&\dfrac{\partial\psi}{\partial u}du+\dfrac{\partial\psi}{\partial v}dv
-\end{eqnarray}
+\end{aligned}
 
 となる. いまこれを行列で表すと,
 
-\begin{eqnarray}
+\begin{aligned}
 \begin{pmatrix}
-dx \\\
+dx \\
 dy
 \end{pmatrix}=
 \begin{pmatrix}
-\dfrac{\partial\phi}{\partial u}&\dfrac{\partial\phi}{\partial u} \\\
+\dfrac{\partial\phi}{\partial u}&\dfrac{\partial\phi}{\partial u} \\
 \dfrac{\partial\psi}{\partial v}&\dfrac{\partial\psi}{\partial v}
 \end{pmatrix}
 \begin{pmatrix}
-du \\\
+du \\
 dv
 \end{pmatrix}
-\end{eqnarray}
+\end{aligned}
 
 となる. この行列の行列式 
 
-\begin{eqnarray}
+\begin{aligned}
 {\rm det}
 (
 \begin{array}{cc}
-\dfrac{\partial\phi}{\partial u}&\dfrac{\partial\phi}{\partial v} \\\
+\dfrac{\partial\phi}{\partial u}&\dfrac{\partial\phi}{\partial v} \\
 \dfrac{\partial\psi}{\partial u}&\dfrac{\partial\psi}{\partial v}
 \end{array}
 )
-\end{eqnarray}
+\end{aligned}
 
 はヤコビアンといわれ(\\(\\) と同じ), \\(\dfrac{\partial(\phi,\psi)}{\partial{u,v}}\\), また \\({\rm J}(u, v)\\) と表される. 一般に,
 
@@ -291,32 +291,32 @@ dv
   <div class="panel-heading def"><a name="Jacobian" class="disabled">ヤコビアン</a></div>
   <div class="panel-body" style="overflow:scroll">
   \\(n\\) 変数関数の全微分を行列で表した式
-\begin{eqnarray}
+\begin{aligned}
 \begin{pmatrix}
-f_1 \\\
-\vdots \\\
+f_1 \\
+\vdots \\
 f_n
 \end{pmatrix}=
 \begin{pmatrix}
-\dfrac{\partial f_1}{\partial x_1}&\cdots&\dfrac{\partial f_1}{\partial x_n} \\\
-\vdots&\ddots&\vdots \\\
+\dfrac{\partial f_1}{\partial x_1}&\cdots&\dfrac{\partial f_1}{\partial x_n} \\
+\vdots&\ddots&\vdots \\
 \dfrac{\partial f_n}{\partial x_1}&\cdots&\dfrac{\partial f_n}{\partial x_n}
 \end{pmatrix}
 \begin{pmatrix}
-dx_1 \\\
-\vdots \\\
+dx_1 \\
+\vdots \\
 dx_n
 \end{pmatrix}
-\end{eqnarray}
+\end{aligned}
 の行列の行列式
-\begin{eqnarray}
+\begin{aligned}
 {\rm det}(
 \begin{array}{ccc}
-\dfrac{\partial f_1}{\partial x_1}&\cdots&\dfrac{\partial f_1}{\partial x_n} \\\
-\vdots&\ddots&\vdots \\\
+\dfrac{\partial f_1}{\partial x_1}&\cdots&\dfrac{\partial f_1}{\partial x_n} \\
+\vdots&\ddots&\vdots \\
 \dfrac{\partial f_n}{\partial x_1}&\cdots&\dfrac{\partial f_n}{\partial x_n}
 \end{array})
-\end{eqnarray}
+\end{aligned}
 を \\(\dfrac{\partial(f_1,\cdots,f_n)}{\partial(x_1,\cdots,x_n)}\\) また \\({\rm J}(x_1,\cdots,x_n)\\) と書く.
   </div>
 </div>
@@ -324,23 +324,23 @@ dx_n
 冒頭で述べた直交座標から極座標への変換をこのヤコビアンを使って導くならば,
 まず二次元直交座標系から二次元極座標系への対応関係は, 
 
-\begin{eqnarray}
+\begin{aligned}
 \begin{pmatrix}
 x \\ y
 \end{pmatrix}= 
 \begin{pmatrix}
 r \cos\theta \\  r \sin\theta
 \end{pmatrix}
-\end{eqnarray}
+\end{aligned}
 
 で, 二次元極座標の変数は \\(r, \theta\\) なのでこれをヤコビアンに与えて,
 
-\begin{eqnarray}
+\begin{aligned}
 J(r,\theta)={\rm det}(\begin{array}{cc}
-\cos\theta & -r\sin\theta \\\
+\cos\theta & -r\sin\theta \\
 \sin\theta & r\cos\theta
 \end{array})=r
-\end{eqnarray}
+\end{aligned}
 
 一般の 2 重積分は
 
@@ -352,24 +352,24 @@ J(r,\theta)={\rm det}(\begin{array}{cc}
 
 も, \\(u=x+y, v=x-y\\) とおいてヤコビアンに与えれば,
 
-\begin{eqnarray}
-{\rm J}(u,v)&=&{\rm det}(\begin{array}{rr} \dfrac{1}{2}&\dfrac{1}{2} \\\
+\begin{aligned}
+{\rm J}(u,v)&=&{\rm det}(\begin{array}{rr} \dfrac{1}{2}&\dfrac{1}{2} \\
 \dfrac{1}{2}&-\dfrac{1}{2}\end{array})&=&-\dfrac{1}{2}
-\end{eqnarray}
+\end{aligned}
 
 絶対値を考えれば良いので,
 
-\begin{eqnarray}
-&=&\left|{\rm det}(\begin{array}{rr} \dfrac{1}{2}&\dfrac{1}{2} \\\ \dfrac{1}{2}&-\dfrac{1}{2}\end{array})\right|&=&\dfrac{1}{2}
-\end{eqnarray}
+\begin{aligned}
+&=&\left|{\rm det}(\begin{array}{rr} \dfrac{1}{2}&\dfrac{1}{2} \\ \dfrac{1}{2}&-\dfrac{1}{2}\end{array})\right|&=&\dfrac{1}{2}
+\end{aligned}
 
-\begin{eqnarray}
-\therefore\int\int_D(x-y)e^{x+y}dxdy&=&\int^2_0\int^2_0ve^u\dfrac{1}{2}dudv \\\
-&=&\dfrac{1}{2}\int^2_0\left[ve^u\right]^2_0dv \\\
-&=&\dfrac{1}{2}\int^2_0(ve^2-v)dv \\\
-&=&\dfrac{1}{2}\left[\dfrac{e^2}{2}v^2-\dfrac{1}{2}v^2\right]^2_0 \\\
+\begin{aligned}
+\therefore\int\int_D(x-y)e^{x+y}dxdy&=&\int^2_0\int^2_0ve^u\dfrac{1}{2}dudv \\
+&=&\dfrac{1}{2}\int^2_0\left[ve^u\right]^2_0dv \\
+&=&\dfrac{1}{2}\int^2_0(ve^2-v)dv \\
+&=&\dfrac{1}{2}\left[\dfrac{e^2}{2}v^2-\dfrac{1}{2}v^2\right]^2_0 \\
 &=&e^2-1
-\end{eqnarray}
+\end{aligned}
 
 ### 参考文献
 
@@ -383,6 +383,6 @@ J(r,\theta)={\rm det}(\begin{array}{cc}
 
 [^1]: 図は matplotlib 等で[生成](https://gist.github.com/falgon/e867c610ebdf957a827e2d26bd2ea451).
 [^2]: 図は [draw.io](https://www.draw.io/) で作成.
-[^3]: 完全に蛇足であるが, 連続性の定義は, 他の様々な前提のための重要な要素となりうる. 例えば, いま, \\(f_x:=\dfrac{\partial f}{\partial x}, f_y:=\dfrac{\partial f}{\partial y}\\) という記法を導入すると, 関数 \\(f(x,y)\\) の偏導関数 \\(f_{x}(x,y), f_{y}(x,y)\\) がそれぞれ偏微分可能であるとき, 4 つの 2 次偏導関数, \begin{eqnarray} f_{xx}&=&\dfrac{\partial^2f}{\partial x^2}&=&\dfrac{\partial}{\partial x}\dfrac{\partial f}{\partial x} \\\ f_{xy}&=&\dfrac{\partial^2f}{\partial y\partial x}&=&\dfrac{\partial}{\partial y}\dfrac{\partial f}{\partial x} \\\ f_{yx}&=&\dfrac{\partial^2f}{\partial x\partial y}&=&\dfrac{\partial}{\partial x}\dfrac{\partial f}{\partial y} \\\ f_{yy}&=&\dfrac{\partial^2f}{\partial y^2}&=&\dfrac{\partial}{\partial y}\dfrac{\partial f}{\partial y} \\\ \end{eqnarray} を考えることができるが,  \\(f\\) にこの \\(f_{xy}, f_{yx}\\) が存在して, ともに連続であるといえれば, 偏微分の順序交換法則(\\(f_{xy}=f_{yx}\\)) が成り立つことを示せる. この証明は, [平均値の定理](https://ja.wikipedia.org/wiki/%E5%B9%B3%E5%9D%87%E5%80%A4%E3%81%AE%E5%AE%9A%E7%90%86)を補題として証明した上で行わなければならなく大変だが, [参考文献](#ref1)にわかりやすい証明がされている.
+[^3]: 完全に蛇足であるが, 連続性の定義は, 他の様々な前提のための重要な要素となりうる. 例えば, いま, \\(f_x:=\dfrac{\partial f}{\partial x}, f_y:=\dfrac{\partial f}{\partial y}\\) という記法を導入すると, 関数 \\(f(x,y)\\) の偏導関数 \\(f_{x}(x,y), f_{y}(x,y)\\) がそれぞれ偏微分可能であるとき, 4 つの 2 次偏導関数, \begin{aligned} f_{xx}&=&\dfrac{\partial^2f}{\partial x^2}&=&\dfrac{\partial}{\partial x}\dfrac{\partial f}{\partial x} \\ f_{xy}&=&\dfrac{\partial^2f}{\partial y\partial x}&=&\dfrac{\partial}{\partial y}\dfrac{\partial f}{\partial x} \\ f_{yx}&=&\dfrac{\partial^2f}{\partial x\partial y}&=&\dfrac{\partial}{\partial x}\dfrac{\partial f}{\partial y} \\ f_{yy}&=&\dfrac{\partial^2f}{\partial y^2}&=&\dfrac{\partial}{\partial y}\dfrac{\partial f}{\partial y} \\ \end{aligned} を考えることができるが,  \\(f\\) にこの \\(f_{xy}, f_{yx}\\) が存在して, ともに連続であるといえれば, 偏微分の順序交換法則(\\(f_{xy}=f_{yx}\\)) が成り立つことを示せる. この証明は, [平均値の定理](https://ja.wikipedia.org/wiki/%E5%B9%B3%E5%9D%87%E5%80%A4%E3%81%AE%E5%AE%9A%E7%90%86)を補題として証明した上で行わなければならなく大変だが, [参考文献](#ref1)にわかりやすい証明がされている.
 [^4]: 正しい解答は末尾にて.
 [^5]: 補足: 2 つの二次元ベクトル \\(a_1, a_2\\) から成る 2 次正方行列の行列式の絶対値は, \\(a_1,a_2\\) が定める平行四辺形の面積に等しいのであった. 

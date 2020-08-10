@@ -15,13 +15,13 @@ rules :: Bool -> Rules ()
 rules isPreview = do
     zipWithM_ vendRule
        [ fontAwesomeSVGPath
-       , bulmaPath
+ --      , bulmaPath
        , bulmaToolTipPath
        , highlightPath
        , katexCssPath
        ]
        [ intercalateDir ["vendor", "fontawesome", "style.css"]
-       , intercalateDir ["vendor", "bulma", "bulma.min.css"]
+ --      , intercalateDir ["vendor", "bulma", "bulma.min.css"]
        , intercalateDir ["vendor", "bulma", "bulma-tooltip.min.css"]
        , intercalateDir ["vendor", "highlight", "highlight.css"]
        , intercalateDir ["vendor", "katex", "katex.min.css"]
@@ -42,8 +42,8 @@ rules isPreview = do
     where
         fontAwesomeSVGPath = fromGlob $ intercalateDir 
             ["node_modules", "@fortawesome", "fontawesome-svg-core", "styles.css"]
-        bulmaPath = fromGlob $ intercalateDir
-            ["node_modules", "bulma", "css", "bulma.min.css"]
+ --       bulmaPath = fromGlob $ intercalateDir
+ --           ["node_modules", "bulma", "css", "bulma.min.css"]
         bulmaToolTipPath = fromGlob $ intercalateDir
             ["node_modules", "@creativebulma", "bulma-tooltip", "dist", "bulma-tooltip.min.css"]
         katexCssPath = fromGlob $ intercalateDir

@@ -29,10 +29,12 @@ Haskell で C コンパイラを作ってみたという単なる取り組みへ
 
 プロジェクトは, 次のリポジトリにて管理している.
 
+<br />
 <p style="text-align: center;">
 <i class="fab fa-github" style="font-size: large; margin-right: 5px;"></i>
 <a href="https://github.com/falgon/htcc">falgon/htcc - A tiny C language compiler (x86-64) (WIP)</a>
 </p>
+<br />
 
 執筆時最新のコミット 
 [2301374](https://github.com/falgon/htcc/tree/230137475bf08265db9bd31ea65e2d867b1207fc) 
@@ -69,10 +71,10 @@ htcc の機能そのものの説明は, 基本的に上記リポジトリの REA
 [2301374](https://github.com/falgon/htcc/tree/230137475bf08265db9bd31ea65e2d867b1207fc) 
 時点での説明を再掲することとする.
 
-<figure>
-<img class="img-responsive img-rounded center-block figure-img" src="https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/some_operation.gif" />
-<figcaption class="figure-caption text-center">htcc の実行イメージ</figcaption>
-</figure>
+
+| ![htcc の実行イメージ](https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/some_operation.gif) |
+| :--: |
+| htcc の実行イメージ |
 
 コマンドラインオプションは次のようになっている.
 

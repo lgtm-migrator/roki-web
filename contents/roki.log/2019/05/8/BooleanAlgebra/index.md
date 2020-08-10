@@ -51,7 +51,7 @@ tags: math
 
 2 つの \\(x\\) の補元 \\(x'_1,x'_2\\) を仮定する.
 
-\begin{eqnarray}
+\begin{aligned}
 x'_1&=&x'_1\land1&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})\\
 &=&x'_1\land(x\lor x'_2)&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&(x'_1\land x)\lor (x'_1\land x'_2)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
@@ -60,7 +60,7 @@ x'_1&=&x'_1\land1&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})\
 &=&x'_2\land(x\lor x'_1)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
 &=&x'_2\land1&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&x'_2&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})
-\end{eqnarray}
+\end{aligned}
 
 より \\(x\\) の補元が一意であることは明らか.
 \\(\square\\)
@@ -70,7 +70,7 @@ x'_1&=&x'_1\land1&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})\
 [束の定理](https://falgon.github.io/roki.log/posts/2019/%203%E6%9C%88/15/Relation/#proof1)より自明. \\(\square\\)
 
 <a name="bounded" class="disabled"><h4>有界律</h4></a>
-\begin{eqnarray}
+\begin{aligned}
 x\lor 1&=&(x\lor 1)\land1&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})\\
 &=&(x\lor 1)(x\lor x')&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&x\lor (1\land x')&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
@@ -79,12 +79,12 @@ x\lor 1&=&(x\lor 1)\land1&(\because {\rm \href{#boolean_algebra3}{公理 3}:同�
 x\land0&=&x\land x\land x'&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&x\land x'&(\because {\rm 定理:\href{#idempotence}{べき等律}})\\
 &=&0&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})
-\end{eqnarray}
+\end{aligned}
 \\(\square\\)
 
 <a name="absorption" class="disabled"><h4>吸収律</h4></a>
 
-\begin{eqnarray}
+\begin{aligned}
 x\lor x\land y&=&(x\land1)\lor (x\land y)&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&x\land(1\lor y)&(\because {\rm \href{#boolean_algebra2}{公理2}:分配律})\\
 &=&x\land1&(\because {\rm \href{#boolean_algebra1}{公理 1}: 可換律, 定理: \href{#bounded}{有界律}} )\\
@@ -93,26 +93,26 @@ x\land(x\lor y)&=&(x\lor 0)(x\lor y)&(\because {\rm \href{#boolean_algebra3}{公
 &=&(0\land y)\lor x&(\because {\rm \href{#boolean_algebra2}{公理2}: 分配律})\\
 &=&x\lor 0&(\because \rm{\href{#boolean_algebra1}{公理1}: 可換律,定理: \href{#bounded}{有界律}})\\
 &=&x&(\because \rm{\href{#boolean_algebra3}{公理3}: 同一律})
-\end{eqnarray}
+\end{aligned}
 \\(\square\\)
 
 <a name="associative" class="disabled"><h4>結合律</h4></a>
 
 \\(A=x\lor (y\lor z), B=(x\lor y)\lor z\\) とおく. このとき,
 
-\begin{eqnarray}
+\begin{aligned}
 x\land A&=&x\land(x\lor (y\lor z))\\
 &=&x&(\because {\rm 定理: \href{#absorption}{吸収律}})\\
 x\land B&=&x\land((x\lor y)\lor z)\\
 &=&x\land(x\lor y)\lor x\land z&(\because {\rm \href{#boolean_algebra2}{公理2}: 分配律})\\
 &=&x\lor x\land z&(\because {\rm 定理: \href{#absorption}{吸収律}})\\
 &=&x&(\because {\rm 定理: \href{#absorption}{吸収律}})
-\end{eqnarray}
+\end{aligned}
 
 ゆえに \\[x\land A=x\land B=x\tag{L1}\\]
 また,
 
-\begin{eqnarray}
+\begin{aligned}
 x'\land A&=&x'\land(x\lor (y\lor z))\\
 &=&x'\land x\lor x'\land(y\lor z)&(\because  {\rm \href{#boolean_algebra2}{公理2}: 分配律})\\
 &=&x'\land(y\lor z)\lor 0&(\because {\rm \href{#boolean_algebra1}{公理1}, \href{#boolean_algebra4}{公理 4}: 可換律, 補元律})\\
@@ -123,12 +123,12 @@ x'\land B&=&x'\land((x\lor y)\lor z)\\
 &=&(0\lor x'\land y)\lor x'\land z&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&x'\land y\lor x'\land z&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&x'\land(y\lor z)&(\because {\rm \href{#boolean_algebra2}{公理2}: 分配律})
-\end{eqnarray}
+\end{aligned}
 
 ゆえに \\[x'\land A=x'\land B=x'\land(y\lor z)\tag{L2}\\]
 従って,
 
-\begin{eqnarray}
+\begin{aligned}
 A&=&A\land1&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&A\land(x\lor x')&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&A\land x\lor A\land x'&(\because {\rm \href{#boolean_algebra2}{公理2}: 分配律})\\
@@ -137,7 +137,7 @@ A&=&A\land1&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&B(x\lor x')&(\because {\rm \href{#boolean_algebra2}{公理2}: 分配律})\\
 &=&B\land1&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&B&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})
-\end{eqnarray}
+\end{aligned}
 
 また, 双対の原理より \\(x(y\land z)=(x\land y)\land z\\).
 
@@ -145,7 +145,7 @@ A&=&A\land1&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 
 <a name="involution" class="disabled"><h4>対合律</h4></a>
 
-\begin{eqnarray}
+\begin{aligned}
 (x')'&=&(x')'\lor 0&(\because \rm{\href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&(x')'\lor x\land x'&(\because {\href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&((x')'\lor x)((x')'\lor x')&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
@@ -154,7 +154,7 @@ A&=&A\land1&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&x\lor ((x')'\land x')&(\because {\rm \href{#boolean_algebra2}{公理2}:分配律})\\
 &=&x\lor 0&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&x&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})
-\end{eqnarray}
+\end{aligned}
 \\(\square\\)
 
 <a name="de_morgan" class="disabled"><h4>ド・モルガンの法則</h4></a>
@@ -164,7 +164,7 @@ A&=&A\land1&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 すなわち, [公理4](#boolean_algebra4): 補元律より \\((x\lor y)\lor (x'\land y')=1\\) および \\((x\lor y)\land(x'\land y')=0\\) 
 が同時に成り立つことを示せばよい.
 
-\begin{eqnarray}
+\begin{aligned}
 (x\lor y)\lor (x'\land y')&=&((x\lor y)\lor x')((x\lor y)\lor y')&(\because {\rm \href{#boolean_algebra2}{公理2}:分配律})\\
 &=&(y\lor (x\lor x'))(x\lor (y\lor y'))&(\because {\rm \href{#boolean_algebra1}{公理1}: 可換律, 定理: \href{#associative}{結合律}})\\
 &=&(y\lor 1)(x\lor 1)&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
@@ -176,18 +176,18 @@ A&=&A\land1&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&(y'\lor 0)\lor (x'\land1)&(\because {\rm \href{#boolean_algebra4}{公理 4}: 補元律})\\
 &=&0\lor 0&(\because {\rm 定理: \href{#bounded}{有界律}} )\\
 &=&0&(\because {\rm 定理:\href{#idempotence}{べき等律}})
-\end{eqnarray}
+\end{aligned}
 
 また, [双対の原理](#dual_def)より \\((x\land y)'=x'\lor y'\\). \\(\square\\)
 
 <a name="chanon_theorem" class="disabled"><h4>シャノンの展開定理</h4></a>
 
 任意の \\(n\\) 変数ブール関数 \\(f(x_1,x_2,\cdots,x_n)\\) を \\(x_1\\) について, 次のように展開できる.
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&(x'_1\lor x_1)\land f(x_1,x_2,\cdots,x_n)&(\because {\rm \href{#boolean_algebra4}{公理 4}, \href{#boolean_algebra3}{公理 3} :補元律, 同一律})\\
 &=&x'_1\land f(x_1,x_2,\cdots,x_n)\lor x_1\land f(x_1,x_2,\cdots,x_n)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
 &=&x'_1\land f(0,x_2,\cdots,x_n)\lor x_1\land f(1,x_2,\cdots,x_n)&(\because \href{#chanon_theorem_proof}{以下に証明})
-\end{eqnarray}
+\end{aligned}
 
 この展開をシャノン展開という.
 
@@ -198,22 +198,22 @@ f(x_1,x_2,\cdots,x_n)&=&(x'_1\lor x_1)\land f(x_1,x_2,\cdots,x_n)&(\because {\rm
 
 例として, \\(f(x_1,x_2,x_3)=x_1\land x_2\lor x_2\land x_3\lor x_1\land x_3\\) を \\(x_1\\) について展開すると,
 
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2,x_3)&=&x_1\land x_2\lor x_2\land x_3\lor x_1\land x_3\\
 &=&(x'_1\lor x_1)\land f(x_1,x_2,x_3)&(\because {\rm \href{#boolean_algebra4}{公理 4}, \href{#boolean_algebra3}{公理 3} :補元律, 同一律})\\
 &=&x'_1\land f(x_1,x_2,x_3)\lor x_1\land f(x_1,x_2,x_3)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
 &=&x'_1\land f(0,x_2,x_3)\lor x_1\land f(1,x_2,x_3)&(\because {\rm 定理: \href{#chanon_theorem}{シャノンの展開定理}})\\
 &=&x'_1\land x_2\land x_3\lor x_1\land x_2\lor x_2\land x_3\lor x_3&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})\\
 &=&x'_1\land x_2\land x_3\lor x_1\land x_2\lor x_3&(\because {\rm \href{#boolean_algebra1}{公理1}: 可換律, 定理: \href{#absorption}{吸収律}})\\
-\end{eqnarray}
+\end{aligned}
 
 となる. また[双対の原理](dual_def)より, 
 
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&(x_1\land x'_1)\lor f(x_1,x_2,\cdots,x_n)&(\because {\rm \href{#boolean_algebra4}{公理 4}, \href{#boolean_algebra3}{公理 3} :補元律, 同一律})\\
 &=&(x_1\lor f(x_1,x_2,\cdots,x_n))\land(x'_1\lor f(x_1,x_2,\cdots,x_n))&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
 &=&(x_1\lor f(0,x_2,\cdots,x_n))\land(x'_1\lor f(1,x_2,\cdots,x_n))&(\because {\rm \href{#chanon_theorem_proof}{上記証明}の\href{#dual_def}{双対}})
-\end{eqnarray}
+\end{aligned}
 
 この展開をシャノン双対展開という.
 
@@ -225,33 +225,33 @@ f(x_1,x_2,\cdots,x_n)&=&(x_1\land x'_1)\lor f(x_1,x_2,\cdots,x_n)&(\because {\rm
 以下, \\(n\\) 変数ブール関数 \\(f(x_1,x_2,\cdots,x_n)\\) において, \\(x_1,x_2,\cdots,x_n\\) を入力変数, また入力変数およびその否定をリテラルという.
 さらに \\(n\\) 個の入力変数に対し, \\(k\\) 番目のリテラル \\(x_k^{e_k}\ (1\leq k\leq n)\\) を次のように表す.
 
-\begin{eqnarray}
+\begin{aligned}
 x^{e_k}_k=\begin{cases}
 x_k&(=x^1_k)&e_k=1{\rm\ のとき}\\
 x'_k&(=x^0_k)&e_k=0{\rm\ のとき}
 \end{cases}
-\end{eqnarray}
+\end{aligned}
 
 #### 加法標準形, 主加法標準形
 
 \\(f(x_1,x_2,\cdots,x_n)\\) を \\(x_1,x_2\\) について[シャノン展開](#chanon_theorem)すると,
 
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&x'_1\land x'_2\land f(0,0,\cdots,x_n)\\
 &&\lor x'_1\land x_2\land f(0,1,\cdots,x_n)\\
 &&\lor x_1\land x'_2\land f(1,0,\cdots,x_n)\\
 &&\lor x_1\land x_2\land f(1,1,\cdots,x_n)
-\end{eqnarray}
+\end{aligned}
 
 となる. 従って, 全入力変数 \\(x_1,x_2,\cdots,x_n\\) について[シャノン展開](#chanon_theorem)すると,
 
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&x'_1\land x'_2\land\cdots\land x'_n\land f(0,0,\cdots,0)\\
 &&\lor x'_1\land x'_2\land\cdots\land x_n\land f(0,0,\cdots, 1)\\
 &&\lor\cdots\\ 
 &&\lor x_1\land x_2\land\cdots\land x'_n\land f(1,1,\cdots,0)\\
 &&\lor x_1\land x_2\land\cdots\land x_n\land f(1,1,\cdots,1)
-\end{eqnarray}
+\end{aligned}
 
 となる ([シャノンの定理](#chanon_theorem)より数学的帰納法により証明できるが, 省略). 
 形式的に書けば, すなわち
@@ -286,20 +286,20 @@ f(x_1,x_2,\cdots,x_n)&=&x'_1\land x'_2\land\cdots\land x'_n\land f(0,0,\cdots,0)
 便宜上, 2 項演算子 \\(\mid\\) を最小項展開した形を \\(f_\mid(x_1,x_2)\\) で表すこととする.
 あとは[真理値表 2](#truthtable2) の \\(\mid\\) の列のとおりに \\(f_\mid(x_1,x_2)\\) の値を決めてやればよいので
 
-\begin{eqnarray}
+\begin{aligned}
 f_\mid(x_1,x_2)&=&1\land x'_1\land x'_2\lor 1\land x'_1\land x_2\lor 1\land x_1\land x'_2\lor 0\land x_1\land x_2\\
 &=&x'_1\land x'_2\lor x'_1\land x_2\lor x_1\land x'_2
-\end{eqnarray}
+\end{aligned}
 
 従って, 否定論理積の PDNF は \\(x'_1\land x'_2\lor x'_1\land x_2\lor x_1\land x'_2\\) となる.
 この操作を振り返ると, 真理値表から PDNF を書くためには, 結果が \\(1\\) となっている入力変数の全パターンに対して, 元の入力変数の値が \\(1\\) ならそのまま, \\(0\\) ならその補元をとり,
 それらすべての和を取ればよいことがわかる. 
 何故ならば, 結果が \\(0\\) となる部分は, [シャノンの展開定理の証明](#chanon_theorem_proof)でも示したように消えてしまうからである.
 同じようにして, 否定論理和, 排他的論理和も[真理値表 2](#truthtable2) の \\(\downarrow,\oplus\\) の列をみると, \\(1\\) となる入力のパターンから
-\begin{eqnarray}
+\begin{aligned}
 f_{\downarrow}(x_1,x_2)&=&x'_1\land x'_2\\
 f_{\oplus}(x_1,x_2)&=&x_1\land x'_2\lor x'_1\land x_2\\
-\end{eqnarray} 
+\end{aligned} 
 となる.
 すなわち, 真理値表で表現できるブール式は PDNF で表せるということである[^5].
 
@@ -313,7 +313,7 @@ f_{\oplus}(x_1,x_2)&=&x_1\land x'_2\lor x'_1\land x_2\\
 以下, PDNF で表されたブール式を \\(f(x_1,x_2,\cdots,x_n)_{\rm P D N F}\\) と書くこととする.
 例えば, ブール式 \\(f(x_1,x_2)=x_1\land x_2\land x_1\lor x_2\\) を PDNF で表すとすると,
 
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2)&=&x_1\land x_2\land x_1\lor x_2\\
 &=&x_1\land x_1\land x_2\lor x_2&(\because {\rm\href{#boolean_algebra1}{公理1}: 可換律})\\
 &=&x_1\land x_2\lor x_2&(\because {\rm 定理:\href{#idempotence}{べき等律}})\\
@@ -321,17 +321,17 @@ f(x_1,x_2)&=&x_1\land x_2\land x_1\lor x_2\\
 &=&x_1\land x_2\lor (x_1\lor x_1')\land x_2&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&x_1\land x_2\lor x_1\land x_2\lor x_1'\land x_2&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\ 
 &=&x_1\land x_2\lor x_1'\land x_2&(\because {\rm 定理:\href{#idempotence}{べき等律}})
-\end{eqnarray}
+\end{aligned}
 
 従って \\[f(x_1,x_2)_{\rm P D N F}=x_1\land x_2\lor x_1'\land x_2\\] となる.
 例としてもう 1 つ, \\(f(x_1,x_2,x_3)=x_1\land x_2'\land x_3\lor x_1\land x'_3\lor x_2\land x'_3\\) としたときの PDNF は
 
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2,x_3)&=&x_1\land x'_2\land x_3\lor x\land x'_3\lor x_2\land x'_3\\
 &=&x_1\land x'_2\land x_3\lor x_1\land(x_2\lor x'_2)\land x'_3\lor (x_1\lor x_1')\land x_2\land x'_3&(\because {\rm \href{#boolean_algebra3}{公理 3}, \href{#boolean_algebra4}{公理 4}: 同一律, 補元律} )\\
 &=&x_1\land x'_2\land x_3\lor x_1\land x_2\land x'_3\lor x_1\land x'_2\land x'_3\lor x_1\land x_2\land x'_3\lor x'_1\land x_2\land x'_3&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
 &=&x_1\land x'_2\land x_3\lor x_1\land x_2\land x'_3\lor x_1\land x'_2\land x'_3\lor x'_1\land x_2\land x'_3&(\because {\rm 定理: \href{#idempotence}{べき等律}})
-\end{eqnarray}
+\end{aligned}
 
 従って \\[f(x_1,x_2,x_3)_{\rm P D N F}=x_1\land x'_2\land x_3\lor x_1\land x_2\land x'_3\lor x_1\land x'_2\land x'_3\lor x'_1\land x_2\land x'_3\\] となる.
 
@@ -341,22 +341,22 @@ f(x_1,x_2,x_3)&=&x_1\land x'_2\land x_3\lor x\land x'_3\lor x_2\land x'_3\\
 
 \\(f(x_1,x_2,\cdots,x_n)\\) を \\(x_1,x_2\\) について[シャノン双対展開](#chanon_theorem)すると,
 
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&(x_1\lor x_2\lor f(0,0,\cdots,x_n))\\
 &&\land (x_1\lor x'_2\lor f(0,1,\cdots,x_n))\\
 &&\land (x'_1\lor x_2\lor f(1,0,\cdots,x_n))\\
 &&\land (x'_1\lor x'_2\lor f(1,1,\cdots,x_n))
-\end{eqnarray}
+\end{aligned}
 
 となる. 従って, 全入力変数 \\(x_1,x_2,\cdots,x_n\\) について[シャノン双対展開](#chanon_theorem)すると,
 
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&(x_1\lor x_2\lor\cdots\lor x_n\lor f(0,0,\cdots,0))\\
 &&\land(x_1\lor x_2\lor\cdots\lor x'_n\lor f(1,0,\cdots,0))\\
 &&\land\cdots\\
 &&\land(x'_1\lor x'_2\lor\cdots x_n\lor f(1,1,\cdots,0))\\
 &&\land(x'_1\lor x'_2\lor\cdots x'_n\lor f(1,1,\cdots,1))
-\end{eqnarray}
+\end{aligned}
 
 となる ([シャノンの定理](#chanon_theorem)より数学的帰納法により証明できるが, 省略).
 形式的に書けば, すなわち
@@ -390,20 +390,20 @@ f(x_1,x_2,\cdots,x_n)&=&(x_1\lor x_2\lor\cdots\lor x_n\lor f(0,0,\cdots,0))\\
 2 項演算子 \\(\mid\\) を最大項展開した式 \\(f_{\mid}(x_1,x_2)\\) は,
 [真理値表 2](#truthtable2) の \\(\mid\\) の列のとおりに \\(f_{\mid}(x_1,x_2)\\) の値を決めてやればよいので
 
-\begin{eqnarray}
+\begin{aligned}
 f_{\mid}(x_1,x_2)&=&(x_1\lor x_2\lor 1)\land (x_1\lor x'_2\lor 1)\land(x'_1\lor x_2\lor 1)\land(x'_1\lor x'_2\lor 0)\\
 &=&x'_1\lor x'_2
-\end{eqnarray}
+\end{aligned}
 
 従って, 否定論理積の PCNF は \\(x'_1\lor x'_2\\) となる. この操作を振り返ると, 真理値表から PCNF を書くためには,
 結果が \\(0\\) となっている入力変数の全パターンに対して, 元の入力変数の値が \\(1\\) なら補元をとり, \\(0\\) ならそのままで和を取り, それらすべての積を取ればよいことがわかる.
 何故ならば, 結果が \\(1\\) となる部分は, 和の性質, すなわち[公理 2: 同一律](#boolean_algebra3)より消えてしまうからである.
 同じようにして, 否定論理和, 排他的論理和も[真理値表 2](#truthtable2) の \\(\downarrow,\oplus\\) の列をみると, \\(0\\) となる入力のパターンから
 
-\begin{eqnarray}
+\begin{aligned}
 f_{\downarrow}(x_1,x_2)&=&(x'_1\lor x'_2)\land(x'_1\lor x_2)\land(x_1\lor x'_2)\\
 f_{\oplus}(x_1,x_2)&=&(x'_1\lor x'_2)\land(x_1\lor y_1)
-\end{eqnarray}
+\end{aligned}
 
 となる. すなわち, 真理値表で表現できるブール式は, PCNF で表せるということである<sup><a class="footnote-ref" href="#fn-5">5</a></sup>.
 次に, 任意の論理式から PCNF に変換することを考える. 結論からいうと, 次の手順に従えば PCNF へ機械的に変換できることが知られている.
@@ -415,7 +415,7 @@ f_{\oplus}(x_1,x_2)&=&(x'_1\lor x'_2)\land(x_1\lor y_1)
 以下, PCNF で表されたブール式を \\(f(x_1,x_2,\cdots,x_n)_{\rm P C N F}\\) と書くこととする. 例えば, ブール式
 \\(f(x_1,x_2,x_3)=x_1\land(x'_2\land x_3)'\\) を PCNF で表すとすると,
 
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2,x_3)&=&x_1\land(x'_2\land x_3)'\\
 &=&x_1\land(x_2\lor x'_3)&(\because {\rm 定理: \href{#de_morgan}{ド・モルガンの法則}})\\
 &=&(x_1\lor x_2\land x'_2)\land(x_2\lor x'_3)&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})\\
@@ -425,19 +425,19 @@ f(x_1,x_2,x_3)&=&x_1\land(x'_2\land x_3)'\\
 &&\land(x_1\lor x'_2\lor x'_3)\land(x_1\lor x_2\lor x'_3)\land(x'_1\lor x_2\lor x'_3)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
 &=&(x_1\lor x_2\lor x_3)\land(x_1\lor x_2\lor x'_3)\land(x_1\lor x'_2\lor x_3)\\
 &&\land(x_1\lor x'_2\lor x'_3)\land(x'_1\lor x_2\lor x'_3)&(\because {\rm 定理:\href{#idempotence}{べき等律}})
-\end{eqnarray}
+\end{aligned}
 
 従って \\[f(x_1,x_2,x_3)_{\rm P C N F}=(x_1\lor x_2\lor x_3)\land(x_1\lor x_2\lor x'_3)\land(x_1\lor x'_2\lor x_3)\land(x_1\lor x'_2\lor x'_3)\land(x'_1\lor x_2\lor x'_3)\\]
 
 となる. 例としてもう 1 つ, \\(f(x_1,x_2,x_3)=x_1\land x'_2\lor x_2\land x_3\\) としたときの PCNF は
 
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2,x_3)&=&x_1\land x'_2\lor x_2\land x_3\\
 &=&(x_1\land x'_2\lor x_2)\land(x_1\land x'_2\lor x_3)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
 &=&(x_1\lor x_2)\land(x_1\lor x_3)\land(x'_2\lor x_3)&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&(x_1\lor x_2\lor x_3\land x'_3)\land(x_1\lor x_2\land x'_2\lor x_3)\land(x_1\land x'_1\lor x'_2\lor x_3)&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&(x_1\lor x_2\lor x_3)\land(x_1\lor x_2\lor x'_3)\land(x_1\lor x'_2\lor x_3)\land(x'_1\lor x'_2\lor x_3)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})
-\end{eqnarray}
+\end{aligned}
 
 従って
 \\[f(x_1,x_2,x_3)_{\rm P C N F}=(x_1\lor x_2\lor x_3)\land(x_1\lor x_2\lor x'_3)\land(x_1\lor x'_2\lor x_3)\land(x'_1\lor x'_2\lor x_3)\\]
@@ -482,10 +482,10 @@ f(x_1,x_2,x_3)&=&x_1\land x'_2\lor x_2\land x_3\\
 \\(g_1={1:1,2:1}, g_2={2:1,2:2}\\) とグループ化できることがわかる.
 従って, それぞれを論理式で基本積の形に表すと, 
 
-\begin{eqnarray}
+\begin{aligned}
 g_1&=&x'_1\land x'_2\lor x_1\land x'_2&=&(x'_1\lor x_1)\land x'_2&=&x'_2\\
 g_2&=&x_1\land x'_2\lor x_1\land x_2&=&x_1\land(x'_2\lor x_2)&=&x_1
-\end{eqnarray}
+\end{aligned}
 
 よって, \\(=x'_2\lor x_1\\) とわかる. 別のカルノー図についてもやってみよう.
 
@@ -507,11 +507,11 @@ g_2&=&x_1\land x'_2\lor x_1\land x_2&=&x_1\land(x'_2\lor x_2)&=&x_1
 \\(g_1={1:2,2:2},g_2={1:3,4:3},g_3={4:1,4:4}\\) と構成できる.
 よって,
 
-\begin{eqnarray}
+\begin{aligned}
 g_1&=&x'_1\land x'_2\land x'_3\land x_4\lor x'_1\land x_2\land x'_3\land x_4&=&x'_1\land x'_3\land x_4\\
 g_2&=&x'_1\land x'_2\land x_3\land x_4\lor x_1\land x'_2\land x_3\land x_4&=&x'_2\land x_3\land x_4\\
 g_3&=&x_1\land x'_2\land x'_3\land x'_4\lor x_1\land x'_2\land x_3\land x'_4&=&x_1\land x'_2\land x'_4
-\end{eqnarray}
+\end{aligned}
 
 ゆえに[カルノー図 2](#karnaugh2) で示される論理関数の簡単な表現は
 
@@ -520,12 +520,12 @@ g_3&=&x_1\land x'_2\land x'_3\land x'_4\lor x_1\land x'_2\land x_3\land x'_4&=&x
 となる. このグループ化という操作が一意ではないことからわかるように, 簡単化したブール式も一意でないことがわかる.
 例えば, \\(g_1={1:2,2:2},g_2={1:2,1:3},g_3={4:1,4:4},g_4={4:3,4:4}\\) とグループ化すると,
 
-\begin{eqnarray}
+\begin{aligned}
 g_1&=&x'_1\land x'_2\land x'_3\land x_4\lor x'_1\land x_2\land x'_3\land x_4&=&x'_1\land x'_3\land x_4\\
 g_2&=&x'_1\land x'_2\land x'_3\land x_4\lor x'_1\land x'_2\land x_3\land x_4&=&x'_1\land x'_2\land x_4\\
 g_3&=&x_1\land x'_2\land x'_3\land x'_4\lor x_1\land x'_2\land x_3\land x'_4&=&x_1\land x'_2\land x'_4\\
 g_4&=&x_1\land x'_2\land x_3\land x_4\lor x_1\land x'_2\land x_3\land x'_4&=&x_1\land x'_2\land x_3
-\end{eqnarray}
+\end{aligned}
 
 ゆえに,
 
@@ -536,14 +536,14 @@ g_4&=&x_1\land x'_2\land x_3\land x_4\lor x_1\land x'_2\land x_3\land x'_4&=&x_1
 さて, ある論理変数の組み合わせが予め起こりえないことがわかっていたとき, その場合もカルノー図を用いて簡単化を進めることができる.
 このような組み合わせに対する最小項を禁止項, または don't care 項という.
 例えば, 
-\begin{eqnarray}
+\begin{aligned}
 f(x_1,x_2,x_3,x_4)&=&x'_1\land x'_2\land x'_3\land x_4 \\ 
 &&\lor x'_1\land x_2\land x'_3\land x_4 \\ 
 &&\lor x'_1\land x_2\land x_3\land x_4\\
 &&\lor x'_1\land x_2\land x_3\land x'_4\\
 &&\lor x_1\land x'_2\land x_3\land x_4\\
 &&\lor x_1\land x'_2\land x_3\land x'_4\tag{4}
-\end{eqnarray}
+\end{aligned}
 
 というブール関数を簡単化することを考える. このとき, \\(x_1\land x_2\\), また \\(x_1\land x'_2\land x'_3\land x'_4\\) は禁止項とする.
 禁止行の対応するセルには \\(\phi\\) を記述する. すると, 式 \\(\\) のカルノー図は次のとおりとなる.
@@ -565,11 +565,11 @@ f(x_1,x_2,x_3,x_4)&=&x'_1\land x'_2\land x'_3\land x_4 \\
 \\(g_1={1:2,2:2},g_2={2:3,2:4,3:3,3:4},g_3={3:3,3:4,4:3,4:4}\\) とグループ化できる.
 従って,
 
-\begin{eqnarray}
+\begin{aligned}
 g_1&=&x'_1\land x'_2\land x'_3\land x_4\lor x'_1\land x_2\land x'_3\land x_4&=&x'_1\land x'_3\land x_4\\
 g_2&=&x'_1\land x_2\land x_3\land x_4\lor x'_1\land x_2\land x_3\land x'_4\lor x_1\land x_2 \land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4&=&x_2\land x_3\\
 g_3&=&x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4\lor x_1\land x'_2\land x_3\land x_4\lor x_1\land x'_2\land x_3\land x'_4&=&x_1\land x_3
-\end{eqnarray}
+\end{aligned}
 
 ゆえに, \\(\\) は
 
@@ -598,25 +598,25 @@ g_3&=&x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4\lor x_1
 次に, [カルノー図 3](#karnaugh3) の各セル \\(i:j\\) を \\(m_0=1:1,m_1=2:1,m_2=3:1,m_3=4:1,m_4=1:2,\cdots,m_{15}=4:4\\)
 とおき, PDNF を構成する各最小項について次のようにビット列と対応させる.
 
-\begin{eqnarray}
+\begin{aligned}
 m_4&=&x'_1\land x'_2\land x'_3\land x_4=0001\\
 m_5&=&x'_1\land x_2\land x'_3\land x_4=0101\\
 m_9&=&x'_1\land x_2\land x_3\land x_4=0111\\
 m_{11}&=&x_1\land x'_2\land x_3\land x_4=1011\\
 m_{13}&=&x'_1\land x_2\land x_3\land x'_4=0110\\
 m_{15}&=&x_1\land x'_2\land x_3\land x'_4=1010
-\end{eqnarray}
+\end{aligned}
 
 ここで, 先と同様, \\(x_1\land x_2\\) と \\(x_1\land x'_2\land x'_3\land x'_4\\) を禁止項としたときは, 
 それについてもビット列と対応させておく.
 
-\begin{eqnarray}
+\begin{aligned}
 m_2&=&x_1\land x_2\land x'_3\land x'_4=1100\\
 m_3&=&x_1\land x'_2\land x'_3\land x'_4=1000\\
 m_6&=&x_1\land x_2\land x'_3\land x_4=1101\\
 m_{10}&=&x_1\land x_2\land x_3\land x_4=1111\\
 m_{14}&=&x_1\land x_2\land x_3\land x'_4=1110
-\end{eqnarray}
+\end{aligned}
 
 これは \\(\displaystyle\bigvee {\rm m}(4,5,9,11,13,15)+{\rm dc}(2,3,6,10,14)=\\) と書かれる.
 このとき, 例えば \\(m_4\lor m_5\\) は式 \\(\\) を利用して簡単化できることがわかる.
@@ -711,10 +711,10 @@ m_{14}&=&x_1\land x_2\land x_3\land x'_4=1110
 
 式 \\(\\) を[公理2](#boolean_algebra2): 分配律および[吸収律](#absorption)を用いて変形していくと,
 
-\begin{eqnarray}
+\begin{aligned}
 &=&(m_{4,5}\lor m_{4,5}\land m_{5,6,9,10})\land(m_{5,6,9,10}\land m_{9,10,13,14}\lor m_{9,10,13,14})\land(m_{10,11,14,15}\lor m_{10,11,14,15}\land m_{2,3,14,15})\\
 &=&m_{4,5}\land m_{9,10,13,14}\land m_{10,11,14,15}
-\end{eqnarray}
+\end{aligned}
 
 この主項の積となっている部分を主項の和とすることで, ブール関数の最簡形が求まる.
 従って, 先と同様の結果が機械的に得られたことがわかる.

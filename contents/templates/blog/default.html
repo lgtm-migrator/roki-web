@@ -26,16 +26,13 @@
             <meta property="og:title" content="$blog-title$" />
         $endif$
         <meta property="og:site_name" content="$site-title$/$blog-title$" />
+        
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Gothic&family=Sawarabi+Mincho&family=Ubuntu+Mono&display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="/vendor/bulma/bulma.min.css" />
-        <link rel="stylesheet" href="/vendor/bulma/bulma-tooltip.min.css" />
-        <link rel="stylesheet" href="/vendor/fontawesome/style.css" />
-        <link rel="stylesheet" href="/vendor/katex/katex.min.css" />
-        <link rel="stylesheet" href="/vendor/highlight/highlight.css" />
-        <link rel="stylesheet" href="/style/default.css" />
-        <link rel="stylesheet" href="/style/$blog-title$.css" />
         <link rel="stylesheet" href="/style/style.css" />
-        <link rel="stylesheet" href="/style/blog.css" />
+        <link rel="stylesheet" href="/style/$blog-title$.css" />
         <link rel="shortcut icon" href="/images/avator/favicon.ico" />
         
         <script type="text/javascript" src="/js/components.js"></script>
@@ -47,12 +44,18 @@
         $katex-script$
         <script>
 		document.addEventListener("DOMContentLoaded", function() {
-  			renderMathInElement(document.body, {delimiters: [
-    			{left: "$$", right: "$$", display: false},
-                {left: "\\(", right: "\\)", display: false},
-    			{left: "$$$$", right: "$$$$", display: true},
-                {left: "\\[", right: "\\]", display: true}
-  			]});
+  			renderMathInElement(document.body, {
+                delimiters: [
+    			    {left: "$$$$", right: "$$$$", display: true},
+    			    {left: "$$", right: "$$", display: false},
+                    {left: "\\\\(", right: "\\\\)", display: false},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\\\[", right: "\\\\]", display: true},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "\\begin{equation}", right: "\\end{equation}", display: true}
+  			    ],
+                strict: false
+            });
 		});
         </script>
         $endif$

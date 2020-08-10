@@ -9,7 +9,7 @@ tags: math, Haskell
 と変形できる. いま \\(b_n=f_{n+1}-\psi f_n, c_n=f_{n+1}-\phi f_n\\) と置くと次の漸化式が得られる.
 $$\begin{cases}b_{n+1}=\phi b_n\\c_{n+1}=\psi c_n\end{cases}$$ 
 また \\(f_1=1, f_2=1\\) より $$\begin{cases}b_1=f_2-\psi f_1=1-\psi\\ c_1=f_2-\phi f_1=1-\phi\end{cases}$$ として, 数列 \\({b_n}\\) と数列 \\({c_n}\\) の初項が求まる. 
-故に, 数列 \\({b_n}\\) は初項 \\(1-\psi\\), 公比 \\(\phi\\) の等比数列であるから, \\(b_n = (1-\psi)\phi^{n-1}\\), 数列 \\({c_n}\\) は初項 \\(1-\phi\\), 公比 \\(\psi\\) の等比数列であるから, \\(c_n = (1-\phi)\psi^{n-1}\\) といえる. さらに \\(b_n, c_n\\) を上記の定義より代入すると, $$\begin{cases} \phi^n=b_n=f_{n+1}-\psi f_n\\\psi^n=c_n=f_{n+1}-\phi f_n\end{cases}$$ が得られる. 上の式から下の式を引くと \\(\phi^n-\psi^n=-\psi f_n+\phi f_n=(\phi-\psi)f_n\\) であるから, 一般項 \\(f_n\\) は \\[f_n=\dfrac{1}{\phi-\psi}( \phi^n-\psi^n)\\]
+故に, 数列 \\({b_n}\\) は初項 \\(1-\psi\\), 公比 \\(\phi\\) の等比数列であるから, \\(b_n = (1-\psi)\phi^{n-1}\\), 数列 \\({c_n}\\) は初項 \\(1-\phi\\), 公比 \\(\psi\\) の等比数列であるから, \\(c_n = (1-\phi)\psi^{n-1}\\) といえる. さらに \\(b_n, c_n\\) を上記の定義より代入すると, $$\begin{cases} \phi^n=b_n=f_{n+1}-\psi f_n\\psi^n=c_n=f_{n+1}-\phi f_n\end{cases}$$ が得られる. 上の式から下の式を引くと \\(\phi^n-\psi^n=-\psi f_n+\phi f_n=(\phi-\psi)f_n\\) であるから, 一般項 \\(f_n\\) は \\[f_n=\dfrac{1}{\phi-\psi}( \phi^n-\psi^n)\\]
 \\(\therefore\\) \\(\psi, \phi\\) を上記の定義より代入すると, 
 
 <div class="panel panel-default">

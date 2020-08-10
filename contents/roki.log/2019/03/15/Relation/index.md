@@ -11,20 +11,20 @@ tags: math
 いま, 二つの要素の順序体を $\left\lt a, b\right\gt$ と書くこととする.
 他の異なる順序体 \\(\left\lt c, b\right\gt\\) に対し, 以下の通り定義する.
 
-\begin{eqnarray}
-\left\lt a,b\right\gt=\left\lt c,d\right\gt&:=&a=c, b=d\\\
+\begin{aligned}
+\left\lt a,b\right\gt=\left\lt c,d\right\gt&:=&a=c, b=d\\
 {\rm デカルト積} = {\rm 直積} = A\times B&:=&\left\{\left\lt a,b\right\gt\mid a\in A, b\in B\right\}
-\end{eqnarray}
+\end{aligned}
 
 このとき順序体の要素を \\(n\\) 個に拡張したものを \\(n\\)-tuple といい, 以下の通り定義する.
 
 <div class="panel panel-default">
   <div class="panel-heading def"><a name="n-tuple" class="disabled">\\(n\\)-tuple の同値関係と直積</a></div>
   <div class="panel-body">
-\begin{eqnarray}
-\left\lt a_1,a_2,\cdots,a_n\right\gt=\left\lt b_1,b_2,\cdots,b_n\right\gt&:=&(a_1=b_1,a_2=b_2,\cdots,a_n=b_n) \tag{1} \\\
+\begin{aligned}
+\left\lt a_1,a_2,\cdots,a_n\right\gt=\left\lt b_1,b_2,\cdots,b_n\right\gt&:=&(a_1=b_1,a_2=b_2,\cdots,a_n=b_n) \tag{1} \\
 {\rm デカルト積} =  {\rm直積} = A_1\times A_2\times\cdots\times A_n=\prod_{i=1}^{n}A_i&:=&\left\{\left\lt a_1,a_2,\cdots,a_n\right\gt\mid a_1\in A_1,a_2\in A_2,\cdots,a_n\in A_n\right\} \tag{2}
-\end{eqnarray}
+\end{aligned}
   </div>
 </div>
 
@@ -212,15 +212,15 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 \\(\left[1\right]_R={1,6,11,16}\\) である[^3].
 また,
 
-\begin{eqnarray}
-\left[1\right]_R&=&\left\{1,6,11,16\right\}\\\
-\left[3\right]_R&=&\left\{3\right\}\\\
-\left[6\right]_R&=&\left\{1,6,11,16\right\}\\\
-\left[10\right]_R&=&\left\{10,15\right\}\\\
-\left[11\right]_R&=&\left\{1,6,11,16\right\}\\\
-\left[15\right]_R&=&\left\{10,15\right\}\\\
+\begin{aligned}
+\left[1\right]_R&=&\left\{1,6,11,16\right\}\\
+\left[3\right]_R&=&\left\{3\right\}\\
+\left[6\right]_R&=&\left\{1,6,11,16\right\}\\
+\left[10\right]_R&=&\left\{10,15\right\}\\
+\left[11\right]_R&=&\left\{1,6,11,16\right\}\\
+\left[15\right]_R&=&\left\{10,15\right\}\\
 \left[16\right]_R&=&\left\{1,6,11,16\right\}
-\end{eqnarray}
+\end{aligned}
 
 であるので, \\(X/R={{1,6,11,16},{10,15},{3}}\\) である.
 
@@ -234,13 +234,13 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 
 例えば, 集合族上の包含関係 \\(\subset\\) は以下の通り半順序である.
 
-\begin{eqnarray}
+\begin{aligned}
 \begin{array}{l}
 A\subset A\\
 A\subset B{\rm\ かつ}\ B\subset A{\rm\ ならば}\ A=B\\
 A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 \end{array}
-\end{eqnarray}
+\end{aligned}
 
 半順序集合が定義できれば, (最(大|小), 極(大|小))(要素|元)が定義できる.
 
@@ -347,13 +347,13 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 \\(m\\) が \\(n\\) を割り切ることを
 \\(m\mid n\\) と書くとき[^7], 整除関係 \\(\mid\\) は \\(\mathbb{N}\\) 上の半順序であることに関して考察しよう.
 
-\begin{eqnarray}
+\begin{aligned}
 \begin{array}{l}
 x\mid x\\
 x\mid y{\rm\ かつ}\ y\mid x{\rm\ ならば}\ x=y\\
 x\mid y{\rm\ かつ}\ y\mid z{\rm\ ならば}\ x\mid z
 \end{array}
-\end{eqnarray}
+\end{aligned}
 
 さて, このような一つの有限半順序集合上の関係は, [図 1](#directed_but_not_poset_fig)
 と同様にして, 以下のように有向グラフにより表現できる.
@@ -502,12 +502,12 @@ x\land(y\lor z)=(x\land y)\lor(x\land z)\\) を満たす束をとくに分配束
 ハッセ図で考えると, 上方向に辺を辿っていったとき, 各ノードそれぞれが順序比較可能でありかつ最小であるものが上限となる.
 同様に, 例えば 
 
-\begin{eqnarray}
+\begin{aligned}
 \sup\left\{\left\{x_1,x_2\right\},\left\{x_2,x_3\right\}\right\}&=&\left\{x_1,x_2,x_3\right\}\\
 \sup\left\{\left\{x_1\right\},\left\{x_2,x_3\right\}\right\}&=&\left\{x_1,x_2,x_3\right\}\\
 \sup\left\{\emptyset,\left\{x_1,x_2\right\}\right\}&=&\left\{x_1,x_2\right\}\\
 \sup\left\{\emptyset,\emptyset\right\}&=&\emptyset\tag{9}
-\end{eqnarray}
+\end{aligned}
 
 となる. 最後の \\(\\) はすべての束の任意の要素について言えることである. 
 すなわち任意の束 \\(L\\) の任意の要素 \\(x\in L\\) に対して \\(\sup{x,x}=x\\) である.
@@ -517,11 +517,11 @@ x\land(y\lor z)=(x\land y)\lor(x\land z)\\) を満たす束をとくに分配束
 
 \\(x,y\in L,z=(x\lor y)\\) に対して
 
-\begin{eqnarray}
+\begin{aligned}
 \sup\left\{x,x\right\}\leftrightarrow x\lor x&=&x\lor(x\land(x\lor y)) & (\because {\rm \href{#lattice3}{公理3}: 吸収律})\\
 &=&x\lor (x\land z)&(\because {\rm \href{#lattice3}{公理3}: 吸収律})\\
 &=&x&(\because {\rm \href{#lattice3}{公理3}: 吸収律})
-\end{eqnarray}
+\end{aligned}
 \\(\square\\)
 
 ここで一度, 上の定理に加えて考察できるいくつかの事項を羅列する.
@@ -537,13 +537,13 @@ x\land(y\lor z)=(x\land y)\lor(x\land z)\\) を満たす束をとくに分配束
 
 \\(x,y\in L\\) が \\(a\in L\\) の二つの補元だと仮定する.
 
-\begin{eqnarray}
+\begin{aligned}
 x&=&x\lor 0\\
 &=&x\lor(a\land y)\\
 &=&(x\lor a)\land(x\lor y)\\
 &=&1\land(x\lor y)\\
 &=&x\land y
-\end{eqnarray}
+\end{aligned}
 
 同様に \\(y=x\lor y\\) となるから \\(x=y\\). \\(\square\\)
 
@@ -559,7 +559,7 @@ x&=&x\lor 0\\
 
 
 [^1]: 例えば \\(xy\\) 座標平面を \\(\mathbb{R}^2\\) と書くのは, それが実数二つのペアの集合と考えられるからである.
-[^2]: 任意の整数 \\(a,b,c,n\in \mathbb{N}\\) に対して \begin{eqnarray}a\equiv b \pmod n\\\ a\equiv b\pmod n&\rightarrow& b\equiv a\pmod n\\\ a\equiv b, b\equiv c\pmod n &\rightarrow& a\equiv c\pmod n\end{eqnarray} であることを容易に確かめられる. 従って, 合同は同値関係である.
+[^2]: 任意の整数 \\(a,b,c,n\in \mathbb{N}\\) に対して \begin{aligned}a\equiv b \pmod n\\ a\equiv b\pmod n&\rightarrow& b\equiv a\pmod n\\ a\equiv b, b\equiv c\pmod n &\rightarrow& a\equiv c\pmod n\end{aligned} であることを容易に確かめられる. 従って, 合同は同値関係である.
 [^3]: これをとくに剰余類という. FYI: [エルガマル暗号, ガロア体のセクションを参照](https://falgon.github.io/roki.log/posts/2018/%207%E6%9C%88/13/elgamalEncryption/).
 [^5]: 関連: [\\(\epsilon-\delta\\) 論法](https://falgon.github.io/roki.log/posts/2018/10%E6%9C%88/04/jacobian/#epsilonDelta-definitionOfLimit)
 [^6]: ここで, \\(\wp(A)\\) は \\(\wp(A):={Y\mid Y\subseteq A}\\) であり, \\(A\\) の冪集合という. すなわち \\(A={a,b}\\) とすると \\(\wp(A)={\emptyset,{a},{b},{a,b}}\\) となる. いまその要素の個数を \\(\left|\wp(A)\right|\\) と書くとすると, \\(\left|\wp(A)\right|\\) は集合 \\(A\\) の全要素の全組み合わせであるので \\(\left|\wp(A)\right|={}_3C_0+{}_3C_1+{}_3C_2=7\\) となる. 従って, ここで取り上げた例題について丁寧に書き出してみると, \\[\wp(X)-{\emptyset,X}={X,{x_1,x_2},{x_1,x_3},{x_2,x_3},{x_1},{x_2},{x_3},\emptyset}-{\emptyset,X}\\] ということ.
@@ -567,5 +567,5 @@ x&=&x\lor 0\\
 [^8]: \\(1\\) と自分自身以外の数で割り切れるかを考える. \\(1\\) は始点なので, \\(1\\) のノードへ向けられる辺はないだろう. \\(2\\) について考えてみると, \\(1\mid 2,3\\) なら \\(1\mid 3\\) であるが, \\(4\\) は \\(1\mid 2\mid 4\\) である. これを全要素について適用していくと図のようになる.
 [^9]: 論理記号とは無関係であることに注意.
 [^10]: 半順序集合 \\(S\\) の任意の要素 \\(x, y\\) に対して \\(\sup{x,y},\inf{x,y}\\) が存在すれば, \\(x, y\\) と順序関係のある \\(z\in S\\) に対して
-\begin{eqnarray}\sup\left\{x,y\right\}&=&\sup\left\{y,x\right\}\\ \sup\left\{\sup\left\{x,y\right\},z\right\}&=&\sup\left\{x,\sup\left\{y,z\right\}\right\}\\ \sup\left\{x,\inf\left\{x,y\right\}\right\}&=&x\end{eqnarray} より束の公理を満たす. 双対の原理より双対についても成り立つ.
-[^11]: 可補束ついて次の性質が成り立つ. \begin{eqnarray}x''&=&x\\ 0'&=&1\\ 1'&=&0\\ x\lor 0&=&x\\ x\land 0&=&0\\ x\lor 1&=&1\\ x\land 1&=&x\\ (x\land y)'&=&x'\lor y'\\ (x\lor y)'&=&x'\land y'\\ x\leq y&\leftrightarrow& y'\leq x'\end{eqnarray} 面倒なので証明略. [ブール代数](https://falgon.github.io/roki.log/posts/2019/%205%E6%9C%88/29/BooleanAlgebra/)のエントリにて分配律を用いずに証明しているものがあるので, それで代用できるかと.
+\begin{aligned}\sup\left\{x,y\right\}&=&\sup\left\{y,x\right\}\\ \sup\left\{\sup\left\{x,y\right\},z\right\}&=&\sup\left\{x,\sup\left\{y,z\right\}\right\}\\ \sup\left\{x,\inf\left\{x,y\right\}\right\}&=&x\end{aligned} より束の公理を満たす. 双対の原理より双対についても成り立つ.
+[^11]: 可補束ついて次の性質が成り立つ. \begin{aligned}x''&=&x\\ 0'&=&1\\ 1'&=&0\\ x\lor 0&=&x\\ x\land 0&=&0\\ x\lor 1&=&1\\ x\land 1&=&x\\ (x\land y)'&=&x'\lor y'\\ (x\lor y)'&=&x'\land y'\\ x\leq y&\leftrightarrow& y'\leq x'\end{aligned} 面倒なので証明略. [ブール代数](https://falgon.github.io/roki.log/posts/2019/%205%E6%9C%88/29/BooleanAlgebra/)のエントリにて分配律を用いずに証明しているものがあるので, それで代用できるかと.

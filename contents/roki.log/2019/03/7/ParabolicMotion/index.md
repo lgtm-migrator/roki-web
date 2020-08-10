@@ -66,11 +66,11 @@ tags: math, physics, emscripten, C++
 
 後はこの \\(t\\) を \\(z(t)\\) に代入すれば
 
-\begin{eqnarray}
-h&=&z_0+v_z\frac{v_z}{g}-\frac{g}{2}(\frac{v_z}{g})^2\\\
-&=&z_0+\frac{v_z^2}{g}-\frac{v_z^2}{2g}\\\
+\begin{aligned}
+h&=&z_0+v_z\frac{v_z}{g}-\frac{g}{2}(\frac{v_z}{g})^2\\
+&=&z_0+\frac{v_z^2}{g}-\frac{v_z^2}{2g}\\
 &=&z_0+\frac{v_z^2}{2g}
-\end{eqnarray}
+\end{aligned}
 
 と到達高度 \\(h\\) が求まる.
 また, 到達高度を \\(h\\) にするための発射角度 \\(\theta\\) は上式より \\(h=\frac{(v\sin\theta)^2}{2g}\\) だから
@@ -95,11 +95,11 @@ h&=&z_0+v_z\frac{v_z}{g}-\frac{g}{2}(\frac{v_z}{g})^2\\\
 となる.
 また, 到達距離を \\(l\\) にするための発射角度 \\(\theta\\) は上式より 
 
-\begin{eqnarray}
-l&=&\frac{2(v\cos\theta)(v\sin\theta)}{g}\\\
-&=& \frac{2v^2}{g}\sin\theta\cos\theta\\\
+\begin{aligned}
+l&=&\frac{2(v\cos\theta)(v\sin\theta)}{g}\\
+&=& \frac{2v^2}{g}\sin\theta\cos\theta\\
 &=& \frac{v^2\sin2\theta}{g}\ (\because\ 2{\rm 倍角の公式:}\ 2\sin\theta\cos\theta=\sin2\theta)
-\end{eqnarray}
+\end{aligned}
 
 だから \\[\theta=\frac{1}{2}\sin^{-1}\frac{lg}{v^2}\\]
 ただし, \\(\sin(\pi-\theta)=\sin\theta\\) より 

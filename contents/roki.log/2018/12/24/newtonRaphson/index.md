@@ -76,12 +76,12 @@ $f(x)=0$ となる関数 $f(x)$ とその導関数 \\(f'(x)\\) 及びニュー�
 
 ここで
 
-\begin{eqnarray}\partial f(x,y):=
+\begin{aligned}\partial f(x,y):=
 (\begin{array}{cc}
-\frac{\partial f_{1}(x,y)}{\partial x} & \frac{\partial f_{1}(x,y)}{\partial y} \\\
+\frac{\partial f_{1}(x,y)}{\partial x} & \frac{\partial f_{1}(x,y)}{\partial y} \\
 \frac{\partial f_{2}(x,y)}{\partial x} & \frac{\partial f_{2}(x,y)}{\partial y}
 \end{array})
-\end{eqnarray}
+\end{aligned}
 
 なお \\(\partial f(x,y)\\) はヤコビ行列といわれる. 
 実際にコンピュータで計算する際には, \\({\partial f(x_{n},y_{n})}^{-1}(f_{1}(x_{n}, y_{n}),f_{2}(x_{n},y_{n}))^T\\) を求めるのは計算量と誤差の観点から見て困難なので,
@@ -91,11 +91,11 @@ $f(x)=0$ となる関数 $f(x)$ とその導関数 \\(f'(x)\\) 及びニュー�
 \\(y-y_{1}=\frac{y_{2}-y_{1}}{x_{2}-x_{1}}(x-x_{1})\\) を用いて描いている.
 具体的には接線の関数を \\(g(x^{\star})\\) としたとき, 接点と \\(y_{2}=0\\) であるときの 2 点 \\((x,f(x)),(x-\frac{f(x)}{f'(x)},0)\\) を使って
 
-\begin{eqnarray}
-g(x^{\star})&=&\frac{f(x)}{\frac{f(x)}{f'(x)}}(x^{\star}-x+\frac{f(x)}{f'(x)}) \\\
-&=&f'(x)(x^{\star}-x+\frac{f(x)}{f'(x)}) \\\
+\begin{aligned}
+g(x^{\star})&=&\frac{f(x)}{\frac{f(x)}{f'(x)}}(x^{\star}-x+\frac{f(x)}{f'(x)}) \\
+&=&f'(x)(x^{\star}-x+\frac{f(x)}{f'(x)}) \\
 &=&f'(x)x^{\star}-f'(x)x+f(x)
-\end{eqnarray}
+\end{aligned}
 
 と導ける. 
 

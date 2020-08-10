@@ -33,24 +33,24 @@ $A$ および $B$ が発生した確率を $10$ とする.
 まず, $A$ および $B$ が発生する確率 $P(A\cap B) = P(B\cap A)$ を求める.
 $A,\ B$ がそれぞれ発生する確率は,
 \begin{array}{lcl}
-P(A)&=&\dfrac{60}{200}=\dfrac{3}{10}\\\ P(B)&=&\dfrac{40}{200}=\dfrac{1}{5}
+P(A)&=&\dfrac{60}{200}=\dfrac{3}{10}\\ P(B)&=&\dfrac{40}{200}=\dfrac{1}{5}
 \end{array}
 である[^2]. 
 $B$ の下で $A$ が発生する確率と, $A$ の下で $B$ が発生する確率は,
 \begin{array}{lclcl}
-P(A\mid B)&=&\dfrac{10}{40}&=&\dfrac{1}{4}\\\
+P(A\mid B)&=&\dfrac{10}{40}&=&\dfrac{1}{4}\\
 P(B\mid A)&=&\dfrac{10}{60}&=&\dfrac{1}{6}
 \end{array}
 である. そもそも, $B$ が発生しなければ, $A$ および $B$ が発生するということはないし,
 $A$ が発生しなければ, $B$ および $A$ が発生するということはないので,
 \begin{array}{lclclcl}
-P(A\cap B)&=&P(A\mid B)P(B)&=&\dfrac{1}{4}\cdot\dfrac{1}{5}&=&\dfrac{1}{20}\\\
+P(A\cap B)&=&P(A\mid B)P(B)&=&\dfrac{1}{4}\cdot\dfrac{1}{5}&=&\dfrac{1}{20}\\
 P(B\cap A)&=&P(B\mid A)P(A)&=&\dfrac{1}{6}\cdot\dfrac{3}{10}&=&\dfrac{1}{20}
 \end{array}
 である. あとは変形すれば良いだけで,
 \begin{array}{lcl}
-P(A\mid B)P(B)&=&P(A\cap B)\\\
-P(A\mid B)&=&\dfrac{P(A\cap B)}{P(B)}\\\
+P(A\mid B)P(B)&=&P(A\cap B)\\
+P(A\mid B)&=&\dfrac{P(A\cap B)}{P(B)}\\
 P(A\mid B)&=&\dfrac{P(B\mid A)P(A)}{P(B)}
 \end{array}
 

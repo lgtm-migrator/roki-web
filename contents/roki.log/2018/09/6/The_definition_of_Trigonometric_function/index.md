@@ -35,18 +35,18 @@ tags: math
 単位円上の二点 \\(P(\cos p,\sin p),Q(\cos q,\sin q)\\) がある.
 上図のように, 原点 \\(O\\) に対し, \\(O P\\) と \\(x\\) 軸の成す角を \\(p\\), 
 \\(O Q\\) と \\(x\\) 軸の成す角を \\(q\\) とする. 線分 \\(P Q\\) の長さを座標成分で表すと, 
-\begin{eqnarray}
-P Q^2&=&(\cos q-\cos p)^2+(\sin q-\sin p)^2\\\
-&=&\cos^2 q-2\cos q\cos p+\cos^2 p+\sin^2 q-2\sin q\sin p+\sin^2 p\\\
-&=&(\sin^2 p+\cos^2 p)+(\sin^2 q+\cos^2 q)-2\cos q\cos p-2\sin q\sin p\\\
+\begin{aligned}
+P Q^2&=&(\cos q-\cos p)^2+(\sin q-\sin p)^2\\
+&=&\cos^2 q-2\cos q\cos p+\cos^2 p+\sin^2 q-2\sin q\sin p+\sin^2 p\\
+&=&(\sin^2 p+\cos^2 p)+(\sin^2 q+\cos^2 q)-2\cos q\cos p-2\sin q\sin p\\
 &=&2-2(\sin p\sin q+\cos p\cos q)\tag{1}
-\end{eqnarray}
+\end{aligned}
 また, 余弦定理より
-\begin{eqnarray}
+\begin{aligned}
 P Q^2&=&O P^2+O Q^2-2 O P\cdot O Q\cos(p-q)\\
 &=&1^2+1^2-2\cdot 1\cdot 1\cdot \cos(p-q)\\
 &=&2-2\cos(p-q)\tag{2}
-\end{eqnarray}
+\end{aligned}
 \\(,\\) より
 \\[2-2\cos(p-q)=2-2(\cos p\cos q+\sin p\sin q)\leftrightarrow \cos(p-q)=\cos p\cos q+\sin p\sin q\tag{3}\\]
 ここで, \\(\\) の \\(q\\) を \\(q+\frac{\pi}{2}\\) とすると, 三角関数の定義より
@@ -59,29 +59,29 @@ P Q^2&=&O P^2+O Q^2-2 O P\cdot O Q\cos(p-q)\\
 ### 三角関数の導関数
 
 まず \\(f(x)=\sin x\\) の導関数 \\(f'(x)\\) について, 導関数の定義より
-\begin{eqnarray}
+\begin{aligned}
 f'(x)&=&\lim_{h\to 0}\frac{f(x+h)-f(x)}{h}\\
 &=&\lim_{h\to 0}\frac{\sin(x+h)-\sin x}{h}\\
 &=&\lim_{h\to 0}\frac{\sin x\cos h+\cos x\sin h-\sin x}{h}\ \because{\rm 加法定理}\ \ {\rm より}\tag{5}\\
 &=&\lim_{h\to 0}\frac{\sin x(\cos h-1)+\cos x\sin h}{h}\\
 &=&\lim_{h\to 0}\left\{\frac{\sin x(\cos h-1)}{h}+\frac{\cos x\sin h}{h}\right\}\\ 
 &=&\lim_{h\to 0}(\sin x\underbrace{\frac{\cos h - 1}{h}}_{A}+\cos x\frac{\sin h}{h})\tag{6}
-\end{eqnarray}
+\end{aligned}
 
 項 \\(A\\) について
 
-\begin{eqnarray}
+\begin{aligned}
 \frac{\cos h-1}{h}\cdot\frac{\cos h+1}{\cos h+1}&=&\frac{\cos^2h-1}{h(\cos h+1)}\\
 &=&\frac{-\sin^2 h}{h(\cos h+1)}\ \because\sin^2+\cos^2=1\\
 &=&\frac{-\sin h\cdot\sin h}{h(\cos h+1)}\cdot\frac{h}{h}\\
 &=&-\frac{\sin h}{h}\cdot\frac{\sin h}{h}\cdot\frac{h}{\cos h+1}
-\end{eqnarray}
+\end{aligned}
 
 ここで, \\(\displaystyle\lim_{h\to 0}-\frac{\sin h}{h}\cdot\frac{\sin h}{h}\cdot\frac{h}{\cos h+1}=0\\) だから,
 \\(\\) より \\[f'(x)=\sin x\cdot 0+\cos x\cdot 1=\cos x\tag{7}\\]
 次に \\(f(x)=\cos x\\) の導関数 \\(f'(x)\\) について, 導関数の定義より
 
-\begin{eqnarray}
+\begin{aligned}
 f'(x)&=&\lim_{h\to 0}\frac{f(x+h)-f(x)}{h}\\
 &=&\lim_{h\to 0}\frac{\cos(x+h)-\cos x}{h}\\
 &=&\lim_{h\to 0}\frac{\cos x\cos h-\sin x\sin h-\cos x}{h}\ \because{\rm 加法定理}\ \ {\rm より}\tag{8}\\
@@ -90,78 +90,78 @@ f'(x)&=&\lim_{h\to 0}\frac{f(x+h)-f(x)}{h}\\
 &=&\lim_{h\to 0}(\cos x\frac{\cos h - 1}{h}-\sin x\frac{\sin h}{h})\\
 &=&\cos x\cdot 0-\sin x\cdot 1\\
 &=&-\sin x\tag{9}
-\end{eqnarray}
+\end{aligned}
 
 次に \\(f(x)=\tan x\\) の導関数 \\(f'(x)\\) について,
 これは \\(f'(x)=(\tan x)'=(\frac{\sin x}{\cos x})'\\) だから
-\begin{eqnarray}
+\begin{aligned}
 f'(x)&=&(\frac{\sin x}{\cos x})'\\
 &=&\frac{(\sin x)'\cos x-\sin x(\cos x)'}{\cos^2 x}\\
 &=&\frac{\cos x\cos x-\sin x(-\sin x)}{\cos^2 x}\ \because,\ {\rm より}\\
 &=&\frac{\cos^2 x+\sin^2 x}{\cos^2 x}\\
 &=&\frac{1}{\cos^2 x}
-\end{eqnarray}
+\end{aligned}
 
 最後に \\(f(x)=\frac{1}{\tan x}\\) の導関数 \\(f'(x)\\) について,
 これは \\(f'(x)=\frac{1}{\tan x}=(\frac{\cos x}{\sin x})'\\) だから
-\begin{eqnarray}
+\begin{aligned}
 f'(x)&=&(\frac{\cos x}{\sin x})'\\
 &=&\frac{(\cos x)'\sin x-\cos x(\sin x)'}{\sin^2 x}\\
 &=&\frac{-\sin x\sin x-\cos x\cos x}{\sin^2 x}\ \because,\ {\rm より}\\
 &=&-\frac{\sin^2x+\cos^2x}{\sin^2x}\\
 &=&-\frac{1}{\sin^2x}
-\end{eqnarray}
+\end{aligned}
 
 ### 和積の公式を用いた方法
 
 \\(,\\) の部分では加法定理を用いたが, 加法定理より導出できる和積の公式を用いても同様にして導出できる.
 \\(\\) より
-\begin{eqnarray}
+\begin{aligned}
 \sin(p+q)&=&\sin p\sin q+\cos p\sin q\tag{10}\\
 \sin(p-q)&=&\sin p\sin q-\cos p\sin q\tag{11}
-\end{eqnarray}
+\end{aligned}
 \\(+\\) より \\[\sin(p+q)+\sin(p-q)=2\sin p\cos q\leftrightarrow \sin p\cos q=\frac{\sin(p+q)+\sin(p-q)}{2}\tag{12}\\]
 また, \\(\\) より
-\begin{eqnarray}
+\begin{aligned}
 \cos(p+q)&=&\cos p\cos q-\sin p\sin q\tag{13}\\
 \cos(p-q)&=&\cos p\cos q+\sin p\sin q\tag{14}
-\end{eqnarray}
+\end{aligned}
 \\(-\\) より 
 \\[\cos(p+q)-\cos(p-q)=-2\sin p\sin q\leftrightarrow \sin p\sin q=-\frac{\cos(p+q)-\cos(p-q)}{2}\tag{15}\\]
 
 \\(,\\) は積和の公式といわれる (あともう 1 つ積和の公式と言われるものがあるが, 今回は利用しないので省略). 
 ここで, \\(\\) に対し \\(p=\frac{x-y}{2},q=\frac{x+y}{2}\\) とすると,
-\begin{eqnarray}
+\begin{aligned}
 \sin\frac{x-y}{2}\cos\frac{x+y}{2}&=&\frac{\sin(\frac{x-y}{2}+\frac{x+y}{2})+\sin(\frac{x-y}{2}-\frac{x+y}{2})}{2}\\
 &=&\frac{\sin x-\sin y}{2}
-\end{eqnarray}
+\end{aligned}
 ゆえに
 \\[\sin x-\sin y=2\cos\frac{x+y}{2}\sin\frac{x-y}{2}\tag{16}\\]
 また \\(\\) に対し \\(p=\frac{x+y}{2},q=\frac{x-y}{2}\\) とすると,
-\begin{eqnarray}
+\begin{aligned}
 \sin\frac{x+y}{2}\sin\frac{x-y}{2}&=&-\frac{\cos(\frac{x+y}{2}+\frac{x-y}{2})-\cos(\frac{x+y}{2}-\frac{x-y}{2})}{2}\\
 &=&-\frac{\cos x-\cos y}{2}
-\end{eqnarray}
+\end{aligned}
 ゆえに
 \\[\cos x-\cos y=-2\sin\frac{x+y}{2}\sin\frac{x-y}{2}\tag{17}\\]
 \\(,\\) が和積の公式である (あともう 2 つ和積の公式と言われるものがあるが, 今回は利用しないので省略).
 \\(\\) をつかって \\(\displaystyle f'(x)=\lim_{h\to 0}\frac{\sin(x+h)-\sin x}{h}\\) を変形すると,
-\begin{eqnarray}
+\begin{aligned}
 f'(x)&=&\lim_{h\to 0}\frac{\sin(x+h)-\sin x}{h}\\
 &=&\lim_{h\to 0}\frac{2\cos(\frac{2x+h}{2})\sin\frac{h}{2}}{h}\ \because\\
 &=&\lim_{h\to 0}\frac{\cos(\frac{2x+h}{2})\sin\frac{h}{2}}{\frac{h}{2}}\\
 &=&\cos(\frac{2x}{2})\\
 &=&\cos x
-\end{eqnarray}
+\end{aligned}
 と \\(\\) と同様の結果が得られる. 
 また, \\(\\) をつかって \\(\displaystyle f'(x)=\lim_{h\to 0}\frac{\cos(x+h)-\cos x}{h}\\) を変形すると,
-\begin{eqnarray}
+\begin{aligned}
 f'(x)&=&\lim_{h\to 0}\frac{\cos(x+h)-\cos x}{h}\\
 &=&\lim_{h\to 0}\frac{-2\sin(\frac{2x+h}{2})\sin\frac{h}{2}}{h}\ \because\\
 &=&\lim_{h\to 0}-\frac{\sin(\frac{2x+h}{2})\sin\frac{h}{2}}{\frac{h}{2}}\\
 &=&-\sin(\frac{2x}{2})\\
 &=&-\sin x
-\end{eqnarray}
+\end{aligned}
 と \\(\\) と同様の結果が得られる.
 
 ### 参考文献

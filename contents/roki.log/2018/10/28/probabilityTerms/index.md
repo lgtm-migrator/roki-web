@@ -155,7 +155,7 @@ td {
         確率変数のとりうる値にそれが起こる確率を掛けた値の総和のこと(加重平均). 
         すなわち, 確率変数 \\(X\\) の取り得る値 \\(x\\) に関する確率 \\(P(x_i)\\) があって, 
         \begin{cases}
-        \displaystyle\sum^{n}_{i=1}x_i P(x_i) &:X {\rm は離散的確率変数}\\\
+        \displaystyle\sum^{n}_{i=1}x_i P(x_i) &:X {\rm は離散的確率変数}\\
         \displaystyle\int^\infty_{-\infty} xP(x)dx &:X {\rm は連続的確率変数}
         \end{cases}
         <ul>
@@ -259,21 +259,21 @@ td {
             <li>定数の分散は \\(0\\) である: \\(V\left[a\right]=E\left[(a-E\left[a\right])^2\right]=E\left[(a-a)^2\right]\\) だから
             \\[E\left[0\right]=0\tag{v}\\]</li>
             <li>定数 \\(a\\) と確率変数 \\(X\\) の和の分散は, 確率変数 \\(X\\) の分散である:
-            \begin{eqnarray}
-            V\left[a+X\right]&=&E\left[(a+X-E\left[a+X\right])^2\right] \\\
-            &=&E\left[(a+X-E\left[a\right]-E\left[X\right])^2\right] \\\
-            &=&E\left[(a+X-a-E\left[X\right])^2\right]\\\
+            \begin{aligned}
+            V\left[a+X\right]&=&E\left[(a+X-E\left[a+X\right])^2\right] \\
+            &=&E\left[(a+X-E\left[a\right]-E\left[X\right])^2\right] \\
+            &=&E\left[(a+X-a-E\left[X\right])^2\right]\\
             &=&E\left[(X-E\left[X\right])^2\right]
-            \end{eqnarray} だから \\[V\left[a+X\right]=V\left[X\right]\tag{vi}\\]
+            \end{aligned} だから \\[V\left[a+X\right]=V\left[X\right]\tag{vi}\\]
             </li>
             <li>定数 \\(b\\) と確率変数 \\(X\\) の積の分散は, 確率変数 \\(X\\) の分散と \\(b\\) の二乗の積である:
-            \begin{eqnarray}
-            V\left[bX\right]&=&E\left[(bX-E\left[bX\right])^2\right] \\\
-            &=&E\left[(bX-bE\left[X\right])^2\right] \\\
-            &=&E\left[\left\{b(X-E\left[X\right])\right\}^2\right] \\\
-            &=&E\left[b^2(X-E\left[X\right])^2\right] \\\
+            \begin{aligned}
+            V\left[bX\right]&=&E\left[(bX-E\left[bX\right])^2\right] \\
+            &=&E\left[(bX-bE\left[X\right])^2\right] \\
+            &=&E\left[\left\{b(X-E\left[X\right])\right\}^2\right] \\
+            &=&E\left[b^2(X-E\left[X\right])^2\right] \\
             &=&b^2E\left[(X-E\left[X\right])^2\right]
-            \end{eqnarray} だから \\[V\left[bX\right]=b^2V\left[X\right]\tag{vii}\\]
+            \end{aligned} だから \\[V\left[bX\right]=b^2V\left[X\right]\tag{vii}\\]
             </li>
             <li>定数 \\(b\\) と確率変数 \\(X\\) の積と \\(a\\) の和の分散は, 確率変数 \\(X\\) の分散と定数 \\(b\\) の二乗の積である:
             \\(, \\) より \\[V\left[bX+a\right]=b^2V\left[X\right]\tag{viii}\\]</li>
@@ -325,27 +325,27 @@ td {
 この標本分散は上記の表で示した通り \\(\displaystyle s^2=\overline{X^2}-\overline{X}^2=\dfrac{1}{n}\sum^{n}_{i=1}(X_i-\overline{X})^2\\) で, 
 母分散は \\(\sigma^2=E\left[(X-\mu)^2\right]\\) である. ここで, \\(X_i-\overline{X}=X_i-\mu-\overline{X}+\mu\\) とおくと,
 
-\begin{eqnarray}
-&=&\dfrac{1}{n}\left[\left\{(X_1-\mu)-(\overline{X}-\mu)\right\}^2+\cdots+\left\{(X_n-\mu)-(\overline{X}-\mu)\right\}^2\right] \\\
-&=&\dfrac{1}{n}\left\{(X_1-\mu)^2-2(X_1-\mu)(\overline{X}-\mu)+(\overline{X}-\mu)^2+\cdots+(X_n-\mu)^2-2(X_n-\mu)(\overline{X}-\mu)+(\overline{X}-\mu)^2\right\} \\\
-&=&\dfrac{1}{n}\sum_{i=1}^n(X_i-\mu)^2-2\dfrac{1}{n}\sum_{j=1}^{n}(X_j-\mu)(\overline{X}-\mu)+(\overline{X}-\mu)^2 \\\
-&=&\dfrac{1}{n}\sum_{i=1}^n(X_i-\mu)^2-2(\overline{X}-\mu)^2+(\overline{X}-\mu)^2 \\\
+\begin{aligned}
+&=&\dfrac{1}{n}\left[\left\{(X_1-\mu)-(\overline{X}-\mu)\right\}^2+\cdots+\left\{(X_n-\mu)-(\overline{X}-\mu)\right\}^2\right] \\
+&=&\dfrac{1}{n}\left\{(X_1-\mu)^2-2(X_1-\mu)(\overline{X}-\mu)+(\overline{X}-\mu)^2+\cdots+(X_n-\mu)^2-2(X_n-\mu)(\overline{X}-\mu)+(\overline{X}-\mu)^2\right\} \\
+&=&\dfrac{1}{n}\sum_{i=1}^n(X_i-\mu)^2-2\dfrac{1}{n}\sum_{j=1}^{n}(X_j-\mu)(\overline{X}-\mu)+(\overline{X}-\mu)^2 \\
+&=&\dfrac{1}{n}\sum_{i=1}^n(X_i-\mu)^2-2(\overline{X}-\mu)^2+(\overline{X}-\mu)^2 \\
 &=&\dfrac{1}{n}\sum_{i=1}^n(X_i-\mu)^2-(\overline{X}-\mu)^2 
-\end{eqnarray}
+\end{aligned}
 
 である. この期待値は 
 
-\begin{eqnarray}
-E\left[s^2\right]&=&\dfrac{1}{n}\sum_{i=1}^nE\left[(X_i-\mu)^2\right]-E\left[(\overline{X}-\mu)\right] \\\
+\begin{aligned}
+E\left[s^2\right]&=&\dfrac{1}{n}\sum_{i=1}^nE\left[(X_i-\mu)^2\right]-E\left[(\overline{X}-\mu)\right] \\
 &=&\sigma^2-E\left[(\overline{X}-\mu)^2\right] \tag{1}
-\end{eqnarray}
+\end{aligned}
 
 で, \\(\\) の第二項は標本平均分散だから,
 
-\begin{eqnarray}
-E\left[s^2\right]&=&\sigma^2-\dfrac{\sigma^2}{n}\\\
+\begin{aligned}
+E\left[s^2\right]&=&\sigma^2-\dfrac{\sigma^2}{n}\\
 &=&\dfrac{n-1}{n}\sigma^2
-\end{eqnarray}
+\end{aligned}
 
 \\(\square\\)
 
@@ -418,13 +418,13 @@ E\left[s^2\right]&=&\sigma^2-\dfrac{\sigma^2}{n}\\\
 
 \\(X\\) を連続型確率変数とすると, 確率密度関数 \\(f_X(x)\\) に対して,
 
-\begin{eqnarray}
-cP(\left|X\right|\geq c)&=&c\int^{\infty}_{c}f_X(x)dx \\\
-&\leq&\int^{\infty}_{c}\left|x\right|f_X(x)dx \\\
-&\leq&\int^c_0\left|x\right|f_X(x)dx+\int^\infty_c\left|x\right|f_X(x)dx \\\
-&=&\int^\infty_0\left|x\right|f_X(x)dx \\\ 
+\begin{aligned}
+cP(\left|X\right|\geq c)&=&c\int^{\infty}_{c}f_X(x)dx \\
+&\leq&\int^{\infty}_{c}\left|x\right|f_X(x)dx \\
+&\leq&\int^c_0\left|x\right|f_X(x)dx+\int^\infty_c\left|x\right|f_X(x)dx \\
+&=&\int^\infty_0\left|x\right|f_X(x)dx \\ 
 &=&E[\left|X\right|]
-\end{eqnarray}
+\end{aligned}
 
 \\(\therefore P(\left|X\right|\geq c)\leq\dfrac{E[\left|X\right|]}{c}\\). 
 \\(X\\) が離散型確率変数である場合は総計により同様にして求まる. \\(\square\\)
@@ -439,11 +439,11 @@ cP(\left|X\right|\geq c)&=&c\int^{\infty}_{c}f_X(x)dx \\\
 **証明**:<br>
 
 [マルコフの不等式](#MarkovsInequality)より, \\(X=(Y-\mu)^2,c=a^2\sigma^2\\) とすると
-\begin{eqnarray}
-P((Y-\mu)^2\geq a^2\sigma^2)&\leq&\dfrac{E\left[(Y-\mu)^2\right]}{a^2\sigma^2} \\\
-&=&\dfrac{\sigma^2}{a^2\sigma^2} \\\
+\begin{aligned}
+P((Y-\mu)^2\geq a^2\sigma^2)&\leq&\dfrac{E\left[(Y-\mu)^2\right]}{a^2\sigma^2} \\
+&=&\dfrac{\sigma^2}{a^2\sigma^2} \\
 &=&\dfrac{1}{a^2}
-\end{eqnarray}
+\end{aligned}
 
 \\(\therefore P(\left|Y-\mu\right|\geq a\sigma)\leq\dfrac{1}{a^2}\\). 
 \\(c=a^2\\) とすると, 同様にして \\(P(\left|Y-\mu\right|\geq a)\leq\dfrac{\sigma^2}{a^2}\\).
@@ -491,11 +491,11 @@ P((Y-\mu)^2\geq a^2\sigma^2)&\leq&\dfrac{E\left[(Y-\mu)^2\right]}{a^2\sigma^2} \
 * 「[3.3 条件付き期待値](https://mcm-www.jwu.ac.jp/~konno/pdf/statha3.pdf)」 2018 年 11 月 12 日アクセス.
 
 [^1]: \\(\sigma\\)-加法族は, 完全加法族, 可算加法族, \\(\sigma\\)-集合代数, \\(\sigma\\)-集合体ともいわれる.
-[^2]: 簡単のため, 確率変数 \\(X, Y\\) に対して \\(E\left[X,Y\right]=E\left[X\right]+E\left[Y\right]\\) を示して証明とする. ここで, \\(\sum_i:=\sum^n_{i=1},\sum_j:=\sum^n_{j=1}\\) とし, 確率変数 \\(X\\) がその取り得る値 \\(x_i\\) となる確率を \\(P(x_i)\\), 同様に \\(Y\\) がその取り得る値 \\(y_j\\) となる確率を \\(P(y_j)\\) とする. また, そのどちらもが同時に発生する確率を \\(P(x_i,y_j)\\) とする. \begin{eqnarray} E\left[X+Y\right]&=&\sum_i\sum_j(x_i+y_j)P(x_i,y_j) \\\ &=&\sum_i\sum_j x_iP(x_i,y_j)+\sum_i\sum_j y_jP(x_i,y_j) \\\ &=&\sum_i x_i\sum_j P(x_i,y_j)+\sum_j y_j\sum_i P(x_i,y_j) \\\ &=&\sum_i x_iP(x_i)\sum_j y_jP(y_j) \\\ &=& E\left[X\right]+E\left[Y\right] \end{eqnarray} 連続的確率変数に対しても, 積分の線型性から同様. \\(\square\\)
-[^3]: \\(\\) および[期待値の線形性](#LinearityExpectedValue)より \begin{eqnarray}E\left[\overline{X}\right]&=&E\left[\dfrac{1}{n}\sum^n_{i=1}X_i\right] \\\ &=&\dfrac{1}{n}E\left[X_1+\cdots+X_n\right] \\\ &=&\dfrac{1}{n}n\mu \\\ &=&\mu \end{eqnarray} \\(\square\\)
-[^4]: 簡単のため, 連続型確率変数 \\(X,Y\\) に対する $E\left[Y\right]=E\left[E\left[Y|X\right]\right]$ を示して証明とする. $E\left[Y\right]$ は条件付き期待値の定義から $$E\left[Y\right]=\int^\infty_{-\infty}\int^\infty_{-\infty}yf(x,y)dxdy$$ ここで, \\(f(x,y)\\) は \\(X,Y\\) の同時確率密度関数である. 従って, \begin{eqnarray}E\left[Y\right]&=&\int^\infty_{-\infty}\int^\infty_{-\infty}yf(x,y)dxdy \\\ &=&\int^\infty_{-\infty}\int^\infty_{-\infty}y\dfrac{f(x,y)}{f(x)}f(x)dxdy \\\ &=&\int^\infty_{-\infty}\left[\int^\infty_{-\infty}yf(y|x)dx\right]f(x)dx \\\ &=& \int^\infty_{-\infty}E\left[X|y\right]f(x)dydx \\\ &=&E\left[E\left[Y|X\right]\right]\end{eqnarray} \\(\square\\)
-[^5]: 平均 \\(\mu\\), 分散 \\(\sigma^2\\) の確率変数 \\(X\\) を正則化した変数 \\(Z=\dfrac{X-\mu}{\sigma}\\) の期待値と分散を確認してみると, 平均は \\(, \\) より \begin{eqnarray}E\left[Z\right]&=&E\left[\dfrac{X-\mu}{\sigma}\right] \\\ &=&\dfrac{1}{\sigma}E\left[X-\mu\right] \\\ &=& \dfrac{1}{\sigma}(E\left[X\right]-\mu) \\\ &=&\dfrac{1}{\sigma}(\mu-\mu) \\\ &=&0\end{eqnarray} 分散は \\(, \\) より \begin{eqnarray}V\left[Z\right]&=&V\left[\dfrac{X-\mu}{\sigma}\right] \\\ &=&\dfrac{1}{\sigma^2}V\left[X-\mu\right] \\\ &=&\dfrac{1}{\sigma^2}V\left[X\right] \\\ &=&\dfrac{\sigma^2}{\sigma^2} \\\ &=& 1\end{eqnarray} となり標準正規分布に従うことがわかる.
-[^6]: \\(\\) および[期待値の線形性](#LinearityExpectedValue)より \begin{eqnarray}V\left[\overline{X}\right]&=&V\left[\dfrac{1}{n}\sum^n_{i=1}X_i\right] \\\ &=&\dfrac{1}{n^2}V\left[X_1+\cdots+X_n\right] \\\ &=&\dfrac{1}{n^2}n\sigma^2 \\\ &=&\dfrac{\sigma^2}{n}\end{eqnarray} \\(\square\\)
+[^2]: 簡単のため, 確率変数 \\(X, Y\\) に対して \\(E\left[X,Y\right]=E\left[X\right]+E\left[Y\right]\\) を示して証明とする. ここで, \\(\sum_i:=\sum^n_{i=1},\sum_j:=\sum^n_{j=1}\\) とし, 確率変数 \\(X\\) がその取り得る値 \\(x_i\\) となる確率を \\(P(x_i)\\), 同様に \\(Y\\) がその取り得る値 \\(y_j\\) となる確率を \\(P(y_j)\\) とする. また, そのどちらもが同時に発生する確率を \\(P(x_i,y_j)\\) とする. \begin{aligned} E\left[X+Y\right]&=&\sum_i\sum_j(x_i+y_j)P(x_i,y_j) \\ &=&\sum_i\sum_j x_iP(x_i,y_j)+\sum_i\sum_j y_jP(x_i,y_j) \\ &=&\sum_i x_i\sum_j P(x_i,y_j)+\sum_j y_j\sum_i P(x_i,y_j) \\ &=&\sum_i x_iP(x_i)\sum_j y_jP(y_j) \\ &=& E\left[X\right]+E\left[Y\right] \end{aligned} 連続的確率変数に対しても, 積分の線型性から同様. \\(\square\\)
+[^3]: \\(\\) および[期待値の線形性](#LinearityExpectedValue)より \begin{aligned}E\left[\overline{X}\right]&=&E\left[\dfrac{1}{n}\sum^n_{i=1}X_i\right] \\ &=&\dfrac{1}{n}E\left[X_1+\cdots+X_n\right] \\ &=&\dfrac{1}{n}n\mu \\ &=&\mu \end{aligned} \\(\square\\)
+[^4]: 簡単のため, 連続型確率変数 \\(X,Y\\) に対する $E\left[Y\right]=E\left[E\left[Y|X\right]\right]$ を示して証明とする. $E\left[Y\right]$ は条件付き期待値の定義から $$E\left[Y\right]=\int^\infty_{-\infty}\int^\infty_{-\infty}yf(x,y)dxdy$$ ここで, \\(f(x,y)\\) は \\(X,Y\\) の同時確率密度関数である. 従って, \begin{aligned}E\left[Y\right]&=&\int^\infty_{-\infty}\int^\infty_{-\infty}yf(x,y)dxdy \\ &=&\int^\infty_{-\infty}\int^\infty_{-\infty}y\dfrac{f(x,y)}{f(x)}f(x)dxdy \\ &=&\int^\infty_{-\infty}\left[\int^\infty_{-\infty}yf(y|x)dx\right]f(x)dx \\ &=& \int^\infty_{-\infty}E\left[X|y\right]f(x)dydx \\ &=&E\left[E\left[Y|X\right]\right]\end{aligned} \\(\square\\)
+[^5]: 平均 \\(\mu\\), 分散 \\(\sigma^2\\) の確率変数 \\(X\\) を正則化した変数 \\(Z=\dfrac{X-\mu}{\sigma}\\) の期待値と分散を確認してみると, 平均は \\(, \\) より \begin{aligned}E\left[Z\right]&=&E\left[\dfrac{X-\mu}{\sigma}\right] \\ &=&\dfrac{1}{\sigma}E\left[X-\mu\right] \\ &=& \dfrac{1}{\sigma}(E\left[X\right]-\mu) \\ &=&\dfrac{1}{\sigma}(\mu-\mu) \\ &=&0\end{aligned} 分散は \\(, \\) より \begin{aligned}V\left[Z\right]&=&V\left[\dfrac{X-\mu}{\sigma}\right] \\ &=&\dfrac{1}{\sigma^2}V\left[X-\mu\right] \\ &=&\dfrac{1}{\sigma^2}V\left[X\right] \\ &=&\dfrac{\sigma^2}{\sigma^2} \\ &=& 1\end{aligned} となり標準正規分布に従うことがわかる.
+[^6]: \\(\\) および[期待値の線形性](#LinearityExpectedValue)より \begin{aligned}V\left[\overline{X}\right]&=&V\left[\dfrac{1}{n}\sum^n_{i=1}X_i\right] \\ &=&\dfrac{1}{n^2}V\left[X_1+\cdots+X_n\right] \\ &=&\dfrac{1}{n^2}n\sigma^2 \\ &=&\dfrac{\sigma^2}{n}\end{aligned} \\(\square\\)
 [^7]: matplotlib 等で[生成](https://gist.github.com/falgon/63bfa6f2039ad25379d441831f4bb648). 標準偏差 \\(\sigma\\) を \\([1,5]\\) としたとき.
 [^8]: [参考文献](#ref1)から一部引用: <i>ベーシックな大数の弱法則は中心極限定理から導出することができます。→[The Laws of Large Numbers Compared](http://www.dklevine.com/archive/strong-law.pdf)(snip) しかし，より一般的な（仮定を弱めた）大数の弱法則は中心極限定理から導出することはできません。つまり「中心極限定理が大数の法則を包含している」と言うことはできないのです。</i>
 [^9]: 平均, 分散が定義できない分布の例としてよく挙げられるものの 1 つ: コーシー分布.

@@ -1,6 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Sawarabi+Mincho');
-@import url('https://fonts.googleapis.com/css?family=Sawarabi+Gothic');
+@font-face  {
+    font-family: 'Roboto';
+    src: local('Roboto Thin Italic'), 
+        url(https://fonts.gstatic.com/s/roboto/v19/KFOiCnqEu92Fr1Mu51QrEz0dL-vwnYh2eg.woff2)
+        format('woff2');
+    font-display: swap;
+}
 
 html {
     height: 100%;
@@ -11,7 +15,7 @@ body {
     font-family: 
         'Ubuntu Mono', 
         'Sawarabi Mincho',
-        monospace;
+        sans-serif;
     display: flex;
     min-height: 100vh;
     flex-direction: column;

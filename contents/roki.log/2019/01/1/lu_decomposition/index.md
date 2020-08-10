@@ -12,7 +12,7 @@ LU 分解に関して初歩的な内容から網羅的にまとめた.
 その本質は行列の行基本変形, すなわち中学校で習う連立方程式の解法そのものである.
 例えば, 何の芸もないが, 次の連立方程式
 
-\begin{eqnarray}
+\begin{aligned}
 \begin{cases}
 x+2y&=&3  \\
 3x+4y&=&5
@@ -21,7 +21,7 @@ x+2y&=&3  \\
 1 & 2 & 3 \\
 3 & 4 & 5
 \end{array})\tag{1}
-\end{eqnarray}
+\end{aligned}
 
 をガウスの消去法では次のようにして解くのであった.
 
@@ -578,13 +578,13 @@ LU 分解された \\(L,U\\) は一意に決まる
 
 次に, 次のような行列に対する LU 分解を考えてみる.
 
-\begin{eqnarray}
+\begin{aligned}
 A=(\begin{array}{ccc}
 0 & 1 & 0 \\
 -8 & 8 & 1 \\
 2 & -2 & 0
 \end{array})
-\end{eqnarray}
+\end{aligned}
 
 見てわかるように, 前進消去の段階で \\(-8\div 0\\) となってしまい計算できない.
 しかし, これも部分ピボット選択付きガウスの消去法と同様に, 絶対値最大の値がピボットとなるように行を予め入れ替えておけば,
@@ -592,7 +592,7 @@ A=(\begin{array}{ccc}
 そのような手続きのある LU 分解は PLU 分解といわれ, 置換行列 \\(P\in\mathbb{R}^{m\times n}\\) をつかって, \\(A=P L U\\) とする.
 以下 \\(A\\) をつかって導出してみることとする. \\(\boldsymbol{a_1}^T\\) と \\(\boldsymbol{a_2}^T\\) を入れ替えれば良いので,
 
-\begin{eqnarray}
+\begin{aligned}
 \underbrace{(\begin{array}{ccc}
 0 & 1 & 0 \\
 1 & 0 & 0 \\
@@ -613,7 +613,7 @@ A=(\begin{array}{ccc}
 0 & 1 & 0 \\
 0 & 0 & \frac{1}{4}
 \end{array})}_{A'^{(1)}}
-\end{eqnarray}
+\end{aligned}
 
 
 より 
@@ -627,7 +627,7 @@ $$P^{(1)}A=L U$$
 \\(P^{(1)}\\) は元々置換行列であるから正則であり, また直行行列でもある. 
 すなわち \\({P=P^{(1)}}^{-1}={P^{(1)}}^T\\) とおけて
 
-\begin{eqnarray}
+\begin{aligned}
 A&=&P L U\\
 (\begin{array}{ccc}
 0 & 1 & 0 \\
@@ -649,7 +649,7 @@ A&=&P L U\\
 0 & 1 & 0 \\
 0 & 0 & \frac{1}{4}
 \end{array})
-\end{eqnarray}
+\end{aligned}
 
 ここで \\(\boldsymbol{a}\in\mathbb{R}^{n\times 1},\boldsymbol{v}\in\mathbb{R}^{n\times 1}\\) に対して
 \\(P L U \boldsymbol{a}=\boldsymbol{v}\\) というように, PLU 分解を用いて連立方程式解くことを考えると,
@@ -812,7 +812,7 @@ LU 分解の他の方法として内積形式ガウス法(以下 Doolittle 法),
 このとき \\(X = L' D U'\\) に対して \\(L = L' D\\) とおいて \\(X = L U'\\) というように分解できることを過程して行列 \\(L,U'\\) を導出することを Doolittle 法,
 また \\(U=D U'\\) とおいて \\(X = L' U\\) というように分解できることを過程して行列 \\(L' U\\) を導出することを Crout 法という.
 
-\begin{eqnarray}
+\begin{aligned}
 X= L U'\leftrightarrow 
 (\begin{array}{ccc}
 x_{11} & x_{12} & x_{13} \\
@@ -841,7 +841,7 @@ l_{31} & l_{32} & l_{33}
 0 & 1 & u_{23} \\
 0 & 0 & 1
 \end{array})&:=&{\rm Crout\ 法}
-\end{eqnarray}
+\end{aligned}
 
 いま行列 \\(X\\) を Doolittle 法により LU 分解できたならば
 \\(L U'\\) を単に計算して \\(X=L U'\\) は次のようにかけるはずである.
@@ -867,7 +867,7 @@ $$
 の成分で行列 
 $L, U'$ を次のように書き換えることができる.
 
-\begin{eqnarray}
+\begin{aligned}
 (\begin{array}{ccc}
 x_{11} & x_{12} & x_{13} \\
 x_{21} & x_{22} & x_{23} \\
@@ -926,14 +926,14 @@ x_{11} & x_{12} & x_{13} \\
 x_{32}=l_{31}u_{12}+l_{32}u_{22}\leftrightarrow l_{32}=\frac{x_{32}-l_{31}u_{12}}{u_{22}}, \\
 u_{33}\ {\rm についても同様}
 \end{array}
-\end{eqnarray}
+\end{aligned}
 
 これをみると, 一行目, 一列目, 二行目, 二列目 \\(\cdots\\) と展開していくことで,
 芋づる式に $L,U'$ が決まっていくことがわかる.
 この作業を一般化すると, \\(u_{ij}\\) の導出およびそれによって得られた値で \\(l_{ij}\\) を導出する部分に分けることができる.
 それぞれをいま漸化式で書くと
 
-\begin{eqnarray}
+\begin{aligned}
 {\rm Doolittle 法} &:=&
 \begin{cases}
 \begin{cases}
@@ -942,7 +942,7 @@ u_{ik}&=&x_{1k}-\sum^{i-1}_{j=1}l_{ij}u_{jk},\ (i=2,3,\cdots,k)
 \end{cases} \\
 l_{ik}=\frac{(x_{ik}-\sum^{k-1}_{j=1}l_{ij}u_{jk})}{u_{kk}},\ (i=k+1,k+2,\cdots,n)
 \end{cases}
-\end{eqnarray}
+\end{aligned}
 
 
 ただし \\(u_{kk}=0\\) の場合は計算できないので,
@@ -961,7 +961,7 @@ l_{ik}=\frac{(x_{ik}-\sum^{k-1}_{j=1}l_{ij}u_{jk})}{u_{kk}},\ (i=k+1,k+2,\cdots,
 
 Crout 法も同様に, \\(X=L' U\\) を次のように書けるはずなので,
 
-\begin{eqnarray}
+\begin{aligned}
 (\begin{array}{ccc}
 l_{11} & l_{11}u_{12} & l_{11}u_{13} \\
 l_{21} & l_{21}u_{12}+l_{22} & l_{21}u_{13}+l_{22}u_{23} \\
@@ -977,17 +977,17 @@ l_{31} & l_{32} & l_{33}
 0 & 1 & u_{23} \\
 0 & 0 & 1
 \end{array})
-\end{eqnarray}
+\end{aligned}
 
 従ってこの作業の一般形は結果的に
 
-\begin{eqnarray}
+\begin{aligned}
 {\rm Crout 法} &:=&
 \begin{cases}
 l_{ik}&=&x_{ik}-\sum^{k-1}_{j=1}l_{ij}u_{jk},\ (i=k,k+1,\cdots,n)\\
 u_{kj}&=&\frac{(x_{kj}-\sum^{k-1}_{i=1}l_{ki}u_{ij})}{l_{kk}},\ (j=k,k+1,\cdots,n)
 \end{cases}
-\end{eqnarray}
+\end{aligned}
 
 \\(L\\) の \\(k\\) 番目の列の要素を計算した後に最大値を求め,
 \\(L\\) の要素を含む最初の \\(k-1\\)

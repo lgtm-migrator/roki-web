@@ -34,11 +34,11 @@ tags: math, Elementary number theory, Group theory, Haskell, Python
 の最大公約数を求めるとする(以下これを $\gcd(a,b)=c$ と書く).
 これをユークリッドの互除法は,
 \begin{array}{rr}
-87654321&=&12345678\cdot 7&+&1234575\\\
-12345678&=&1234575\cdot 9&+&1234503\\\
-1234575&=&1234503&+&72\\\
-1234503&=&72\cdot 17145&+&63\\\
-72&=&63&+&9\\\
+87654321&=&12345678\cdot 7&+&1234575\\
+12345678&=&1234575\cdot 9&+&1234503\\
+1234575&=&1234503&+&72\\
+1234503&=&72\cdot 17145&+&63\\
+72&=&63&+&9\\
 63&=&\underbrace{9}_{c}\cdot 7
 \end{array}
 
@@ -72,13 +72,13 @@ $\gcd(a,b)=\gcd(a-b,b)$. これを繰り返すと \\[
 [補題 1](#lemma1) より, $\gcd(a,b)=\gcd(a-bq,b)=\gcd(b,r)$ がいえる.
 ここで, 
 \begin{array}{ll}
-a&=&bq_1+r_1& (0\lt r_1\lt b),& \gcd(a,b)&=&\gcd(b,r_1)\\\
-b&=&r_1q_2+r_2& (0\lt r_2\lt r_1),& \gcd(b,r_1)&=&\gcd(r_1,r_2)\\\
-r_1&=&r_2q_3+r_3& (0\lt r_3\lt r_2),& \gcd(r_1,r_2)&=&\gcd(r_2,r_3)\\\
-\cdots &&& \cdots &&& \cdots \\\
-r_i&=&r_{i+1}q_{i+2}+r_{i+2}& (0\lt r_{i+2}\lt r_{i+1}),& \gcd(r_i,r_{i+1})&=&\gcd(r_{i+1},r_{i+2})\\\
-\cdots &&& \cdots &&& \cdots \\\
-r_{n-2}&=&r_{n-1}q_n+r_n&(0\lt r_n\lt r_{n-1}),&\gcd(r_{n-2},r_{n-1})&=&\gcd(r_{n-1},r_n)\\\
+a&=&bq_1+r_1& (0\lt r_1\lt b),& \gcd(a,b)&=&\gcd(b,r_1)\\
+b&=&r_1q_2+r_2& (0\lt r_2\lt r_1),& \gcd(b,r_1)&=&\gcd(r_1,r_2)\\
+r_1&=&r_2q_3+r_3& (0\lt r_3\lt r_2),& \gcd(r_1,r_2)&=&\gcd(r_2,r_3)\\
+\cdots &&& \cdots &&& \cdots \\
+r_i&=&r_{i+1}q_{i+2}+r_{i+2}& (0\lt r_{i+2}\lt r_{i+1}),& \gcd(r_i,r_{i+1})&=&\gcd(r_{i+1},r_{i+2})\\
+\cdots &&& \cdots &&& \cdots \\
+r_{n-2}&=&r_{n-1}q_n+r_n&(0\lt r_n\lt r_{n-1}),&\gcd(r_{n-2},r_{n-1})&=&\gcd(r_{n-1},r_n)\\
 r_{n-1}&=&r_nq_{n+1}&& \gcd(r_{n-1},r_n)&=&r_n
 \end{array}
 として, $(n+1)$ 回で割り切れたとすると, $r_n$ が最大公約数 $c$ となる. \\(\square\\)
@@ -740,11 +740,11 @@ ax+by=\gcd(a,b)
 [暗号の生成と解読](#genencanddec)の内容のうち例として用いた値,
 $n=10,\ m=97$ を入力として, まず一般解を導いてみる.
 いま $n,\ m$ に対して<a href="#euclidean">ユークリッドの互除法</a>を行うと,
-\begin{eqnarray}
-97&=&10\cdot 9+7&\Leftrightarrow &7&=&97-10\cdot 9\tag{6}\\\
-10&=&7+3&\Leftrightarrow &3&=&10-7\tag{7}\\\
+\begin{aligned}
+97&=&10\cdot 9+7&\Leftrightarrow &7&=&97-10\cdot 9\tag{6}\\
+10&=&7+3&\Leftrightarrow &3&=&10-7\tag{7}\\
 7&=&3\cdot 2+1&\Leftrightarrow &1&=&7-3\cdot 2\tag{8}
-\end{eqnarray}
+\end{aligned}
 より \\[10x+97(-k)=1\\] と表せる. こうして見るとわかるように, これは単なる $1$ 次不定方程式だ.
 $1$ 次不定方程式は, \\(\gcd(a,b)=d\\) としたとき \\(d=1\\) ならば解がある.
 また, \\(d\gt 1,\ d\mid c\\) でも解がある. 
@@ -754,8 +754,8 @@ $1$ 次不定方程式は, \\(\gcd(a,b)=d\\) としたとき \\(d=1\\) ならば
 いま述べた例の場合, 解は存在して,
 
 \begin{array}{lclclcl}
-1&=&&=&7-3\cdot 2\\\
-1&=&7-\cdot 2&=&7-(10-7)\cdot 2&=&7\cdot3 - 10\cdot 2\\\
+1&=&&=&7-3\cdot 2\\
+1&=&7-\cdot 2&=&7-(10-7)\cdot 2&=&7\cdot3 - 10\cdot 2\\
 1&=&\cdot 3-10\cdot 2&=&(97-10\cdot 9)\cdot 3-10\cdot 2&=&97\cdot 3-10\cdot 29 
 \end{array}
 よって, 特別解 \\(x=-29,\ k=-3\\) が求まった. 
@@ -763,9 +763,9 @@ $1$ 次不定方程式は, \\(\gcd(a,b)=d\\) としたとき \\(d=1\\) ならば
 これを元の式から引くと,
 
 \begin{array}{rr}
-& 10x &+ &97(-k) &= 1 \\\
+& 10x &+ &97(-k) &= 1 \\
 -)&10(-29) &+ &97(3) &= 1
-\\\hline
+\\hline
 &10(x+29)&+&97(-k-3)&=0
 \end{array}
 
@@ -777,16 +777,16 @@ $x+29=97n\ (n\in\mathbb{Z})$ と表すことができることがわかる.
 $q\equiv \dfrac{1}{10}\equiv 68\pmod{97}$ と整合であることがわかる.
 
 ここで, いまやった一連の作業を一般化しておく. この計算が $(s+1)$ 回で終わったとする.
-\begin{eqnarray}
-&r_1&=&a-bq_1\tag{9}\\\
-&r_2&=&b-r_1q_2\tag{10}\\\
-&r_3&=&r_1-r_2q_3\tag{11}\\\
-&\cdots & & \cdots \\\
-&r_i&=&r_{i-2}-r_{i-1}q_i\tag{i}\\\
-&\cdots & & \cdots \\\
-&r_{s-1}&=&r_{s-3}-r_{s-2}q_{s-1}\\\
+\begin{aligned}
+&r_1&=&a-bq_1\tag{9}\\
+&r_2&=&b-r_1q_2\tag{10}\\
+&r_3&=&r_1-r_2q_3\tag{11}\\
+&\cdots & & \cdots \\
+&r_i&=&r_{i-2}-r_{i-1}q_i\tag{i}\\
+&\cdots & & \cdots \\
+&r_{s-1}&=&r_{s-3}-r_{s-2}q_{s-1}\\
 &d&=&r_{s-2}-r_{s-1}q_s
-\end{eqnarray}
+\end{aligned}
 よって \\(r_i=x_ia+y_ib\\) として \\(x_s,\ y_s\\) を求めればよいこととなる.
 まず, \\(r_i=a-bq_i\\) から \\(x_1=1,\ y_1=-q_1\\) について, \\(\\)
 を \\(\\) に代入し \\[r_2=b-(a-bq_1)q_2=-aq_2+b(1+q_1q_2)\\] とする.
@@ -795,8 +795,8 @@ $q\equiv \dfrac{1}{10}\equiv 68\pmod{97}$ と整合であることがわかる.
 \\(x_i,\ y_i\\) の漸化式を次のようにおくことができる.
 
 \begin{array}{lcl}
-r_{i-2}&=&x_{i-2}a+y_{i-2}b \\\
-r_{i-1}&=&x_{i-1}a+y_{i-1}b \\\
+r_{i-2}&=&x_{i-2}a+y_{i-2}b \\
+r_{i-1}&=&x_{i-1}a+y_{i-1}b \\
 r_i&=&x_i a+y_i b
 \end{array}
 
@@ -805,7 +805,7 @@ r_i&=&x_i a+y_i b
 両辺の \\(a,\ b\\) の係数を比較すると,
 
 \begin{array}{lcl}
-x_i&=&x_{i-2}-x_{i-1}q_i\ (i\geq 3) \\\
+x_i&=&x_{i-2}-x_{i-1}q_i\ (i\geq 3) \\
 y_{i}&=&y_{i-2} - y_{i-1}q_i
 \end{array}
 

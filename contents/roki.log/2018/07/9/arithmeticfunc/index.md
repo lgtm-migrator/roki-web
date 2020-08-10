@@ -89,13 +89,13 @@ e.g.:
 $n$ の約数 $d$ は \\(n_1\\) の約数 \\(d_1\\) と, \\(n_2\\) の約数 \\(d_2\\)
 との積で尽くされる.
 すなわち \\(\gcd(d_1, d_2)=1\\) だから
-\begin{align}\displaystyle
+\begin{aligned}\displaystyle
 g(n)&=\sum_{d\mid n}f(d)
 \\&=\sum_{d_1\mid n_1,\ d_2\mid n_2}f(d_1,d_2)
 \\&=\sum_{d_1\mid n_1,\ d_2\mid n_2}f(d_1)f(d_2)
 \\&=\sum_{d_1\mid n_1}f(d_1)\sum_{d_2\mid n_2}f(d_2)
 \\&=g(n_1)g(n_2)
-\end{align} \\(\square\\)
+\end{aligned} \\(\square\\)
 
 
 e.g.:

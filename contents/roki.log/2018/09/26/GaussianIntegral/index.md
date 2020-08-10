@@ -33,12 +33,12 @@ tags: math, Python
 
 \\(x=r\cos\theta,\ y=r\sin\theta, dx\ dy=rdrd\theta\\) とし[^2]
 
-\begin{eqnarray}
-I^2&=&\int_{0}^{2\pi}\int_{0}^{\infty}e^{-r^2}rdrd\theta \\\
-&=&\int_{0}^{2\pi}d\theta\int_{0}^{\infty}re^{-r^2}dr \\\
-&=&2\pi\left[\dfrac{1}{2}e^{-r^2}\right]^{\infty}_{0} \\\
+\begin{aligned}
+I^2&=&\int_{0}^{2\pi}\int_{0}^{\infty}e^{-r^2}rdrd\theta \\
+&=&\int_{0}^{2\pi}d\theta\int_{0}^{\infty}re^{-r^2}dr \\
+&=&2\pi\left[\dfrac{1}{2}e^{-r^2}\right]^{\infty}_{0} \\
 &=&\pi
-\end{eqnarray}
+\end{aligned}
 もともと \\(I\\) は被積分関数の関数形であり, 
 定義域は \\(I > 0\\) だから, \\(I=\sqrt{\pi}\\). \\(\square\\)
 
