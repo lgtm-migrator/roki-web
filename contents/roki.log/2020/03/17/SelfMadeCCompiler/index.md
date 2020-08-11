@@ -7,7 +7,9 @@ tags: Haskell, Compiler
 本エントリ投稿の 2, 3 ヶ月前に Haskell でスクラッチから x86-64 向けの C コンパイラを作った.
 本エントリは, その記録である.
 
-### 動機/背景
+<!--more-->
+
+## 動機/背景
 
 動機としては, 私は 2020 年度の新卒として,
 とある会社に技術者として入社することとなっており,
@@ -25,16 +27,14 @@ tags: Haskell, Compiler
 あくまでも, 
 Haskell で C コンパイラを作ってみたという単なる取り組みへの記録程度に止める.
 
-### 成果
+## 成果
 
 プロジェクトは, 次のリポジトリにて管理している.
 
-<br />
-<p style="text-align: center;">
-<i class="fab fa-github" style="font-size: large; margin-right: 5px;"></i>
+<div class="has-text-centered mb-2">
+<i class="fab fa-github fa-fw"></i>
 <a href="https://github.com/falgon/htcc">falgon/htcc - A tiny C language compiler (x86-64) (WIP)</a>
-</p>
-<br />
+</div>
 
 執筆時最新のコミット 
 [2301374](https://github.com/falgon/htcc/tree/230137475bf08265db9bd31ea65e2d867b1207fc) 
@@ -145,7 +145,7 @@ int main() { fizzbuzz(50); }' |\
 </table>
 </div>
 
-### 開発様相
+## 開発様相
 
 コンパイラの開発には, 
 『[低レイヤを知りたい人のためのCコンパイラ作成入門](https://www.sigbus.info/compilerbook)』を参考とさせて頂いており, 
@@ -167,7 +167,7 @@ ABI 等の仕様確認には [References](https://github.com/falgon/htcc/tree/23
 これに大した理由はないが, やってみた結果としては, 後にコミットを見返した際に,
 視覚的な印象により, 多少はその概要をより素早く見直すことができるような気はした.
 
-### まとめ
+## まとめ
 
 これは, 字句解析器や構文解析器の自動生成ツールを用いずに x86-64 アセンブラを出力する
 C コンパイラを作ってみるという目的の他, 私自身が関数プログラミングと圏論の関係性を学び, 

@@ -2,6 +2,7 @@
 
 .navbar {
     background: transparent;
+    @extend .is-dark;
 }
 
 .navbar-brand a:hover {

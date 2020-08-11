@@ -1,7 +1,8 @@
-@import 'blog/all';
+@import "blog/all";
 
 .navbar {
     background: transparent;
+    @extend .is-warning;
 }
 
 .navbar-brand a:hover {

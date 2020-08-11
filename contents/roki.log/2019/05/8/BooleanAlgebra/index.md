@@ -8,14 +8,17 @@ tags: math
 結論からいえば, 両者の違いは歴史的な背景ぐらいであり, 殆どの場合は同等の理論であるということができる[^1].
 ブール代数はその応用として論理回路の構築に直接役立つことから, 計算機科学, とくにハードウェアの分野において重宝される代数系の 1 つである.
 
-### ブール代数の公理とその定理
+<!--more-->
+
+## ブール代数の公理とその定理
 
 次に示すのはブール代数の公理系である. 公理系に関する詳細は証明理論 (TODO) の冒頭を参照のこと.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a name="boolean_algebra" class="disabled">ブール代数</a></div>
-  <div class="panel-body">
-半順序集合 \\((B,\lor,\land,',0,1)\\) が可補分配<a href="https://falgon.github.io/roki.log/posts/2019/%203%E6%9C%88/15/Relation/#lattice_def">束</a>ならば, 
+<div class="m-def">
+<header class="m-def-title"><p>ブール代数</p></header>
+<div class="m-def-content">
+半順序集合 \\((B,\lor,\land,',0,1)\\) 
+が可補分配<a href="https://falgon.github.io/roki.log/posts/2019/%203%E6%9C%88/15/Relation/#lattice_def">束</a>ならば, 
 \\((B,\lor,\land,',0,1)\\) はブール代数である.
 すなわち, \\(x,y,z\in B\\) に対して, 次のすべての公理を満たした \\((B,\lor,\land,',0,1)\\) はブール代数である.
 
@@ -28,6 +31,7 @@ tags: math
 </div>
 </div>
 
+
 また, この \\(1,0\\) からのみ成る集合をブール領域, ブール代数の下に書かれた式をブール式,
 \\(n\in\mathbb{N}\\) 個のブール領域の引数をとり, 1 個のブール領域の値となる関数 \\(f:B^n\to B\\) をブール関数という.
 例えば, 2 変数ブール関数 \\(f(x_1,x_2)\\) では \\(x_1,x_2\\) がそれぞれ \\(1,0\\) のいずれかとなるので, 
@@ -36,11 +40,13 @@ tags: math
 
 さてブール代数の公理における乗法 \\(\land\\) と加法 \\(\lor \\), および \\(1, 0\\) をそれぞれ入れ替えると, 再びブール代数の公理である. 
 これは[双対](#dual_def)の原理という公理である.
-<div class="panel panel-default">
-  <div class="panel-heading theo"><a name="dual_principle" class="disabled">双対の原理</a></div>
-  <div class="panel-body">
-  ブール代数で成立する文/式は, そこに現れるすべての \\(\lor ,\land,0,1\\) をそれぞれ \\(\land,\lor ,1,0\\) で置き換えても成立する.
-  </div>
+
+<div class="m-def">
+<header class="m-def-title"><p>双対の原理</p></header>
+<div class="m-def-content">
+ブール代数で成立する文/式は, そこに現れるすべての \\(\lor ,\land,0,1\\) をそれぞれ \\(\land,\lor ,1,0\\) 
+で置き換えても成立する.
+</div>
 </div>
 
 これらの公理から[補元の一意性](#complement_unique), [べき等律](#idempotence), 
