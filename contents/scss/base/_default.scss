@@ -1,6 +1,6 @@
 @font-face  {
     font-family: 'Roboto';
-    src: local('Roboto Thin Italic'), 
+    src: local('Roboto Thin Italic'),
         url(https://fonts.gstatic.com/s/roboto/v19/KFOiCnqEu92Fr1Mu51QrEz0dL-vwnYh2eg.woff2)
         format('woff2');
     font-display: swap;
@@ -12,8 +12,8 @@ html {
 }
 
 body {
-    font-family: 
-        'Ubuntu Mono', 
+    font-family:
+        'Ubuntu Mono',
         'Sawarabi Mincho',
         sans-serif;
     display: flex;
@@ -33,17 +33,17 @@ caption {
 }
 
 .gothic {
-    font-family: 
-        'Ubuntu Mono', 
+    font-family:
+        'Ubuntu Mono',
         'Avenir',
         'Helvetica Neue',
         'Arial',
-        'Sawarabi Gothic', 
+        'Sawarabi Gothic',
         'Hiragino Sans',
         'ヒラギノ角ゴシック',
         'YuGothic',
         'Yu Gothic',
-        'メイリオ', 
+        'メイリオ',
         'Meiryo',
         'ＭＳ Ｐゴシック',
         'MS PGothic',
@@ -51,7 +51,7 @@ caption {
 }
 
 #my_name {
-    font-family: 
+    font-family:
         'Avenir'
         'Helvetica Neue',
         'Arial',
@@ -138,7 +138,7 @@ span.both-lined:after {
 }
 
 .footer-dec {
-    content: url(/images/footer_dec.svg); 
+    content: url(/images/footer_dec.svg);
     max-width: 500px;
 }
 
