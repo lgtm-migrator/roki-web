@@ -501,7 +501,7 @@ $$
 \\(L^{(i)}\\) が正則ならば, 一般の場合においても同様にしていうことができる.
 
 <div class="panel panel-default">
-<div class="panel-heading def"><a name="LU" class="disabled">LU 分解(外積形式ガウス法)</a></div>
+<div class="panel-heading def"><a id="LU" class="disabled">LU 分解(外積形式ガウス法)</a></div>
   <div class="panel-body" style="overflow:scroll">
     すべての前進消去の行列 \\(L^{(i)}\\) が正則ならば \\(A\in\mathbb{R}^{m\times n}\\) に対する LU 分解は 
     \\[A=A^{(0)}=L U\ {\rm where}\ L=\prod_{i=1}^{n-1}{L^{(i)}}^{-1}, U=A^{(n-1)}\\]
@@ -562,7 +562,7 @@ $A^{0}=(\boldsymbol{a_1}^T,\boldsymbol{a_2}^T,\boldsymbol{a_3}^T)^T$ とした�
 この導出過程を見ればなんとなく LU 分解が一意となることは直感的にも納得できるが, 一応証明を与えておく.
 
 <div class="panel panel-default">
-<div class="panel-heading theo"><a name="theorem1" class="disabled">定理 1</a></div>
+<div class="panel-heading theo"><a id="theorem1" class="disabled">定理 1</a></div>
   <div class="panel-body" style="overflow:scroll">
 LU 分解された \\(L,U\\) は一意に決まる
 </div>
@@ -791,7 +791,7 @@ $$
 ところで, \\(A\in\mathbb{R}^{m\times n}\\) が対称行列ならば, この LDU 分解は \\(A=L D L^{T}\\) と計算することができる.
 
 <div class="panel panel-default">
-<div class="panel-heading theo"><a name="theorem2" class="disabled">定理 2</a></div>
+<div class="panel-heading theo"><a id="theorem2" class="disabled">定理 2</a></div>
   <div class="panel-body" style="overflow:scroll">
 \\(A=A^T\ {\rm where}\ A\in\mathbb{R}^{m\times n}\\) ならば \\(A\\) の LDU 分解は \\(A=L D L^{T}\\)
 </div>

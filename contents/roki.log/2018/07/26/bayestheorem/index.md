@@ -13,7 +13,7 @@ tags: Probability theory, math, Python
 ベイズの定理は
 
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="baysestheorem" class="disabled">ベイズの定理</a></div>
+  <div class="panel-heading theo"><a id="baysestheorem" class="disabled">ベイズの定理</a></div>
   <div class="panel-body">
   事象 \\(B\\) のもとで事象 \\(A\\) が発生する確率
 \\[P(A\mid B)=\dfrac{P(B\mid A)P(A)}{P(B)}\ (P(B)\gt 0)\\]

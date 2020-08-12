@@ -44,8 +44,8 @@ main = do
 基本的にまずは [AWS CLI Command Reference](https://docs.aws.amazon.com/ja_jp/cli/latest/index.html) をみてから, その操作を行うのに必要とするライブラリを amazonka から選んで導入することで, 実際に動くまでを円滑に進めることができるだろう.
 
 ### 参照
-* <a name="ref1">"amazonka: Comprehensive Amazon Web Services SDK."</a> <http://hackage.Haskell.org/package/amazonka> 2018 年 6 月 24 日アクセス.
-* <a name="ref2">"amazonka-ec2: Amazon Elastic Compute Cloud SDK."</a> <http://hackage.Haskell.org/package/amazonka-ec2-1.6.0> 2018 年 6 月 24 日アクセス.
+* <a id="ref1">"amazonka: Comprehensive Amazon Web Services SDK."</a> <http://hackage.Haskell.org/package/amazonka> 2018 年 6 月 24 日アクセス.
+* <a id="ref2">"amazonka-ec2: Amazon Elastic Compute Cloud SDK."</a> <http://hackage.Haskell.org/package/amazonka-ec2-1.6.0> 2018 年 6 月 24 日アクセス.
 * "Network.AWS" <http://hackage.Haskell.org/package/amazonka-1.6.0/docs/Network-AWS.html> 2018 年 6 月 24 日アクセス
 * "Network.AWS.EC2" <http://hackage.Haskell.org/package/amazonka-ec2-1.6.0/docs/Network-AWS-EC2.html> 2018 年 6 月 24 日アクセス
 

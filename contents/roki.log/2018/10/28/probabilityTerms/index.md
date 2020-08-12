@@ -31,7 +31,7 @@ tags: math, Probability theory
 集合のあつまりを一般に集合族というが, 次に示すのはその 1 種である[^1].
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="CompletelyAdditiveClass" class="disabled">\\(\sigma\\)-加法族</a></div>
+  <div class="panel-heading def"><a id="CompletelyAdditiveClass" class="disabled">\\(\sigma\\)-加法族</a></div>
   <div class="panel-body" style="overflow:scroll">
   標本空間 \\(\Omega\\) の部分集合族 \\(\mathcal{F}\\) が次の 3 つの性質を満足するとき, \\(\mathcal{F}\\) は \\(\sigma\\)-加法族という.
   <ol>
@@ -47,7 +47,7 @@ tags: math, Probability theory
 確率の公理は, この \\(\sigma\\)-加法族の関数に対して次の条件を付与する.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="KolmogorovAxioms" class="disabled">コルモゴロフの公理</a></div>
+  <div class="panel-heading def"><a id="KolmogorovAxioms" class="disabled">コルモゴロフの公理</a></div>
   <div class="panel-body" style="overflow:scroll">
   \\(\sigma\\)-加法族 \\(\mathcal{F}\\) 上の関数 \\(P\\) が次の 3 つの性質を満足するとき, \\(P\\) を確率関数という.
   <ol>
@@ -311,7 +311,7 @@ td {
 標本分散を \\(\dfrac{n}{n-1}\\) 倍する(しかしながら, サンプル数 \\(n\\) が十分に大きいとき, 両者は近似的に等しくなることが[大数の弱法則](#lawOfLargeNumbers)よりいえる). この形が不偏分散である. 
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="unbiasedVariance" class="disabled">不偏分散</a></div>
+  <div class="panel-heading def"><a id="unbiasedVariance" class="disabled">不偏分散</a></div>
   <div class="panel-body" style="overflow:scroll">
 \\[\displaystyle\dfrac{1}{n-1}\sum^n_{i=1}(X_i-E\left[X\right])^2\\]
   </div>
@@ -358,7 +358,7 @@ E\left[s^2\right]&=&\sigma^2-\dfrac{\sigma^2}{n}\\
 また, その確率密度関数は
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="ProbabilityDensityFunctionOfTheNormalDistribution" class="disabled">正規分布の確率密度関数</a></div>
+  <div class="panel-heading def"><a id="ProbabilityDensityFunctionOfTheNormalDistribution" class="disabled">正規分布の確率密度関数</a></div>
   <div class="panel-body" style="overflow:scroll">
 標準偏差 \\(\sigma\\), 母平均 \\(\mu\\), 分散 \\(\sigma^2\\) に対して,
 \\[f(x)=\dfrac{1}{\sqrt{2\pi}\sigma}\exp(-\dfrac{(x-\mu)^2}{2\sigma^2})\tag{2}\\]
@@ -390,7 +390,7 @@ E\left[s^2\right]&=&\sigma^2-\dfrac{\sigma^2}{n}\\
 大数の法則は, 
 
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="lawOfLargeNumbers" class="disabled">大数の法則</a></div>
+  <div class="panel-heading theo"><a id="lawOfLargeNumbers" class="disabled">大数の法則</a></div>
   <div class="panel-body" style="overflow:scroll">
   期待値 \\(\mu\\) の \\(\rm i.i.d\\) 無限列 \\(X_1,X_2,\cdots\\) の標本平均 \\(\displaystyle\overline{X}=\dfrac{1}{n}\sum_{i=1}^{n}X_i\\) と定数 \\(^\forall c\gt 0\\) に対して,
   \\[\lim_{n\to\infty}P(\left|\overline{X}_{n}-\mu\right|\gt c)=0\\]
@@ -408,7 +408,7 @@ E\left[s^2\right]&=&\sigma^2-\dfrac{\sigma^2}{n}\\
 ここでは簡単のために大数の弱法則についてのみの証明とする. そのために, まずマルコフの不等式, チェビシェフの不等式の証明を行う.
 
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="MarkovsInequality" class="disabled">マルコフの不等式</a></div>
+  <div class="panel-heading theo"><a id="MarkovsInequality" class="disabled">マルコフの不等式</a></div>
   <div class="panel-body" style="overflow:scroll">
   任意の確率変数 \\(X\\) と定数 \\(c\gt 0\\) に対して, \\[ P(\left|X\right|\geq c)\leq \dfrac{E\left[\left|X\right|\right]}{c}\\]
   </div>
@@ -430,7 +430,7 @@ cP(\left|X\right|\geq c)&=&c\int^{\infty}_{c}f_X(x)dx \\
 \\(X\\) が離散型確率変数である場合は総計により同様にして求まる. \\(\square\\)
 
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="ChebyshevInequality" class="disabled">チェビシェフの不等式</a></div>
+  <div class="panel-heading theo"><a id="ChebyshevInequality" class="disabled">チェビシェフの不等式</a></div>
   <div class="panel-body" style="overflow:scroll">
   \\(E[Y]=\mu,V[Y]=\sigma^2\\) とするとき, \\(^\forall a\gt 0\\) に対して, \\[P(\left|Y-\mu\right|\geq a\sigma)\leq\dfrac{1}{a^2}\Leftrightarrow P(\left|Y-\mu\right|\geq a)\leq\dfrac{\sigma^2}{a^2}\\]
   </div>
@@ -463,7 +463,7 @@ P((Y-\mu)^2\geq a^2\sigma^2)&\leq&\dfrac{E\left[(Y-\mu)^2\right]}{a^2\sigma^2} \
 中心極限定理は
 
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="centralLimitTheorem" class="disabled">中心極限定理</a></div>
+  <div class="panel-heading theo"><a id="centralLimitTheorem" class="disabled">中心極限定理</a></div>
   <div class="panel-body" style="overflow:scroll">
   平均 \\(\mu\\), 分散 \\(\sigma^2\\) の母集団から無作為抽出された標本平均 \\(\overline{X}_n\\) は, 母集団の分布に無関係に, \\(n\\) が十分に大きいとき,
   近似的に平均 \\(\mu\\), 分散 \\(\dfrac{\sigma^2}{n}\\)(標準偏差 \\(\dfrac{\sigma}{\sqrt{n}}\\)) に従う. 
@@ -486,7 +486,7 @@ P((Y-\mu)^2\geq a^2\sigma^2)&\leq&\dfrac{E\left[(Y-\mu)^2\right]}{a^2\sigma^2} \
 * 「[第 2 章 独立確率変数列の極限定理](http://www.math.kobe-u.ac.jp/HOME/higuchi/h23kogi/h23kouki/p1-11.pdf)」 2018 年 10 月 29 日アクセス.
 * 「[コーシー分布](https://shoichimidorikawa.github.io/Lec/ProbDistr/cauchy.pdf)」 2018 年 10 月 29 日アクセス.
 * 「[正規分布の基礎的な知識まとめ - 高校数学の美しい物語](https://mathtrain.jp/gaussdistribution)」 2018 年 9 月 27 日アクセス.
-* 「<a href="https://mathtrain.jp/centrallimit" name="ref1">大数の法則と中心極限定理の意味と関係 - 高校数学の美しい物語</a>」 2018 年 10 月 29 日アクセス.
+* 「<a href="https://mathtrain.jp/centrallimit" id="ref1">大数の法則と中心極限定理の意味と関係 - 高校数学の美しい物語</a>」 2018 年 10 月 29 日アクセス.
 * 「[条件付き期待値，分散の意味と有名公式 - 高校数学の美しい物語](https://mathtrain.jp/condexpectation)」 2018 年 11 月 12 日アクセス.
 * 「[3.3 条件付き期待値](https://mcm-www.jwu.ac.jp/~konno/pdf/statha3.pdf)」 2018 年 11 月 12 日アクセス.
 

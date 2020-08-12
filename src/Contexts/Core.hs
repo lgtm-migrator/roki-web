@@ -38,7 +38,7 @@ authorCtx = constField "author-name" "Roki"
     <> constField "author-avator" "/images/avator/prof1000x1000.png"
     <> constField "author-sex" "Male"
     <> constField "author-locale" "Tokyo, JP"
-    <> constField "author-fav" "Beer, Coffee"
+    <> constField "author-fav" fav
     <> constField "author-interested" 
         "・FP&#10;・Compiler&#10;・Category theory&#10;・Low layer networking, Infrastructure"
     <> constField "author-job" "Engineer"
@@ -49,6 +49,14 @@ authorCtx = constField "author-name" "Roki"
     <> constField "author-steam" "r0k1"
     <> constField "author-yukicoder" "3223"
     <> constField "author-teratail" "kjfkhfhgx"
+    where
+        fav = TL.unpack $ renderText $ 
+            ul_ [style_ "margin: 0;", class_ "comma-list"] $ do
+                li_ "Beer"
+                li_ "Coffee"
+                li_ $ a_ 
+                    [href_ "https://www.san-x.co.jp/rilakkuma/profile/#&gid=1&pid=3"]
+                    "Kiiroitori"
 
 siteCtx :: Context String
 siteCtx = constField "lang" "ja"

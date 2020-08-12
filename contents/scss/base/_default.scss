@@ -21,6 +21,12 @@ body {
     flex-direction: column;
 }
 
+caption {
+    caption-side: bottom;
+    margin-top: 0.5em;
+    font-size: 0.9em;
+}
+
 ::selection {
     background-color: #3297FD; /* Chrome default color */
     color: #fff;
@@ -142,4 +148,12 @@ span.both-lined:after {
 
 .tags-ul li {
     margin-right: 5px;
+}
+
+.blog-intro {
+    width: 100%;
+    padding-bottom: 4px;
+    border-bottom: solid 1px $grey-light;
+    border-image: linear-gradient(to right, $grey-light 0% 50%, transparent 100%);
+    border-image-slice: 1;
 }

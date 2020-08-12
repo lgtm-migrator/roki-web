@@ -21,7 +21,7 @@ tags: math, Elementary number theory, Group theory, Haskell, Python
 したがって, 簡単に説明, 証明をして終わりとする. ユークリッドの互除法は,
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="euclidean" class="disabled">ユークリッドの互除法</a></div>
+  <div class="panel-heading def"><a id="euclidean" class="disabled">ユークリッドの互除法</a></div>
   <div class="panel-body" style="overflow:scroll">
 \\(2\\) つの自然数 \\(a, b\in\mathbb{N}\\) の最大公約数を求めるアルゴリズム.
   </div>
@@ -116,7 +116,7 @@ $n$ と互いに素なものの個数を $\phi(n)$ として与えることに�
 この関数は \\(p_i\\) を $n$ の素因数として, 次の式で定義できる[^4].
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="totientf" class="disabled">オイラーの \\(\phi\\) 関数</a></div>
+  <div class="panel-heading def"><a id="totientf" class="disabled">オイラーの \\(\phi\\) 関数</a></div>
   <div class="panel-body" style="overflow:scroll">
 \\[\phi(n)=n\displaystyle\prod_{i=1}^k(1-\dfrac{1}{p_i})\\]
   </div>
@@ -172,7 +172,7 @@ main = print $ and $ take 100 [totient p == (p - 1) | p <- primes]
 $b < p$ および $c < p$ から従い $b = c$ となり不条理. \\(\square\\)
 
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="fermatstheorem" class="disabled">フェルマーの小定理</a></div>
+  <div class="panel-heading theo"><a id="fermatstheorem" class="disabled">フェルマーの小定理</a></div>
   <div class="panel-body" style="overflow:scroll">\\(p\\) が素数 \\(\Rightarrow\ ^\forall a\ (\gcd(a,p) = 1)\\) に対して, \\[a^{p-1}\equiv 1\pmod{p}\tag{2}\\]
   </div>
 </div>
@@ -221,7 +221,7 @@ Prelude> mapM_ print $ f 7
 また, この結果が $\phi(6) = 2$ と整合であることが確認できる. \\(\mathrm{ord}(3), \mathrm{ord}(5)\\) が他と相違なる部分は, $1$ から $6$ までの数がちょうど $1$ 回ずつ現れることである. このように,
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="primitive_root" class="disabled">原始根</a></div>
+  <div class="panel-heading def"><a id="primitive_root" class="disabled">原始根</a></div>
   <div class="panel-body" style="overflow:scroll">
 \\(\pmod{n}\\) での位数が \\(\phi(n)\\) である整数
   </div>
@@ -259,7 +259,7 @@ main :: IO ()
 main = mapM_ (print . primitiveElem) $ take 100 $ drop 1 primes
 ```
 
-<a href="https://wandbox.org/permlink/1ESn07fY95vwqEpv" name="thiscode">実行結果</a>[^7]. 
+<a href="https://wandbox.org/permlink/1ESn07fY95vwqEpv" id="thiscode">実行結果</a>[^7]. 
 上の冪の一覧のとおり, 素数 $p$ を位数とするガロア体はその原始元を $a$ として
 $$GF(p)= \left\{0, 1, a, a^{2}, \cdots, a^{p-2}\tag{3}\right\}$$ と構成されることがわかる.
 $p=7$ であれば, 原始根は $\phi(6)=2$ であり, その $1$ つは $g=3$ であるからこの冪乗 $n\equiv g^{f}\pmod{7}$ で $p-1=6$ までの全て, 
@@ -295,7 +295,7 @@ Prelude> head [f | f <- [0..17], 2^f `mod` 19 == 3 `mod` 19]
 いま述べたように $g$ と $n$ から $f$ を求めることは困難であるという事実を利用することで,
 公開鍵暗号方式としての成立および暗号学的安全性の担保を確立する[^9].
 
-<h3><a name="genencanddec" class="disabled">暗号の生成と解読</a></h3>
+<h3><a id="genencanddec" class="disabled">暗号の生成と解読</a></h3>
 
 以上を前提として, 暗号の生成とその解読方法について示す.
 受信者は下準備として次の手順で公開鍵と秘密鍵を生成する:
@@ -357,7 +357,7 @@ Miller-Rabin 素数判定法は, フェルマーテストの改良と言える�
 フェルマーテストは, 先に述べたフェルマーの小定理 $$ の対偶[^11]を利用した判定方法であるといえる.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a class="disabled" name="fermattest">フェルマーテスト</a></div>
+  <div class="panel-heading def"><a class="disabled" id="fermattest">フェルマーテスト</a></div>
   <div class="panel-body" style="overflow:scroll">
 \\(FT_n(a): =\gcd(a, n)=1\\) を満たす \\(n \in\mathbb{Z}^{+}\\) と底 \\(a\in\mathbb{Z}^{+}\\) があって, \\(a^{n-1}\equiv 1\pmod{n}\\) が成り立つか.
   </div>
@@ -396,7 +396,7 @@ Miller-Rabin 素数判定法は, フェルマーテストの改良と言える�
 </div>
 を $a$ を底とする偽素数という. 
 
-以下で, 取り敢えず $200$ 個の偽素数(結果的にはカーマイケル数)を<a class="disabled" name="modexpref">得てみた</a>[^12]. 
+以下で, 取り敢えず $200$ 個の偽素数(結果的にはカーマイケル数)を<a class="disabled" id="modexpref">得てみた</a>[^12]. 
 ```Haskell
 {-# OPTIONS_GHC -Wall #-}
 module Main where
@@ -854,7 +854,7 @@ Just "roki"
 
 <p style="text-align: center;">
 <i class="fab fa-github" style="font-size: large; margin-right: 5px;"></i>
-<a href="https://github.com/falgon/ElgamalEncryptionHs" name="impl">falgon/ElgamalEncryptionHs - The rustic implementation of ElGamal encryption encoder and its decoder.</a>
+<a href="https://github.com/falgon/ElgamalEncryptionHs" id="impl">falgon/ElgamalEncryptionHs - The rustic implementation of ElGamal encryption encoder and its decoder.</a>
 </p>
 
 にて公開している.
@@ -863,16 +863,16 @@ Just "roki"
 
 * ["Primitive Elements vs. Generators"](https://mathforum.org/library/drmath/view/60779.html) 2018 年 7 月 9 日アクセス.
 * 伊東利哉, 辻井 重男 (1989)「[有限体における原始根の生成アルゴリズム](https://ipsj.ixsq.nii.ac.jp/ej/index.php?active_action=repository_view_main_item_detail&page_id=13&block_id=8&item_id=32713)」 2018 年 7 月 9 日アクセス.
-* von zur Gathen, Joachim; Shparlinski, Igor (1998), <a class="disabled" name="ref1">"Orders of Gauss periods in finite fields"</a>, Applicable Algebra in Engineering, Communication and Computing
-* Robbins, Neville (2006), <a class="disabled" name="ref2">Beginning Number Theory</a>, Jones & Bartlett Learning, ISBN 978-0-7637-3768-9. 
-* 「<a name="ref4" href="https://mathtrain.jp/galoisfield">有限体（ガロア体）の基本的な話</a>」 2018 年 6 月 29 日アクセス.
-* 「<a name="ref5" href="https://mathtrain.jp/phi">オイラーのファイ関数のイメージと性質</a>」 2018 年 7 月 9 日アクセス.
+* von zur Gathen, Joachim; Shparlinski, Igor (1998), <a class="disabled" id="ref1">"Orders of Gauss periods in finite fields"</a>, Applicable Algebra in Engineering, Communication and Computing
+* Robbins, Neville (2006), <a class="disabled" id="ref2">Beginning Number Theory</a>, Jones & Bartlett Learning, ISBN 978-0-7637-3768-9. 
+* 「<a id="ref4" href="https://mathtrain.jp/galoisfield">有限体（ガロア体）の基本的な話</a>」 2018 年 6 月 29 日アクセス.
+* 「<a id="ref5" href="https://mathtrain.jp/phi">オイラーのファイ関数のイメージと性質</a>」 2018 年 7 月 9 日アクセス.
 * Andreas V. Meier (2005), "[The ElGamal Cryptosystem](https://wwwmayr.in.tum.de/konferenzen/Jass05/courses/1/papers/meier_paper.pdf)" 2018 年 7 月 9 日アクセス.
-* "<a name="ref6" href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf">FIPS PUB 186-4 Digital Signature Standard (DSS)"</a> 2018 年 7 月 9 日アクセス.
-* "<a name="ref7" href="https://crypto.stackexchange.com/a/79">How can I generate large prime numbers for RSA?</a>" 2018 年 7 月 9 日アクセス.
-* "<a name="ref8" href="https://en.wikipedia.org/w/index.php?title=Miller%E2%80%93Rabin_primality_test&oldid=832585246">Miller–Rabin primality test</a>" 2018 年 7 月 9 日アクセス.
-* 「<a name="ref9" href="https://lupus.is.kochi-u.ac.jp/shiota/misc/field/FiniteField.html">有限体― 塩田研一覚書帳 ―」</a>」2018 年 6 月 27 日アクセス.
-* "<a name="ref10" href="http://joye.site88.net/papers/JP06pgen.pdf">Fast Generation of Prime Numbers on Portable Devices: An Update</a>" 2018 年 7 月 13 日アクセス.
+* "<a id="ref6" href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf">FIPS PUB 186-4 Digital Signature Standard (DSS)"</a> 2018 年 7 月 9 日アクセス.
+* "<a id="ref7" href="https://crypto.stackexchange.com/a/79">How can I generate large prime numbers for RSA?</a>" 2018 年 7 月 9 日アクセス.
+* "<a id="ref8" href="https://en.wikipedia.org/w/index.php?title=Miller%E2%80%93Rabin_primality_test&oldid=832585246">Miller–Rabin primality test</a>" 2018 年 7 月 9 日アクセス.
+* 「<a id="ref9" href="https://lupus.is.kochi-u.ac.jp/shiota/misc/field/FiniteField.html">有限体― 塩田研一覚書帳 ―」</a>」2018 年 6 月 27 日アクセス.
+* "<a id="ref10" href="http://joye.site88.net/papers/JP06pgen.pdf">Fast Generation of Prime Numbers on Portable Devices: An Update</a>" 2018 年 7 月 13 日アクセス.
 
 [^1]: 既約多項式を使うと $p$ が素数でなくても($p$ が位数の素数のべき乗であれば)構成できるが, 本エントリの主題と大きく逸れてしまうため, とくに触れない.
 [^2]: 言葉の[参照](#ref4).

@@ -15,18 +15,18 @@ tags: math
 次に示すのはブール代数の公理系である. 公理系に関する詳細は証明理論 (TODO) の冒頭を参照のこと.
 
 <div class="m-def">
-<header class="m-def-title"><p>ブール代数</p></header>
+<header class="m-def-title"><p><a class="disabled" id="boolean_algebra">ブール代数</a></p></header>
 <div class="m-def-content">
 半順序集合 \\((B,\lor,\land,',0,1)\\) 
-が可補分配<a href="https://falgon.github.io/roki.log/posts/2019/%203%E6%9C%88/15/Relation/#lattice_def">束</a>ならば, 
+が可補分配[束](/roki.log/2019/03/15/Relation/#lattice_def)ならば, 
 \\((B,\lor,\land,',0,1)\\) はブール代数である.
 すなわち, \\(x,y,z\in B\\) に対して, 次のすべての公理を満たした \\((B,\lor,\land,',0,1)\\) はブール代数である.
 
 <ol>
-<li><a name="boolean_algebra1" class="disabled">可換律</a>: \\(x\land y=y\land x,x\lor y=y\lor x\\)</li>
-<li><a name="boolean_algebra2" class="disabled">分配律</a>: \\((x\lor y)\land z=(x\land z)\lor(y\land z),(x\land y)\lor z=(x\lor z)\land(y\lor z)\\)</li>
-<li><a name="boolean_algebra3" class="disabled">同一律</a>: \\(^\forall x\in L\\) に対して \\(x\land 1=x,x\lor 0=x\\). ここで \\(1\\) は最大限, 単位元である. \\(0\\) は最小限, 零元である.</li>
-<li><a name="boolean_algebra4" class="disabled">補元律</a>: \\(^\exists x'\in L\ {\rm s.t.}\ ^\forall x\in L, x\lor x'=1, x\land x'=0\\)</li>
+<li><a id="boolean_algebra1" class="disabled">可換律</a>: \\(x\land y=y\land x,x\lor y=y\lor x\\)</li>
+<li><a id="boolean_algebra2" class="disabled">分配律</a>: \\((x\lor y)\land z=(x\land z)\lor(y\land z),(x\land y)\lor z=(x\lor z)\land(y\lor z)\\)</li>
+<li><a id="boolean_algebra3" class="disabled">同一律</a>: \\(^\forall x\in L\\) に対して \\(x\land 1=x,x\lor 0=x\\). ここで \\(1\\) は最大限, 単位元である. \\(0\\) は最小限, 零元である.</li>
+<li><a id="boolean_algebra4" class="disabled">補元律</a>: \\(^\exists x'\in L\ {\rm s.t.}\ ^\forall x\in L, x\lor x'=1, x\land x'=0\\)</li>
 </ol>
 </div>
 </div>
@@ -38,7 +38,8 @@ tags: math
 \\(2^4=16\\) 通りの 2 変数ブール式が存在することとなる.
 以下, 演算の優先順序は左結合性で \\(',\land,\lor\\) の順とする. ただし, 括弧内の演算はより優先される.
 
-さてブール代数の公理における乗法 \\(\land\\) と加法 \\(\lor \\), および \\(1, 0\\) をそれぞれ入れ替えると, 再びブール代数の公理である. 
+さてブール代数の公理における乗法 \\(\land\\) と加法 \\(\lor \\), および \\(1, 0\\) をそれぞれ入れ替えると, 
+再びブール代数の公理である. 
 これは[双対](#dual_def)の原理という公理である.
 
 <div class="m-def">
@@ -50,14 +51,22 @@ tags: math
 </div>
 
 これらの公理から[補元の一意性](#complement_unique), [べき等律](#idempotence), 
-[有界律](#bounded), [吸収律](#absorption), [結合律](#associative), [対合律](#involution), [ド・モルガンの法則](#de_morgan), [シャノンの展開定理](#chanon_theorem)が導出可能である. 
-\\(x,y,z\in B\\) のとき
+[有界律](#bounded), [吸収律](#absorption), [結合律](#associative), [対合律](#involution), 
+[ド・モルガンの法則](#de_morgan), [シャノンの展開定理](#chanon_theorem)が導出可能である. 
+以下 \\(x,y,z\in B\\) とする.
 
-<a name="complement_unique" class="disabled"><h4>補元の一意性</h4></a>
+<div class="m-thm">
+<header class="m-thm-title"><p>補元の一意性</p></header>
+<div class="m-thm-content">
+\\(x\\) に対する補元は一意である.
+</div>
+</div>
 
+<div class="m-proof">
+<header class="m-proof-title"><p>補元の一意性</p></header>
+<div class="m-proof-content">
 2 つの \\(x\\) の補元 \\(x'_1,x'_2\\) を仮定する.
-
-\begin{aligned}
+\\[\begin{aligned}
 x'_1&=&x'_1\land1&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})\\
 &=&x'_1\land(x\lor x'_2)&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&(x'_1\land x)\lor (x'_1\land x'_2)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
@@ -67,16 +76,42 @@ x'_1&=&x'_1\land1&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})\
 &=&x'_2\land1&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&x'_2&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})
 \end{aligned}
-
+\\]
 より \\(x\\) の補元が一意であることは明らか.
-\\(\square\\)
+</div>
+</div>
 
-<a name="idempotence" class="disabled"><h4>べき等律</h4></a>
+<div class="m-thm">
+<header class="m-thm-title"><p><a id="idempotence" class="disabled">べき等律</a></p></header>
+<div class="m-thm-content">
+以下が成り立つ.
 
-[束の定理](https://falgon.github.io/roki.log/posts/2019/%203%E6%9C%88/15/Relation/#proof1)より自明. \\(\square\\)
+1. \\(x\land x\Leftrightarrow x\\)
+2. \\(x\lor x\Leftrightarrow x\\)
+</div>
+</div>
 
-<a name="bounded" class="disabled"><h4>有界律</h4></a>
-\begin{aligned}
+<div class="m-proof">
+<header class="m-proof-title"><p>べき等律</p></header>
+<div class="m-proof-content">
+[束の定理](https://falgon.github.io/roki.log/posts/2019/%203%E6%9C%88/15/Relation/#proof1)による.
+</div>
+</div>
+
+<div class="m-thm">
+<header class="m-thm-title"><p><a id="bounded" class="disabled">有界律</a></p></header>
+<div class="m-thm-content">
+以下が成り立つ.
+
+1. \\(x\lor 1=1\\)
+2. \\(x\land 0=0\\)
+</div>
+</div>
+
+<div class="m-proof">
+<header class="m-proof-title"><p>有界律</p></header>
+<div class="m-proof-content">
+\\[\begin{aligned}
 x\lor 1&=&(x\lor 1)\land1&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})\\
 &=&(x\lor 1)(x\lor x')&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&x\lor (1\land x')&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
@@ -86,11 +121,23 @@ x\land0&=&x\land x\land x'&(\because {\rm \href{#boolean_algebra4}{公理 4}:補
 &=&x\land x'&(\because {\rm 定理:\href{#idempotence}{べき等律}})\\
 &=&0&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})
 \end{aligned}
-\\(\square\\)
+\\]
+</div>
+</div>
 
-<a name="absorption" class="disabled"><h4>吸収律</h4></a>
+<div class="m-thm">
+<header class="m-thm-title"><p><a id="absorption" class="disabled">吸収律</a></p></header>
+<div class="m-thm-content">
+以下が成り立つ.
 
-\begin{aligned}
+\\[x\lor x\land y=x\land(x\lor y)=x\\]
+</div>
+</div>
+
+<div class="m-proof">
+<header class="m-proof-title"><p>吸収律</p></header>
+<div class="m-proof-content">
+\\[\begin{aligned}
 x\lor x\land y&=&(x\land1)\lor (x\land y)&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&x\land(1\lor y)&(\because {\rm \href{#boolean_algebra2}{公理2}:分配律})\\
 &=&x\land1&(\because {\rm \href{#boolean_algebra1}{公理 1}: 可換律, 定理: \href{#bounded}{有界律}} )\\
@@ -99,26 +146,37 @@ x\land(x\lor y)&=&(x\lor 0)(x\lor y)&(\because {\rm \href{#boolean_algebra3}{公
 &=&(0\land y)\lor x&(\because {\rm \href{#boolean_algebra2}{公理2}: 分配律})\\
 &=&x\lor 0&(\because \rm{\href{#boolean_algebra1}{公理1}: 可換律,定理: \href{#bounded}{有界律}})\\
 &=&x&(\because \rm{\href{#boolean_algebra3}{公理3}: 同一律})
-\end{aligned}
-\\(\square\\)
+\end{aligned}\\]
+</div>
+</div>
 
-<a name="associative" class="disabled"><h4>結合律</h4></a>
+<div class="m-thm">
+<header class="m-thm-title"><p><a id="associative" class="disabled">結合律</a></p></header>
+<div class="m-thm-content">
+以下が成り立つ.
 
+\\[x\lor(y\lor z)=(x\lor y)\lor z\\]
+</div>
+</div>
+
+<div class="m-proof">
+<header class="m-proof-title"><p>結合律</p></header>
+<div class="m-proof-content">
 \\(A=x\lor (y\lor z), B=(x\lor y)\lor z\\) とおく. このとき,
 
-\begin{aligned}
+\\[\begin{aligned}
 x\land A&=&x\land(x\lor (y\lor z))\\
 &=&x&(\because {\rm 定理: \href{#absorption}{吸収律}})\\
 x\land B&=&x\land((x\lor y)\lor z)\\
 &=&x\land(x\lor y)\lor x\land z&(\because {\rm \href{#boolean_algebra2}{公理2}: 分配律})\\
 &=&x\lor x\land z&(\because {\rm 定理: \href{#absorption}{吸収律}})\\
 &=&x&(\because {\rm 定理: \href{#absorption}{吸収律}})
-\end{aligned}
+\end{aligned}\\]
 
 ゆえに \\[x\land A=x\land B=x\tag{L1}\\]
 また,
 
-\begin{aligned}
+\\[\begin{aligned}
 x'\land A&=&x'\land(x\lor (y\lor z))\\
 &=&x'\land x\lor x'\land(y\lor z)&(\because  {\rm \href{#boolean_algebra2}{公理2}: 分配律})\\
 &=&x'\land(y\lor z)\lor 0&(\because {\rm \href{#boolean_algebra1}{公理1}, \href{#boolean_algebra4}{公理 4}: 可換律, 補元律})\\
@@ -129,12 +187,12 @@ x'\land B&=&x'\land((x\lor y)\lor z)\\
 &=&(0\lor x'\land y)\lor x'\land z&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&x'\land y\lor x'\land z&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&x'\land(y\lor z)&(\because {\rm \href{#boolean_algebra2}{公理2}: 分配律})
-\end{aligned}
+\end{aligned}\\]
 
 ゆえに \\[x'\land A=x'\land B=x'\land(y\lor z)\tag{L2}\\]
 従って,
 
-\begin{aligned}
+\\[\begin{aligned}
 A&=&A\land1&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&A\land(x\lor x')&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&A\land x\lor A\land x'&(\because {\rm \href{#boolean_algebra2}{公理2}: 分配律})\\
@@ -143,15 +201,27 @@ A&=&A\land1&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&B(x\lor x')&(\because {\rm \href{#boolean_algebra2}{公理2}: 分配律})\\
 &=&B\land1&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&B&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})
-\end{aligned}
+\end{aligned}\\]
 
 また, 双対の原理より \\(x(y\land z)=(x\land y)\land z\\).
+</div>
+</div>
 
-\\(\square\\)
+<div class="m-thm">
+<header class="m-thm-title"><p><a id="involution" class="disabled">対合律</a></p></header>
+<div class="m-thm-content">
+以下が成り立つ.
 
-<a name="involution" class="disabled"><h4>対合律</h4></a>
+\\[(x')'=x\\]
+</div>
+</div>
 
-\begin{aligned}
+
+<div class="m-proof">
+<header class="m-proof-title"><p>対合律</p></header>
+<div class="m-proof-content">
+
+\\[\begin{aligned}
 (x')'&=&(x')'\lor 0&(\because \rm{\href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&(x')'\lor x\land x'&(\because {\href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&((x')'\lor x)((x')'\lor x')&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
@@ -160,17 +230,28 @@ A&=&A\land1&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&x\lor ((x')'\land x')&(\because {\rm \href{#boolean_algebra2}{公理2}:分配律})\\
 &=&x\lor 0&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&x&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})
-\end{aligned}
-\\(\square\\)
+\end{aligned}\\]
 
-<a name="de_morgan" class="disabled"><h4>ド・モルガンの法則</h4></a>
+</div>
+</div>
 
-\\((x\lor y)'=x'\land y'\\) を示す.
-これが成り立つためには, 式の通り, \\(x'\land y'\\) が \\((x\lor y)\\) の補元でなければならない.
-すなわち, [公理4](#boolean_algebra4): 補元律より \\((x\lor y)\lor (x'\land y')=1\\) および \\((x\lor y)\land(x'\land y')=0\\) 
+<div class="m-thm">
+<header class="m-thm-title"><p><a id="de_morgan" class="disabled">ド・モルガンの法則</a></p></header>
+<div class="m-thm-content">
+以下が成り立つ.
+\\[(x\lor y)'=x'\land y'\\]
+</div>
+</div>
+
+<div class="m-proof">
+<header class="m-proof-title"><p>ド・モルガンの法則</p></header>
+<div class="m-proof-content">
+\\(x'\land y'\\) が \\((x\lor y)\\) の補元でなければならない.
+すなわち, [公理4](#boolean_algebra4): 補元律より \\((x\lor y)\lor (x'\land y')=1\\) および 
+\\((x\lor y)\land(x'\land y')=0\\) 
 が同時に成り立つことを示せばよい.
 
-\begin{aligned}
+\\[\begin{aligned}
 (x\lor y)\lor (x'\land y')&=&((x\lor y)\lor x')((x\lor y)\lor y')&(\because {\rm \href{#boolean_algebra2}{公理2}:分配律})\\
 &=&(y\lor (x\lor x'))(x\lor (y\lor y'))&(\because {\rm \href{#boolean_algebra1}{公理1}: 可換律, 定理: \href{#associative}{結合律}})\\
 &=&(y\lor 1)(x\lor 1)&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
@@ -182,105 +263,121 @@ A&=&A\land1&(\because {\rm \href{#boolean_algebra3}{公理3}: 同一律})\\
 &=&(y'\lor 0)\lor (x'\land1)&(\because {\rm \href{#boolean_algebra4}{公理 4}: 補元律})\\
 &=&0\lor 0&(\because {\rm 定理: \href{#bounded}{有界律}} )\\
 &=&0&(\because {\rm 定理:\href{#idempotence}{べき等律}})
-\end{aligned}
+\end{aligned}\\]
 
-また, [双対の原理](#dual_def)より \\((x\land y)'=x'\lor y'\\). \\(\square\\)
+また, [双対の原理](#dual_def)より \\((x\land y)'=x'\lor y'\\).
+</div>
+</div>
 
-<a name="chanon_theorem" class="disabled"><h4>シャノンの展開定理</h4></a>
+<div class="m-thm">
+<header class="m-thm-title"><p><a id="chanon_theorem" class="disabled">シャノン展開</a></p></header>
+<div class="m-thm-content">
 
 任意の \\(n\\) 変数ブール関数 \\(f(x_1,x_2,\cdots,x_n)\\) を \\(x_1\\) について, 次のように展開できる.
-\begin{aligned}
+
+\\[\begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&(x'_1\lor x_1)\land f(x_1,x_2,\cdots,x_n)&(\because {\rm \href{#boolean_algebra4}{公理 4}, \href{#boolean_algebra3}{公理 3} :補元律, 同一律})\\
 &=&x'_1\land f(x_1,x_2,\cdots,x_n)\lor x_1\land f(x_1,x_2,\cdots,x_n)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
 &=&x'_1\land f(0,x_2,\cdots,x_n)\lor x_1\land f(1,x_2,\cdots,x_n)&(\because \href{#chanon_theorem_proof}{以下に証明})
-\end{aligned}
+\end{aligned}\\]
+</div>
+</div>
 
-この展開をシャノン展開という.
 
-<a name="chanon_theorem_proof" class="disabled"><strong>証明</strong></a>:<br>
-\\(x_1=0\\) のとき, \\[f(0,x_2,\cdots,x_n)=1\land f(0,x_2,\cdots,x_n)\lor 0\land f(1,x_2,\cdots,x_n)=f(0,x_2,\cdots,x_n)\\]
-\\(x_1=1\\) のとき, \\[f(1,x_2,\cdots,x_n)=0\land f(0,x_2,\cdots,x_n)\lor 1\land f(1,x_2,\cdots,x_n)=f(1,x_2,\cdots,x_n)\\]
-\\(\square\\)
+<div class="m-proof">
+<header class="m-proof-title"><p><a id="chanon_theorem" class="disabled">シャノン展開</a></p></header>
+<div class="m-proof-content">
+\\(x_1=0\\) のとき, 
+\\[f(0,x_2,\cdots,x_n)=1\land f(0,x_2,\cdots,x_n)\lor 0\land f(1,x_2,\cdots,x_n)=f(0,x_2,\cdots,x_n)\\]
+\\(x_1=1\\) のとき, 
+\\[f(1,x_2,\cdots,x_n)=0\land f(0,x_2,\cdots,x_n)\lor 1\land f(1,x_2,\cdots,x_n)=f(1,x_2,\cdots,x_n)\\]
+</div>
+</div>
 
 例として, \\(f(x_1,x_2,x_3)=x_1\land x_2\lor x_2\land x_3\lor x_1\land x_3\\) を \\(x_1\\) について展開すると,
 
-\begin{aligned}
+\\[\begin{aligned}
 f(x_1,x_2,x_3)&=&x_1\land x_2\lor x_2\land x_3\lor x_1\land x_3\\
 &=&(x'_1\lor x_1)\land f(x_1,x_2,x_3)&(\because {\rm \href{#boolean_algebra4}{公理 4}, \href{#boolean_algebra3}{公理 3} :補元律, 同一律})\\
 &=&x'_1\land f(x_1,x_2,x_3)\lor x_1\land f(x_1,x_2,x_3)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
 &=&x'_1\land f(0,x_2,x_3)\lor x_1\land f(1,x_2,x_3)&(\because {\rm 定理: \href{#chanon_theorem}{シャノンの展開定理}})\\
 &=&x'_1\land x_2\land x_3\lor x_1\land x_2\lor x_2\land x_3\lor x_3&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})\\
 &=&x'_1\land x_2\land x_3\lor x_1\land x_2\lor x_3&(\because {\rm \href{#boolean_algebra1}{公理1}: 可換律, 定理: \href{#absorption}{吸収律}})\\
-\end{aligned}
+\end{aligned}\\]
 
 となる. また[双対の原理](dual_def)より, 
 
-\begin{aligned}
+\\[\begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&(x_1\land x'_1)\lor f(x_1,x_2,\cdots,x_n)&(\because {\rm \href{#boolean_algebra4}{公理 4}, \href{#boolean_algebra3}{公理 3} :補元律, 同一律})\\
 &=&(x_1\lor f(x_1,x_2,\cdots,x_n))\land(x'_1\lor f(x_1,x_2,\cdots,x_n))&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
 &=&(x_1\lor f(0,x_2,\cdots,x_n))\land(x'_1\lor f(1,x_2,\cdots,x_n))&(\because {\rm \href{#chanon_theorem_proof}{上記証明}の\href{#dual_def}{双対}})
-\end{aligned}
+\end{aligned}\\]
 
 この展開をシャノン双対展開という.
 
-### 標準形
+## 標準形
 
 異なる表現のなされたブール式が同値であるかを即座に断定することは, 一般的に困難であることが多い[^2].
 ここで, ブール式を一意に表す方法が決まっていれば, 即座に同値であるか判断がしやすく, 便利である. 
 ブール代数では主に 2 つの形式が決められており, その形式への変形を標準化, また正規化という.
-以下, \\(n\\) 変数ブール関数 \\(f(x_1,x_2,\cdots,x_n)\\) において, \\(x_1,x_2,\cdots,x_n\\) を入力変数, また入力変数およびその否定をリテラルという.
+以下, \\(n\\) 変数ブール関数 \\(f(x_1,x_2,\cdots,x_n)\\) において, \\(x_1,x_2,\cdots,x_n\\) を入力変数, 
+また入力変数およびその否定をリテラルという.
 さらに \\(n\\) 個の入力変数に対し, \\(k\\) 番目のリテラル \\(x_k^{e_k}\ (1\leq k\leq n)\\) を次のように表す.
 
-\begin{aligned}
+\\[\begin{aligned}
 x^{e_k}_k=\begin{cases}
 x_k&(=x^1_k)&e_k=1{\rm\ のとき}\\
 x'_k&(=x^0_k)&e_k=0{\rm\ のとき}
 \end{cases}
-\end{aligned}
+\end{aligned}\\]
 
-#### 加法標準形, 主加法標準形
+### 加法標準形, 主加法標準形
 
 \\(f(x_1,x_2,\cdots,x_n)\\) を \\(x_1,x_2\\) について[シャノン展開](#chanon_theorem)すると,
 
-\begin{aligned}
+\\[\begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&x'_1\land x'_2\land f(0,0,\cdots,x_n)\\
 &&\lor x'_1\land x_2\land f(0,1,\cdots,x_n)\\
 &&\lor x_1\land x'_2\land f(1,0,\cdots,x_n)\\
 &&\lor x_1\land x_2\land f(1,1,\cdots,x_n)
-\end{aligned}
+\end{aligned}\\]
 
 となる. 従って, 全入力変数 \\(x_1,x_2,\cdots,x_n\\) について[シャノン展開](#chanon_theorem)すると,
 
-\begin{aligned}
+\\[\begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&x'_1\land x'_2\land\cdots\land x'_n\land f(0,0,\cdots,0)\\
 &&\lor x'_1\land x'_2\land\cdots\land x_n\land f(0,0,\cdots, 1)\\
 &&\lor\cdots\\ 
 &&\lor x_1\land x_2\land\cdots\land x'_n\land f(1,1,\cdots,0)\\
 &&\lor x_1\land x_2\land\cdots\land x_n\land f(1,1,\cdots,1)
-\end{aligned}
+\end{aligned}\\]
 
 となる ([シャノンの定理](#chanon_theorem)より数学的帰納法により証明できるが, 省略). 
-形式的に書けば, すなわち
+これを以下のように定義する.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a name="minimum_term_expansion" class="disabled">最小項展開</a></div>
-  <div class="panel-body">
-  \\(n\\) 変数ブール関数 \\(f(x_1,x_2,\cdots,x_n)\\) のすべての入力変数 \\(x_1,x_2,\cdots,x_n\\) について, <a href="#chanon_theorem">シャノン展開</a>した形式
-\\[f(x_1,x_2,\cdots,x_n)=\bigvee_{(e_1,e_2,\cdots,e_n)\in B^n}f(e_1,e_2,\cdots,e_n)\land\bigwedge_{i=1}^{n}x_i^{e_i}\tag{1}\\]
-は \\(f(x_1,x_2,\cdots,x_n)\\) の最小項展開である<sup id="fnref-3"><a class="footnote-ref" href="#fn-3">3</a></sup>. なお, このときの項数は \\(2^n\\) となる.
+<div class="m-def">
+<header class="m-def-title"><p><a id="minimum_term_expansion" class="disabled">最小項展開</a></p></header>
+<div class="m-def-content">
+\\(n\\) 変数ブール関数 \\(f(x_1,x_2,\cdots,x_n)\\) のすべての入力変数 \\(x_1,x_2,\cdots,x_n\\) について, 
+[シャノン展開](#chanon_theorem)した形式
+\\[f(x_1,x_2,\cdots,x_n)=
+\bigvee_{(e_1,e_2,\cdots,e_n)\in B^n}f(e_1,e_2,\cdots,e_n)\land\bigwedge_{i=1}^{n}x_i^{e_i}\tag{1}\\]
+は \\(f(x_1,x_2,\cdots,x_n)\\) の最小項展開である. 
+なお, このときの項数は \\(2^n\\) となる.
 </div>
 </div>
 
 これを踏まえ, 加法標準形および主加法標準形を導入する.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a name="DNF_PDNF" class="disabled">加法標準形, 主加法標準形</a></div>
-  <div class="panel-body">
-加法標準形 (以下 DNF) は, ブール式のリテラル, または 2 つ以上のリテラルの積の和のことをいう.
+<div class="m-def">
+<header class="m-def-title"><p><a id="DNF_PDNF" class="disabled">加法標準形, 主加法標準形</a></p></header>
+<div class="m-def-content">
+* 加法標準形 (disjunctive normal form: DNF) は, ブール式のリテラル, または 2 つ以上のリテラルの積の和のことをいう.
 ここで, 2 つ以上のリテラルの積で同じ入力変数を 2 度以上含まない論理式を基本積, また標準項という. 
-基本積のうち, すべての入力変数を含むブール式を最小項という. すなわち, 式 \\(\\) における \\(\displaystyle\bigwedge_{i=1}^nx^{e_i}_i\\) は最小項である.
-<hr />
-主加法標準形 (principal disjunctive normal form: PDNF) は, ブール関数を<a href="#minimum_term_expansion">最小項展開</a>した形式, すなわち式 \\(\\) の形式である.
+基本積のうち, すべての入力変数を含むブール式を最小項という. 
+すなわち, 上記[最小項展開](#minimum_term_expansion)の \\(\displaystyle\bigwedge_{i=1}^nx^{e_i}_i\\) は最小項である.
+* 主加法標準形 (principal disjunctive normal form: PDNF) は, 
+ブール関数を[最小項展開](#minimum_term_expansion)した形式, すなわち[最小項展開](#minimum_term_expansion)の形式である.
 </div>
 </div>
 
@@ -298,10 +395,13 @@ f_\mid(x_1,x_2)&=&1\land x'_1\land x'_2\lor 1\land x'_1\land x_2\lor 1\land x_1\
 \end{aligned}
 
 従って, 否定論理積の PDNF は \\(x'_1\land x'_2\lor x'_1\land x_2\lor x_1\land x'_2\\) となる.
-この操作を振り返ると, 真理値表から PDNF を書くためには, 結果が \\(1\\) となっている入力変数の全パターンに対して, 元の入力変数の値が \\(1\\) ならそのまま, \\(0\\) ならその補元をとり,
+この操作を振り返ると, 真理値表から PDNF を書くためには, 結果が \\(1\\) となっている入力変数の全パターンに対して, 
+元の入力変数の値が \\(1\\) ならそのまま, \\(0\\) ならその補元をとり,
 それらすべての和を取ればよいことがわかる. 
-何故ならば, 結果が \\(0\\) となる部分は, [シャノンの展開定理の証明](#chanon_theorem_proof)でも示したように消えてしまうからである.
-同じようにして, 否定論理和, 排他的論理和も[真理値表 2](#truthtable2) の \\(\downarrow,\oplus\\) の列をみると, \\(1\\) となる入力のパターンから
+何故ならば, 結果が \\(0\\) となる部分は, 
+[シャノンの展開定理の証明](#chanon_theorem_proof)でも示したように消えてしまうからである.
+同じようにして, 否定論理和, 排他的論理和も[真理値表 2](#truthtable2) の \\(\downarrow,\oplus\\) の列をみると, 
+\\(1\\) となる入力のパターンから
 \begin{aligned}
 f_{\downarrow}(x_1,x_2)&=&x'_1\land x'_2\\
 f_{\oplus}(x_1,x_2)&=&x_1\land x'_2\lor x'_1\land x_2\\
@@ -319,6 +419,7 @@ f_{\oplus}(x_1,x_2)&=&x_1\land x'_2\lor x'_1\land x_2\\
 以下, PDNF で表されたブール式を \\(f(x_1,x_2,\cdots,x_n)_{\rm P D N F}\\) と書くこととする.
 例えば, ブール式 \\(f(x_1,x_2)=x_1\land x_2\land x_1\lor x_2\\) を PDNF で表すとすると,
 
+\\[
 \begin{aligned}
 f(x_1,x_2)&=&x_1\land x_2\land x_1\lor x_2\\
 &=&x_1\land x_1\land x_2\lor x_2&(\because {\rm\href{#boolean_algebra1}{公理1}: 可換律})\\
@@ -328,34 +429,38 @@ f(x_1,x_2)&=&x_1\land x_2\land x_1\lor x_2\\
 &=&x_1\land x_2\lor x_1\land x_2\lor x_1'\land x_2&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\ 
 &=&x_1\land x_2\lor x_1'\land x_2&(\because {\rm 定理:\href{#idempotence}{べき等律}})
 \end{aligned}
+\\]
 
 従って \\[f(x_1,x_2)_{\rm P D N F}=x_1\land x_2\lor x_1'\land x_2\\] となる.
 例としてもう 1 つ, \\(f(x_1,x_2,x_3)=x_1\land x_2'\land x_3\lor x_1\land x'_3\lor x_2\land x'_3\\) としたときの PDNF は
 
+\\[
 \begin{aligned}
 f(x_1,x_2,x_3)&=&x_1\land x'_2\land x_3\lor x\land x'_3\lor x_2\land x'_3\\
 &=&x_1\land x'_2\land x_3\lor x_1\land(x_2\lor x'_2)\land x'_3\lor (x_1\lor x_1')\land x_2\land x'_3&(\because {\rm \href{#boolean_algebra3}{公理 3}, \href{#boolean_algebra4}{公理 4}: 同一律, 補元律} )\\
 &=&x_1\land x'_2\land x_3\lor x_1\land x_2\land x'_3\lor x_1\land x'_2\land x'_3\lor x_1\land x_2\land x'_3\lor x'_1\land x_2\land x'_3&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
 &=&x_1\land x'_2\land x_3\lor x_1\land x_2\land x'_3\lor x_1\land x'_2\land x'_3\lor x'_1\land x_2\land x'_3&(\because {\rm 定理: \href{#idempotence}{べき等律}})
 \end{aligned}
+\\]
 
 従って \\[f(x_1,x_2,x_3)_{\rm P D N F}=x_1\land x'_2\land x_3\lor x_1\land x_2\land x'_3\lor x_1\land x'_2\land x'_3\lor x'_1\land x_2\land x'_3\\] となる.
 
-
-
-#### 乗法標準形, 主乗法標準形
+### 乗法標準形, 主乗法標準形
 
 \\(f(x_1,x_2,\cdots,x_n)\\) を \\(x_1,x_2\\) について[シャノン双対展開](#chanon_theorem)すると,
 
+\\[
 \begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&(x_1\lor x_2\lor f(0,0,\cdots,x_n))\\
 &&\land (x_1\lor x'_2\lor f(0,1,\cdots,x_n))\\
 &&\land (x'_1\lor x_2\lor f(1,0,\cdots,x_n))\\
 &&\land (x'_1\lor x'_2\lor f(1,1,\cdots,x_n))
 \end{aligned}
+\\]
 
 となる. 従って, 全入力変数 \\(x_1,x_2,\cdots,x_n\\) について[シャノン双対展開](#chanon_theorem)すると,
 
+\\[
 \begin{aligned}
 f(x_1,x_2,\cdots,x_n)&=&(x_1\lor x_2\lor\cdots\lor x_n\lor f(0,0,\cdots,0))\\
 &&\land(x_1\lor x_2\lor\cdots\lor x'_n\lor f(1,0,\cdots,0))\\
@@ -363,35 +468,42 @@ f(x_1,x_2,\cdots,x_n)&=&(x_1\lor x_2\lor\cdots\lor x_n\lor f(0,0,\cdots,0))\\
 &&\land(x'_1\lor x'_2\lor\cdots x_n\lor f(1,1,\cdots,0))\\
 &&\land(x'_1\lor x'_2\lor\cdots x'_n\lor f(1,1,\cdots,1))
 \end{aligned}
+\\]
 
 となる ([シャノンの定理](#chanon_theorem)より数学的帰納法により証明できるが, 省略).
-形式的に書けば, すなわち
+これを以下のように定義する.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a name="maximum_term_expansion" class="disabled">最大項展開</a></div>
-  <div class="panel-body">
-\\(n\\) 変数ブール関数 \\(f(x_1,x_2,\cdots,x_n)\\) のすべての入力変数 \\(x_1,x_2,\cdots,x_n\\) について, <a href="#chanon_theorem">シャノン双対展開</a>した形式
-\\[f(x_1,x_2,\cdots,x_n)=\bigwedge_{(e_1,e_2,\cdots,e_n)\in B^n}(f(e_1,e_2,\cdots,e_n)\lor\bigvee_{i=1}^{n}x_i^{e'_i})\tag{2}\\]
+<div class="m-def">
+<header class="m-def-title"><p><a id="maximum_term_expansion" class="disabled">最大項展開</a></p></header>
+<div class="m-def-content">
+\\(n\\) 変数ブール関数 \\(f(x_1,x_2,\cdots,x_n)\\) のすべての入力変数 \\(x_1,x_2,\cdots,x_n\\) について, 
+[シャノン双対展開](#chanon_theorem)した形式
+\\[f(x_1,x_2,\cdots,x_n)=
+\bigwedge_{(e_1,e_2,\cdots,e_n)\in B^n}(f(e_1,e_2,\cdots,e_n)\lor\bigvee_{i=1}^{n}x_i^{e'_i})\tag{2}\\]
 は \\(f(x_1,x_2,\cdots,x_n)\\) の最大項展開である.  なお, このときの項数は \\(2^n\\) となる.
 </div>
 </div>
 
 これを踏まえ, 乗法標準形, 主乗法標準形を導入する.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a name="CNF_PCNF" class="disabled">乗法標準形, 主乗法標準形</a></div>
-  <div class="panel-body">
-乗法標準形 (以下 CNF) は, ブール式のリテラル, または 2 つ以上のリテラルの和の積のことをいう.
+<div class="m-def">
+<header class="m-def-title"><p><a id="CNF_PCNF" class="disabled">乗法標準形, 主乗法標準形</a></p></header>
+<div class="m-def-content">
+* 乗法標準形 (CNF: conjunctive normal form) は, ブール式のリテラル, または 2 つ以上のリテラルの和の積のことをいう.
 ここで, 2 つ以上のリテラルの和で同じ入力変数を 2 度以上含まないブール式を基本和, また標準項という.
-基本和のうち, すべての入力変数を含むブール式を最大項という. すなわち, 式 \\(\\) における \\(\displaystyle\bigvee_{i=1}^{n}x_i^{e'_i}\\) は最大項である.
-<hr />
-主乗法標準形 (principal conjunctive normal form: PCNF) は, ブール関数を<a href="#maximum_term_expansion">最大項展開</a>した形式, すなわち式 \\(\\) の形式である.
+基本和のうち, すべての入力変数を含むブール式を最大項という. 
+すなわち, 上記[最大項展開](#maximum_term_expansion)の \\(\displaystyle\bigvee_{i=1}^{n}x_i^{e'_i}\\) は最大項である.
+* 主乗法標準形 (principal conjunctive normal form: PCNF) は, 
+ブール関数を[最大項展開](#maximum_term_expansion)した形式, すなわち[最大項展開](#maximum_term_expansion)の形式である.
 </div>
 </div>
 
-例えば, 否定論理積 \\(\mid\\) を PCNF で表すとしよう. 否定論理積は 2 項演算子なので, その PCNF は 2 変数ブール関数を最大項展開した形となる.
+例えば, 否定論理積 \\(\mid\\) を PCNF で表すとしよう. 
+否定論理積は 2 項演算子なので, その PCNF は 2 変数ブール関数を最大項展開した形となる.
 
-\\[f(x_1,x_2)=(x_1\lor x_2\lor f(0,0))\land (x_1\lor x'_2\lor f(0,1))\land(x'_1\lor x_2\lor f(1,0))\land(x'_1\lor x'_2\lor f(1,1))\\]
+\\[
+f(x_1,x_2)=
+(x_1\lor x_2\lor f(0,0))\land (x_1\lor x'_2\lor f(0,1))\land(x'_1\lor x_2\lor f(1,0))\land(x'_1\lor x'_2\lor f(1,1))\\]
 
 2 項演算子 \\(\mid\\) を最大項展開した式 \\(f_{\mid}(x_1,x_2)\\) は,
 [真理値表 2](#truthtable2) の \\(\mid\\) の列のとおりに \\(f_{\mid}(x_1,x_2)\\) の値を決めてやればよいので
@@ -449,33 +561,29 @@ f(x_1,x_2,x_3)&=&x_1\land x'_2\lor x_2\land x_3\\
 \\[f(x_1,x_2,x_3)_{\rm P C N F}=(x_1\lor x_2\lor x_3)\land(x_1\lor x_2\lor x'_3)\land(x_1\lor x'_2\lor x_3)\land(x'_1\lor x'_2\lor x_3)\\]
 となる.
 
-### 簡単化
+## 簡単化
 
 ブール式を簡単化する方法について見ていく.
 
-#### カルノー図
+### カルノー図
 
 例えばブール関数が \\[f(x_1,x_2)=x_1\land x'_2\lor x'_1\land x'_2\lor x_1\land x'_2\lor x_1\land x_2 \tag{3}\\] と与えられたとき,
 式変形をしていくと簡単化できることがわかる.
 事実, \\(=(x_1\lor x'_1)\land x'_2\lor x_1\land(x'_2\lor x_2)=x'_2\lor x_1\\) である.
 このような,  [公理4: 補元律](#boolean_algebra4)を用いた式変形は, カルノー図という図式を用いることで視覚的に捉えることができる.
 カルノー図は, 真理値表を 2 次元的に並べる形をしており,
-例えば式 \\(\\) をカルノー図で表すと次のようになる.
+例えば式 (3) をカルノー図で表すと次のようになる.
 
-<div class="table-responsive">
-<table class="table table-bordered table-hover"><thead><th>\\(x_1\backslash x_2\\)</th><th>\\(0\\)</th><th>\\(1\\)</th></thead>
-<caption id="karnaugh1" style="caption-side: bottom">カルノー図 1</caption>
-<tbody>
-<tr><td>\\(0\\)</td><td class="success">\\(1\\)</td><td class="success">\\(0\\)</td></tr>
-<tr><td>\\(1\\)</td><td class="success">\\(1\\)</td><td class="success">\\(1\\)</td></tr>
-</tbody>
-</table>
-</div> 
+| \\(x_1\backslash x_2\\) | \\(0\\) | \\(1\\) |
+| \\(0\\) | \\(1\\) | \\(0\\) |
+| \\(1\\) | \\(1\\) | \\(1\\) |
+
+Table: カルノー図 1
 
 緑色の表示となっているセルの部分それぞれが最小項を表しており, 
 元の論理関数に含まれる最小項のセルには \\(1\\), 含まれないセルには \\(0\\) を記述する[^6]ことで[上図](#karnaugh1)のようになる.
 このとき, 緑色の表示となっているセルの部分の個数は \\(2^n\\) である. これらをまとめることが, 冗長な変数の削除に対応するのである. 
-カルノー図をみて \\(1\\) となるセルの和を書き下すことは, PDNF を書くことと同値である (\\(\\) のブール式は元から PDNF である.
+カルノー図をみて \\(1\\) となるセルの和を書き下すことは, PDNF を書くことと同値である式 (\\3\\) は元から PDNF である.
 [カルノー図 1](#karnaugh1) から結果として, これが導出できる).
 
 カルノー図の隣接するセルの間では, 全ての変数のうちのどれか 1 つの \\(1\\) か \\(0\\) が変わった結果となっているので,
@@ -495,17 +603,14 @@ g_2&=&x_1\land x'_2\lor x_1\land x_2&=&x_1\land(x'_2\lor x_2)&=&x_1
 
 よって, \\(=x'_2\lor x_1\\) とわかる. 別のカルノー図についてもやってみよう.
 
-<div class="table-responsive">
-<table class="table table-bordered table-hover"><thead><th>\\(x_1x_2\backslash x_3x_4\\)</th><th>\\(00\\)</th><th>\\(01\\)</th><th>\\(11\\)</th><th>\\(10\\)</th></thead>
-<caption id="karnaugh2" style="caption-side: bottom">カルノー図 2</caption>
-<tbody>
-<tr><td>\\(00\\)</td><td class="success">\\(0\\)</td><td class="success">\\(1\\)</td><td class="success">\\(1\\)</td><td class="success">\\(0\\)</td></tr>
-<tr><td>\\(01\\)</td><td class="success">\\(0\\)</td><td class="success">\\(1\\)</td><td class="success">\\(0\\)</td><td class="success">\\(0\\)</td></tr>
-<tr><td>\\(11\\)</td><td class="success">\\(0\\)</td><td class="success">\\(0\\)</td><td class="success">\\(0\\)</td><td class="success">\\(0\\)</td></tr>
-<tr><td>\\(10\\)</td><td class="success">\\(1\\)</td><td class="success">\\(0\\)</td><td class="success">\\(1\\)</td><td class="success">\\(1\\)</td></tr>
-</tbody>
-</table>
-</div> 
+| \\(x_1x_2\backslash x_3x_4\\) | \\(00\\) | \\(01\\) | \\(11\\) | \\(10\\) |
+| :--: | :--: | :--: | :--: | :--: |
+| \\(00\\) | \\(0\\) | \\(1\\) | \\(1\\) | \\(0\\) |
+| \\(01\\) | \\(0\\) | \\(1\\) | \\(0\\) | \\(0\\) |
+| \\(11\\) | \\(0\\) | \\(0\\) | \\(0\\) | \\(0\\) |
+| \\(10\\) | \\(1\\) | \\(0\\) | \\(1\\) | \\(1\\) |
+
+Table: カルノー図 2
 
 これは, 4 つの引数をもったブール関数のカルノー図である.
 カルノー図では, 最上, 最下また最左, 最右のセルは隣接していると考える. 
@@ -513,11 +618,11 @@ g_2&=&x_1\land x'_2\lor x_1\land x_2&=&x_1\land(x'_2\lor x_2)&=&x_1
 \\(g_1={1:2,2:2},g_2={1:3,4:3},g_3={4:1,4:4}\\) と構成できる.
 よって,
 
-\begin{aligned}
+\\[\begin{aligned}
 g_1&=&x'_1\land x'_2\land x'_3\land x_4\lor x'_1\land x_2\land x'_3\land x_4&=&x'_1\land x'_3\land x_4\\
 g_2&=&x'_1\land x'_2\land x_3\land x_4\lor x_1\land x'_2\land x_3\land x_4&=&x'_2\land x_3\land x_4\\
 g_3&=&x_1\land x'_2\land x'_3\land x'_4\lor x_1\land x'_2\land x_3\land x'_4&=&x_1\land x'_2\land x'_4
-\end{aligned}
+\end{aligned}\\]
 
 ゆえに[カルノー図 2](#karnaugh2) で示される論理関数の簡単な表現は
 
@@ -526,12 +631,12 @@ g_3&=&x_1\land x'_2\land x'_3\land x'_4\lor x_1\land x'_2\land x_3\land x'_4&=&x
 となる. このグループ化という操作が一意ではないことからわかるように, 簡単化したブール式も一意でないことがわかる.
 例えば, \\(g_1={1:2,2:2},g_2={1:2,1:3},g_3={4:1,4:4},g_4={4:3,4:4}\\) とグループ化すると,
 
-\begin{aligned}
+\\[\begin{aligned}
 g_1&=&x'_1\land x'_2\land x'_3\land x_4\lor x'_1\land x_2\land x'_3\land x_4&=&x'_1\land x'_3\land x_4\\
 g_2&=&x'_1\land x'_2\land x'_3\land x_4\lor x'_1\land x'_2\land x_3\land x_4&=&x'_1\land x'_2\land x_4\\
 g_3&=&x_1\land x'_2\land x'_3\land x'_4\lor x_1\land x'_2\land x_3\land x'_4&=&x_1\land x'_2\land x'_4\\
 g_4&=&x_1\land x'_2\land x_3\land x_4\lor x_1\land x'_2\land x_3\land x'_4&=&x_1\land x'_2\land x_3
-\end{aligned}
+\end{aligned}\\]
 
 ゆえに,
 
@@ -542,31 +647,29 @@ g_4&=&x_1\land x'_2\land x_3\land x_4\lor x_1\land x'_2\land x_3\land x'_4&=&x_1
 さて, ある論理変数の組み合わせが予め起こりえないことがわかっていたとき, その場合もカルノー図を用いて簡単化を進めることができる.
 このような組み合わせに対する最小項を禁止項, または don't care 項という.
 例えば, 
-\begin{aligned}
+\\[\begin{aligned}
 f(x_1,x_2,x_3,x_4)&=&x'_1\land x'_2\land x'_3\land x_4 \\ 
 &&\lor x'_1\land x_2\land x'_3\land x_4 \\ 
 &&\lor x'_1\land x_2\land x_3\land x_4\\
 &&\lor x'_1\land x_2\land x_3\land x'_4\\
 &&\lor x_1\land x'_2\land x_3\land x_4\\
 &&\lor x_1\land x'_2\land x_3\land x'_4\tag{4}
-\end{aligned}
+\end{aligned}\\]
 
 というブール関数を簡単化することを考える. このとき, \\(x_1\land x_2\\), また \\(x_1\land x'_2\land x'_3\land x'_4\\) は禁止項とする.
 禁止行の対応するセルには \\(\phi\\) を記述する. すると, 式 \\(\\) のカルノー図は次のとおりとなる.
 
-<div class="table-responsive">
-<table class="table table-bordered table-hover"><thead><th>\\(x_1x_2\backslash x_3x_4\\)</th><th>\\(00\\)</th><th>\\(01\\)</th><th>\\(11\\)</th><th>\\(10\\)</th></thead>
-<caption id="karnaugh3" style="caption-side: bottom">カルノー図 3</caption>
-<tbody>
-<tr><td>\\(00\\)</td><td class="success">\\(0\\)</td><td class="success">\\(1\\)</td><td class="success">\\(0\\)</td><td class="success">\\(0\\)</td></tr>
-<tr><td>\\(01\\)</td><td class="success">\\(0\\)</td><td class="success">\\(1\\)</td><td class="success">\\(1\\)</td><td class="success">\\(1\\)</td></tr>
-<tr><td>\\(11\\)</td><td class="success">\\(\phi\\)</td><td class="success">\\(\phi\\)</td><td class="success">\\(\phi\\)</td><td class="success">\\(\phi\\)</td></tr>
-<tr><td>\\(10\\)</td><td class="success">\\(\phi\\)</td><td class="success">\\(0\\)</td><td class="success">\\(1\\)</td><td class="success">\\(1\\)</td></tr>
-</tbody>
-</table>
-</div> 
+| \\(x_1x_2\backslash x_3x_4\\) | \\(00\\) | \\(01\\) | \\(11\\) | \\(10\\) |
+| :--: | :--: | :--: | :--: | :--: |
+| \\(00\\) | \\(0\\) | \\(1\\) | \\(0\\) | \\(0\\) |
+| \\(01\\) | \\(0\\) | \\(1\\) | \\(1\\) | \\(1\\) |
+| \\(11\\) | \\(\phi\\) | \\(\phi\\) | \\(\phi\\) | \\(\phi\\) |
+| \\(10\\) | \\(\phi\\) | \\(0\\) | \\(1\\) | \\(1\\) |
 
-禁止項は, \\(1\\) でも \\(0\\) でもよいということになるので, グループを構成するにあたって自分で都合よく \\(1\\) か \\(0\\) に解釈してしまって良い.
+Table: カルノー図 3
+
+禁止項は, \\(1\\) でも \\(0\\) でもよいということになるので,
+グループを構成するにあたって自分で都合よく \\(1\\) か \\(0\\) に解釈してしまって良い.
 できる限り多くのセルと少ないグループの数で構成するために, いま \\(3:3,3:4\\) を \\(1\\) と解釈すれば, 
 \\(g_1={1:2,2:2},g_2={2:3,2:4,3:3,3:4},g_3={3:3,3:4,4:3,4:4}\\) とグループ化できる.
 従って,
@@ -585,7 +688,7 @@ g_3&=&x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4\lor x_1
 カルノー図は, 1 次元につき 2 つまでの引数を扱えると考えると, 人間の次元認識能力の見地から実質 6 つの引数にまで対応できることとなるわけだが,
 実際は平面的に考えることが多いので, 大抵, 最大 4 個の引数までしか扱うことができない.
 
-#### クワイン・マクラスキー法
+### クワイン・マクラスキー法
 
 主にクワイン・マクラスキー法は \\[x\land y\lor x\land y'=x\land(y\lor y')=x\tag{5}\\] を繰り返し利用し, ブール関数を機械的に簡単化していく方法であり,
 その手順は次のとおりである.
@@ -632,8 +735,8 @@ m_{14}&=&x_1\land x_2\land x_3\land x'_4=1110
 次の表に, 圧縮を 1 度行った結果を示す.
 組み合わせられたビット部分は \\(-\\), それ以上圧縮できないものを主項といい, \\(\ast\\) で示すものとする[^8]. これを圧縮表ということとする.
 
-<div class="table-responsive">
-<table class="table table-hover"><thead><th>1 の数</th><th>最小項</th><th>ビット列表現</th></thead>
+<div class="content">
+<table class="table"><thead><th>1 の数</th><th>最小項</th><th>ビット列表現</th></thead>
 <caption id="compress_table1" style="caption-side: bottom">圧縮表 (1 回目)</caption>
 <tbody>
 <tr><td rowspan="3">\\(1\\)</td><td>\\(m_{4,5}\\)</td><td>\\(0-01\ast\\)</td></tr>
@@ -680,19 +783,16 @@ m_{14}&=&x_1\land x_2\land x_3\land x'_4=1110
 しかしこれはまだ冗長である. この主項から必須項を調べる. 縦軸に主項, 横軸に最小項を並べ, 最小項を包含する主項のセルに印 \\(\bigcirc\\) を, 
 包含する最小項が 1 つしかない主項のセルに印 \\(\circledcirc\\) をつける. これを主項表という.
 
-<div class="table-responsive">
-<table class="table table-hover"><thead><th>主項 \\(\backslash\\) 最小項</th><th>\\(m_4\\)</th><th>\\(m_5\\)</th><th>\\(m_9\\)</th><th>\\(m_{13}\\)</th><th>\\(m_{11}\\)</th><th>\\(m_{15}\\)</th><th>ビット表現</th></thead>
-<caption id="prime_implicant_table1" style="caption-side: bottom">主項表 1</caption>
-<tbody>
-<tr><td>\\(m_{4,5}\\)</td><td>\\(\circledcirc\\)</td><td>\\(\bigcirc\\)</td><td></td><td></td><td></td><td></td><td>\\(0-01\\)</td></tr>
-<tr><td>\\(m_{5,6,9,10}\\)</td><td></td><td>\\(\bigcirc\\)</td><td>\\(\bigcirc\\)</td><td></td><td></td><td></td><td>\\(-1-1\\)</td></tr>
-<tr><td>\\(m_{9,10,13,14}\\)</td><td></td><td></td><td>\\(\bigcirc\\)</td><td>\\(\circledcirc\\)</td><td></td><td></td><td>\\(-11-\\)</td></tr>
-<tr><td>\\(m_{10,11,14,15}\\)</td><td></td><td></td><td></td><td></td><td>\\(\circledcirc\\)</td><td>\\(\bigcirc\\)</td><td>\\(1-1-\\)</td></tr>
-<tr><td>\\(m_{2,3,14,15}\\)</td><td></td><td></td><td></td><td></td><td></td><td>\\(\bigcirc\\)</td><td>\\(1--0\\)</td></tr>
-<tr><td>\\(m_{2,6,10,14}\\)</td><td></td><td></td><td></td><td></td><td></td><td></td><td>\\(11--\\)</td></tr>
-</tbody>
-</table>
-</div>
+| 主項 \\(\backslash\\) 最小項 | \\(m_4\\) | \\(m_5\\) | \\(m_9\\) | \\(m_{13}\\) | \\(m_{11}\\) | \\(m_{15}\\) | ビット表現 |
+| :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+| \\(m_{4,5}\\) | \\(\color{blue}{\circledcirc}\\) | \\(\color{blue}{\bigcirc}\\) | | | | | \\(0-01\\) |
+| \\(m_{5,6,9,10}\\) | | \\(\bigcirc\\) | \\(\bigcirc\\) | | | | \\(-1-1\\) |
+| \\(m_{9,10,13,14}\\) | | | \\(\color{blue}{\bigcirc}\\) | \\(\color{blue}{\circledcirc}\\) | | | \\(-11-\\) |
+| \\(m_{10,11,14,15}\\) | | | | | \\(\color{blue}{\circledcirc}\\) | \\(\color{blue}{\bigcirc}\\) | \\(1-1-\\) |
+| \\(m_{2,3,14,15}\\) | | | | | | \\(\bigcirc\\) | \\(1--0\\) |
+| \\(m_{2,6,10,14}\\) | | | | | | | \\(11--\\) |
+
+Table: 主項表 1
 
 従って, 必須項は \\(\circledcirc\\) のつく \\(m_{4,5},m_{9,10,13,14},m_{10,11,14,15}\\) である. 
 あとはそれらを書き出し, 残りの主項で最小項を全て含む最も簡単な組み合わせを探すこととなる(ここで現れる必須項が全ての最小項を包含するとは限らない).
@@ -704,7 +804,8 @@ m_{14}&=&x_1\land x_2\land x_3\land x'_4=1110
 先に示したカルノー図による簡単化で得られたブール式と同等の結果が得られたことがわかる.
 なお, クワイン・マクラスキー法は NP 完全である[^9]ため, 使用範囲が限られる.
 
-#### ペトリック法
+
+### ペトリック法
 
 先のクワイン・マクラスキー法の最後では,
 「最も簡単となりかつ, 全ての最小項を含むブール式となるよう適当な主項を選択」することによって最簡形を得るとのことであったが,
@@ -730,10 +831,10 @@ m_{14}&=&x_1\land x_2\land x_3\land x'_4=1110
 これらは一度プログラムで実装することが割と学習の定番となっているので, Haskell で実装した.
 次のリポジトリにて管理している.
 
-<p style="text-align: center;">
-<i class="fab fa-github" style="font-size: large; margin-right: 5px;"></i>
+<div class="has-text-centered mb-2">
+<i class="fab fa-github fa-fw"></i>
 <a href="https://github.com/falgon/bsimplified">falgon/bsimplified - The simple and pure implementation of Quine-McCluskey method, Petrick's method and parsing of Boolean formula</a>
-</p>
+</div>
 
 まず, いま解いた簡単化を再度実行してみる. 
 よくある実装法だと思うが, クワイン・マクラスキー法の圧縮過程は二分木のデータ構造として表現する.
@@ -817,7 +918,7 @@ Simplified terms: (m_0 m_1), (m_1 m_3)
 ところで, この最簡形を得るという問題は充足可能性問題であり NP 困難[^10]なので, 変数の多いブール関数に対する最簡形を得ることは難しい.
 その場合, 現実的な時間で比較的良質な解が得られるヒューリスティックを含む方法で求めることとなる.
 
-### ブール代数の例
+## ブール代数の例
 
 ここではブール代数の一例として, 計算機科学で一般的に用いられるブール代数を挙げる.
 集合 \\(L={0,1}\\) に対して \\(\land\\) を積 \\(\cdot:L\times L\to L\\), 
@@ -861,17 +962,17 @@ Simplified terms: (m_0 m_1), (m_1 m_3)
 \\(x\lor y:=\overline{x}\mid \overline{y}\\) と和も定義できる. 
 どちらかをも定義せずとも, 否定に加えて積があれば和が定義できるし, 和があれば積が定義できる.
 
-### 参考文献
+## 参考文献
 
-1. "<a name="ref1" href="https://math.stackexchange.com/questions/1210458/what-is-the-difference-between-boolean-logic-and-propositional-logic">What is the difference between Boolean logic and propositional logic?</a>" 2019 年 4 月 13 日アクセス.
-2. "<a name="ref2" href="https://www.quora.com/What-is-the-difference-between-Boolean-Algebra-and-propositional-logic-If-either-they-are-same-or-one-is-a-subset-of-another-why-should-we-study-those-separately">What is the difference between Boolean Algebra and propositional logic? If either they are same or one is a subset of another why should we study those separately?</a>" 2019 年 4 月 13 日アクセス.
+1. "<a id="ref1" href="https://math.stackexchange.com/questions/1210458/what-is-the-difference-between-boolean-logic-and-propositional-logic">What is the difference between Boolean logic and propositional logic?</a>" 2019 年 4 月 13 日アクセス.
+2. "<a id="ref2" href="https://www.quora.com/What-is-the-difference-between-Boolean-Algebra-and-propositional-logic-If-either-they-are-same-or-one-is-a-subset-of-another-why-should-we-study-those-separately">What is the difference between Boolean Algebra and propositional logic? If either they are same or one is a subset of another why should we study those separately?</a>" 2019 年 4 月 13 日アクセス.
 3. J. Donald Monk (1976) "Mathematical Logic (Graduate Texts in Mathematics)" Springer; Softcover reprint of the original 1st ed. 1976版 (1976/9/7). ISBN-13: 978-1468494549
 4. 赤間世紀, 長田康敬, 玉城史朗 (2006)『<a id="ref4" class="disabled">情報数学入門</a>』共立出版. ISBN-13: 978-4320018143
 5. W. V. Quine (1952) "The Problem of Simplifying Truth Functions" The American Mathematical Monthly Vol. 59, No. 8 (Oct., 1952), pp. 521-531
 6. W. V. Quine (1955) "A Way to Simplify Truth Functions" The American Mathematical Monthly Vol. 62, No. 9 (Nov., 1955), pp. 627-631
 7. [動画] Phalanetra. H.S "[Quine McCluskey minimisation and Petrick's method for obtaining simplified Boolean expressions](https://www.youtube.com/watch?v=97KpndF8-So)", 2019 年 4 月 30 日アクセス.
 8. [Lecture #10: Petrick's Method](http://www.mrc.uidaho.edu/mrc/people/jff/349/lect.10)
-9. Czort, S. (1999) "<a name="ref9" class="disabled">The complexity of minimizing disjunctive normal form formulas (Master's thesis)</a>". University of Aarhus.
+9. Czort, S. (1999) "<a id="ref9" class="disabled">The complexity of minimizing disjunctive normal form formulas (Master's thesis)</a>". University of Aarhus.
 
 [^1]: イギリスの数学者ジョージ・ブール (英: George Boole) は 19 世紀半ばに人間の思考を代数計算で行うための研究を行い, ブール代数を形式化した. 命題論理はそれよりも昔にフレーゲにより構築された論理体型であるが, これは哲学的投機から派生したものである. 19 世紀後半になると, 哲学者たちは殆どブールの象徴主義を採用し, その後の 20 世紀ではこれらの学問間における明確な区別はなかったとのこと([参考文献2](#ref2) より引用: <i>The main difference is historical. George Boole was a mathematician interested in efficient practical solutions of complicated logical questions in the middle 19th century. His main innovation was symbolic logic, a system of notation for clear specification of propositions and relations among propositions. [..] Propositional logic goes back to ancient times and derives from philosophical speculation. In the late 19th century philosophers mostly adopted Boole’s symbolism. Therefore in the 20th century there’s no clear distinction between the two fields, </i>). しかしながら, ブール代数に還元できないいくつかの命題論理が残っているとのこと([参考文献2](#ref2) より引用: <i>although there remains some propositional logic that cannot be reduced to Boolean symbols. </i>). これが事実ならば, ブール代数は命題論理のサブセット的な論理であることがいえるが, [参考文献3](#ref3) p.158 では, "<i>the correspondence between Boolean algebras and sentential logics [...] We shall see that there is a full correspondence between these two kinds of mathematical objects.</i> とあり, さらに同著書 p.160 で "<i>the following theorem, which is another kind of completeness theorem for Boolean algebras. [...] Hence we may say that the theories of Boolean algebras and of sentential logics are equivalent, in some sense.</i>" とも言われていることから, 大まかに言い切ってしまえば, 殆ど差はないということであろう.
 [^2]: ブール式は 1 つのブール関数を定めるが, ブール関数はブール式を一意には定めない.

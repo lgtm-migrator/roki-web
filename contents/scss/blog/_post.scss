@@ -1,11 +1,33 @@
 @import "../../../node_modules/bulma/bulma.sass";
-@import  "../base/all";
+@import "../base/all";
+@import "mixins";
+
+$tooltip-color: white;
 
 .footnotes {
     hr {
         border-top: 1px dotted #f5f5f5;
     }
 }
+    
+.social-icon {
+    a {
+        color: #363636;    
+    }
+    .social-icon-twitter:hover {
+        color: $twitter-color;
+    }
+    .social-icon-facebook:hover {
+        color: $facebook-color;
+    }
+    .social-icon-pocket:hover {
+        color: $pocket-color;
+    }
+    .social-icon-line:hover {
+        color: $line-color;
+    }
+}
+     
 
 article {
     .card {
@@ -37,32 +59,7 @@ article {
                 table {
                     @extend .container, .table;
                 }
-                .m-def {
-                    @extend .card, .is-shadowless;
-                }
-                .m-def-title {
-                    @extend .card-header, .card-header-title, .is-shadowless, .title, .is-6, .mb-0;
-                    &:before {
-                        content: "定義";
-                        text-decoration: underline;
-                    }
-                    p {
-                        font-weight: normal;
-                        &:before {
-                            content: "(";
-                        }
-                        &:after {
-                            content: ")"
-                        }
-                        @extend .ml-1;
-                    }
-                }
-                .m-def-content {
-                    @extend .card-content, .content, .mt-0, .pt-0;
-                    &:after {
-                        content: "□"
-                    }
-                }
+                @extend %math-system;
             }
         }
     }

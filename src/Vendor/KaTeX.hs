@@ -21,7 +21,7 @@ render = withItemBody $ fmap (TT.renderTreeOptions tagSoupOption) . transformTre
     where
         f tag@(TT.TagBranch _ as [TT.TagLeaf (TS.TagText e)])
             | hasMathClass as = TT.parseTree <$> 
-                unixFilter "tools/katex.js" ["displayMode" | hasDisplayClass as] e
+                unixFilter "tools/katex_runner.sh" ["displayMode" | hasDisplayClass as] e
             | otherwise = return [tag]
         f tag = return [tag]
 

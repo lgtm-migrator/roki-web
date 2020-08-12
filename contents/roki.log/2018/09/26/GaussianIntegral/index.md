@@ -9,7 +9,7 @@ tags: math, Python
 筆者自身にとっての分かりやすさを優先しているため, 若干冗長的な記述があるかもしれない点に注意.
 
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="GaussianIntegral" class="disabled">ガウス積分の公式</a></div>
+  <div class="panel-heading theo"><a id="GaussianIntegral" class="disabled">ガウス積分の公式</a></div>
   <div class="panel-body" style="overflow:scroll">
   \\(x\in\mathbb{R}\\) のとき \\[\displaystyle\int_{-\infty}^{\infty}e^{-x^2}dx=\sqrt{\pi}\\]
   </div>
@@ -46,7 +46,7 @@ I^2&=&\int_{0}^{2\pi}\int_{0}^{\infty}e^{-r^2}rdrd\theta \\
 さて, 以下はガウス積分の公式に関連した, いくつかの等式について示すこととする.
 
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="SimilarGaussianIntegral1" class="disabled">ガウス積分の類似形 1</a></div>
+  <div class="panel-heading theo"><a id="SimilarGaussianIntegral1" class="disabled">ガウス積分の類似形 1</a></div>
   <div class="panel-body" style="overflow:scroll">
   \\(x\in\mathbb{R}, a\in\mathbb{R}^{+}\\) のとき, \\[\displaystyle\int_{-\infty}^{\infty}e^{-ax^2}dx=\sqrt{\dfrac{\pi}{a}}\\]
   </div>
@@ -60,7 +60,7 @@ I^2&=&\int_{0}^{2\pi}\int_{0}^{\infty}e^{-r^2}rdrd\theta \\
 \\(\\) の最右辺をみると[ガウス積分の公式](#GaussianIntegral)と全く同じなので, \\(=\sqrt{\dfrac{\pi}{a}}\\). \\(\square\\)
 
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="SimilarGaussianIntegral2" class="disabled">ガウス積分の類似形 2</a></div>
+  <div class="panel-heading theo"><a id="SimilarGaussianIntegral2" class="disabled">ガウス積分の類似形 2</a></div>
   <div class="panel-body" style="overflow:scroll">
   \\(x\in\mathbb{R}, a\in\mathbb{R}^{+}\\) のとき, \\[\displaystyle\int_{0}^{\infty}e^{-ax^2}dx=\dfrac{1}{2}\sqrt{\dfrac{\pi}{a}}\\]
   </div>
@@ -74,7 +74,7 @@ I^2&=&\int_{0}^{2\pi}\int_{0}^{\infty}e^{-r^2}rdrd\theta \\
 ### 参考文献
 
 <ul>
-<li>「<a name="ref1" href="https://mathtrain.jp/gauss">ガウス積分の公式の 2 通りの証明</a>」 2018 年 9 月 26 日アクセス.</li>
+<li>「<a id="ref1" href="https://mathtrain.jp/gauss">ガウス積分の公式の 2 通りの証明</a>」 2018 年 9 月 26 日アクセス.</li>
 <li>「<a href="http://www.chem.tsukuba.ac.jp/kazuya/kazuya/AppC.pdf">C. 極座標</a>」 2018 年 9 月 26 日アクセス.</li>
 </ul>
 

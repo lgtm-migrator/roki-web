@@ -19,7 +19,7 @@ tags: math
 このとき順序体の要素を \\(n\\) 個に拡張したものを \\(n\\)-tuple といい, 以下の通り定義する.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="n-tuple" class="disabled">\\(n\\)-tuple の同値関係と直積</a></div>
+  <div class="panel-heading def"><a id="n-tuple" class="disabled">\\(n\\)-tuple の同値関係と直積</a></div>
   <div class="panel-body">
 \begin{aligned}
 \left\lt a_1,a_2,\cdots,a_n\right\gt=\left\lt b_1,b_2,\cdots,b_n\right\gt&:=&(a_1=b_1,a_2=b_2,\cdots,a_n=b_n) \tag{1} \\
@@ -60,7 +60,7 @@ tags: math
 二項関係は, より一般化することができる.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="n-ary_relation" class="disabled">\\(n\\) 項関係</a></div>
+  <div class="panel-heading def"><a id="n-ary_relation" class="disabled">\\(n\\) 項関係</a></div>
   <div class="panel-body">
 いま複数の集合の直積の部分集合, すなわち \\(n\\) 項関係 \\(R\subseteq\prod_{i=1}^{n}A_i\\) があって,
 \\(\left\lt a_1,a_2,\cdots,a_n\right\gt\in R\\) ならば \\(a_1,a_2,\cdots,a_n\\) は 関係
@@ -76,7 +76,7 @@ tags: math
 ここで, 本ブログ内で特に断りなく使われる一般的な関係に関する記号の表記, その意図について表明しておく.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="order_symbol" class="disabled">本ブログで使われる一般的な関係に関する記号表記</a></div>
+  <div class="panel-heading def"><a id="order_symbol" class="disabled">本ブログで使われる一般的な関係に関する記号表記</a></div>
   <div class="panel-body">
 任意の二項関係 \\(\lesssim\\) の要素 \\(\left\lt a,b\right\gt\in\ \lesssim\\) に対し:
 <ul>
@@ -96,7 +96,7 @@ tags: math
 主な二項関係における規則を以下に定義する.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="reflexive_relation" class="disabled">反射律</a></div>
+  <div class="panel-heading def"><a id="reflexive_relation" class="disabled">反射律</a></div>
   <div class="panel-body">
   二項関係 \\(R\subseteq A\times B\\), また \\(x\in A\cap B\\) があって, \\(\left\lt x,x\right\gt\in R\\) が存在するとき 
   \\(R\\) は反射律を満たすという.
@@ -107,7 +107,7 @@ tags: math
 しかし, \\(x\lt x\\) は成立しないので, \\(\lt\\) は \\(\mathbb{R}\\) の下で反射律を満たさない.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="symmetric_relation" class="disabled">対象律</a></div>
+  <div class="panel-heading def"><a id="symmetric_relation" class="disabled">対象律</a></div>
   <div class="panel-body">
   二項関係 \\(R\subseteq A\times B\\), また \\(x,y\in A\cap B\\) があって, \\(\left\lt x,y\right\gt\in R\\) ならば
   \\(\left\lt y,x\right\gt \in R\\) が存在するとき, \\(R\\) は対象律を満たすという.
@@ -127,7 +127,7 @@ tags: math
 * 真に大きい/小さい関係はあり得ない. \\(R\not=\ \prec\\) かつ \\(R\not=\ \succ\\) (すべてのありとあらゆる集合上で \\(x\prec y ならば y\not\prec x\\) なので)
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="antisymmetric_relation" class="disabled">反対象律</a></div>
+  <div class="panel-heading def"><a id="antisymmetric_relation" class="disabled">反対象律</a></div>
   <div class="panel-body">
   二項関係 \\(R\subseteq A\times B\\), また \\(x,y\in A\cap B\\) があって, \\(\left\lt x,y\right\gt\in R\\) に対し 
   \\(\left\lt y,x\right\gt\in R\\) 
@@ -150,7 +150,7 @@ tags: math
 * 対象的な二項関係が存在するとき, 必ず \\(x=y\\)
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="transitive_relation" class="disabled">推移律</a></div>
+  <div class="panel-heading def"><a id="transitive_relation" class="disabled">推移律</a></div>
   <div class="panel-body">
   二項関係 \\(R\subseteq A\times B\\), また \\(x,y,z\in A\cap B\\) があって, \\(\left\lt x,y\right\gt,\left\lt y,z\right\gt\in R\\) ならば 
   \\(\left\lt x,z\right\gt \in R\\) が存在するとき, \\(R\\) は推移律を満たすという.
@@ -167,7 +167,7 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 ### 主な二項関係
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="previous_order" class="disabled">前順序</a></div>
+  <div class="panel-heading def"><a id="previous_order" class="disabled">前順序</a></div>
   <div class="panel-body">
   二項関係 \\(R\\) が集合 \\(A\\) 上で<a href="#reflexive_relation">反射律</a>, <a href="#transitive_relation">推移律</a>を同時に満たすとき, \\(R\\) は \\(A\\) 上の前順序関係という.
 </div>
@@ -179,7 +179,7 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 グラフで表したときに有向非巡回グラフとなることを要請している.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="equiv_relation" class="disabled">同値</a></div>
+  <div class="panel-heading def"><a id="equiv_relation" class="disabled">同値</a></div>
   <div class="panel-body">
   <a href="#previous_order">前順序関係</a> \\(R\\) が集合 \\(A\\) 上で<a href="#symmetric_relation">対象律</a>を満たすとき, 
   \\(R\\) は \\(A\\) 上で同値律を満たすという.
@@ -225,7 +225,7 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 であるので, \\(X/R={{1,6,11,16},{10,15},{3}}\\) である.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="ordered_relation" class="disabled">半順序</a></div>
+  <div class="panel-heading def"><a id="ordered_relation" class="disabled">半順序</a></div>
   <div class="panel-body">
   <a href="#previous_order">前順序関係</a> \\(R\\) が集合 \\(A\\) 
   上で<a href="#antisymmetric_relation">反対象律</a>を満たすとき, \\(R\\) は \\(A\\) 上の半順序関係という.
@@ -246,7 +246,7 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 
 <div class="panel panel-default">
   <div class="panel-heading def">
-  <a name="extremum" class="disabled">(最(大|小)|極(大|小))(要素|元)</a></div>
+  <a id="extremum" class="disabled">(最(大|小)|極(大|小))(要素|元)</a></div>
   <div class="panel-body">
 半順序集合 \\(A\\) の要素 \\(a_0\in A\\) について 
 
@@ -279,7 +279,7 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 半順序集合が定義できれば, (上|下)(界|限)が定義できる.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="upper_least_bound" class="disabled">(上|下)(界|限)</a></div>
+  <div class="panel-heading def"><a id="upper_least_bound" class="disabled">(上|下)(界|限)</a></div>
   <div class="panel-body">
 半順序集合 \\((\wp(X),\leq)\\) の空でない部分集合 \\(A\not =\emptyset\\) 
 の任意の要素 \\(a\in A\\) に対し,
@@ -302,7 +302,7 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 これは, ワイエルストラスの定理といわれる.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="directed_set_def" class="disabled">有向 (directed) 集合</a></div>
+  <div class="panel-heading def"><a id="directed_set_def" class="disabled">有向 (directed) 集合</a></div>
   <div class="panel-body">
 集合 \\(A\not=\emptyset\\) と<a href="#previous_order">前順序関係</a> \\(R\\) との組 \\((A,R)\\) に対し, 
 \\(A\\) の任意の有限部分集合 \\(X\subseteq A\\) の上界 \\(\sup X\in A\\)
@@ -329,7 +329,7 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="upper_least_bound" class="disabled">全順序</a></div>
+  <div class="panel-heading def"><a id="upper_least_bound" class="disabled">全順序</a></div>
   <div class="panel-body">
 <a href="#ordered_relation">半順序関係</a> \\(R\\) が集合 \\(A\\) 上の任意の要素に対して比較可能であるとき, \\(R\\) は \\(A\\) 上の全順序関係という.
 </div>
@@ -401,7 +401,7 @@ x\mid y{\rm\ かつ}\ y\mid z{\rm\ ならば}\ x\mid z
 ### 半順序集合の拡張
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="directet_partial_set_def" class="disabled">
+  <div class="panel-heading def"><a id="directet_partial_set_def" class="disabled">
   有向半順序 (directed partial order) 集合</a></div>
   <div class="panel-body">
   <a href="#ordered_relation">半順序関係</a> \\(R\\) と<a href="#directed_set_def">有向集合</a> \\(A\\) の組 
@@ -410,7 +410,7 @@ x\mid y{\rm\ かつ}\ y\mid z{\rm\ ならば}\ x\mid z
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="dcpo_def" class="disabled">
+  <div class="panel-heading def"><a id="dcpo_def" class="disabled">
   有向完備半順序 (directed complete partial order) 集合</a></div>
   <div class="panel-body">
   <a href="#ordered_relation">半順序</a>集合 \\(A\\) の任意の有向部分集合 \\(X\subseteq A\\) について, 
@@ -429,7 +429,7 @@ dcpo 集合である
 そうではなく, あくまで有向部分集合として構成可能な部分集合のうちという意味合いである).
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="cpo_def" class="disabled">完備半順序 (complete partial order) 集合</a></div>
+  <div class="panel-heading def"><a id="cpo_def" class="disabled">完備半順序 (complete partial order) 集合</a></div>
   <div class="panel-body">
 次の 2 つの条件を満たす半順序集合 \\(A\\) を完備半順序集合 cpo (complete partial order) という.
 <ol>
@@ -452,7 +452,7 @@ dcpo 集合である
 なお, cpo は上限をもつ $\omega$ 鎖と定義することもできる.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="lattice_def" class="disabled">束</a></div>
+  <div class="panel-heading def"><a id="lattice_def" class="disabled">束</a></div>
   <div class="panel-body">
 二項演算子 \\(\land,\lor\\)<sup id="fnref-9"><a class="footnote-ref" href="#fn-9">9</a></sup>
 のもとで閉じている空でない集合 \\(L\\) の任意の要素 \\(x,y,z\in L\\) に対して, 次の三つの束の公理
@@ -513,7 +513,7 @@ x\land(y\lor z)=(x\land y)\lor(x\land z)\\) を満たす束をとくに分配束
 すなわち任意の束 \\(L\\) の任意の要素 \\(x\in L\\) に対して \\(\sup{x,x}=x\\) である.
 これは, 束の公理から導ける, 一般にべき等律といわれる定理である.
 
-<strong><a name="proof1" class="disabled">証明</a></strong>:
+<strong><a id="proof1" class="disabled">証明</a></strong>:
 
 \\(x,y\in L,z=(x\lor y)\\) に対して
 
@@ -527,7 +527,7 @@ x\land(y\lor z)=(x\land y)\lor(x\land z)\\) を満たす束をとくに分配束
 ここで一度, 上の定理に加えて考察できるいくつかの事項を羅列する.
 
 * 下限は, 上限の逆順序で定義されるものである. 例えば, \\(\inf{{x_1},{x_2}}=\emptyset\\) である
-* <a name="necessarily_exists_extremum" class="disabled">完備束</a> $(L,\land,\lor)$ の任意の部分集合 $S\subseteq L$ に対して $S=\emptyset$ ならば $\sup S=\min L$, $S=L$ ならば $\sup S=\max D$ である
+* <a id="necessarily_exists_extremum" class="disabled">完備束</a> $(L,\land,\lor)$ の任意の部分集合 $S\subseteq L$ に対して $S=\emptyset$ ならば $\sup S=\min L$, $S=L$ ならば $\sup S=\max D$ である
 
 いま, 分配束 \\(L\\) の最大元, 最小元をそれぞれ \\(1,0\\) と書くこととする. 束 \\(L\\) の任意の要素 \\(x,y\in L\\) について \\(x\lor y=1,x\land y=0\\) を満足するとき,
 \\(x\\) は \\(y\\) の補元といい, \\(x'\\) または \\(\bar{x}\\) と書く.

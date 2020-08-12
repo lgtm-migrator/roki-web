@@ -53,7 +53,7 @@ tags: math, Python
 同論法上で極限の式との同値関係を示した定義が次のとおりである.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="epsilonDelta-definitionOfLimit" class="disabled">\\(\epsilon-\delta\\) 論法の定義する極限の式との同値関係</a></div>
+  <div class="panel-heading def"><a id="epsilonDelta-definitionOfLimit" class="disabled">\\(\epsilon-\delta\\) 論法の定義する極限の式との同値関係</a></div>
   <div class="panel-body" style="overflow:scroll">
   \\(f\\) を実数の部分集合 \\(D\\) で定義された実数値関数, \\(c\\) を \\(D\\) の極限点, \\(L\\) を実数としたとき,
   \\[\displaystyle
@@ -187,7 +187,7 @@ S&\approx&\left|{\rm det}(
 つまり, 
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="PartialDerivative" class="disabled">偏微分</a></div>
+  <div class="panel-heading def"><a id="PartialDerivative" class="disabled">偏微分</a></div>
   <div class="panel-body" style="overflow:scroll">
 \\(U\\) を \\(R^n\\) の開部分集合とし, 函数 \\(f:U\to R\\) に対して,
 \\({\bf x}=(x_1, \cdots, x_n) \in U\\) の \\(i\\) 番目の変数 \\(x_i\\) における
@@ -288,7 +288,7 @@ dv
 はヤコビアンといわれ(\\(\\) と同じ), \\(\dfrac{\partial(\phi,\psi)}{\partial{u,v}}\\), また \\({\rm J}(u, v)\\) と表される. 一般に,
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="Jacobian" class="disabled">ヤコビアン</a></div>
+  <div class="panel-heading def"><a id="Jacobian" class="disabled">ヤコビアン</a></div>
   <div class="panel-body" style="overflow:scroll">
   \\(n\\) 変数関数の全微分を行列で表した式
 \begin{aligned}
@@ -376,7 +376,7 @@ J(r,\theta)={\rm det}(\begin{array}{cc}
 <ul>
 <li>"<a href="http://mathforum.org/library/drmath/view/74707.html">Why Does dxdy = rdrd(theta)? Why Not Just drd(theta)?</a>" 2018 年 10 月 4 日アクセス.</li>
 <li>「<a href="http://simanezumi1989.hatenablog.com/entry/2015/06/22/133411">GeoGebraを使ってε-δ論法を可視化してみた</a>」 2018 年 10 月 4 日アクセス.</li>
-<li>「<a href="https://jsciencer.com/unimath/bisekibun/3611/" name="ref1">微分の順序</a>」 2018 年 10 月 4 日アクセス.
+<li>「<a href="https://jsciencer.com/unimath/bisekibun/3611/" id="ref1">微分の順序</a>」 2018 年 10 月 4 日アクセス.
 <li>「<a href="http://eman-physics.net/analytic/total_dif.html">全微分</a>」 2018 年 10 月 4 日アクセス.
 <li>"<a href="https://euler.genepeer.com/determinants">The Jacobian & Determinants - Euler, Erdős</a>" 2018 年 10 月 4 日アクセス.
 </ul>

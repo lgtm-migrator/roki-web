@@ -357,7 +357,7 @@ a_n
 このように, 正則でない行列に対する擬似的な逆行列の定義を一般逆行列という.
 
 <div class="panel panel-default">
-<div class="panel-heading def"><a name="GeneralizedInverse" class="disabled">一般逆行列</a></div>
+<div class="panel-heading def"><a id="GeneralizedInverse" class="disabled">一般逆行列</a></div>
   <div class="panel-body" style="overflow:scroll">
   次の式を満たす行列
   \\(X^-\in\mathbb{R}^{m\times n'}\\) 
@@ -373,7 +373,7 @@ a_n
 暗に一般逆行列と言ってこの MP 逆行列のことを示すような場合が巷ではある[^6].
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="MPPseudoInverse" class="disabled">Moore-Penrose 一般逆行列</a></div>
+  <div class="panel-heading def"><a id="MPPseudoInverse" class="disabled">Moore-Penrose 一般逆行列</a></div>
   <div class="panel-body" style="overflow:scroll">
   次のすべての条件を満たす<a href="#GeneralizedInverse">一般逆行列</a> \\(X^{\dagger}\\) は 
   Moore-Penrose 一般逆行列(MP 逆行列)といい, 
@@ -393,7 +393,7 @@ a_n
 これが定める"適当であるような"解とは, その名の通り, すべての方程式の二乗誤差が最小である値であり, まさしく上で述べた最小二乗法の値である.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="LeastSquaresGeneralizedInverse" class="disabled">最小二乗形一般逆行列</a></div>
+  <div class="panel-heading def"><a id="LeastSquaresGeneralizedInverse" class="disabled">最小二乗形一般逆行列</a></div>
   <div class="panel-body" style="overflow:scroll">
   正規方程式 \\[\boldsymbol{a}=X^-\boldsymbol{y}\\] の解 
   \\(\boldsymbol{a}\\) を二乗誤差最小の値で定める
@@ -454,7 +454,7 @@ a_n
 が最小となるように定める.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="MinimumNormGeneralizedInverse" class="disabled">最小ノルム形一般逆行列</a></div>
+  <div class="panel-heading def"><a id="MinimumNormGeneralizedInverse" class="disabled">最小ノルム形一般逆行列</a></div>
   <div class="panel-body" style="overflow:scroll">
   正規方程式 \\[\boldsymbol{a}=X^-\boldsymbol{y}\\] の解 
   \\(\boldsymbol{a}\\) をその \\(L^2\\) ノルム \\(\mid\mid \boldsymbol{a}\mid\mid_2\\)
@@ -505,7 +505,7 @@ $X\boldsymbol{a}=X\left\{X^T(X X^T)^{-1}\boldsymbol{y}\right\}=(X X^T)(X X^T)^{-
 対象の行列に対してまず特異値分解(以下 SVD)を行う.
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="SVD" class="disabled">特異値分解</a></div>
+  <div class="panel-heading def"><a id="SVD" class="disabled">特異値分解</a></div>
   <div class="panel-body" style="overflow:scroll">
 \\(^\forall X\in\mathbb{R}^{m\times n'}\\) に対して
 \\[
@@ -950,14 +950,14 @@ LTS は次の手順で実行する.
 ### 参考文献
 
 1. 「[正規方程式の導出と計算例 - 高校数学の美しい物語](https://mathtrain.jp/seikiequ)」 2018 年 11 月 2 日アクセス.
-2. 「<a name="ref1" href="http://tekenuko.hatenablog.com/entry/2017/11/18/214317">Rでスパースモデリング：Elastic Net回帰についてまとめてみる</a>」 2018 年 11 月 5 日アクセス.
+2. 「<a id="ref1" href="http://tekenuko.hatenablog.com/entry/2017/11/18/214317">Rでスパースモデリング：Elastic Net回帰についてまとめてみる</a>」 2018 年 11 月 5 日アクセス.
 3. 川野　秀一, 廣瀬　慧, 立石　正平, 小西　貞則 (2010)「[回帰モデリングと \\(L_1\\) 型正則化法の最近の展開](http://svr4.terrapub.co.jp/journals/jjssj/pdf/3902/39020211.pdf)」, 日本統計学会誌 第 39 巻, 第 2 号, 211 頁 〜 242 頁 pp.211~215, 2018 年 11 月 5 日アクセス.
 4. 「[数値計算 大阪大学基礎工学部](https://nagahara-masaaki.github.io/assets/pdfs/lecture13.pdf)」 2018 年 11 月 5 日アクセス.
-5. 美添　泰人 (2010)「<a href="https://www.terrapub.co.jp/journals/jjssj/pdf/3902/39020161.pdf" name="ref3">経済と統計の間で</a>」, 日本統計学会誌 第 38 巻, 第 2 号, 161 頁 〜 179  頁 pp.173~175 2018 年 11 月 10 日アクセス.
+5. 美添　泰人 (2010)「<a href="https://www.terrapub.co.jp/journals/jjssj/pdf/3902/39020161.pdf" id="ref3">経済と統計の間で</a>」, 日本統計学会誌 第 38 巻, 第 2 号, 161 頁 〜 179  頁 pp.173~175 2018 年 11 月 10 日アクセス.
 6. 「[バイアス-バリアンス分解：機械学習の性能評価 - HELLO CYBERNETICS](https://www.hellocybernetics.tech/entry/2017/01/24/100415)」 2018 年 11 月 13 日アクセス.
-7. Jurgen A. Doornik (2011) "<a name="ref2" class="disabled">Robust Estimation Using Least Trimmed Squares</a>", Institute for Economic Modelling, Oxford Martin School, and Economics Department, University of Oxford, UK
-8. Rousseeuw and B.C. Van Zomeren (1990) "<a name="ref4" class="disabled">Unmasking multivariate outliers and leverage points</a>", Journal of the American Statistical Association, pp.633–639
-9. Vincenzo Verardi "<a name="ref5" href="https://www.stata.com/meeting/uk08/VerardiRobustStatisticsinStata.pdf">Robust Statistics Statistics in Stata</a>", 2018 年 11 月 17 日アクセス.
+7. Jurgen A. Doornik (2011) "<a id="ref2" class="disabled">Robust Estimation Using Least Trimmed Squares</a>", Institute for Economic Modelling, Oxford Martin School, and Economics Department, University of Oxford, UK
+8. Rousseeuw and B.C. Van Zomeren (1990) "<a id="ref4" class="disabled">Unmasking multivariate outliers and leverage points</a>", Journal of the American Statistical Association, pp.633–639
+9. Vincenzo Verardi "<a id="ref5" href="https://www.stata.com/meeting/uk08/VerardiRobustStatisticsinStata.pdf">Robust Statistics Statistics in Stata</a>", 2018 年 11 月 17 日アクセス.
 
 [^1]: データセットは, [Data Set for CHAPTER 2 - DIFFERENTIAL EQUATIONS graphics, models, data](http://math.arizona.edu/~dsl/bmile.htm) を利用させていただいた.
 [^2]: 最小二乗法の定義により「\\(\mathrm{Cov}(x,y)\gt 0\leftrightarrow\\)最小二乗法による直線の傾きが正」がいえることで, 「相関係数が \\(0\\) であるとき, 各 \\(x_i,y_i\\) に相関関係がない」を数学的に説明できたと捉えることができる.

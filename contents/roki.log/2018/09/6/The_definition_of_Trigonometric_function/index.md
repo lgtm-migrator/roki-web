@@ -11,7 +11,7 @@ tags: math
 
 <div class="panel panel-default">
   <div class="panel-heading def">
-  <a name="hs_trignometric" class="disabled">高校数学における \\(\cos\theta,\sin\theta\\) の定義</a></div>
+  <a id="hs_trignometric" class="disabled">高校数学における \\(\cos\theta,\sin\theta\\) の定義</a></div>
   <div class="panel-body">
 直行座標平面上の原点 \\(O(0,0)\\) を中心とする半径 \\(1\\) の円 \\(C\\) の \\(x\geq 0,y\geq 0\\) の部分を \\(C_{+}\\) としたとき,
 弧度法によると, 点 \\(A(1,0)\\), \\(C_{+}\\) 上の点 \\(P(x,y)\\) を角 \\(A O P\\) が \\(\theta\ (0\lt\theta\leq\frac{\pi}{2})\\) となるようにとれば,
@@ -166,5 +166,5 @@ f'(x)&=&\lim_{h\to 0}\frac{\cos(x+h)-\cos x}{h}\\
 
 ### 参考文献
 
-1. 『<a name="ref1" href="http://www.ms.u-tokyo.ac.jp/~t-saito/jd/%E4%B8%89%E8%A7%92%E9%96%A2%E6%95%B0.pdf">三角関数とは何か</a>』2018 年 9 月 6 日アクセス.
-2. <a name="ref2" class="disabled">高木貞治 (1983) 『解析概論』岩波書店</a>
+1. 『<a id="ref1" href="http://www.ms.u-tokyo.ac.jp/~t-saito/jd/%E4%B8%89%E8%A7%92%E9%96%A2%E6%95%B0.pdf">三角関数とは何か</a>』2018 年 9 月 6 日アクセス.
+2. <a id="ref2" class="disabled">高木貞治 (1983) 『解析概論』岩波書店</a>

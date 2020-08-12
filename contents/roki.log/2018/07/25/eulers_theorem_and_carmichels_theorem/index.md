@@ -36,7 +36,7 @@ $\gcd(1\cdot 3\cdot 5\cdot 7,8)=1$ だから, $1\cdot 3\cdot 5\cdot 7$ を約し
 これは, $\gcd(a,n)=1$ ということの他に, $a$ および $n$ の値に依存した論ではない. すなわち,
 
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="eulerstheorem" class="disabled">オイラーの定理</a></div>
+  <div class="panel-heading theo"><a id="eulerstheorem" class="disabled">オイラーの定理</a></div>
   <div class="panel-body">
 \\[a^{\phi(n)}\equiv 1\pmod{n}\ (2\leq n\in\mathbb{Z}^{+},\ \gcd(a,n)=1)\\]
   </div>
@@ -58,7 +58,7 @@ $n$ が素数 $p$ であるとき, $\phi(p)=p-1$ で, フェルマーの小定�
 ラグランジュの定理を使っても証明できる. ラグランジュの定理は,
 
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="lagrangestheorem" class="disabled">ラグランジュの定理</a></div>
+  <div class="panel-heading theo"><a id="lagrangestheorem" class="disabled">ラグランジュの定理</a></div>
   <div class="panel-body">
   有限郡 \\(G\\) の部分郡 \\(H\\) の位数 \\(\mid H\mid\\) は, \\(G\\) の位数 \\(\mid G\mid\\) 
   の約数となる.
@@ -110,7 +110,7 @@ $m$ を定義より自明に与える.
 DeclareMathOperator{\lcm}{lcm}
 
 <div class="panel panel-default">
-  <div class="panel-heading def"><a name="lagrangestheorem" class="disabled">カーマイケルの \\(\lambda\\) 関数</a></div>
+  <div class="panel-heading def"><a id="lagrangestheorem" class="disabled">カーマイケルの \\(\lambda\\) 関数</a></div>
   <div class="panel-body" style="overflow:scroll">
   扱う文字を全て整数とし, \\(\lambda(n)\\) は
   \begin{array}{lcl}
@@ -126,7 +126,7 @@ DeclareMathOperator{\lcm}{lcm}
   </div>
 </div>
 <div class="panel panel-default">
-  <div class="panel-heading theo"><a name="carmichelstheorem" class="disabled">カーマイケルの定理</a></div>
+  <div class="panel-heading theo"><a id="carmichelstheorem" class="disabled">カーマイケルの定理</a></div>
   <div class="panel-body" style="overflow:scroll">
   \\[a^{\lambda(n)}\equiv 1\pmod{n}\ (2\leq n\in\mathbb{Z}^{+},\ \gcd(a,n)=1)\\]
   </div>
