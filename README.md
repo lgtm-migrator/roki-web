@@ -1,4 +1,7 @@
-# Roki Website and Blog
+# roki-web
+[![CodeFactor](https://www.codefactor.io/repository/github/falgon/roki-web/badge?s=e4b1f45b3bb2dc89c42f654d991238ef7771bc9f)](https://www.codefactor.io/repository/github/falgon/roki-web)
+
+The website and blog of roki.
 
 ## History
 
