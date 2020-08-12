@@ -4,7 +4,7 @@ const katex = require("katex");
 const input = fs.readFileSync(process.stdin.fd, "utf-8");
 const displayMode = process.argv.includes("displayMode");
 const mathjaxOpt = {
-    displayMode: displayMode,
+    displayMode,
     trust: true,
     colorIsTextColor: true
 };
