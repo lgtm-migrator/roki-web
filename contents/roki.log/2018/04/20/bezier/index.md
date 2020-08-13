@@ -2,9 +2,10 @@
 title: ベジェ曲線
 date: 2018-04-20 16:50:00
 tags: math, Haskell
+js: quadraticBezier.js
 ---
 
-典型的なパラメトリック曲線の一種である, ベジェ曲線(Bézier curve)についての学習メモ. パラメトリック曲線とその一種であるエルミート曲線に関しては, [前回の記事](https://falgon.github.io/roki.log/posts/2018/%204月/15/hermite-curve/)を参照.
+典型的なパラメトリック曲線の一種である, ベジェ曲線(Bézier curve)についての学習メモ. パラメトリック曲線とその一種であるエルミート曲線に関しては, [前回の記事](/roki.log/posts/2018/04/15/hermite-curve/)を参照.
 
 ベジェ曲線は, パラメータ \\(t\\ (0 \leq t \leq 1)\\) と複数の制御点 $P_i$ から構成されるパラメトリック曲線の一種である[^1].
 始点と終点の線分から成る, 次数 $n$ のベジェ曲線は $n+1$ の制御点をもち($= P_0, P_1, \cdots, P_n$ の制御点があるベジェ曲線を $n-1$ 次ベジェ曲線という),
@@ -13,7 +14,7 @@ tags: math, Haskell
 まず, ここでは 2 次ベジェ曲線を描くとして, そのイメージをつけるために, 図[^3]を用いてその概要を見る.<br> 
 なお, 2 次ベジェ曲線は true type フォントなどで使われている.
 
-![2 次ベジェ曲線を描画する途中経過](../../../../../images/2018/Apr/20/bezierstatic.svg "2 次ベジェ曲線描画の途中経過")
+![2 次ベジェ曲線を描画する途中経過](./bezierstatic.svg "2 次ベジェ曲線描画の途中経過")
 
 図で示されている各変数について取り上げる.
 上図 $P_0, P_1, P_2$ は平面 $\mathbb{R}^2$ 上に取った 3 点である.
@@ -53,7 +54,9 @@ P^r_i(t) = (1-t)P^{r-1}_i(t)+ tP^{r-1}_{i+1}(t), (r=1, \cdots, n; i = 0, 1, \cdo
 </div>
 </div>
 
-ここで, 特にこれを再度書く意味は全くないが, [前回の記事](https://falgon.github.io/roki.log/posts/2018/%204月/15/hermite-curve/)では曲線描画に関して Haskell で書いたので, こちらもなんとなく載せて置く.
+ここで, 特にこれを再度書く意味は全くないが, 
+[前回の記事](https://falgon.github.io/roki.log/posts/2018/%204月/15/hermite-curve/)では曲線描画に関して 
+Haskell で書いたので, こちらもなんとなく載せて置く.
 
 ```Haskell
 -- | A function that generates a coordinate list of quadratic Bezier curves according to 
@@ -71,11 +74,11 @@ quadraticBezier p0 p1 p2 = ((map (bx &&& by).).).linspaceWithDensity
 ```
 `quadraticBezier (-1.0, -1.66) (1.10, -1.88) (0.04, 0.86) 0.001 0 1` とし, [前回の記事](https://falgon.github.io/roki.log/posts/2018/%204月/15/hermite-curve/)のように GLUT を使って出力すると, 次のような曲線が得られる.
 
-<img src="../../../../../images/2018/Apr/20/bezier1.png" width="400px" alt="2 次バーンスタイン基底関数によるベジェ曲線の描画"/>
+<img src="./bezier1.png" width="400px" alt="2 次バーンスタイン基底関数によるベジェ曲線の描画"/>
 
 また, 3 次ベジェ曲線は, 冒頭で述べた通り, 次数 $n$ に対して $+1$ した制御点を持つので, $4$ つの制御点を持つ[^3].
 
-![3 次ベジェ曲線を描画する途中経過](../../../../../images/2018/Apr/20/triplebezier.svg "3 次ベジェ曲線描画の途中経過")
+![3 次ベジェ曲線を描画する途中経過](./triplebezier.svg "3 次ベジェ曲線描画の途中経過")
 
 考え方は 2 次ベジェ曲線のときと同様で, 最終的に 3 次ベジェ曲線における $B$ は
 
@@ -106,7 +109,7 @@ cubicBezier p0 p1 p2 p3 = ((map (bx &&& by).).).linspaceWithDensity
 ```
 同様に`cubicBezier (1, 0) (1, 1) (-1, 1) (-1, 0) 0.001 0 1`とすると, 次のような曲線が得られる.
 
-<img src="../../../../../images/2018/Apr/20/cubicBezier.png" width="400px" alt="3 次バーンスタイン基底関数によるベジェ曲線の描画" />
+<img src="./cubicBezier.png" width="400px" alt="3 次バーンスタイン基底関数によるベジェ曲線の描画" />
 
 [^1]: ベジェ曲線はフランスの自動車メーカーシトロエン社のド・カステリョ (de Casteljau) とルノー社のベジェ (Bézier) によって独立に考案されたものの, 企業秘密として 1960 年代の後半になるまで公表されなかった. ド・カステリョによる研究はベジェよりも先んじていたが, その論文が公知とならなかったために, これらの理論にはベジェの名前がついているとのこと. 参照: 鳥谷 浩志; 千代倉 弘明 (1991). 3次元CADの基礎と応用. 共立出版. ISBN 9784320025394.
 [^2]: 用語に関する参照: [曲線・図形の書き方(ベジェ曲線)](http://tomari.org/main/java/kyokusen/bezier.html)

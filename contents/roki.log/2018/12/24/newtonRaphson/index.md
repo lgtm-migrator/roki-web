@@ -2,6 +2,7 @@
 title: ニュートン法の視覚化
 date: 2018-12-24 16:20:00
 tags: math, javascript
+js: newtonRaphson.js
 ---
 
 久しぶりにまた[^1]なにか d3.js で視覚化してみたくなったのだが, 
@@ -13,27 +14,51 @@ $f(x)=0$ となる関数 $f(x)$ とその導関数 \\(f'(x)\\) 及びニュー�
 入力された関数を元に数値微分をしても良かったのだが, 
 なんとなく導関数を入力したかったので, そのようなことはしなかった.
 
-<div style="width:400px; height: 310px; margin: 0 auto;" id="vis"></div>
-<div id="success_panel" class="alert alert-success" role="alert" style="padding: 6px; display: none;"><p id="success_message" style="margin: 0; padding: 0; text-align: center;"></p></div>
-<div id="error_panel" class="alert alert-danger" role="alert" style="padding: 6px; display: none;"><p id="error_message" style="margin: 0; padding: 0; text-align: center;"></p></div>
-<div id="formula">
+<div style="width:400px; height: 310px; margin: 0 auto;" class="mb-4" id="vis"></div>
+<div class="content">
+
+<div id="success_panel" class="message is-primary" style="display: none;">
+<div class="message-header">
+<p>Success</p>
+</div>
+<div class="message-body" style="text-align: center;">
+<p id="success_message"></p>
+</div>
+</div>
+
+<div id="error_panel" class="message is-danger" style="display: none;">
+<div class="message-header">
+<p>Fail</p>
+</div>
+<div class="message-body" style="text-align: center;">
+<p id="error_message"></p>
+</div>
+</div>
+
+<div id="formula" class="box has-text-centered is-shadowless">
 <form class="form-inline text-center" role="form">
-	<div class="form-group">
-	<label>\\(f(x)=\\)</label>
-	<input id="func" type="text" class="form-control" value="x^2-2" placeholder="e.g: x^2 - 2">
-	</div><br>
-	<div class="form-group" style="margin-top: 10px;">
-	<label>\\(f'(x)=\\)</label>
-	<input id="func_differential" type="text" class="form-control" value="2*x" placeholder="e.g: 2 * x">
-	</div><br>
-	<div class="form-group" style="margin-top: 10px;">
-	<label>初期値 :</label>
-	<input id="initial_value" type="text" class="form-control" value="5" placeholder="e.g: 5">
-	</div><br>
-    <input style="margin-top: 10px;" id="startNewtonRaph" class="btn btn-primary" type="button" value="実行" onclick="update()" />
+<div class="form-group">
+<label>\\(f(x)=\\)</label>
+<input id="func" type="text" class="input" style="max-width: 200px;" value="x^2-2" placeholder="e.g: x^2 - 2">
+</div><br>
+<div class="form-group" style="margin-top: 10px;">
+<label>\\(f'(x)=\\)</label>
+<input id="func_differential" type="text" class="input" style="max-width: 200px;" value="2*x" placeholder="e.g: 2 * x">
+</div><br>
+<div class="form-group" style="margin-top: 10px;">
+<label>初期値 :</label>
+<input id="initial_value" type="text" class="input" style="max-width: 200px;" value="5" placeholder="e.g: 5">
+</div><br>
+<input 
+    style="margin-top: 10px;" 
+    id="startNewtonRaph" 
+    class="button is-link is-light" 
+    type="button" 
+    value="実行" onclick="update()" />
 </form>
 </div>
-<br>
+</div>
+<br />
 
 
 これで終わってしまうと何とも寂しいので, 一応簡単にニュートン法について書く.

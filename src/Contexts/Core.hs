@@ -7,14 +7,18 @@ module Contexts.Core (
     katexJsCtx
 ) where
 
+import Data.String (fromString)
 import qualified Data.Text.Lazy as TL
+import Data.List.Extra (dropPrefix)
 import Lucid.Base (renderText)
 import Lucid.Html5
 import Hakyll
+import System.FilePath (takeDirectory, takeFileName, (</>))
 
-import Config (timeZoneJST, defaultTimeLocale', siteName)
+import Config (timeZoneJST, defaultTimeLocale', siteName, contentsRoot)
 import qualified Config.Blog.TechBlog as TB
 import qualified Config.Blog.AnotherBlog as BA
+import Contexts.Utils (metadataToListField)
 import Contexts.Field (localDateField, tagsField', descriptionField, imageField)
 
 dateCtx :: Context String
@@ -72,18 +76,38 @@ postCtx isPreview tags = dateCtx
     <> descriptionField "description" 150
     <> imageField "image"
     <> siteCtx
+    <> jsPathCtx
     <> defaultContext
     <> if isPreview then katexJsCtx else mempty
+    where
+        f s | takeFileName s == "index.html" = takeDirectory s
+            | otherwise = s
 
 listCtx :: Bool -> Context String
 listCtx isPreview = siteCtx
     <> bodyField "body"
     <> metadataField
-    <> urlField "url"
     <> pathField "path"
+    <> urlField "url"
     <> if isPreview then katexJsCtx else mempty
 
 katexJsCtx :: Context String
 katexJsCtx = constField "katex-script" $ TL.unpack $ renderText $ do
     script_ [defer_ "", type_ "text/javascript", src_ "/vendor/katex/katex.min.js"] TL.empty
     script_ [defer_ "", type_ "text/javascript", src_ "/vendor/katex/auto-render.min.js"] TL.empty
+
+
+jsPathCtx :: Context String
+jsPathCtx = listFieldWith "js" ctx $ \item -> do 
+    mds <- getMetadataField (itemIdentifier item) "js"
+    return $ case mds of
+        Just xs -> map (itemize item . trim) $ splitAll "," xs
+        Nothing -> []
+    where
+        ctx = field "src-script" (return . itemBody)
+        itemize item md = Item {
+            itemIdentifier = fromString md
+          , itemBody = jsDirPath item </> md
+        }
+        jsDirPath s = dropPrefix contentsRoot $ takeDirectory $ 
+            toFilePath (itemIdentifier s)

@@ -15,13 +15,11 @@ rules :: Bool -> Rules ()
 rules isPreview = do
     zipWithM_ vendRule
        [ fontAwesomeSVGPath
- --      , bulmaPath
        , bulmaToolTipPath
        , highlightPath
        , katexCssPath
        ]
        [ intercalateDir ["vendor", "fontawesome", "style.css"]
- --      , intercalateDir ["vendor", "bulma", "bulma.min.css"]
        , intercalateDir ["vendor", "bulma", "bulma-tooltip.min.css"]
        , intercalateDir ["vendor", "highlight", "highlight.css"]
        , intercalateDir ["vendor", "katex", "katex.min.css"]
@@ -29,6 +27,14 @@ rules isPreview = do
 
     match (fromGlob $ intercalateDir ["node_modules", "katex", "dist", "fonts", "**"]) $ do
         route $ gsubRoute "node_modules/katex/dist/" (const "vendor/katex/")
+        compile copyFileCompiler
+
+    match (fromGlob $ intercalateDir ["node_modules", "d3", "dist", "d3.min.js"]) $ do
+        route $ gsubRoute "node_modules/d3/dist/" (const "vendor/d3/")
+        compile copyFileCompiler
+
+    match (fromGlob $ intercalateDir ["node_modules", "mathjs", "dist", "math.min.js"]) $ do
+        route $ gsubRoute "node_modules/mathjs/dist/" (const "vendor/mathjs/")
         compile copyFileCompiler
 
     if not isPreview then return () else do
@@ -42,8 +48,6 @@ rules isPreview = do
     where
         fontAwesomeSVGPath = fromGlob $ intercalateDir 
             ["node_modules", "@fortawesome", "fontawesome-svg-core", "styles.css"]
- --       bulmaPath = fromGlob $ intercalateDir
- --           ["node_modules", "bulma", "css", "bulma.min.css"]
         bulmaToolTipPath = fromGlob $ intercalateDir
             ["node_modules", "@creativebulma", "bulma-tooltip", "dist", "bulma-tooltip.min.css"]
         katexCssPath = fromGlob $ intercalateDir

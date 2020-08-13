@@ -2,6 +2,13 @@
     <article class="container">
             
         $for(posts)$
+        $if(js)$
+        $for(js)$
+        <script defer type="text/javascript" src="$src-script$"></script>
+        $endfor$
+        $endif$
+
+
         <div class="card mb-1 is-shadowless">
             <div class="card-content">
                 <header>
