@@ -2,6 +2,7 @@
 title: ベイズの定理
 date: 2018-07-26 00:32:00
 tags: Probability theory, math, Python
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 ベイズの定理の導出から, モンティ・ホール問題への応用まで.

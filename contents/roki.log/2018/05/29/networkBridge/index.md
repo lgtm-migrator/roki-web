@@ -2,6 +2,7 @@
 title: シンプルなブリッジのソフトウェア実装
 date: 2018-05-29 19:42:00
 tags: C++, Network
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 以前の投稿, [ARPパケットに対する挙動からネットワーク上の盗聴者を特定する](https://falgon.github.io/roki.log/posts/2018/%205月/01/detectPromiscuous/)にて, 実験を行うにあたりリンクレイヤー上のパケットの受信と送信を行なった. このパケットを別のネットワークインタフェースから送出するようにすればブリッジになるし, MAC アドレステーブルと照合して転送すれば L2 スイッチにもなるとのことで, 一応 Linux 上で動くものを作ってみた.

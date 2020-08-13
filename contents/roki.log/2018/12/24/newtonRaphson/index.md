@@ -2,6 +2,7 @@
 title: ニュートン法の視覚化
 date: 2018-12-24 16:20:00
 tags: math, javascript
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 js: newtonRaphson.js
 ---
 

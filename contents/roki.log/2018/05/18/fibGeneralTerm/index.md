@@ -2,6 +2,7 @@
 title: フィボナッチ数列の一般項の導出
 date: 2018-05-18 19:42:00
 tags: math, Haskell
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 フィボナッチ数列の漸化式を次のように置く. \\[f_{n+2} = f_{n+1} + f_n\ (n\geq 0)\\] ここで, 初項と第二項をそれぞれ \\(a_1=1, a_2=1\\) とする. 各項を \\(f_{n+2}\rightarrow c^2、f_{n+1}\rightarrow c、f_n\rightarrow 1\\) と置き換えると \\[c^2=c+1\tag{1}\\] が得られる. この解は \\(c=\dfrac{1\pm{\sqrt{5}}}{2}\\) となる. ここで, \\(\psi = \dfrac{1-\sqrt{5}}{2}, \phi = \dfrac{1+\sqrt{5}}{2}\\) と置く.

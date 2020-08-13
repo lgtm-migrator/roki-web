@@ -2,6 +2,7 @@
 title: C++ で Data.Tuple.Extra っぽいもの
 date: 2018-06-14 16:50:00
 tags: C++
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 ふと, C++ でもこんなような記述, 普通に出来るべきなんじゃないかなぁと思った.

@@ -2,6 +2,7 @@
 title: De Bruijn Sequence
 date: 2018-06-22 22:35:00
 tags: math, Haskell, Python
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 大学のレポート内で De Bruijn Sequence について書く機会があった.

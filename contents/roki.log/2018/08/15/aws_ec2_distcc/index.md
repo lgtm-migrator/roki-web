@@ -2,6 +2,7 @@
 title: AWS EC2 の各種環境を自動構築して distcc による分散コンパイルを実行する
 date: 2018-08-15 00:00:00
 tags: AWS, golang, Networking
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 クラウド上でなにか作れというような大学の課題で, 

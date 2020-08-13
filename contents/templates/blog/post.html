@@ -32,6 +32,14 @@ $endif$
                 </header>
 
                 <section class="mt-5 content">
+                    $if(header-warn)$
+                    <article class="message is-warning">
+                        <div class="message-body">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            $header-warn$
+                        </div>
+                    </article>
+                    $endif$
                     $body$
                 </section>
                 <hr class="hr" />

@@ -2,6 +2,7 @@
 title: ヤコビアン
 date: 2018-10-04 00:00:00
 tags: math, Python
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 以前のエントリ, [ガウス積分の公式とその証明](/roki.log/posts/2018/%209/26/GaussianIntegral/)で, 

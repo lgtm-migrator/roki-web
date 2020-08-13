@@ -2,6 +2,7 @@
 title: ほげほげのほげ
 date: 2018-08-12 14:54:23
 tags: 
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 ほげである

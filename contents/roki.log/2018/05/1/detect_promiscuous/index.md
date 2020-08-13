@@ -2,6 +2,7 @@
 title: ARPパケットに対する挙動からネットワーク上の盗聴者を特定する
 date: 2018-05-01 19:42:00
 tags: Security, C++, Networking
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 通信が暗号化されていればまだ良いが, 自分の送受信しているパケットを同一ネットワーク上の信用できない者/物に

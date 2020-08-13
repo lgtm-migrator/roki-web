@@ -2,6 +2,7 @@
 title: C++20 Calender and timezone library
 date: 2018-03-26 16:50:00
 tags: C++
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 <strong>\[<i>2018/4/16 追記</i>:</strong> 本エントリは, 元々 [P0355R5](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0355r5.html) を参考にまとめを行った記事であるが, その後 [P0355R7](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0355r7.html) で

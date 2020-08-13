@@ -2,6 +2,7 @@
 title: オイラーの定理とカーマイケルの定理
 date: 2018-07-25 00:32:00
 tags: Elementary number theory, Group theory, math
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 以前の記事, [エルガマル暗号](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/)では,

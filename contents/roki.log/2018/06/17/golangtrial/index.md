@@ -2,6 +2,7 @@
 title: golang 始めたてメモ
 date: 2018-06-17 10:45:00
 tags: golang
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 大学の授業で AWS の API を触る機会があり, その際に golang を使うようなので(API 一覧には, C++ 版もあるようなので, 個人的には C++ が良かった), 特に意義のないコードを取り敢えずいくつか書いてみている.

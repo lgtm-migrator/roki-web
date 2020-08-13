@@ -2,6 +2,7 @@
 title: QFTのメモ
 date: 2018-06-08 16:50:00
 tags: math, Quantum mechanics
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 お題自由な学校のレポート課題[^1]内で, ショアのアルゴリズムを説明するために

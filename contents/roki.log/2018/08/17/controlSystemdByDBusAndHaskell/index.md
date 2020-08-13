@@ -2,6 +2,7 @@
 title: Haskell で D-Bus から systemd unit を制御する
 date: 2018-08-17 00:00:00
 tags: Haskell
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 D-Bus とはメッセージバスシステムであり, アプリケーション間で互いにやりとりを行うためのプロセス間通信実装の 1 つである.

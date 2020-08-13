@@ -2,6 +2,7 @@
 title: ガウス積分の公式とその証明
 date: 2018-09-26 00:00:00
 tags: math, Python
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 当ブログ内でガウス積分(オイラー＝ポアソン積分)の公式を用いる際に self-contained でリファレンスを張るためと, 

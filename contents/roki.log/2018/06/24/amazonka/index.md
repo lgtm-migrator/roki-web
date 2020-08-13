@@ -2,6 +2,7 @@
 title: amazonka で EC2 インスタンスの操作
 date: 2018-06-24 10:45:00
 tags: Haskell, Networking
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 以前のエントリ[^1]では, AWS の API を golang から叩くために golang の言語機能を一通り触った.

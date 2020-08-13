@@ -2,6 +2,7 @@
 title: ghc パターンマッチの時間計算量
 date: 2018-04-07 16:50:00
 tags: Haskell
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 [reddit](https://www.reddit.com/r/Haskell/comments/8aaqr2/how_does_Haskell_work_with_multiequation_functions/?ref=share&ref_source=link) で見かけて, ふと気になったのでメモ.

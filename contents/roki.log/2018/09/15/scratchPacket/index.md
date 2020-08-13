@@ -2,6 +2,7 @@
 title: Haskell でリンクレイヤーにおける ICMP パケットの構築, 送受信および解析による ping の実装
 date: 2018-09-15 00:00:00
 tags: Haskell, Networking
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 Haskell で低レイヤーのネットワークプログラミングをそういえばしたことがなかったので, 

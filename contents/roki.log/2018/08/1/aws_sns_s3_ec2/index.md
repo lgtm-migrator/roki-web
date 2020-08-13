@@ -2,6 +2,7 @@
 title: AWS SNS + S3 でバケット内の状態を即座に EC2 に反映するまで
 date: 2018-08-01 00:00:00
 tags: AWS, golang, Networking
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 ウェブアプリケーションが EC2 上で動作していて,
