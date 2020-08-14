@@ -6,7 +6,7 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 js: quadraticBezier.js
 ---
 
-典型的なパラメトリック曲線の一種である, ベジェ曲線(Bézier curve)についての学習メモ. パラメトリック曲線とその一種であるエルミート曲線に関しては, [前回の記事](/roki.log/posts/2018/04/15/hermite-curve/)を参照.
+典型的なパラメトリック曲線の一種である, ベジェ曲線(Bézier curve)についての学習メモ. パラメトリック曲線とその一種であるエルミート曲線に関しては, [前回の記事](/roki.log/2018/04/15/hermite-curve/)を参照.
 
 ベジェ曲線は, パラメータ \\(t\\ (0 \leq t \leq 1)\\) 
 と複数の制御点 $P_i$ から構成されるパラメトリック曲線の一種である[^1].
@@ -68,7 +68,7 @@ P^r_i(t) = (1-t)P^{r-1}_i(t)+ tP^{r-1}_{i+1}(t), (r=1, \cdots, n; i = 0, 1, \cdo
 </div>
 
 ここで, 特にこれを再度書く意味は全くないが, 
-[前回の記事](https://falgon.github.io/roki.log/posts/2018/%204月/15/hermite-curve/)では曲線描画に関して 
+[前回の記事](/roki.log/2018/04/15/hermite-curve/)では曲線描画に関して 
 Haskell で書いたので, こちらもなんとなく載せて置く.
 
 ```Haskell

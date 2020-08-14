@@ -7,68 +7,72 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 
 LU 分解に関して初歩的な内容から網羅的にまとめた.
 
-### ガウスの消去法 
+<!--more-->
+
+## ガウスの消去法 
 
 ガウスの消去法は, 前進消去による上三角行列の形成と後退代入の組み合わせのことをいい, 
 その本質は行列の行基本変形, すなわち中学校で習う連立方程式の解法そのものである.
 例えば, 何の芸もないが, 次の連立方程式
 
+\\[
 \begin{aligned}
 \begin{cases}
 x+2y&=&3  \\
 3x+4y&=&5
 \end{cases}\leftrightarrow
-(\begin{array}{cc|c}
+\left(\begin{array}{cc|c}
 1 & 2 & 3 \\
 3 & 4 & 5
-\end{array})\tag{1}
+\end{array}\right)\tag{1}
 \end{aligned}
+\\]
 
 をガウスの消去法では次のようにして解くのであった.
 
 $$
-(\begin{array}{cc|c}
+\left(\begin{array}{cc|c}
 1 & 2 & 3 \\
 3 & 4 & 5
-\end{array})\to
+\end{array}\right)\to
 \underbrace{
-(\begin{array}{cc|c}
+\left(\begin{array}{cc|c}
 \overbrace{1}^{\times (-3)} & \overbrace{2}^{\times (-3)} & \overbrace{3}^{\times (-3)} \\
 \underline{3} & 4 & 5
-\end{array})
+\end{array}\right)
 }_{\rm 前進消去}\to
-(\begin{array}{cc|c}
+\left(\begin{array}{cc|c}
 1 & 2 & 3 \\
 0 & -2 & -4
-\end{array})\to
+\end{array}\right)\to
 \underbrace{
-(\begin{array}{cc|c}
+\left(\begin{array}{cc|c}
 1 & \underline{2} & 3 \\
 \overbrace{0}^{\times 1} & \overbrace{-2}^{\times 1} & \overbrace{-4}^{\times 1}
-\end{array})
+\end{array}\right)
 }_{\rm 後退代入} \\ \to
-(\begin{array}{cc|c}
+\left(\begin{array}{cc|c}
 1 & 0 & -1 \\
 0 & -2 & -4
-\end{array}) \\
+\end{array}\right) \\
 \therefore (x,y)=(-1\div 1,-4\div (-2))=(-1,2)
 $$
 
 この前進消去の操作は次のように行列の積で表現できる.
 
 $$
-(\begin{array}{cc}
+\left(\begin{array}{cc}
 1 & 0 \\
 -3 & 1
-\end{array})
-(\begin{array}{cc}
+\end{array}\right)
+\left(\begin{array}{cc}
 1 & 2 \\
 3 & 4
-\end{array})=
-(\begin{array}{cc}
+\end{array}\right)=
+\left(\begin{array}{cc}
 1 & 2 \\
 0 & -2
-\end{array})
+\end{array}\right)
 $$
 
 これを理解しておくと後述する LU 分解の理解に容易くなる. ここで, この時間計算量について, 一般の \\(n\\) 次線形連立方程式
@@ -76,15 +80,15 @@ $$
 \boldsymbol{a}\in\mathbb{R}^{n\times 1}, \boldsymbol{y}\in\mathbb{R}^{n\times 1}\\) 
 を用いて考えるする.
 
-$$(\begin{array}{ccccc}
+$$\left(\begin{array}{ccccc}
 x_{11} & x_{12} & x_{13} & \cdots & x_{1n} \\
 x_{21} & x_{22} & x_{23} & \cdots & x_{2n} \\
 x_{31} & x_{32} & x_{33} & \cdots & x_{3n} \\
 \vdots & \vdots & \vdots & \ddots & \vdots \\
 x_{n1} & x_{n2} & x_{n3} & \cdots & x_{nn}
-\end{array})
-(\begin{array}{c}a_1 \\ a_2 \\ a_3 \\ \vdots \\ a_n\end{array})=
-(\begin{array}{c}y_1 \\ y_2 \\ y_3 \\ \vdots \\ y_n\end{array})
+\end{array}\right)
+\left(\begin{array}{c}a_1 \\ a_2 \\ a_3 \\ \vdots \\ a_n\end{array}\right)=
+\left(\begin{array}{c}y_1 \\ y_2 \\ y_3 \\ \vdots \\ y_n\end{array}\right)
 $$
 
 まず前進消去の操作について考える.
@@ -136,15 +140,15 @@ $$
 後退代入は, 上三角行列となっている係数行列に対して代入を繰り返し, 
 対角行列を形成していく操作であった.
 
-$$(\begin{array}{ccccc}
+$$\left(\begin{array}{ccccc}
 x_{11} & x_{12} & x_{13} & \cdots & x_{1n} \\
 & x_{22} & x_{23} & \cdots & x_{2n} \\
 & & x_{33} & \cdots & x_{3n} \\
 & & & \ddots & \vdots \\
 &&&& x_{nn}
-\end{array})
-(\begin{array}{c}a_1 \\ a_2 \\ a_3 \\ \vdots \\ a_n\end{array})=
-(\begin{array}{c}y_1 \\ y_2 \\ y_3 \\ \vdots \\ y_n\end{array})
+\end{array}\right)
+\left(\begin{array}{c}a_1 \\ a_2 \\ a_3 \\ \vdots \\ a_n\end{array}\right)=
+\left(\begin{array}{c}y_1 \\ y_2 \\ y_3 \\ \vdots \\ y_n\end{array}\right)
 $$
 
 この場合, まず \\(x_{nn}\\) を使って, 
@@ -178,7 +182,7 @@ $$
 
 である.
 
-### ガウス・ジョルダン法
+## ガウス・ジョルダン法
 
 ガウスの名がつく行列を用いた線形方程式の直接解法には, 
 今述べたガウスの消去法のほかにガウス・ジョルダン法というものがある.
@@ -188,34 +192,34 @@ $$
 ガウス・ジョルダン法で同様にして計算していくと,
 
 $$
-(\begin{array}{cc|c}
+\left(\begin{array}{cc|c}
 1 & 2 & 3 \\
 3 & 4 & 5
-\end{array})\to
-(\begin{array}{cc|c}
+\end{array}\right)\to
+\left(\begin{array}{cc|c}
 \overbrace{1}^{\times (-3)} & \overbrace{2}^{\times (-3)} & \overbrace{3}^{\times (-3)} \\
 \underline{3} & 4 & 5
-\end{array})\to
-(\begin{array}{cc|c}
+\end{array}\right)\to
+\left(\begin{array}{cc|c}
 1 & 2 & 3 \\
 0 & -2 & -4
-\end{array})\to
-(\begin{array}{cc|c}
+\end{array}\right)\to
+\left(\begin{array}{cc|c}
 1 & 2 & 3 \\
 \overbrace{0}^{\times (-\frac{1}{2})} & \overbrace{-2}^{\times (-\frac{1}{2})} & \overbrace{-4}^{\times (-\frac{1}{2})}
-\end{array}) \\ \to
-(\begin{array}{cc|c}
+\end{array}\right) \\ \to
+\left(\begin{array}{cc|c}
 1 & 2 & 3 \\
 0 & 1 & 2
-\end{array})\to
-(\begin{array}{cc|c}
+\end{array}\right)\to
+\left(\begin{array}{cc|c}
 1 & \underline{2} & 3 \\
 \overbrace{0}^{\times (-2)} & \overbrace{1}^{\times (-2)} & \overbrace{2}^{\times (-2)}
-\end{array})\to
-(\begin{array}{cc|c}
+\end{array}\right)\to
+\left(\begin{array}{cc|c}
 1 & 0 & -1 \\
 0 & 1 & 2
-\end{array}) \\
+\end{array}\right) \\
 \therefore (x,y)=(-1,2)
 $$
 
@@ -224,60 +228,60 @@ $$
 ガウス・ジョルダン法をわざわざ用いるシーンはあまりない.
 
 
-### ピボッティング
+## ピボッティング
 
 ところで, いま示したガウスの消去法, ガウスジョルダン法の手順は, このままでは困る場合がある. 
 例えば, 次の線形方程式をガウスの消去法で解いてみると
 
 $$
-(\begin{array}{cccc|c}
+\left(\begin{array}{cccc|c}
 1 & 2 & 7 & 6 & 6 \\
 2 & 4 & 4 & 2 & 2 \\
 1 & 8 & 5 & 2 & 12 \\
 2 & 4 & 3 & 3 & 5
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 \overbrace{1}^{\times (-2)} & \overbrace{2}^{\times (-2)} & \overbrace{7}^{\times (-2)} & \overbrace{6}^{\times (-2)} & \overbrace{6}^{\times (-2)} \\
 \underline{2} & 4 & 4 & 2 & 2 \\
 1 & 8 & 5 & 2 & 12 \\
 2 & 4 & 3 & 3 & 5
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 1 & 2 & 7 & 6 & 6 \\
 0 & 0 & -10 & -10 & -10 \\
 1 & 8 & 5 & 2 & 12 \\
 2 & 4 & 3 & 3 & 5
-\end{array}) \\ \to
-(\begin{array}{cccc|c}
+\end{array}\right) \\ \to
+\left(\begin{array}{cccc|c}
 \overbrace{1}^{\times (-1)} & \overbrace{2}^{\times (-1)} & \overbrace{7}^{\times (-1)} & \overbrace{6}^{\times (-1)} & \overbrace{6}^{\times (-1)} \\
 0 & 0 & -10 & -10 & -10 \\
 \underline{1} & 8 & 5 & 2 & 12 \\
 2 & 4 & 3 & 3 & 5
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 1 & 2 & 7 & 6 & 6 \\
 0 & 0 & -10 & -10 & -10 \\
 0 & 6 & -2 & -4 & 6 \\
 2 & 4 & 3 & 3 & 5
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 \overbrace{1}^{\times (-2)} & \overbrace{2}^{\times (-2)} & \overbrace{7}^{\times (-2)} & \overbrace{6}^{\times (-2)} & \overbrace{6}^{\times (-2)} \\
 0 & 0 & -10 & -10 & -10 \\
 0 & 6 & -2 & -4 & 6 \\
 \underline{2} & 4 & 3 & 3 & 5
-\end{array}) \\ \to
-(\begin{array}{cccc|c}
+\end{array}\right) \\ \to
+\left(\begin{array}{cccc|c}
 1 & 2 & 7 & 6 & 6 \\
 0 & 0 & -10 & -10 & -10 \\
 0 & 6 & -2 & -4 & 6 \\
 0 & 0 & -11 & -9 & -7
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 1 & 2 & 7 & 6 & 6 \\
 0 & \overbrace{0}^{\times (-\frac{6}{0})} & \overbrace{-10}^{\times (-\frac{6}{0})} & \overbrace{-10}^{\times (-\frac{6}{0})} & \overbrace{-10}^{\times (-\frac{6}{0})} \\
 0 & \underline{6} & -2 & -4 & 6 \\
 0 & 0 & -11 & -9 & -7
-\end{array})
+\end{array}\right)
 $$
 
 というように $0$ で割るということが起きてしまうのである.
@@ -304,164 +308,164 @@ $$
 <div id="open_gaussian_piv_com" style="display:none;clear:both;">
 
 $$
-(\begin{array}{cccc|c}
+\left(\begin{array}{cccc|c}
 1 & 2 & 7 & 6 & 6 \\
 2 & 4 & 4 & 2 & 2 \\
 1 & 8 & 5 & 2 & 12 \\
 2 & 4 & 3 & 3 & 5
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 2 & 2 \\
 1 & 2 & 7 & 6 & 6 \\
 1 & 8 & 5 & 2 & 12 \\
 2 & 4 & 3 & 3 & 5
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 \overbrace{2}^{\times(-\frac{1}{2})} & \overbrace{4}^{\times(-\frac{1}{2})} & \overbrace{4}^{\times(-\frac{1}{2})} & \overbrace{2}^{\times(-\frac{1}{2})} & \overbrace{2}^{\times(-\frac{1}{2})} \\
 \underline{1} & 2 & 7 & 6 & 6 \\
 1 & 8 & 5 & 2 & 12 \\
 2 & 4 & 3 & 3 & 5
-\end{array})\\ \to
-(\begin{array}{cccc|c}
+\end{array}\right)\\ \to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 2 & 2 \\
 0 & 0 & 5 & 5 & 5 \\
 1 & 8 & 5 & 2 & 12 \\
 2 & 4 & 3 & 3 & 5
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 \overbrace{2}^{\times(-\frac{1}{2})} & \overbrace{4}^{\times(-\frac{1}{2})} & \overbrace{4}^{\times(-\frac{1}{2})} & \overbrace{2}^{\times(-\frac{1}{2})} & \overbrace{2}^{\times(-\frac{1}{2})} \\
 0 & 0 & 5 & 5 & 5 \\
 \underline{1} & 8 & 5 & 2 & 12 \\
 2 & 4 & 3 & 3 & 5
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 2 & 2 \\
 0 & 0 & 5 & 5 & 5 \\
 0 & 6 & 3 & 1 & 11 \\
 2 & 4 & 3 & 3 & 5
-\end{array})\\ \to
-(\begin{array}{cccc|c}
+\end{array}\right)\\ \to
+\left(\begin{array}{cccc|c}
 \overbrace{2}^{\times (-1)} & \overbrace{4}^{\times (-1)} & \overbrace{4}^{\times (-1)} & \overbrace{2}^{\times (-1)} & \overbrace{2}^{\times (-1)} \\
 0 & 0 & 5 & 5 & 5 \\
 0 & 6 & 3 & 1 & 11 \\
 \underline{2} & 4 & 3 & 3 & 5
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 2 & 2 \\
 0 & 0 & 5 & 5 & 5 \\
 0 & 6 & 3 & 1 & 11 \\
 0 & 0 & -1 & 1 & 3
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 2 & 2 \\
 0 & 6 & 3 & 1 & 11 \\
 0 & 0 & 5 & 5 & 5 \\
 0 & 0 & -1 & 1 & 3
-\end{array}) \\ \to
-(\begin{array}{cccc|c}
+\end{array}\right) \\ \to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 2 & 2 \\
 0 & 6 & 3 & 1 & 11 \\
 0 & 0 & 5 & 5 & 5 \\
 0 & 0 & -1 & 1 & 3
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 2 & 2 \\
 0 & 6 & 3 & 1 & 11 \\
 0 & 0 & \overbrace{5}^{\times\frac{1}{5}} & \overbrace{5}^{\times\frac{1}{5}} & \overbrace{5}^{\times\frac{1}{5}} \\
 0 & 0 & \underline{-1} & 1 & 3
-\end{array})\to
-\underbrace{(\begin{array}{cccc|c}
+\end{array}\right)\to
+\underbrace{\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 2 & 2 \\
 0 & 6 & 3 & 1 & 11 \\
 0 & 0 & 5 & 5 & 5 \\
 0 & 0 & 0 & 2 & 4
-\end{array})}_{上三角行列} \\ \to
-(\begin{array}{cccc|c}
+\end{array}\right)}_{上三角行列} \\ \to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & \underline{2} & 2 \\
 0 & 6 & 3 & 1 & 11 \\
 0 & 0 & 5 & 5 & 5 \\
 0 & 0 & 0 & \overbrace{2}^{\times(-1)} & \overbrace{4}^{\times(-1)}
-\end{array}) \to
-(\begin{array}{cccc|c}
+\end{array}\right) \to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 0 & -2 \\
 0 & 6 & 3 & 1 & 11 \\
 0 & 0 & 5 & 5 & 5 \\
 0 & 0 & 0 & 2 & 4
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 0 & -2 \\
 0 & 6 & 3 & \underline{1} & 11 \\
 0 & 0 & 5 & 5 & 5 \\
 0 & 0 & 0 & \overbrace{2}^{\times (-\frac{1}{2})} & \overbrace{4}^{\times (-\frac{1}{2})}
-\end{array}) \\ \to
-(\begin{array}{cccc|c}
+\end{array}\right) \\ \to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 0 & -2 \\
 0 & 6 & 3 & 0 & 9 \\
 0 & 0 & 5 & 5 & 5 \\
 0 & 0 & 0 & 2 & 4
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 0 & -2 \\
 0 & 6 & 3 & 0 & 9 \\
 0 & 0 & 5 & \underline{5} & 5 \\
 0 & 0 & 0 & \overbrace{2}^{\times (-\frac{5}{2})} & \overbrace{4}^{\times (-\frac{5}{2})}
-\end{array})\to
-(\begin{array}{cccc|c}
+\end{array}\right)\to
+\left(\begin{array}{cccc|c}
 2 & 4 & 4 & 0 & -2 \\
 0 & 6 & 3 & 0 & 9 \\
 0 & 0 & 5 & 0 & -5 \\
 0 & 0 & 0 & 2 & 4
-\end{array}) \\ \to
-(\begin{array}{cccc|c}
+\end{array}\right) \\ \to
+\left(\begin{array}{cccc|c}
 2 & 4 & \underline{4} & 0 & -2 \\
 0 & 6 & 3 & 0 & 9 \\
 0 & 0 & \overbrace{5}^{\times (-\frac{4}{5})} & \overbrace{0}^{\times (-\frac{4}{5})} & \overbrace{-5}^{\times (-\frac{4}{5})} \\
 0 & 0 & 0 & 2 & 4
-\end{array}) \to
-(\begin{array}{cccc|c}
+\end{array}\right) \to
+\left(\begin{array}{cccc|c}
 2 & 4 & 0 & 0 & 2 \\
 0 & 6 & 3 & 0 & 9 \\
 0 & 0 & 5 & 0 & -5 \\
 0 & 0 & 0 & 2 & 4
-\end{array}) \to
-(\begin{array}{cccc|c}
+\end{array}\right) \to
+\left(\begin{array}{cccc|c}
 2 & 4 & 0 & 0 & 2 \\
 0 & 6 & \underline{3} & 0 & 9 \\
 0 & 0 & \overbrace{5}^{\times (-\frac{3}{5})} & \overbrace{0}^{\times (-\frac{3}{5})} & \overbrace{-5}^{\times (-\frac{3}{5})} \\
 0 & 0 & 0 & 2 & 4
-\end{array}) \\ \to
-(\begin{array}{cccc|c}
+\end{array}\right) \\ \to
+\left(\begin{array}{cccc|c}
 2 & 4 & 0 & 0 & 2 \\
 0 & 6 & 0 & 0 & 12 \\
 0 & 0 & 5 & 0 & -5 \\
 0 & 0 & 0 & 2 & 4
-\end{array}) \to
-(\begin{array}{cccc|c}
+\end{array}\right) \to
+\left(\begin{array}{cccc|c}
 2 & \underline{4} & 0 & 0 & 2 \\
 0 & \overbrace{6}^{\times(-\frac{2}{3})} & \overbrace{0}^{\times(-\frac{2}{3})} & \overbrace{0}^{\times(-\frac{2}{3})} & \overbrace{12}^{\times(-\frac{2}{3})} \\
 0 & 0 & 5 & 0 & -5 \\
 0 & 0 & 0 & 2 & 4
-\end{array}) \to
-(\begin{array}{cccc|c}
+\end{array}\right) \to
+\left(\begin{array}{cccc|c}
 2 & 0 & 0 & 0 & -6 \\
 0 & 6 & 0 & 0 & 12 \\
 0 & 0 & 5 & 0 & -5 \\
 0 & 0 & 0 & 2 & 4
-\end{array}) \\
+\end{array}\right) \\
 \therefore (-6\div 2,12\div 6, -5\div 0, 4\div 2)^T =(-3,2,-1,2)^T
 $$
 </div>
 
 
-### LU 分解
+## LU 分解
 
 漸く本題の LU 分解(LR 分解, 三角分解)について.
-簡単のために式 \\(\\) を使って LU 分解の導出をする.
-式 \\(\\) は次の式と同値である.
+簡単のために式 \\((1)\\) を使って LU 分解の導出をする.
+式 \\((1)\\) は次の式と同値である.
 
 $$
-A^{(0)}(\begin{array}{c}x \\ y\end{array})=\boldsymbol{v}
-\ {\rm where}\ A^{(0)}=(\begin{array}{cc}1 & 2 \\ 3 & 4\end{array}),\boldsymbol{v}=(\begin{array}{c}3\\ 5\end{array})
+A^{(0)}\left(\begin{array}{c}x \\ y\end{array}\right)=\boldsymbol{v}
+\ {\rm where}\ A^{(0)}=\left(\begin{array}{cc}1 & 2 \\ 3 & 4\end{array}\right),\boldsymbol{v}=\left(\begin{array}{c}3\\ 5\end{array}\right)
 $$
 
 \\({A^{(0)}}^{-1}\boldsymbol{v}\\) とすれば \\((x,y)^T\\) は求まるが, 逆行列の計算はガウスの消去法により \\(\frac{1}{3}O(n^3)\\) の時間計算量がかかる.
@@ -469,16 +473,16 @@ $$
 いま \\(A^{(0)}\\) を徐に上三角行列にすることを考えると, ガウスの消去法の前進消去より
 
 $$
-A^{(1)}=L^{(1)}A^{(0)}=(\begin{array}{cc}1 & 2 \\ 0 & -2\end{array})
+A^{(1)}=L^{(1)}A^{(0)}=\left(\begin{array}{cc}1 & 2 \\ 0 & -2\end{array}\right)
 \leftrightarrow
 A^{(0)}={L^{(1)}}^{-1}A^{(1)}
-\ {\rm where}\ L^{(1)}=(\begin{array}{cc}1 & 0 \\ -3 & 1\end{array})
+\ {\rm where}\ L^{(1)}=\left(\begin{array}{cc}1 & 0 \\ -3 & 1\end{array}\right)
 $$
 
 従って
 
 $$
-{L^{(1)}}^{-1}A^{(1)}(\begin{array}{c}x \\ y\end{array})=\boldsymbol{v}
+{L^{(1)}}^{-1}A^{(1)}\left(\begin{array}{c}x \\ y\end{array}\right)=\boldsymbol{v}
 $$
 
 ここで, \\(\boldsymbol{b}=A^{(1)}(x,y)^T\\) とおくと, 上の式は \\({L^{(1)}}^{-1}\boldsymbol{b}=\boldsymbol{v}\\) と同値であり,
@@ -501,12 +505,12 @@ $$
 いまの説明では, 式 \\(\\) において \\(A^{(0)}\\) を \\({L^{(1)}}^{-1}\\) と \\(A^{(1)}\\) に分解したが, これを LU 分解(\\(L={L^{(1)}}^{-1},U=A^{(1)}\\))といい, 
 \\(L^{(i)}\\) が正則ならば, 一般の場合においても同様にしていうことができる.
 
-<div class="panel panel-default">
-<div class="panel-heading def"><a id="LU" class="disabled">LU 分解(外積形式ガウス法)</a></div>
-  <div class="panel-body" style="overflow:scroll">
-    すべての前進消去の行列 \\(L^{(i)}\\) が正則ならば \\(A\in\mathbb{R}^{m\times n}\\) に対する LU 分解は 
-    \\[A=A^{(0)}=L U\ {\rm where}\ L=\prod_{i=1}^{n-1}{L^{(i)}}^{-1}, U=A^{(n-1)}\\]
-  </div>
+<div class="m-def">
+<header class="m-def-title"><p><span id="LU">LU 分解 (外積形式ガウス法)</span></p></header>
+<div class="m-def-content">
+すべての前進消去の行列 \\(L^{(i)}\\) が正則ならば \\(A\in\mathbb{R}^{m\times n}\\) に対する LU 分解は
+\\[A=A^{(0)}=L U\ {\rm where}\ L=\prod_{i=1}^{n-1}{L^{(i)}}^{-1}, U=A^{(n-1)}\\]
+</div>
 </div>
 
 補足すると, \\(A^{(0)}\\) に対し \\(n-1\\) 回の前進消去をするというのは, \\(L^{(n-1)}\cdots L^{(2)}L^{(1)}A^{(0)}\\) ということであり,
@@ -516,76 +520,82 @@ $$
 
 $$
 A^{(0)}=
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 3 & 1 & 0 \\
 6 & 1 & -2 \\
 -3 & 0 & 3
-\end{array})\to
-\underbrace{(\begin{array}{ccc}
+\end{array}\right)\to
+\underbrace{\left(\begin{array}{ccc}
 1 & 0 & 0 \\
 -2 & 1 & 0 \\
 1 & 0 & 1
-\end{array})}_{L^{(1)}}
-(\begin{array}{ccc}
+\end{array}\right)}_{L^{(1)}}
+\left(\begin{array}{ccc}
 3 & 1 & 0 \\
 6 & 1 & -2 \\
 -3 & 0 & 3
-\end{array})=
+\end{array}\right)=
 \underbrace{
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 3 & 1 & 0 \\
 0 & -1 & -2 \\
 0 & 1 & 3
-\end{array})
+\end{array}\right)
 }_{A^{(1)}} \\
 \to
 \underbrace{
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 1 & 0 & 0 \\
 0 & 1 & 0 \\
 0 & 1 & 1
-\end{array})
+\end{array}\right)
 }_{L^{(2)}}
 A^{(1)}=
 \underbrace{
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 3 & 1 & 0 \\
 0 & -1 & -2 \\
 0 & 0 & 1
-\end{array})}_{A^{(2)}}
+\end{array}\right)}_{A^{(2)}}
 $$
 
-より $$L=(L^{(2)}L^{(1)})^{-1}=(\begin{array}{ccc} 1 & 0 & 0 \\ 2 & 1 & 0 \\ -1 & -1 & 1 \end{array}),U=A^{(2)}$$
+より $$L=(L^{(2)}L^{(1)})^{-1}=\left(\begin{array}{ccc} 1 & 0 & 0 \\ 2 & 1 & 0 \\ -1 & -1 & 1 \end{array}\right),U=A^{(2)}$$
 実際には, すべてを減算で考えることで, \\((L^{(2)}L^{(1)})^{-1}\\) の計算は楽に済む(つまり
 $A^{0}=(\boldsymbol{a_1}^T,\boldsymbol{a_2}^T,\boldsymbol{a_3}^T)^T$ としたとき
 \\(\underline{2}\boldsymbol{a_1}-\boldsymbol{a_2}, \underline{-1}\boldsymbol{a_1}-\boldsymbol{a_3}, \underline{-1}\boldsymbol{a_2}-\boldsymbol{a_3}\\) より \\(L\\) が導けるということ).
 
 この導出過程を見ればなんとなく LU 分解が一意となることは直感的にも納得できるが, 一応証明を与えておく.
 
-<div class="panel panel-default">
-<div class="panel-heading theo"><a id="theorem1" class="disabled">定理 1</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-thm">
+<header class="m-thm-title"><span id="theorem1"><p>定理 1</p></span></header>
+<div class="m-thm-content">
 LU 分解された \\(L,U\\) は一意に決まる
 </div>
 </div>
 
-**証明**:<br>
+<div class="m-proof">
+<header class="m-proof-title"><p>定理 1</p></header>
+<div class="m-proof-content">
 正則行列 \\(A\\) の LU 分解 \\(A= L U\\) に対して \\(A= L_{1}U_{1} = L_{2}U_{2} \leftrightarrow L_{2}^{-1}L_{1} = U_{2}U_{1}^{-1}\\) とおく.
 \\(L\\) は元々下三角行列であり下三角行列の逆行列は下三角行列, また下三角行列の積は下三角行列だから \\(L_{2}^{-1}L_{1}\\) は下三角行列である.
 \\(U\\) は元々上三角行列であり上三角行列の逆行列は上三角行列, また上三角行列の積は上三角行列だから \\(U_{2}U_{1}^{-1}\\) は上三角行列である.
 従って, 両行列は上および下三角行列でなければならず, それを満たす唯一の行列は対角行列であり, \\(L\\) の対角成分は元々 \\(1\\) であるから
 \\(L_{2}^{-1}L_{1} = I = U_{2}U_{1}^{-1}\\). 
-故に \\(L_{2}=L_{1}, U_{2}=U_{1}\\). \\(\square\\)
+故に \\(L_{2}=L_{1}, U_{2}=U_{1}\\). 
+</div>
+</div>
 
 次に, 次のような行列に対する LU 分解を考えてみる.
 
+\\[
 \begin{aligned}
-A=(\begin{array}{ccc}
+A=\left(\begin{array}{ccc}
 0 & 1 & 0 \\
 -8 & 8 & 1 \\
 2 & -2 & 0
-\end{array})
+\end{array}\right)
 \end{aligned}
+\\]
 
 見てわかるように, 前進消去の段階で \\(-8\div 0\\) となってしまい計算できない.
 しかし, これも部分ピボット選択付きガウスの消去法と同様に, 絶対値最大の値がピボットとなるように行を予め入れ替えておけば,
@@ -593,33 +603,34 @@ A=(\begin{array}{ccc}
 そのような手続きのある LU 分解は PLU 分解といわれ, 置換行列 \\(P\in\mathbb{R}^{m\times n}\\) をつかって, \\(A=P L U\\) とする.
 以下 \\(A\\) をつかって導出してみることとする. \\(\boldsymbol{a_1}^T\\) と \\(\boldsymbol{a_2}^T\\) を入れ替えれば良いので,
 
+\\[
 \begin{aligned}
-\underbrace{(\begin{array}{ccc}
+\underbrace{\left(\begin{array}{ccc}
 0 & 1 & 0 \\
 1 & 0 & 0 \\
 0 & 0 & 1
-\end{array})}_{P^{(1)}}A=
-\underbrace{(\begin{array}{ccc}
+\end{array}\right)}_{P^{(1)}}A=
+\underbrace{\left(\begin{array}{ccc}
 -8 & 8 & 1 \\
 0 & 1 & 0 \\
 2 & -2 & 0
-\end{array})}_{A'}\to
-\underbrace{(\begin{array}{ccc}
+\end{array}\right)}_{A'}\to
+\underbrace{\left(\begin{array}{ccc}
 1 & 0 & 0 \\
 0 & 1 & 0 \\
 \frac{1}{4} & 0 & 1
-\end{array})}_{L^{(1)}}A'=
-\underbrace{(\begin{array}{ccc}
+\end{array}\right)}_{L^{(1)}}A'=
+\underbrace{\left(\begin{array}{ccc}
 -8 & 8 & 1 \\
 0 & 1 & 0 \\
 0 & 0 & \frac{1}{4}
-\end{array})}_{A'^{(1)}}
+\end{array}\right)}_{A'^{(1)}}
 \end{aligned}
-
+\\]
 
 より 
 
-$$L = {L^{(1)}}^{-1}=(\begin{array}{ccc}1 & 0 & 0 \\ 0 & 1 & 0 \\ -\frac{1}{4} & 0 & 1\end{array}),U={A'}^{(1)}$$
+$$L = {L^{(1)}}^{-1}=\left(\begin{array}{ccc}1 & 0 & 0 \\ 0 & 1 & 0 \\ -\frac{1}{4} & 0 & 1\end{array}\right),U={A'}^{(1)}$$
 
 とおくと \\(A'={L^{(1)}}^{-1}{A'}^{(1)}\\) だから
 
@@ -628,29 +639,31 @@ $$P^{(1)}A=L U$$
 \\(P^{(1)}\\) は元々置換行列であるから正則であり, また直行行列でもある. 
 すなわち \\({P=P^{(1)}}^{-1}={P^{(1)}}^T\\) とおけて
 
+\\[
 \begin{aligned}
 A&=&P L U\\
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 0 & 1 & 0 \\
 -8 & 8 & 1 \\
 2 & -2 & 0
-\end{array})&=&
-(\begin{array}{ccc}
+\end{array}\right)&=&
+\left(\begin{array}{ccc}
 0 & 1 & 0 \\
 1 & 0 & 0 \\
 0 & 0 & 1
-\end{array})
-(\begin{array}{ccc}
+\end{array}\right)
+\left(\begin{array}{ccc}
 1 & 0 & 0 \\
 0 & 1 & 0 \\
 -\frac{1}{4} & 0 & 1
-\end{array})
-(\begin{array}{ccc}
+\end{array}\right)
+\left(\begin{array}{ccc}
 -8 & 8 & 1 \\
 0 & 1 & 0 \\
 0 & 0 & \frac{1}{4}
-\end{array})
+\end{array}\right)
 \end{aligned}
+\\]
 
 ここで \\(\boldsymbol{a}\in\mathbb{R}^{n\times 1},\boldsymbol{v}\in\mathbb{R}^{n\times 1}\\) に対して
 \\(P L U \boldsymbol{a}=\boldsymbol{v}\\) というように, PLU 分解を用いて連立方程式解くことを考えると,
@@ -665,11 +678,11 @@ A&=&P L U\\
 従って \\(L, U\\) の値は次のように一つの行列として持っておけば十分.
 
 $$
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 -8 & 8 & 1 \\
 0 & 1 & 0 \\
 -\frac{1}{4} & 0 & \frac{1}{4}
-\end{array})
+\end{array}\right)
 $$
 
 また, 置換行列 $P$ はただの並び替えでなので, これも各インデックスへの対応関係をテーブルにでもしておけば十分.
@@ -774,37 +787,40 @@ Just
 
 $$
 L D U=
-(\begin{array}{cccc}
+\left(\begin{array}{cccc}
 1 & 0 & \cdots & 0 \\
 l_{21} & 1 & \cdots & 0 \\
 \vdots & \vdots & \ddots & \vdots \\
 l_{m1} & l_{m2} & \cdots & 1
-\end{array})
+\end{array}\right)
 \mathrm{diag}(d_1,\cdots,d_m)
-(\begin{array}{cccc}
+\left(\begin{array}{cccc}
 1 & u_{12} & \cdots & u_{1n} \\
 0 & 1 & \cdots & u_{2n} \\
 \vdots & \vdots & \ddots & \vdots \\ 
 0 & 0 & \cdots & 1
-\end{array})
+\end{array}\right)
 $$
 
 ところで, \\(A\in\mathbb{R}^{m\times n}\\) が対称行列ならば, この LDU 分解は \\(A=L D L^{T}\\) と計算することができる.
 
-<div class="panel panel-default">
-<div class="panel-heading theo"><a id="theorem2" class="disabled">定理 2</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-thm">
+<header class="m-thm-title"><p><span id="theorem2">定理 2</span></p></header>
+<div class="m-thm-content">
 \\(A=A^T\ {\rm where}\ A\in\mathbb{R}^{m\times n}\\) ならば \\(A\\) の LDU 分解は \\(A=L D L^{T}\\)
 </div>
 </div>
 
-**証明**:<br>
+<div class="m-proof">
+<header class="m-proof-title"><p>定理 2</p></header>
+<div class="m-proof-content">
 \\(M^T = D^{-1}U\\) とし \\(A\\) の LDU 分解を \\(A= L D M^T\\) とおくと \\[A = A^T = (L D M^T)^T = M D L^T = L U\\]
 ここで, 第二辺から第三辺への変形は, 積の転置は積の左右を入れ替えた転置の積なる公式を用いた.
 このとき \\(M(D L^T)\\) と \\(L U\\) は LU 分解の 2 つの表現であるが, [定理 1](#theorem1) より LU 分解は一意であるから
 \\(M=L\\) でなければならない(後述する Crout 法の LU 分解ならば \\(M=L D\\) でなければならない. 導かれる結論は同じ).
-従って \\(L D M^T = L D L^T\\). \\(\square\\)
-
+従って \\(L D M^T = L D L^T\\). 
+</div>
+</div>
 
 ここまで述べてきた LU 分解の方法は, 外積形式ガウス法といわれるものであるが,
 LU 分解の他の方法として内積形式ガウス法(以下 Doolittle 法), クラウト法がある. 
@@ -813,127 +829,132 @@ LU 分解の他の方法として内積形式ガウス法(以下 Doolittle 法),
 このとき \\(X = L' D U'\\) に対して \\(L = L' D\\) とおいて \\(X = L U'\\) というように分解できることを過程して行列 \\(L,U'\\) を導出することを Doolittle 法,
 また \\(U=D U'\\) とおいて \\(X = L' U\\) というように分解できることを過程して行列 \\(L' U\\) を導出することを Crout 法という.
 
+\\[
 \begin{aligned}
 X= L U'\leftrightarrow 
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 x_{11} & x_{12} & x_{13} \\
 x_{21} & x_{22} & x_{23} \\
 x_{31} & x_{32} & x_{33}
-\end{array})=(\begin{array}{ccc}
+\end{array}\right)=\left(\begin{array}{ccc}
 1 & 0 & 0 \\
 l_{21} & 1 & 0 \\
 l_{31} & l_{32} & 1
-\end{array})(\begin{array}{ccc}
+\end{array}\right)\left(\begin{array}{ccc}
 u_{11} & u_{12} & u_{13} \\
 0 & u_{22} & u_{23} \\
 0 & 0 & u_{33}
-\end{array})&:=&{\rm Doolittle\ 法} \\
+\end{array}\right)&:=&{\rm Doolittle\ 法} \\
 X= L' U\leftrightarrow 
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 x_{11} & x_{12} & x_{13} \\
 x_{21} & x_{22} & x_{23} \\
 x_{31} & x_{32} & x_{33}
-\end{array})=(\begin{array}{ccc} 
+\end{array}\right)=\left(\begin{array}{ccc} 
 l_{11} & 0 & 0 \\
 l_{21} & l_{22} & 0 \\
 l_{31} & l_{32} & l_{33} 
-\end{array})(\begin{array}{ccc}
+\end{array}\right)\left(\begin{array}{ccc}
 1 & u_{12} & u_{13} \\
 0 & 1 & u_{23} \\
 0 & 0 & 1
-\end{array})&:=&{\rm Crout\ 法}
+\end{array}\right)&:=&{\rm Crout\ 法}
 \end{aligned}
+\\]
 
 いま行列 \\(X\\) を Doolittle 法により LU 分解できたならば
 \\(L U'\\) を単に計算して \\(X=L U'\\) は次のようにかけるはずである.
 
 $$
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 u_{11} & u_{12} & u_{13} \\
 l_{21}u_{11} & l_{21}u_{12}+u_{22} & l_{21}u_{13}+u_{23} \\
 l_{31}u_{11} & l_{31}u_{12}+l_{32}u_{22} & l_{31}u_{13}+l_{32}u_{23}+u_{33}
-\end{array})=
-(\begin{array}{ccc}
+\end{array}\right)=
+\left(\begin{array}{ccc}
 1 & 0 & 0 \\
 l_{21} & 1 & 0 \\
 l_{31} & l_{32} & 1
-\end{array})(\begin{array}{ccc}
+\end{array}\right)\left(\begin{array}{ccc}
 u_{11} & u_{12} & u_{13} \\
 0 & u_{22} & u_{23} \\
 0 & 0 & u_{33}
-\end{array})
+\end{array}\right)
 $$
 
 よって, 行列 \\(X\\) 
 の成分で行列 
 $L, U'$ を次のように書き換えることができる.
 
+\\[
 \begin{aligned}
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 x_{11} & x_{12} & x_{13} \\
 x_{21} & x_{22} & x_{23} \\
 x_{31} & x_{32} & x_{33} 
-\end{array})&=&
-(\begin{array}{ccc}
+\end{array}\right)&=&
+\left(\begin{array}{ccc}
 1 & 0 & 0 \\ 
 \frac{x_{21}}{u_{11}} & 1 & 0 \\
 \frac{x_{31}}{u_{11}} & l_{32} & 1
-\end{array})
-(\begin{array}{ccc}
+\end{array}\right)
+\left(\begin{array}{ccc}
 u_{11} & u_{12} & u_{13} \\
 0 & u_{22} & u_{23} \\
 0 & 0 & u_{33}
-\end{array})\because
+\end{array}\right)\because
 \begin{array}{l}
 x_{21}=l_{21}u_{11}\leftrightarrow l_{21}=\frac{x_{21}}{u_{11}}, \\
 l_{31}\ {\rm についても同様}
 \end{array} \\
 &=&
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 1 & 0 & 0 \\
 \frac{x_{21}}{x_{11}} & 1 & 0 \\
 \frac{x_{31}}{x_{11}} & l_{32} & 1
-\end{array})(\begin{array}{ccc}
+\end{array}\right)\left(\begin{array}{ccc}
 x_{11} & x_{12} & x_{13} \\
 0 & u_{22} & u_{23} \\
 0 & 0 & u_{33}
-\end{array})\because\ u_{11}=x_{11},u_{12}=x_{12},u_{13}=x_{13} \\
+\end{array}\right)\because\ u_{11}=x_{11},u_{12}=x_{12},u_{13}=x_{13} \\
 &=& 
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 1 & 0 & 0 \\
 \frac{x_{21}}{x_{11}} & 1 & 0 \\
 \frac{x_{31}}{x_{11}} & l_{32} & 1
-\end{array})(\begin{array}{ccc}
+\end{array}\right)\left(\begin{array}{ccc}
 x_{11} & x_{12} & x_{13} \\
 0 & x_{22}-\frac{x_{21}}{x_{11}}x_{12} & x_{23}-\frac{x_{21}}{x_{11}}x_{13} \\
 0 & 0 & u_{33} 
-\end{array})\because
+\end{array}\right)\because
 \begin{array}{l}
 x_{22}=l_{21}u_{12}+u_{22} \leftrightarrow u_{22}=x_{22}-l_{21}u_{12},\\
 u_{23}\ {\rm についても同様}
 \end{array} \\
 &=& 
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 1 & 0 & 0 \\
 \frac{x_{21}}{x_{11}} & 1 & 0 \\
 \frac{x_{31}}{x_{11}} & \frac{x_{32}-\frac{x_{31}}{x_{11}}x_{12}}{x_{22}-\frac{x_{21}}{x_{11}}x_{12}} & 1
-\end{array})(\begin{array}{ccc}
+\end{array}\right)\left(\begin{array}{ccc}
 x_{11} & x_{12} & x_{13} \\
 0 & x_{22}-\frac{x_{21}}{x_{11}}x_{12} & x_{23}-\frac{x_{21}}{x_{11}}x_{13} \\
 0 & 0 & x_{33}-\frac{x_{31}}{x_{11}}x_{13}-\frac{x_{32}-\frac{x_{31}}{x_{11}}x_{12}}{x_{22}-\frac{x_{21}}{x_{11}}x_{12}}(x_{23}-\frac{x_{21}}{x_{11}}x_{13})
-\end{array})\\
+\end{array}\right)\\
 &\because&
 \begin{array}{l}
 x_{32}=l_{31}u_{12}+l_{32}u_{22}\leftrightarrow l_{32}=\frac{x_{32}-l_{31}u_{12}}{u_{22}}, \\
 u_{33}\ {\rm についても同様}
 \end{array}
 \end{aligned}
+\\]
 
 これをみると, 一行目, 一列目, 二行目, 二列目 \\(\cdots\\) と展開していくことで,
 芋づる式に $L,U'$ が決まっていくことがわかる.
 この作業を一般化すると, \\(u_{ij}\\) の導出およびそれによって得られた値で \\(l_{ij}\\) を導出する部分に分けることができる.
 それぞれをいま漸化式で書くと
 
+\\[
 \begin{aligned}
 {\rm Doolittle 法} &:=&
 \begin{cases}
@@ -944,7 +965,7 @@ u_{ik}&=&x_{1k}-\sum^{i-1}_{j=1}l_{ij}u_{jk},\ (i=2,3,\cdots,k)
 l_{ik}=\frac{(x_{ik}-\sum^{k-1}_{j=1}l_{ij}u_{jk})}{u_{kk}},\ (i=k+1,k+2,\cdots,n)
 \end{cases}
 \end{aligned}
-
+\\]
 
 ただし \\(u_{kk}=0\\) の場合は計算できないので,
 実際にはピボッティングを要することになるわけであるが,
@@ -962,26 +983,29 @@ l_{ik}=\frac{(x_{ik}-\sum^{k-1}_{j=1}l_{ij}u_{jk})}{u_{kk}},\ (i=k+1,k+2,\cdots,
 
 Crout 法も同様に, \\(X=L' U\\) を次のように書けるはずなので,
 
+\\[
 \begin{aligned}
-(\begin{array}{ccc}
+\left(\begin{array}{ccc}
 l_{11} & l_{11}u_{12} & l_{11}u_{13} \\
 l_{21} & l_{21}u_{12}+l_{22} & l_{21}u_{13}+l_{22}u_{23} \\
 l_{31} & l_{31}u_{12}+l_{32} & l_{31}u_{13}+l_{32}u_{23}+l_{33}
-\end{array})=
-(\begin{array}{ccc}
+\end{array}\right)=
+\left(\begin{array}{ccc}
 l_{11} & 0 & 0 \\
 l_{21} & l_{22} & 0 \\
 l_{31} & l_{32} & l_{33}
-\end{array})
-(\begin{array}{ccc}
+\end{array}\right)
+\left(\begin{array}{ccc}
 1 & u_{12} & u_{13} \\
 0 & 1 & u_{23} \\
 0 & 0 & 1
-\end{array})
+\end{array}\right)
 \end{aligned}
+\\]
 
 従ってこの作業の一般形は結果的に
 
+\\[
 \begin{aligned}
 {\rm Crout 法} &:=&
 \begin{cases}
@@ -989,12 +1013,13 @@ l_{ik}&=&x_{ik}-\sum^{k-1}_{j=1}l_{ij}u_{jk},\ (i=k,k+1,\cdots,n)\\
 u_{kj}&=&\frac{(x_{kj}-\sum^{k-1}_{i=1}l_{ki}u_{ij})}{l_{kk}},\ (j=k,k+1,\cdots,n)
 \end{cases}
 \end{aligned}
+\\]
 
 \\(L\\) の \\(k\\) 番目の列の要素を計算した後に最大値を求め,
 \\(L\\) の要素を含む最初の \\(k-1\\)
 列に対応する行列の行を交換できるため, 
 Crout 法はピボットを簡単に選択できる.
 
-### 参考文献
+## 参考文献
 
 * Richard Hamming (1987) "Numerical Methods for Scientists and Engineers (Dover Books on Mathematics)" Dover Publications, ISBN 9780486652412

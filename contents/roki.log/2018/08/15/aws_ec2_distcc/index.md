@@ -47,7 +47,7 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 今回の実装を Go で行ったことに対する深い意味合いは特別ないが,
 とりあえずそこまで深く考えず Go の便利な標準パッケージ, `text/template`を利用して,
 一程度の情報伝達を行うこととした. 
-`text/template`は, かなりお手軽に[設定ファイルの生成](https://falgon.github.io/roki.log/posts/2018/%207月/23/ec2failover/)のほか,
+`text/template`は, かなりお手軽に[設定ファイルの生成](/roki.log/2018/07/23/ec2failover/)のほか,
 トークンの衝突さえなければ, コードに直接埋め込むことができるので, それを元にコードの生成をすることもでき, 大変良い.
 
 ビルドスクリプトおよびセットアップスクリプトは, それぞれ, 

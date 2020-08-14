@@ -8,25 +8,26 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 以前のエントリ, [ガウス積分の公式とその証明](/roki.log/posts/2018/%209/26/GaussianIntegral/)で, 
 暗に極座標での微小面積が $rdrd\theta$
 であるとして書いていたので, その内容についても一応書いておこうというのと,
-筆者自身の学習/再整理も兼ねて, ヤコビアンに関して書くこととした(<i>ただ, 筆者は数学科でも化学科でも, ましてや理学部系の人でもありません. 極力ないようにはしていますが, もし間違い等ありましたらご教示くださるとありがたいです</i>).
+筆者自身の学習/再整理も兼ねて, ヤコビアンに関して書くこととした.
 
-### 極座標の微小面積
+## 極座標の微小面積
 
-まず唐突であるが, 直交座標から極座標へ移行する際に, その微小面積はどうなるかについて考察する.
+直交座標から極座標へ移行する際に, その微小面積はどうなるかについて考察する.
 
-<div style="text-align:center">
-<img width="500px" src="../../../../../images/2018/September/26/cube_and_cross_section.png" alt="立方体とその断面" />
-</div>
+![立方体とその断面](./cube_and_cross_section.png "立方体とその断面"){ width=500px }
 
-上図[^1]は, \\(1\times 1\times 1\\) の立方体があって, その断面をそれぞれ極座標と直交座標で示しているだけであるが,
-この断面図のマスの広がり方を見るだけで, 少なくとも極座標における微小面積が \\(drd\theta\\) とはならないことに納得できる.
-単に \\(drd\theta\\) としてしまうと, \\(r\\) が大きくなればなるほど微小面積も伸びて大きくなっていってしまうだろうというラフな想像がつく.
+上図[^1]は, \\(1\times 1\times 1\\) の立方体があって, 
+その断面をそれぞれ極座標と直交座標で示しているだけであるが,
+この断面図のマスの広がり方を見るだけで, 少なくとも極座標における微小面積が \\(drd\theta\\) 
+とはならないことに納得できる.
+単に \\(drd\theta\\) としてしまうと, 
+\\(r\\) が大きくなればなるほど微小面積も伸びて大きくなっていってしまうだろうという想像がつく.
+
+<!--more-->
 
 ここで微小面積を導出するために, \\(r,\theta\\) をともに少しだけ動かして, その幅をそれぞれ \\(\Delta r,\Delta \theta\\) で表した, 次のような配置を考える[^2].
 
-<div style="text-align:center">
-<img src="../../../../../images/2018/September/26/smallarea.png" alt="微小面積の導出fig" />
-</div>
+![微小面積の導出](./smallarea.png "微小面積の導出")
 
 \\(r\\) の距離と \\(\theta\\) の角度で構成された面積, 
 つまり上図の \\(\Delta s\\) が微小面積に対応することがわかる. \\(\Delta s\\) の面積は, 
@@ -48,20 +49,20 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 ところで微積分では, 今もそうして行ったように, 極限の概念を多大に用いるので,
 ここで本題に入る前にその定義に関して触れておくこととする.
 
-### \\(\epsilon-\delta\\) 論法
+## \\(\epsilon-\delta\\) 論法
 
-\\(\epsilon-\delta\\) 論法とは簡単にいえば, 無限小, 無限大といった実数の範囲では定義できない曖昧な概念を, 実数値のみを用いて議論する方法で,
+\\(\epsilon-\delta\\) 論法とは簡単にいえば, 無限小, 
+無限大といった実数の範囲では定義できない曖昧な概念を, 実数値のみを用いて議論する方法で,
 同論法上で極限の式との同値関係を示した定義が次のとおりである.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="epsilonDelta-definitionOfLimit" class="disabled">\\(\epsilon-\delta\\) 論法の定義する極限の式との同値関係</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p><span id="epsilonDelta-definitionOfLimit">\\(\epsilon-\delta\\) 論文の定義する極限の式との同値関係</span></p></header>
+<div class="m-def-content">
   \\(f\\) を実数の部分集合 \\(D\\) で定義された実数値関数, \\(c\\) を \\(D\\) の極限点, \\(L\\) を実数としたとき,
   \\[\displaystyle
   \lim_{x\to c}f(x)=L\Leftrightarrow(^\forall\epsilon\gt 0,^\exists\delta\gt 0,^\forall x\in D,0\lt\left|x-c\right|\lt\delta\Rightarrow\left|f(x)-L\right|\lt\epsilon)\\]
   </div>
 </div>
-
 
 \\(D=[a,b]\\) または \\(D=\mathbb{R}\\) ならば, 閉じた実区間と実数直線は完全集合となり, \\(c\\) は自動的に極限点であるという条件が満たされるので,
 簡単のためにこれを \\(D=\mathbb{R}\\) として書き直すと, \\(\epsilon-\delta\\) 論法は
@@ -73,14 +74,11 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 つまりこの言葉で, 関数 \\(f(x)\\) が \\(x=c\\) で連続であることの定義をいうことができるのである.
 これをグラフで表すと, 次のように描けるだろう.
 関数 \\(y=f(x)\\) のとる値を赤の線として, \\(x=c\\) のときの Y 座標の値を \\(L\\) とし,
-いま \\(\epsilon\\) を適当に取ってきて, \\(c\\) からの幅 \\(\delta\\) を \\(L\\) との幅よりも小さくなるようにとると
+いま \\(\epsilon\\) を適当に取ってきて, \\(c\\) からの幅 \\(\delta\\) を \\(L\\) との幅よりも小さくなるようにとると, 次のようになる.
 
-<div style="text-align:center">
-<img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/L%C3%ADmite_01.svg" alt="limite" width="300px" />
-<p style="font-size: 0.3rem;">By User:HiTe [<a href="https://en.wikipedia.org/wiki/en:public_domain">Public domain</a>], <a href="https://commons.wikimedia.org/wiki/File:L%C3%ADmite_01.svg">from Wikimedia Commons</a></p>
-</div>
+![\\(c\\) からの幅 \\(\delta\\) を \\(L\\) との幅よりも小さくなるようにとったときの視覚的イメージ](https://upload.wikimedia.org/wikipedia/commons/d/d1/L%C3%ADmite_01.svg "c からの幅 delta を L との幅よりも小さくなるようにとったときの視覚的イメージ"){ width=300px }
 
-となり, これは, さきに書いた論理式を満たすことがわかる. 上図の \\(\epsilon\\) を見ると, この値はそこそこの大きさがあるように見えるが,
+これは, さきに書いた論理式を満たすことがわかる. 上図の \\(\epsilon\\) を見ると, この値はそこそこの大きさがあるように見えるが,
 これをさらに小さい値で取ったとしても, \\(\delta\\) をそれよりもさらに小さい幅で取ることができる(=上の論理式が満たされる).
 従って, 上で描いた関数 \\(f(x)\\) は \\(x=c\\) で連続であると言える. 逆に, \\(\delta\\) をそれよりもさらに小さい幅で取ることができないのならば, それは連続でないといえることもわかる.
 いまこれらを言うのに, 極限の概念を用いることはなかった.
@@ -93,13 +91,13 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 つまり, \\(\epsilon-\delta\\) 論法は, **どんなに小さな任意の \\(\epsilon\\) を考えても, \\(\left|x-c\right|\lt\delta\\) であるとき,
 \\(\left|f(x)-L\right|\lt\epsilon\\) になるような \\(\delta\\) があるならば, 関数 \\(f(x)\\) の \\(x\to c\\) の極限値 \\(\displaystyle\lim_{x\to c}f(x)\\) を \\(L\\) と同値とみなす**.
 
-### より一般的な変数変換
+## より一般的な変数変換
 
 極限に関して厳密な定義ができたところで, 本題に入るが,
 問題そのものを的確に把握することは, 問題を解く上で最も重要な過程であるので, 
 異なる座標系への移行という行為が一体どういうことなのかについてここで整理しておく. 
 
-#### 異なる座標系への移行とは何か
+### 異なる座標系への移行とは何か
 
 唐突であるが, \\(D\\) を \\(x,y\\) 平面の閉領域として, \\[
 \int\int_{D}(x-y)e^{x+y}dxdy, D={(x,y)|0\leq x+y\leq 2, 0\leq x-y\leq 2}
@@ -115,7 +113,7 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 2 重積分においてこの比率は, 元の領域との**面積比**に相当することになる.
 つまり, その一般解を得ることで, 異なる座標系間での移行が可能となるのである.
 
-#### 幾何学的なアプローチ
+### 幾何学的なアプローチ
 
 微積分学的な言葉を使ったアプローチを行う前に, 図形的意味を重視してまず書くこととする.
 
@@ -126,70 +124,80 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 早速であるが, \\(u\\) とそこから少し動いた \\(u+\Delta u\\), \\(v\\) とそこから少し動いた \\(v+\Delta v\\) から成る四角形について考える.
 これが, \\(u,v\\) 座標系における微小面積である. 
 この四角形のそれぞれの頂点は, 直交座標の言葉で(\\(\phi, \psi\\) 関数を使って),
+
+\\[
 \begin{array}{l}
 O(\phi(u,v),\psi(u,v)) \\
 A(\phi(u+\Delta u, v), \psi(u+\Delta u,v)) \\
 B(\phi(u,v+\Delta v), \psi(u,v+\Delta v)) \\
 C(\phi(u+\Delta u,v+\Delta v), \psi(u+\Delta,v+\Delta v))
-\end{array}
+\end{array}\\]
+
 などと書き表わせる(頂点それぞれに, 適当に記号を割り振った. また, わかり易さのために頂点 \\(C\\) を書いたが, 今回これは使わない).
 
 さて, これらの頂点から成る四角形は, 極限の基で近似的に平行四辺形となるということを予めここで言ってしまおう. 
 従って, その平行四辺形の面積 \\(S\\) を求めるために, $(\overrightarrow{OA}, \overrightarrow{OB})$ の行列式を求めることとする[^5].
 まず, $\overrightarrow{OA}$ について考える. これは単に, \\(A\\) の座標から \\(O\\) の座標を引けば良いが, これは[偏微分](#PartialDerivative)そのもので, 線形近似により,
 
+\\[
 \begin{aligned}
 \phi(u+\Delta u, v)-\phi(u,v)&\approx&\dfrac{\partial \phi}{\partial u}\Delta u \\
 \psi(u+\Delta u, v)-\psi(u,v)&\approx&\dfrac{\partial \psi}{\partial u}\Delta u
 \end{aligned}
+\\]
 
 と書ける. 従って, $\overrightarrow{OB}$ についても同様に,
 
+\\[
 \begin{aligned}
-\overrightarrow{OA}&\approx&(\dfrac{\partial \phi}{\partial u}\Delta u,\dfrac{\partial \psi}{\partial u}\Delta u) \\
-\overrightarrow{OB}&\approx&(\dfrac{\partial \phi}{\partial v}\Delta v,\dfrac{\partial \psi}{\partial v}\Delta v)
+\overrightarrow{OA}&\approx&\left(\dfrac{\partial \phi}{\partial u}\Delta u,\dfrac{\partial \psi}{\partial u}\Delta u\right) \\
+\overrightarrow{OB}&\approx&\left(\dfrac{\partial \phi}{\partial v}\Delta v,\dfrac{\partial \psi}{\partial v}\Delta v\right)
 \end{aligned}
+\\]
 
 と書ける. あとは, これらから成る行列の行列式の絶対値を求めれば良いから,
 
+\\[
 \begin{aligned}
-S&\approx&\left|{\rm det}(
+S&\approx&\left|{\rm det}\left(
 \begin{array}{cc}
 \dfrac{\partial \phi}{\partial u}\Delta u&\dfrac{\partial \phi}{\partial v}\Delta v \\
 \dfrac{\partial \psi}{\partial u}\Delta u&\dfrac{\partial \psi}{\partial v}\Delta v
 \end{array}
-)\right| \\
-&\approx&\left|{\rm det}(
+\right)\right| \\
+&\approx&\left|{\rm det}\left(
 \begin{array}{cc}
 \dfrac{\partial \phi}{\partial u}&\dfrac{\partial \phi}{\partial v} \\
 \dfrac{\partial \psi}{\partial u}&\dfrac{\partial \psi}{\partial v}
 \end{array}
-)\right|\Delta u\Delta v
+\right)\right|\Delta u\Delta v
 \end{aligned}
+\\]
 
 \\(\Delta u, \Delta v\\) の無限小の極限をとり, 微小増分の式に書き換えれば,
 
+\\[
 \begin{aligned}
-&\approx&\left|{\rm det}(
+&\approx&\left|{\rm det}\left(
 \begin{array}{cc}
 \dfrac{\partial \phi}{\partial u}&\dfrac{\partial \phi}{\partial v} \\
 \dfrac{\partial \psi}{\partial u}&\dfrac{\partial \psi}{\partial v}
 \end{array}
-)\right|dudv\tag{1}
+\right)\right|dudv\tag{1}
 \end{aligned}
+\\]
 
-\\(\\) の行列式の絶対値がヤコビアンである.
-いま求めた式 \\(\\) は, 後に述べている全微分といわれる操作に相当している.
+\\((1)\\) の行列式の絶対値がヤコビアンである.
+いま求めた式 \\((1)\\) は, 後に述べている全微分といわれる操作に相当している.
 
-#### 全微分
+### 全微分
 
 全微分は, 偏微分に関してもう一度考えることで納得できる.
 (先に線形代数的アプローチで, 偏微分は自明なものとして使ってしまったが)そもそも偏微分はなんだったかといえば, 多変数関数の特定の変数以外を定数と捉えて微分することであった. 
-つまり, 
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="PartialDerivative" class="disabled">偏微分</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p><span id="PartialDerivative">偏微分</span></p></header>
+<div class="m-def-content">
 \\(U\\) を \\(R^n\\) の開部分集合とし, 函数 \\(f:U\to R\\) に対して,
 \\({\bf x}=(x_1, \cdots, x_n) \in U\\) の \\(i\\) 番目の変数 \\(x_i\\) における
 \\(f\\) の偏微分は \\[\displaystyle
@@ -197,11 +205,14 @@ S&\approx&\left|{\rm det}(
   </div>
 </div>
 
-である. 要するに, \\(f\\) が 2 変数関数であれば, 
+要するに, \\(f\\) が 2 変数関数であれば, 
+
+\\[
 \begin{aligned}
 \frac{\partial f(x, y)}{\partial x} &:=& \lim_{\Delta \to 0} \frac{f(x + \Delta, y) - f(x, y)}{\Delta}\\
 \frac{\partial f(x, y)}{\partial y} &:=& \lim_{\Delta \to 0} \frac{f(x, y + \Delta) - f(x, y)}{\Delta}
 \end{aligned}
+\\]
 
 である. これを踏まえて, 2 変数関数における全微分を導出することを考える.
 簡単に言ってしまえば, 
@@ -211,54 +222,66 @@ S&\approx&\left|{\rm det}(
 まず変数 \\(x, y\\) が各々で微小量 \\(\Delta x,\Delta y\\) だけ変化するとき, 
 その全体の変化量 \\(\Delta f\\) を次のように表せる.
 
+\\[
 \begin{aligned}
 \Delta f&=&f(x+\Delta x, y+\Delta y)-f(x,y) \\
 &=&f(x+\Delta x, y+\Delta y)-f(x,y+\Delta y)+f(x,y+\Delta y)-f(x,y) \tag{2}
 \end{aligned}
+\\]
 
 式 \\(\\) の改行位置を変えるとわかりやすいが,
 
-\begin{aligned}
-\Delta f&=&f(x+\Delta x, y+\Delta y)-f(x,y+\Delta y) \tag{3}\\
-&+&f(x,y+\Delta y)-f(x,y) \tag{4}
-\end{aligned}
+\\[
+\Delta f=f(x+\Delta x, y+\Delta y)-f(x,y+\Delta y)
++f(x,y+\Delta y)-f(x,y) \tag{3}
+\\]
 
-いま, それぞれの部分に着目すると, \\(\\) 部分は \\(x\\) のみを変化させたときの \\(f\\) の変化量で,
-\\(\\) 部分は \\(y\\) のみを変化させたときの \\(f\\) の変化量となっていることがわかる.
-この式 \\(\\) をさらに変形させると,
+いま, それぞれの部分に着目すると, \\(f(x+\Delta x, y+\Delta y)-f(x,y+\Delta y)\\) 部分は 
+\\(x\\) のみを変化させたときの \\(f\\) の変化量で,
+\\(f(x,y+\Delta y)-f(x,y) \\) 部分は \\(y\\) のみを変化させたときの \\(f\\) 
+の変化量となっていることがわかる.
+この式 \\((2)\\) をさらに変形させると,
 
-\begin{aligned}
+\\[\begin{aligned}
 \displaystyle
 \Delta f&=&\dfrac{f(x+\Delta x, y+\Delta y)-f(x,y+\Delta y)}{\Delta x}\Delta x \\
 &+&\dfrac{f(x,y+\Delta y)-f(x,y)}{\Delta y}\Delta y
 \end{aligned}
+\\]
 
 この式が微分の定義式と酷似していることに気づけば, 
 \\(\Delta x,\Delta y\\) の無限小の極限をとり, 微小増分の式に書き換えて,
 
-\begin{aligned}
+\\[
 \displaystyle
-df&=&\lim_{dx,dy\to 0}\dfrac{f(x+dx, y+dy)-f(x,y+dy)}{dx}dx \tag{5} \\
-&+&\lim_{dx,dy\to 0}\dfrac{f(x,y+dy)-f(x,y)}{dy}dy \tag{6}
-\end{aligned}
+df=\lim_{dx,dy\to 0}\dfrac{f(x+dx, y+dy)-f(x,y+dy)}{dx}dx+
+\lim_{dx,dy\to 0}\dfrac{f(x,y+dy)-f(x,y)}{dy}dy \tag{4}
+\\]
 
 \\(\displaystyle\lim_{dx,dy\to 0}\\) を考えると,
-\\(\\) 部分はもはや \\(\displaystyle\lim_{dx,dy\to 0}\dfrac{f(x+dx, y)-f(x,y)}{dx}\\) と同然であるので,
-すべての値 \\(,\\) が, 特定以外の変数を変化させない微分となっていることがわかる.
-ここで, 記号 \\(\partial\\) を導入して, いまの式を \\[df=\dfrac{\partial f}{\partial x}dx+\dfrac{\partial f}{\partial y}dy\tag{7}\\] と書くと, 
+\\(\lim_{dx,dy\to 0}\dfrac{f(x+dx, y+dy)-f(x,y+dy)}{dx}dx\\) 部分はもはや 
+\\(\displaystyle\lim_{dx,dy\to 0}\dfrac{f(x+dx, y)-f(x,y)}{dx}\\) と同然であるので,
+すべての値 \\((4)\\) が, 特定以外の変数を変化させない微分となっていることがわかる.
+ここで, 記号 \\(\partial\\) を導入して, いまの式を 
+\\[df=\dfrac{\partial f}{\partial x}dx+\dfrac{\partial f}{\partial y}dy\tag{5}\\] と書くと, 
 これが全微分/完全微分の定義になる. 
-多変数関数 \\(f\\) の無限小変化を式 \\(\\) のように表せるとき, 多変数関数 \\(f\\) はその変数において全微分可能であるという.
+多変数関数 \\(f\\) の無限小変化を式 \\((5)\\) のように表せるとき, 
+多変数関数 \\(f\\) はその変数において全微分可能であるという.
 
-#### 全積分とヤコビアン
+### 全積分とヤコビアン
 
 先に \\(x=\phi(u,v), y=\psi(u,v)\\) としていたので, \\(x,y\\) の全微分は
+
+\\[
 \begin{aligned}
 dx&=&\dfrac{\partial\phi}{\partial u}du+\dfrac{\partial\phi}{\partial v}dv \\
 dy&=&\dfrac{\partial\psi}{\partial u}du+\dfrac{\partial\psi}{\partial v}dv
 \end{aligned}
+\\]
 
 となる. いまこれを行列で表すと,
 
+\\[
 \begin{aligned}
 \begin{pmatrix}
 dx \\
@@ -273,25 +296,28 @@ du \\
 dv
 \end{pmatrix}
 \end{aligned}
+\\]
 
 となる. この行列の行列式 
 
+\\[
 \begin{aligned}
 {\rm det}
-(
+\left(
 \begin{array}{cc}
 \dfrac{\partial\phi}{\partial u}&\dfrac{\partial\phi}{\partial v} \\
 \dfrac{\partial\psi}{\partial u}&\dfrac{\partial\psi}{\partial v}
 \end{array}
-)
+\right)
 \end{aligned}
-
+\\]
 はヤコビアンといわれ(\\(\\) と同じ), \\(\dfrac{\partial(\phi,\psi)}{\partial{u,v}}\\), また \\({\rm J}(u, v)\\) と表される. 一般に,
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="Jacobian" class="disabled">ヤコビアン</a></div>
-  <div class="panel-body" style="overflow:scroll">
-  \\(n\\) 変数関数の全微分を行列で表した式
+<div class="m-def">
+<header class="m-def-title"><p><span id="Jacobian">ヤコビアン</span></p></header>
+<div class="m-def-content">
+\\(n\\) 変数関数の全微分を行列で表した式
+\\[
 \begin{aligned}
 \begin{pmatrix}
 f_1 \\
@@ -309,22 +335,26 @@ dx_1 \\
 dx_n
 \end{pmatrix}
 \end{aligned}
+\\]
 の行列の行列式
+\\[
 \begin{aligned}
-{\rm det}(
+{\rm det}\left(
 \begin{array}{ccc}
 \dfrac{\partial f_1}{\partial x_1}&\cdots&\dfrac{\partial f_1}{\partial x_n} \\
 \vdots&\ddots&\vdots \\
 \dfrac{\partial f_n}{\partial x_1}&\cdots&\dfrac{\partial f_n}{\partial x_n}
-\end{array})
+\end{array}\right)
 \end{aligned}
+\\]
 を \\(\dfrac{\partial(f_1,\cdots,f_n)}{\partial(x_1,\cdots,x_n)}\\) また \\({\rm J}(x_1,\cdots,x_n)\\) と書く.
-  </div>
+</div>
 </div>
 
 冒頭で述べた直交座標から極座標への変換をこのヤコビアンを使って導くならば,
 まず二次元直交座標系から二次元極座標系への対応関係は, 
 
+\\[
 \begin{aligned}
 \begin{pmatrix}
 x \\ y
@@ -333,15 +363,18 @@ x \\ y
 r \cos\theta \\  r \sin\theta
 \end{pmatrix}
 \end{aligned}
+\\]
 
 で, 二次元極座標の変数は \\(r, \theta\\) なのでこれをヤコビアンに与えて,
 
+\\[
 \begin{aligned}
-J(r,\theta)={\rm det}(\begin{array}{cc}
+J(r,\theta)={\rm det}\left(\begin{array}{cc}
 \cos\theta & -r\sin\theta \\
 \sin\theta & r\cos\theta
-\end{array})=r
+\end{array}\right)=r
 \end{aligned}
+\\]
 
 一般の 2 重積分は
 
@@ -353,17 +386,22 @@ J(r,\theta)={\rm det}(\begin{array}{cc}
 
 も, \\(u=x+y, v=x-y\\) とおいてヤコビアンに与えれば,
 
+\\[
 \begin{aligned}
-{\rm J}(u,v)&=&{\rm det}(\begin{array}{rr} \dfrac{1}{2}&\dfrac{1}{2} \\
-\dfrac{1}{2}&-\dfrac{1}{2}\end{array})&=&-\dfrac{1}{2}
+{\rm J}(u,v)&=&{\rm det}\left(\begin{array}{rr} \dfrac{1}{2}&\dfrac{1}{2} \\
+\dfrac{1}{2}&-\dfrac{1}{2}\end{array}\right)&=&-\dfrac{1}{2}
 \end{aligned}
+\\]
 
 絶対値を考えれば良いので,
 
+\\[
 \begin{aligned}
-&=&\left|{\rm det}(\begin{array}{rr} \dfrac{1}{2}&\dfrac{1}{2} \\ \dfrac{1}{2}&-\dfrac{1}{2}\end{array})\right|&=&\dfrac{1}{2}
+&=&\left|{\rm det}\left(\begin{array}{rr} \dfrac{1}{2}&\dfrac{1}{2} \\ \dfrac{1}{2}&-\dfrac{1}{2}\end{array}\right)\right|&=&\dfrac{1}{2}
 \end{aligned}
+\\]
 
+\\[
 \begin{aligned}
 \therefore\int\int_D(x-y)e^{x+y}dxdy&=&\int^2_0\int^2_0ve^u\dfrac{1}{2}dudv \\
 &=&\dfrac{1}{2}\int^2_0\left[ve^u\right]^2_0dv \\
@@ -371,8 +409,9 @@ J(r,\theta)={\rm det}(\begin{array}{cc}
 &=&\dfrac{1}{2}\left[\dfrac{e^2}{2}v^2-\dfrac{1}{2}v^2\right]^2_0 \\
 &=&e^2-1
 \end{aligned}
+\\]
 
-### 参考文献
+## 参考文献
 
 <ul>
 <li>"<a href="http://mathforum.org/library/drmath/view/74707.html">Why Does dxdy = rdrd(theta)? Why Not Just drd(theta)?</a>" 2018 年 10 月 4 日アクセス.</li>

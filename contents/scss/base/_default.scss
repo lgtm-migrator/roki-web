@@ -157,3 +157,11 @@ span.both-lined:after {
     border-image: linear-gradient(to right, $grey-light 0% 50%, transparent 100%);
     border-image-slice: 1;
 }
+
+.katex-display > .katex {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    text-align: center;
+}
+

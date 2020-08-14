@@ -61,6 +61,7 @@ $f(x)=0$ となる関数 $f(x)$ とその導関数 \\(f'(x)\\) 及びニュー�
 </div>
 <br />
 
+<!--more-->
 
 これで終わってしまうと何とも寂しいので, 一応簡単にニュートン法について書く.
 ニュートン法はとても有名な方程式の近似解を求める方法の 1 つである.
@@ -94,7 +95,7 @@ $f(x)=0$ となる関数 $f(x)$ とその導関数 \\(f'(x)\\) 及びニュー�
 1 変数のニュートン法の場合と同様に漸化式を求めていけば, 
 多変数関数に対するニュートン法の漸化式も関数の値をその傾きで割る部分が出てくるが,
 いま変数は複数であるので, 各方向への微小変化に対する変化量を求める必要がある. 
-これを求めるには[全微分](https://falgon.github.io/roki.log/posts/2018/10月/04/jacobian/#mjx-eqn-eq%3Asixth)をすればよいので, 結局
+これを求めるには[全微分](/roki.log/2018/10/4/jacobian/#mjx-eqn-eq)をすればよいので, 結局
 
 \\[
 (x_{n+1},y_{n+1})=(x_{n},y_{n})^T-{\partial f(x_{n},y_{n})}^{-1}(f_{1}(x_{n}, y_{n}),f_{2}(x_{n},y_{n}))^T
@@ -102,12 +103,14 @@ $f(x)=0$ となる関数 $f(x)$ とその導関数 \\(f'(x)\\) 及びニュー�
 
 ここで
 
+\\[
 \begin{aligned}\partial f(x,y):=
 (\begin{array}{cc}
 \frac{\partial f_{1}(x,y)}{\partial x} & \frac{\partial f_{1}(x,y)}{\partial y} \\
 \frac{\partial f_{2}(x,y)}{\partial x} & \frac{\partial f_{2}(x,y)}{\partial y}
 \end{array})
 \end{aligned}
+\\]
 
 なお \\(\partial f(x,y)\\) はヤコビ行列といわれる. 
 実際にコンピュータで計算する際には, \\({\partial f(x_{n},y_{n})}^{-1}(f_{1}(x_{n}, y_{n}),f_{2}(x_{n},y_{n}))^T\\) を求めるのは計算量と誤差の観点から見て困難なので,
@@ -117,14 +120,16 @@ $f(x)=0$ となる関数 $f(x)$ とその導関数 \\(f'(x)\\) 及びニュー�
 \\(y-y_{1}=\frac{y_{2}-y_{1}}{x_{2}-x_{1}}(x-x_{1})\\) を用いて描いている.
 具体的には接線の関数を \\(g(x^{\star})\\) としたとき, 接点と \\(y_{2}=0\\) であるときの 2 点 \\((x,f(x)),(x-\frac{f(x)}{f'(x)},0)\\) を使って
 
+\\[
 \begin{aligned}
 g(x^{\star})&=&\frac{f(x)}{\frac{f(x)}{f'(x)}}(x^{\star}-x+\frac{f(x)}{f'(x)}) \\
 &=&f'(x)(x^{\star}-x+\frac{f(x)}{f'(x)}) \\
 &=&f'(x)x^{\star}-f'(x)x+f(x)
 \end{aligned}
+\\]
 
 と導ける. 
 
-[^1]: 以前のエントリ, [ベジェ曲線](https://falgon.github.io/roki.log/posts/2018/%204月/20/Bezier-curve/)では d3.js を用いて二次ベジェ曲線が描かれていく過程を書いた.
+[^1]: 以前のエントリ, [ベジェ曲線](/roki.log/posts/2018/04/20/Bezier-curve/)では d3.js を用いて二次ベジェ曲線が描かれていく過程を書いた.
 [^2]: [実装](https://github.com/falgon/roki.log/blob/gh-pages/js/newtonRaphson.js). ここで懺悔すると, 実はグラフの描画の実装についてはそこそこ手抜きをしている. 例えば解が第 1, 2 象限であるものの関数 \\(f(x)\\) の値の多くが第 3, 4 象限にあると接線が見えない. 勿論計算結果そのものは影響しない.
-[^3]: 連続性に関する論法 \\(\to\\) [\\(\epsilon-\delta\\) 論法](https://falgon.github.io/roki.log/posts/2018/10月/04/jacobian/#epsilonDelta-definitionOfLimit).
+[^3]: 連続性に関する論法 \\(\to\\) [\\(\epsilon-\delta\\) 論法](/roki.log/2018/10/4/jacobian/#epsilonDelta-definitionOfLimit).
