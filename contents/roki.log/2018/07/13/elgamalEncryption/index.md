@@ -969,9 +969,9 @@ Just "roki"
 
 [^1]: 既約多項式を使うと $p$ が素数でなくても($p$ が位数の素数のべき乗であれば)構成できるが, 本エントリの主題と大きく逸れてしまうため, とくに触れない.
 [^2]: 言葉の[参照](#ref4).
-[^3]: これに関しては, [数論的関数の用語と例](/roki.log/2018/07/09/arithmeticFunction/)で説明している.
+[^3]: これに関しては, [数論的関数の用語と例](/roki.log/2018/07/9/arithmeticFunction/)で説明している.
 [^4]: [参照](#ref5).
-[^5]: エルガマル暗号では素数を扱うこととなるので, 本エントリでは, フェルマーの小定理の一般形であるオイラーの定理($a^{\phi(n)}\equiv 1\pmod{n}\ (\gcd(a, n) = 1, a,n \in \mathbb{Z}^{+})$)に関しては特に触れていないが, 後に[別のエントリ](/roki.log/2018/07/25/EulersAndCarmichelsTheorem/)として取り上げた.
+[^5]: エルガマル暗号では素数を扱うこととなるので, 本エントリでは, フェルマーの小定理の一般形であるオイラーの定理($a^{\phi(n)}\equiv 1\pmod{n}\ (\gcd(a, n) = 1, a,n \in \mathbb{Z}^{+})$)に関しては特に触れていないが, 後に[別のエントリ](/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/)として取り上げた.
 [^6]: この「位数」という単語にはいくつか用例があるので注意. 「<i>群には、群の位数と、元の位数の２通りがあります。 群の位数は、体と同じく、要素の個数を表しますが、 元 $x$ の位数とは $x^n=単位元 e$ となる最小の自然数 $n$ のことです。 元 $x$ の位数が $n$ ならば、$x$ の生成する巡回部分群 $< x > = { e, x, x2, ... }$ の群位数も $n$ になることから同じ用語を使っているようです。</i>」[有限体― 塩田研一覚書帳 ―](#ref9)
 [^7]: [このコード](#thiscode)では, 先頭から 100 個の素数 $p$ を位数とした $GF(p)$ の原始元を求めているが, やはり大きな素数 $p$ に対しては, とくに時間がかかる. このような $a$ を法とする原始元を計算する単純な一般式は知られていない(参照1: [von zur Gathen & Shparlinski 1998](#ref1), pp. 15–24: <i>"One of the most important unsolved problems in the theory of finite fields is designing a fast algorithm to construct primitive roots."</i> 参照2: [Robbins 2006, p. 159](#ref2): <i>"There is no convenient formula for computing [the least primitive root]."</i>)が, より高速に見つけ出す方法として確率的アルゴリズムがいくつか知られている.
 [^8]: 図は python, matplotlib 等で[生成](https://gist.github.com/falgon/97dc3c1a399422a3ab2818d01b70a14b).

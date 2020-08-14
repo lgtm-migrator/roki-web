@@ -46,7 +46,7 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 これは[双対](#dual_def)の原理という公理である.
 
 <div class="m-def">
-<header class="m-def-title"><p>双対の原理</p></header>
+<header class="m-def-title"><p><span id="dual_def">双対の原理</span></p></header>
 <div class="m-def-content">
 ブール代数で成立する文/式は, そこに現れるすべての \\(\lor ,\land,0,1\\) をそれぞれ \\(\land,\lor ,1,0\\) 
 で置き換えても成立する.

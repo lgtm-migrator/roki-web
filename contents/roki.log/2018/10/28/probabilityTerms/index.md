@@ -454,7 +454,7 @@ E\left[s^2\right]&=&\sigma^2-\dfrac{\sigma^2}{n}\\
 
 ここで, \\(x-\mu=y\\) と変数変換すると 
 \\[\dfrac{1}{\sqrt{2\pi}\sigma}\int_{-\infty}^{\infty}\exp(-\dfrac{y^2}{2\sigma^2})dy\\]
-この積分部分は[ガウス積分の公式](/roki.log/2018/%09/26/GaussianIntegral/#SimilarGaussianIntegral1)より,
+この積分部分は[ガウス積分の公式](/roki.log/2018/09/26/GaussianIntegral/#SimilarGaussianIntegral1)より,
 \\(\sqrt{2\sigma^2\pi}\\) となり \\(f(x)\\) を全区間で積分すると 1 となる. 
 よって, \\((2)\\) は規格化条件を満たす. 
 </div>

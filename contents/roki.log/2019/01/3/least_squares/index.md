@@ -299,7 +299,7 @@ n & \displaystyle\sum^{n}_{i=1}x_i & \cdots & \displaystyle\sum^{n}_{i=1}x^m_i \
 
 先のデータは直線的であったので, 今度は曲線が引けそうなデータセットとして, \\(x_i=i-1, y_i=\sin(x_i)+\epsilon, i=1,2,\cdots,11\\) に対し, フィッティングを試行してみる事とする.
 ここで \\(\epsilon\\) は \\(\mathrm{N}(0, 0.2)\\) の正規分布に従う確率変数である.
-次のアニメーションでは, 次数 \\(1\leq m\leq 9\\) に応じた近似の遷移を観察できる(LU 分解による計算 \\(\to\\) [解説](/roki.log/2019/01/01/LUDecomposition/)).
+次のアニメーションでは, 次数 \\(1\leq m\leq 9\\) に応じた近似の遷移を観察できる(LU 分解による計算 \\(\to\\) [解説](/roki.log/2019/01/1/LUDecomposition/)).
 
 ![lenear equations](./out.gif "lenear equations"){ width=600px }
 
