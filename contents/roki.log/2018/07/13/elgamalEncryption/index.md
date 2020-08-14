@@ -10,31 +10,34 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 それに関連する諸々の前提についてもふまえて, 一度書くことにした. 
 また, その処理系を[実装した](#impl).
 本エントリでは, 同暗号プロトコルの話の前にまず前提を示し, 
-その後, 実装するという観点から見た要点を示す.
+その後, 実装の観点から見た要点を示す.
 
-<i>※ 内容にはできる限り注意を払っておりますが, 筆者は暗号プロトコル等に関する専門家ではないため, 注意してください. 間違った箇所, 不自然な箇所等があれば, ご報告いただけると幸いです.</i>
+<!--more-->
 
-### ユークリッドの互除法
+<br><i>※ 内容にはできる限り注意を払っておりますが, 筆者は暗号プロトコル等に関する専門家ではないため, 注意してください. 間違った箇所, 不自然な箇所等があれば, ご報告いただけると幸いです.</i>
+
+## ユークリッドの互除法
 
 これは, とても有名なアルゴリズムだと思われるので, 
 わざわざ特別取り上げる必要はないようにも思ったのだが,
 本エントリでは最大公約数を存分に利用するので, これを自明として取り上げないのも頂けない. 
-したがって, 簡単に説明, 証明をして終わりとする. ユークリッドの互除法は,
+したがって, 簡単に説明, 証明をして終わりとする. ユークリッドの互除法は以下で定義される.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="euclidean" class="disabled">ユークリッドの互除法</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p><span id="euclidean">ユークリッドの互除法</span></p></header>
+<div class="m-def-content">
 \\(2\\) つの自然数 \\(a, b\in\mathbb{N}\\) の最大公約数を求めるアルゴリズム.
   </div>
 </div>
 
-である. 最大公約数を求める方法として, 素因数分解をひたすら行うのには, 計算量的に限界がある.
+最大公約数を求める方法として, 素因数分解をひたすら行うのには, 計算量的に限界がある.
 そこで, 古代ギリシャの数学者ユークリッドは, 
 この問題を幾何学的に考察した(図示された例は調べるとたくさんある).
 たとえば $a=12345678,\ b=87654321$
 の最大公約数を求めるとする(以下これを $\gcd(a,b)=c$ と書く).
 これをユークリッドの互除法は,
-\begin{array}{rr}
+
+\\[\begin{array}{rr}
 87654321&=&12345678\cdot 7&+&1234575\\
 12345678&=&1234575\cdot 9&+&1234503\\
 1234575&=&1234503&+&72\\
@@ -42,16 +45,20 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 72&=&63&+&9\\
 63&=&\underbrace{9}_{c}\cdot 7
 \end{array}
+\\]
 
 より \\(\gcd(a,b)=9\\) というように解く. これで最大公約数を求まる根拠を以下証明する.
 
-<div class="panel panel-default">
-  <div class="panel-heading lemma"><a class="disabled" id="lemma1">補題 1</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-lem">
+<header class="m-lem-title"><p>補題 1</p></header>
+<div class="m-lem-content">
 \\(\gcd(a,b)=\gcd(a-b, b)=\gcd(a-2b,b)=\gcd(a-3b,b)=\cdots\ (a, b\in\mathbb{N})\\) が成り立つ.
 </div>
 </div>
 
+<div class="m-proof">
+<header class="m-proof-title"><p><span id="lemma1">補題 1</span></p></header>
+<div class="m-proof-content">
 **証明**: $a,\ b$ の公約数を $d$ とすると, 
 $d\mid a\land d\mid b \Rightarrow d\mid a-b$.
 また $a-b$ と $b$ の公約数を $e$ とすると, $e\mid a-b\land e\mid b\Rightarrow e\mid (a-b)+b=e\mid a$.
@@ -59,19 +66,26 @@ $d\mid a\land d\mid b \Rightarrow d\mid a-b$.
 \\(\therefore\\) 公約数の全体が一致するから, 最大公約数も一致して, 
 $\gcd(a,b)=\gcd(a-b,b)$. これを繰り返すと \\[
 \gcd(a,b)=\gcd(a-b,b)=\gcd(a-2b,b)=\gcd(a-3b,b)=\cdots
-\\] \\(\square\\)
+\\]
+</div>
+</div>
 
-<div class="panel panel-default">
-  <div class="panel-heading prop"><a class="disabled" id="prop1">命題 1</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-prop">
+<header class="m-prop-title"><p><span id="prop1">命題 1</span></p></header>
+<div class="m-prop-content">
   ユークリッドの互除法により \\(c\\) が最大公約数となる.
-  </div>
-  </div>
+</div>
+</div>
 
-**証明**: \\(a, b\in\mathbb{Z}^{+}\\) があるとき, 除算は
+<div class="m-proof">
+<header class="m-proof-title"><p>命題 1</p></header>
+<div class="m-proof-content">
+\\(a, b\in\mathbb{Z}^{+}\\) があるとき, 除算は
 \\(a=bq+r,\ 0\leq r\lt b\\) と表せる.
 [補題 1](#lemma1) より, $\gcd(a,b)=\gcd(a-bq,b)=\gcd(b,r)$ がいえる.
-ここで, 
+ここで,
+
+\\[
 \begin{array}{ll}
 a&=&bq_1+r_1& (0\lt r_1\lt b),& \gcd(a,b)&=&\gcd(b,r_1)\\
 b&=&r_1q_2+r_2& (0\lt r_2\lt r_1),& \gcd(b,r_1)&=&\gcd(r_1,r_2)\\
@@ -82,14 +96,21 @@ r_i&=&r_{i+1}q_{i+2}+r_{i+2}& (0\lt r_{i+2}\lt r_{i+1}),& \gcd(r_i,r_{i+1})&=&\g
 r_{n-2}&=&r_{n-1}q_n+r_n&(0\lt r_n\lt r_{n-1}),&\gcd(r_{n-2},r_{n-1})&=&\gcd(r_{n-1},r_n)\\
 r_{n-1}&=&r_nq_{n+1}&& \gcd(r_{n-1},r_n)&=&r_n
 \end{array}
-として, $(n+1)$ 回で割り切れたとすると, $r_n$ が最大公約数 $c$ となる. \\(\square\\)
+\\]
 
-### ガロア体
+として, $(n+1)$ 回で割り切れたとすると, $r_n$ が最大公約数 $c$ となる. 
+</div>
+</div>
+
+## ガロア体
 
 ある集合に対して, 加法および乗法における結合律の満足と分配律の成立が両立する演算を定義する. この公理を体の公理といい,
-それを満たす集合を体, とくに位数が有限である体を有限体, ガロア体といい, これを素数 $p$ を位数として $GF(p)$ と書く. 
+それを満たす集合を体, とくに位数が有限である体を有限体, ガロア体といい, 
+これを素数 $p$ を位数として $GF(p)$ と書く. 
 
-このような体は位数を素数で構成すると簡単に構成でき[^1], これを素体という. いま, $k\in\mathbb{Z}$ と合同な整数の全体を $\overline{k}$ と表し, これを $k$ を含む剰余類という.  なお, 一般に $a\equiv b\pmod{c} \Leftrightarrow \overline{a}=\overline{b}$ である.
+このような体は位数を素数で構成すると簡単に構成でき[^1], これを素体という. 
+いま, $k\in\mathbb{Z}$ と合同な整数の全体を $\overline{k}$ と表し, これを $k$ を含む剰余類という.  
+なお, 一般に $a\equiv b\pmod{c} \Leftrightarrow \overline{a}=\overline{b}$ である.
 ガロア体は, \\(\mathbb{Z}/p\mathbb{Z}\\)(以下これを簡単のため, \\(\mathbb{Z}_p\\) と書く.) を整数を $p$ で割った余りから構成される素体として, 次のように構成することで, その同型となる.
 \\[\mathbb{Z}_p={\overline{0},\cdots, \overline{p-1} \pmod{p} }\\]
 
@@ -110,27 +131,28 @@ Prelude Data.Bits> map (`mod` 2) (finitef 2) == (map (.&. 1) $ finitef 2)
 True
 ```
 
-### オイラーの $\phi$ 関数
+## オイラーの $\phi$ 関数
 
 オイラーの $\phi$ (トーシェント)関数は, 正整数 $n$ に対する $1$ から $n$ までの自然数のうち
 $n$ と互いに素なものの個数を $\phi(n)$ として与えることによって定まる乗法的関数[^3]である. 
 この関数は \\(p_i\\) を $n$ の素因数として, 次の式で定義できる[^4].
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="totientf" class="disabled">オイラーの \\(\phi\\) 関数</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p><span id="totientf">オイラーの \\(\phi\\) 関数</span></p></header>
+<div class="m-def-content">
 \\[\phi(n)=n\displaystyle\prod_{i=1}^k(1-\dfrac{1}{p_i})\\]
   </div>
 </div>
 
-
-例えば $\phi(14) = 6$ である($14 = 2 \cdot 7$ だから, $14(1-\dfrac{1}{2})(1-\dfrac{1}{7}) = 6$. これを列挙すると, $1,3,5,9,11,13$). 
+例えば $\phi(14) = 6$ である($14 = 2 \cdot 7$ だから, 
+$14(1-\dfrac{1}{2})(1-\dfrac{1}{7}) = 6$. これを列挙すると, $1,3,5,9,11,13$). 
 特に, $n$ が素数である場合, $1$ から $n-1$ のうち $n$ の素因数である 
-$n$ を因数としてもつことはないから $\phi(n) = n - 1\ (n\ is\ prime)$ が成り立つ.
+$n$ を因数としてもつことはないから \\(n\\) が素数のとき $\phi(n) = n - 1$ が成り立つ.
 
-以下で, 先頭から $100$ 個の素数 
-\\(p_i=p_0,p_1,p_2,\cdots,p_{99}\ (p\ is\ prime)\\)
+以下で, \\(p\\) が素数のとき, 先頭から $100$ 個の素数 
+\\(p_i=p_0,p_1,p_2,\cdots,p_{99}\\)
 に対して, \\(\phi(p_i)=p_i - 1\\) であることを確認する. 
+
 ```Haskell
 {-# OPTIONS_GHC -Wall #-}
 module Main where
@@ -156,11 +178,11 @@ main :: IO ()
 main = print $ and $ take 100 [totient p == (p - 1) | p <- primes]
 ```
 
-### フェルマーの小定理
+## フェルマーの小定理
 
-<div class="panel panel-default">
-  <div class="panel-heading lemma"><a class="disabled" id="lemma2">補題 2</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-lem">
+<header class="m-lem-title"><p><span id="lemma2">補題 2</span></p></header>
+<div class="m-lem-content">
 奇素位数 $p$ のガロア体 \\(GF(p)\\) の既約剰余類郡を 
 \\(\mathbb{Z}^{\ast}_{p}={\overline{1},\overline{2},\cdots,\overline{p-1}}\\) としたとき, 
 \\(^\exists b,^\exists c \in \mathbb{Z}^{\ast}_{p} (b \neq c)\\) があって,
@@ -169,22 +191,34 @@ main = print $ and $ take 100 [totient p == (p - 1) | p <- primes]
 </div>
 </div>
 
-**証明**: $\gcd(a, p) = 1$ であるから $ba\equiv ca\pmod{p}$ の両辺から $a$ を約せて $b\equiv c\pmod{p}$. 
-$b < p$ および $c < p$ から従い $b = c$ となり不条理. \\(\square\\)
-
-<div class="panel panel-default">
-  <div class="panel-heading theo"><a id="fermatstheorem" class="disabled">フェルマーの小定理</a></div>
-  <div class="panel-body" style="overflow:scroll">\\(p\\) が素数 \\(\Rightarrow\ ^\forall a\ (\gcd(a,p) = 1)\\) に対して, \\[a^{p-1}\equiv 1\pmod{p}\tag{2}\\]
-  </div>
+<div class="m-proof">
+<header class="m-proof-title"><p><span id="lemma2">補題 2</span></p></header>
+<div class="m-proof-content">
+$\gcd(a, p) = 1$ であるから $ba\equiv ca\pmod{p}$ の両辺から $a$ を約せて $b\equiv c\pmod{p}$. 
+$b < p$ および $c < p$ から従い $b = c$ となり不条理.
+</div>
 </div>
 
-**証明**: [補題 2](#lemma1) より従って, \\(\mathbb{Z}^{\ast}_{p}\\) の各要素と $a$ の積は全て異なり, かつ \\(\mathbb{Z}^{\ast}_{p}\\) はそれらで尽くされる. 
+<div class="m-thm">
+<header class="m-thm-title"><p><span id="fermatstheorem">フェルマーの小定理</span></p></header>
+<div class="m-thm-content">
+  \\(p\\) が素数 \\(\Rightarrow\ ^\forall a\ (\gcd(a,p) = 1)\\) に対して, \\[a^{p-1}\equiv 1\pmod{p}\tag{2}\\]
+</div>
+</div>
+
+<div class="m-proof">
+<header class="m-proof-title"><p>フェルマーの小定理</p></header>
+<div class="m-proof-content">
+[補題 2](#lemma2) より従って, \\(\mathbb{Z}^{\ast}_{p}\\) の各要素と $a$ の積は全て異なり, 
+かつ \\(\mathbb{Z}^{\ast}_{p}\\) はそれらで尽くされる. 
 また, それらの積の $\pmod{p}$ は $\pmod{p}$ の既約代表系 \\({1, 2, \cdots, p-1}\\) のすべての積と合同:
 $$1\cdot 2\cdot\cdots\cdot(p-1)\equiv (a)(2a)\cdots(p-1)a\pmod{p}$$
 $$(p-1)!\equiv (p-1)!\cdot a^{p-1}\pmod{p}$$
 $\gcd((p-1)!, p) = 1$ であるから, 両辺からこれを約し, 
 
-\\[a^{p-1}\equiv 1\pmod{p} \\] \\(\square\\)
+\\[a^{p-1}\equiv 1\pmod{p} \\]
+</div>
+</div>
 
 簡単に確認[^5].
 
@@ -194,16 +228,20 @@ Prelude Data.Numbers.Primes> let fermatLT :: Integer -> [Integer]; fermatLT p = 
 Prelude Data.Numbers.Primes> and $ map ((all (1==)) . fermatLT) $ take 50 primes
 True
 ```
-### 原始元
-<div class="panel panel-default">
-  <div class="panel-heading def"><a class="disabled">位数</a></div>
-  <div class="panel-body" style="overflow:scroll">
-\\(n \in\mathbb{Z}^{+},\ a \in\mathbb{Z},\ \gcd(n, a) = 1\\) に対して \\(a^d\equiv 1\pmod{n}\\) のような最小の \\(d\in\mathbb{Z}^{+}\\) を \\(a\\) の\\(\pmod{n}\\) での位数<sup id="fnref-6"><a class="footnote-ref" href="#fn-6">6</a></sup>といい, これを \\(d=\mathrm{ord}_n(a)\\) と書く. 
-  </div>
+## 原始元
+
+<div class="m-def">
+<header class="m-def-title"><p>位数</p></header>
+<div class="m-def-content">
+\\(n \in\mathbb{Z}^{+},\ a \in\mathbb{Z},\ \gcd(n, a) = 1\\) に対して \\(a^d\equiv 1\pmod{n}\\) 
+のような最小の \\(d\in\mathbb{Z}^{+}\\) を \\(a\\) の\\(\pmod{n}\\) での位数といい, 
+これを \\(d=\mathrm{ord}_n(a)\\) と書く. 
+</div>
 </div>
 
 ただし, 以下添え字 $n$ は明確である場合には省くこととする. 
-たとえば $p=7$ としたときの $1 \leq a\leq 6$ の $a$ の冪$\pmod 7$ を一覧にすると次のとおりである.
+たとえば $p=7$ としたときの $1 \leq a\leq 6$ の $a$ の冪 $\pmod 7$ を一覧にすると次のとおりである.
+
 ```Haskell
 Prelude> let f p = foldr (\x acc -> [a^x `mod` p | a <- [1..p-1]] : acc) [] [1..p]
 Prelude> mapM_ print $ f 7
@@ -215,23 +253,28 @@ Prelude> mapM_ print $ f 7
 [1,1,1,1,1,1]
 [1,2,3,4,5,6]
 ```
-6 乗ですべて $\equiv 1\pmod{7}$ というのが, 先に述べたフェルマーの小定理 $$ であるが,
+
+6 乗ですべて $\equiv 1\pmod{7}$ というのが, 先に述べたフェルマーの小定理であるが,
 それよりも前に $\equiv 1\pmod{7}$ となる数があることがわかる.
 これをいま述べた \\(\mathrm{ord}\\) で表せば, 
-\\(\mathrm{ord}(1)=1, \mathrm{ord}(2)=3, \mathrm{ord}(3)=6, \mathrm{ord}(4)=3, \mathrm{ord}(5)=6, \mathrm{ord}(6)=2\\) である. 
-また, この結果が $\phi(6) = 2$ と整合であることが確認できる. \\(\mathrm{ord}(3), \mathrm{ord}(5)\\) が他と相違なる部分は, $1$ から $6$ までの数がちょうど $1$ 回ずつ現れることである. このように,
+\\(\mathrm{ord}(1)=1, \mathrm{ord}(2)=3, \mathrm{ord}(3)=6, 
+\mathrm{ord}(4)=3, \mathrm{ord}(5)=6, \mathrm{ord}(6)=2\\) である. 
+また, この結果が $\phi(6) = 2$ と整合であることが確認できる. 
+\\(\mathrm{ord}(3), \mathrm{ord}(5)\\) が他と相違なる部分は, 
+$1$ から $6$ までの数がちょうど $1$ 回ずつ現れることである. このように,
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="primitive_root" class="disabled">原始根</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p><span id="primitive_root">原始根</p></header>
+<div class="m-def-content">
 \\(\pmod{n}\\) での位数が \\(\phi(n)\\) である整数
-  </div>
+</div>
 </div>
 
 を $n$ の原始根という.
 
 同様に, 原始元とは, 奇素数 $p$ と元 $a \in \mathbb{Z}^{+} (a < p)$ があって,
-$p$ を法とする剰余類で累乗していくと, $1$ から $p-1$ のすべての元をつくす郡(巡回郡)を構成する元 $a$ をいう.
+$p$ を法とする剰余類で累乗していくと, 
+$1$ から $p-1$ のすべての元をつくす郡(巡回郡)を構成する元 $a$ をいう.
 これは, 
 
 * $a^{p-1}$ で初めて $a^{n} \equiv 1\pmod{p}$ となるような元 $a$(生成元であるから)
@@ -240,6 +283,7 @@ $p$ を法とする剰余類で累乗していくと, $1$ から $p-1$ のすべ
 ともいえる. 
 
 とくになにも考えず, 与えられた素数 $p$ に対する $GF(p)$ の原始元を素朴に生成してみる.
+
 ```Haskell
 {-# OPTIONS_GHC -Wall #-}
 module Main where
@@ -263,15 +307,18 @@ main = mapM_ (print . primitiveElem) $ take 100 $ drop 1 primes
 <a href="https://wandbox.org/permlink/1ESn07fY95vwqEpv" id="thiscode">実行結果</a>[^7]. 
 上の冪の一覧のとおり, 素数 $p$ を位数とするガロア体はその原始元を $a$ として
 $$GF(p)= \left\{0, 1, a, a^{2}, \cdots, a^{p-2}\tag{3}\right\}$$ と構成されることがわかる.
-$p=7$ であれば, 原始根は $\phi(6)=2$ であり, その $1$ つは $g=3$ であるからこの冪乗 $n\equiv g^{f}\pmod{7}$ で $p-1=6$ までの全て, 
+$p=7$ であれば, 原始根は $\phi(6)=2$ であり, その $1$ つは $g=3$ であるからこの冪乗 
+$n\equiv g^{f}\pmod{7}$ で $p-1=6$ までの全て, 
 すなわち先の \\(\mathrm{ord}(3)\\) の縦の列が得られる.
+
 ```Haskell
 Prelude> [3^x `mod` 7 | x <- [1..6]]
 [3,2,6,4,5,1]
 ```
 
-### 離散対数問題
-$$ を前提とし $g^{f}\equiv n\pmod{p}\ (1\leq n \leq p-1)$ を満たす
+## 離散対数問題
+
+$(3)$ を前提とし $g^{f}\equiv n\pmod{p}\ (1\leq n \leq p-1)$ を満たす
 $f$ は $0\leq f\leq p-2$ のうち, ただ $1$ つだけ存在する. これを $n$ の指数または離散対数といい, 
 \\(f=\log_{g}n\pmod{p}\\) および \\(\mathrm{Ind}f=\mathrm{Ind}_{g}(n)\\) と書く. 
 この $n$ を真数, または離散真数という. 
@@ -280,10 +327,11 @@ $f$ は $0\leq f\leq p-2$ のうち, ただ $1$ つだけ存在する. これを
 \\(\mathrm{Ind}f=\mathrm{Ind}_{g}(n)\\) を $y$ 軸として,
 それぞれの各離散対数をプロットした図[^8]である.
 
-![離散対数を視覚化した図](../../../../../images/2018/June/fig.png)
+![離散対数を視覚化した図](./fig.png)
 
 これを見てもわかるように, $f$ の値に規則性は見られず, 予測困難な振る舞いをすることがわかる.
 例えば, $p=19,\ g=2,\ n=3$ とすると
+
 ```Haskell
 Prelude> head [f | f <- [0..17], 2^f `mod` 19 == 3 `mod` 19]
 13
@@ -296,7 +344,7 @@ Prelude> head [f | f <- [0..17], 2^f `mod` 19 == 3 `mod` 19]
 いま述べたように $g$ と $n$ から $f$ を求めることは困難であるという事実を利用することで,
 公開鍵暗号方式としての成立および暗号学的安全性の担保を確立する[^9].
 
-<h3><a id="genencanddec" class="disabled">暗号の生成と解読</a></h3>
+<h2><a id="genencanddec" class="disabled">暗号の生成と解読</a></h2>
 
 以上を前提として, 暗号の生成とその解読方法について示す.
 受信者は下準備として次の手順で公開鍵と秘密鍵を生成する:
@@ -346,31 +394,37 @@ $10q\equiv 1\pmod{97}$ だから $q\equiv\dfrac{1}{10}\equiv 68\pmod{97}$.
 解読の段階で $a=7$ を知らなかった場合, 離散対数問題を解くことに相当するため, 
 平文を得るのは非常に困難となる.
 
-### 実装
+## 実装
 
 ここからは, これをプログラムとして実装することを考える.
 第一に必要となるものは, 大きな素数の生成器である.
-方法としては, ランダムに奇数を生成し, Miller-Rabin 素数判定法などの確率的素数判定法を用いることが実例として多い[^10]ので, ひとまず素数生成には Miller-Rabin 素数判定法を使うこととする. 
+方法としては, ランダムに奇数を生成し, Miller-Rabin 
+素数判定法などの確率的素数判定法を用いることが実例として多い[^10]ので, ひとまず素数生成には Miller-Rabin 素数判定法を使うこととする. 
 
-#### フェルマーテスト, Miller-Rabin 素数判定法
+### フェルマーテスト, Miller-Rabin 素数判定法
 
 Miller-Rabin 素数判定法は, フェルマーテストの改良と言えるので, まずその説明から行う.
-フェルマーテストは, 先に述べたフェルマーの小定理 $$ の対偶[^11]を利用した判定方法であるといえる.
+フェルマーテストは, 先に述べたフェルマーの小定理の対偶[^11]を利用した判定方法であるといえる.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a class="disabled" id="fermattest">フェルマーテスト</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p><span id="fermattest">フェルマーテスト</span></p></header>
+<div class="m-def-content">
 \\(FT_n(a): =\gcd(a, n)=1\\) を満たす \\(n \in\mathbb{Z}^{+}\\) と底 \\(a\in\mathbb{Z}^{+}\\) があって, \\(a^{n-1}\equiv 1\pmod{n}\\) が成り立つか.
-  </div>
+</div>
 </div>
 
 この答えが yes であるとき $n$ は \\(FT_n(a)\\) をパスしたといえば, 
-フェルマーの小定理は, 「$n$ が素数ならば, $n$ は $^\forall a(\gcd(a,n)=1)$ に対する \\(FT_n(a)\\) をパスした」といい, この対偶をとると,「\\(FT_n(a)\\) をパスしない $\gcd(a,n)=1$ の $a$ があれば, $n$ は素数ではない」といえる. 
-たとえば, $n=15$ とすると $2^{15-1}\equiv 2^{14}\equiv 4\not\equiv 1\pmod{15}$ であるから $15$ は素数ではない. しかしながら, $^\forall a(\gcd(a,n)=1)$ に対して \\(FT_n(a)\\) をパスしても $n$ が素数であるとは断言できない. このような
+フェルマーの小定理は, 「$n$ が素数ならば, $n$ 
+は $^\forall a(\gcd(a,n)=1)$ に対する \\(FT_n(a)\\) をパスした」といい, 
+この対偶をとると,「\\(FT_n(a)\\) をパスしない $\gcd(a,n)=1$ の $a$ があれば, 
+$n$ は素数ではない」といえる. 
+たとえば, $n=15$ とすると $2^{15-1}\equiv 2^{14}\equiv 4\not\equiv 1\pmod{15}$ であるから 
+$15$ は素数ではない. しかしながら, $^\forall a(\gcd(a,n)=1)$ に対して 
+\\(FT_n(a)\\) をパスしても $n$ が素数であるとは断言できない. このような
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a class="disabled">カーマイケル数</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p>カーマイケル数</p></header>
+<div class="m-def-content">
 \\(^\forall a(\gcd(n, a)=1)\\) に対して \\(FT_n(a)\\) をパスする合成数
   </div>
 </div>
@@ -378,26 +432,37 @@ Miller-Rabin 素数判定法は, フェルマーテストの改良と言える�
 をカーマイケル数という. 一般的に, そのような $n$ は少ないことが知られている.
 ところで, カーマイケル数は奇数である.
 
-<div class="panel panel-default">
-  <div class="panel-heading prop"><a class="disabled" id="prop2">命題 2</a></div>
-  <div class="panel-body" style="overflow:scroll">
-    カーマイケル数は奇数
+<div class="m-prop">
+<header class="m-prop-title"><p><span id="prop2">命題 2</span></p></header>
+<div class="m-prop-content">
+カーマイケル数は奇数
 </div>
 </div>
 
-**証明**: $a^n\equiv a\pmod{n}$ に $a=n-1$ を代入すると $(-1)^n\equiv -1\pmod{n}$ となるが,
-このとき $n$ を偶数とすると $1\equiv -1\pmod{n}$ となってしまい不条理. $\therefore$ 背理により題意は示された. \\(\square\\)
+
+<div class="m-proof">
+<header class="m-proof-title"><p>命題 2</p></header>
+<div class="m-proof-content">
+$a^n\equiv a\pmod{n}$ に $a=n-1$ を代入すると $(-1)^n\equiv -1\pmod{n}$ となるが,
+このとき $n$ を偶数とすると $1\equiv -1\pmod{n}$ となってしまい不条理. 
+$\therefore$ 背理により題意は示された. 
+</div>
+</div>
 
 一方, 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a class="disabled">\\(a\\) を底とする偽素数</a></div>
-  <div class="panel-body" style="overflow:scroll">
+
+<div class="m-def">
+<header class="m-def-title"><p>\\(a\\) を底とする偽素数</p></header>
+<div class="m-def-content">
 \\(\gcd(n, a)=1\\) のある \\(a\\) に対して \\(FT_n(a)\\) をパスする合成数
-  </div>
 </div>
+</div>
+
 を $a$ を底とする偽素数という. 
 
-以下で, 取り敢えず $200$ 個の偽素数(結果的にはカーマイケル数)を<a class="disabled" id="modexpref">得てみた</a>[^12]. 
+以下で, 取り敢えず 
+$200$ 個の偽素数(結果的にはカーマイケル数)を<a class="disabled" id="modexpref">得てみた</a>[^12]. 
+
 ```Haskell
 {-# OPTIONS_GHC -Wall #-}
 module Main where
@@ -435,38 +500,49 @@ main = print $ take 200 pseudoprimes
 ```Haskell
 [561,1105,1729,2465,2821,6601,8911,10585,15841,29341,41041,46657,52633,62745,63973,75361,101101,115921,126217,162401,172081,188461,252601,278545,294409,314821,334153,340561,399001,410041,449065,488881,512461,530881,552721,656601,658801,670033,748657,825265,838201,852841,997633,1024651,1033669,1050985,1082809,1152271,1193221,1461241,1569457,1615681,1773289,1857241,1909001,2100901,2113921,2433601,2455921,2508013,2531845,2628073,2704801,3057601,3146221,3224065,3581761,3664585,3828001,4335241,4463641,4767841,4903921,4909177,5031181,5049001,5148001,5310721,5444489,5481451,5632705,5968873,6049681,6054985,6189121,6313681,6733693,6840001,6868261,7207201,7519441,7995169,8134561,8341201,8355841,8719309,8719921,8830801,8927101,9439201,9494101,9582145,9585541,9613297,9890881,10024561,10267951,10402561,10606681,10837321,10877581,11119105,11205601,11921001,11972017,12261061,12262321,12490201,12945745,13187665,13696033,13992265,14469841,14676481,14913991,15247621,15403285,15829633,15888313,16046641,16778881,17098369,17236801,17316001,17586361,17812081,18162001,18307381,18900973,19384289,19683001,20964961,21584305,22665505,23382529,25603201,26280073,26474581,26719701,26921089,26932081,27062101,27336673,27402481,28787185,29020321,29111881,31146661,31405501,31692805,32914441,33302401,33596641,34196401,34657141,34901461,35571601,35703361,36121345,36765901,37167361,37280881,37354465,37964809,38151361,38624041,38637361,39353665,40160737,40280065,40430401,40622401,40917241,41298985,41341321,41471521,42490801,43286881,43331401,43584481,43620409,44238481,45318561,45877861,45890209,46483633,47006785,48321001,48628801,49333201]
 ```
-続いて, Miller-Rabin 法について述べる. 
+続いて, Miller-Rabin 法について. 
 前述したように, Miller-Rabin 法は, フェルマーテストの改良である. 
 そもそも, いま判定する $n$ は奇数である前提をおいて十分であるから $n-1$ は偶数となり,
 かつ $(n-1) \div 2$ の結果は整数とすることができる. 
-したがって \\[\displaystyle a^{n-1}\equiv 1\pmod{n}\Rightarrow {\underbrace{(a^{(n-1)/2}\bmod n)}_{x}}^2 \equiv 1\pmod{n}\tag{4}\\] がいえる. 
-例えば, $$ の右側の式に着目し, $n=35$ とすると, $x$ は $\overline{1},\overline{6},\overline{29},\overline{34}$ が $2$ 乗すると $\overline{1}$ となるため, 有りうる.
+したがって 
+\\[\displaystyle a^{n-1}\equiv 1\pmod{n}\Rightarrow 
+{\underbrace{(a^{(n-1)/2}\bmod n)}_{x}}^2 \equiv 1\pmod{n}\tag{4}\\] がいえる. 
+例えば, $(4)$ の右側の式に着目し, $n=35$ とすると, 
+$x$ は $\overline{1},\overline{6},\overline{29},\overline{34}$ が $2$ 乗すると 
+$\overline{1}$ となるため, 有りうる.
 しかし, $n$ が奇素数であるとき, その剰余類は $\pm{\overline{1}}$ しか有りえないのである. 
 これは, 次の命題の証明によって証明される.
 
-<div class="panel panel-default">
-  <div class="panel-heading prop"><a class="disabled" id="prop3">命題 3</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-prop">
+<header class="m-prop-title"><p><span id="prop3">命題 3</span></p></header>
+<div class="m-prop-content">
 法 \\(n\\) が奇素数であるとき, その剰余において「\\(1\\) の自明でない平方根は存在しない. 
 \\(\Leftrightarrow\ x\\) は \\(\pm{1}\\) しか存在しえない.」.
 </div>
 </div>
 
-**証明**: $n$ を法とした剰余において $1\pmod{n}$ の非自明な平方根を $x$ とすると \\[x^2\equiv 1\pmod{n}=x^2-1\equiv 0\pmod{n}=(x-1)(x+1)\equiv 0\pmod{n}\\] において, $n$ は素数であるから $x-1$ または $x+1$ で割り切れなければならないが, $x$ が $\pm{1}$ でないとすると, $x-1$ も $x+1$ も $n$ で割り切れず矛盾. $\therefore$ 背理により, 題意は示された. \\(\square\\)
+<div class="m-proof">
+<header class="m-proof-title"><p>命題 3</p></header>
+<div class="m-proof-content">
+$n$ を法とした剰余において $1\pmod{n}$ の非自明な平方根を $x$ とすると 
+\\[x^2\equiv 1\pmod{n}=x^2-1\equiv 0\pmod{n}=(x-1)(x+1)\equiv 0\pmod{n}\\] において, 
+$n$ は素数であるから $x-1$ または $x+1$ で割り切れなければならないが, $x$ が $\pm{1}$ 
+でないとすると, $x-1$ も $x+1$ も $n$ で割り切れず矛盾. $\therefore$ 背理により, 題意は示された. 
+</div>
+</div>
 
 Miller-Rabin 法は, この性質を利用して, つまり $1\pmod{n}$ の自明でない平方根を求めることで, 合成数を判別する. 先に述べたように $n-1$ は偶数であるから, 何度か必ず $2$ で割り切ることができる. 
 割り切る回数を $s$ とすると, $$n-1 = 2^s \cdot d\ (s\in\mathbb{N}, d\ is\ odd)\tag{5}$$ と表せる. 
 このときの $d$ は, $n-1$ を繰り返し $2$ で割った結果そのものである.
-フェルマーの小定理 $$ を $$ と関連づけると,
+フェルマーの小定理を $(5)$ と関連づけると,
 $$a^{n-1}\equiv a^{2^s\cdot d}\equiv 1\pmod{n}$$ がいえる. 
 [命題 3](#prop3) より, この平方根は $\pm{1}\pmod{n}$ である.
-つまり, 
 
-<div class="panel panel-default">
-  <div class="panel-heading theo"><a class="disabled">Miller-Rabin 素数判定法</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p>Miller-Rabin 素数判定法</p></header>
+<div class="m-def-content">
 \\(^\forall a \in \mathbb{Z}^{\ast}_{n}\\) について $$a^d\equiv 1\pmod{n}$$ または $$a^{2^r\cdot d}\equiv -1\pmod{n}\ (0\leq r\leq s-1)$$ が成り立つ. 
-  </div>
+</div>
 </div>
 
 これは, 予め $a^d$ から始めて次々に $2$ 乗して得られる列
@@ -625,24 +701,24 @@ $ test 500 ./a.out 512
 やはり libgmp が思い浮かぶ[^17]. 
 ただ, 本エントリの内容のメインは素数生成に関してではないので, 一旦ここまでとしておく.
 
-#### 原始根の生成
+### 原始根の生成
 次に必要となるのは原始根 $g$ であるが, この生成を簡単にするためには, 
 安全素数という素数を素数生成の段階で生成しておかなければならない[^7]. 安全素数は
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a class="disabled">安全素数</a></div>
-  <div class="panel-body" style="overflow:scroll">
-  \\(q=2p+1\ (p\ is\ prime)\\) があって, このとき素数となる \\(q\\)
-  </div>
+<div class="m-def">
+<header class="m-def-title"><p>安全素数</p></header>
+<div class="m-def-content">
+\\(q=2p+1\ (p\ is\ prime)\\) があって, このとき素数となる \\(q\\)
+</div>
 </div>
 
 をいう[^18]. また, 
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a class="disabled">ソフィー・ジェルマン素数</a></div>
-  <div class="panel-body" style="overflow:scroll">
-  安全素数 \\(q=2p+1\\) の \\(p=(q-1)\div 2\\)
-  </div>
+<div class="m-def">
+<header class="m-def-title"><p>ソフィー・ジェルマン素数</p></header>
+<div class="m-def-content">
+安全素数 \\(q=2p+1\\) の \\(p=(q-1)\div 2\\)
+</div>
 </div>
 
 をソフィー・ジェルマン素数という. 例えば, $p=11$ としたとき
@@ -656,6 +732,7 @@ $q$ が安全素数であれば, $q-1=2p$[^19] より $q-1$ の素因数は $2$ 
 しかなく, 圧倒的に計算量を減らすことができる.
 さて, 安全素数は, $p$ と $q$ がともに素数であれば良いので, 
 このどちらにもミラーラビン法を実行してしまうのが一番簡単である[^20].
+
 ```Haskell
 -- (略)
 
@@ -692,7 +769,7 @@ shiftR` 1)]
 [2,3,2,5,5,2,2]
 ```
 
-#### 鍵と暗号文の生成
+### 鍵と暗号文の生成
 
 上で述べた手順のまま実装できる.
 
@@ -713,7 +790,7 @@ encode (p, g, y) plain = concat <$> mapM (\c ->
             dupe . toInteger <$> randomRIO (1, maxBound :: Int)) plain
 ```
 
-#### 暗号文の復号
+### 暗号文の復号
 
 復号に関しても, 上の手順のまま実装するだけであるが, 
 モジュラ逆数を得るために拡張ユークリッドの互除法を使うのでそれについて説明する.
@@ -727,13 +804,13 @@ $GF(p)$ の単位元を考えれば, この \\(n\\) と \\(x\\) の関係は,
 \\(nx-mk=1\\). いま知りたいのは, 逆数である $x$ だ. ここで, 拡張ユークリッドの互除法を使う.
 拡張ユークリッドの互除法は, 
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a class="disabled">拡張ユークリッドの互除法</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p>拡張ユークリッドの互除法</p></header>
+<div class="m-def-content">
 <a href="#euclidean">ユークリッドの互除法</a>で求まる \\(\gcd(a,b)\\) に加え, \\[
 ax+by=\gcd(a,b)
 \\] (ベズーの等式) が成り立つ \\(a,\ b\\) のベズー係数 \\(x,\ y\\) をも同時に求める.
-  </div>
+</div>
 </div>
 
 アルゴリズムである. 
@@ -741,11 +818,13 @@ ax+by=\gcd(a,b)
 [暗号の生成と解読](#genencanddec)の内容のうち例として用いた値,
 $n=10,\ m=97$ を入力として, まず一般解を導いてみる.
 いま $n,\ m$ に対して<a href="#euclidean">ユークリッドの互除法</a>を行うと,
-\begin{aligned}
-97&=&10\cdot 9+7&\Leftrightarrow &7&=&97-10\cdot 9\tag{6}\\
-10&=&7+3&\Leftrightarrow &3&=&10-7\tag{7}\\
-7&=&3\cdot 2+1&\Leftrightarrow &1&=&7-3\cdot 2\tag{8}
-\end{aligned}
+
+\\[\begin{aligned}
+97&=&10\cdot 9+7&\Leftrightarrow &7&=&97-10\cdot 9\\
+10&=&7+3&\Leftrightarrow &3&=&10-7\\
+7&=&3\cdot 2+1&\Leftrightarrow &1&=&7-3\cdot 2
+\end{aligned}\\]
+
 より \\[10x+97(-k)=1\\] と表せる. こうして見るとわかるように, これは単なる $1$ 次不定方程式だ.
 $1$ 次不定方程式は, \\(\gcd(a,b)=d\\) としたとき \\(d=1\\) ならば解がある.
 また, \\(d\gt 1,\ d\mid c\\) でも解がある. 
@@ -754,21 +833,26 @@ $1$ 次不定方程式は, \\(\gcd(a,b)=d\\) としたとき \\(d=1\\) ならば
 逆に \\(d\not\mid c\\) ならば, その $1$ 次不定方程式は不能となる.
 いま述べた例の場合, 解は存在して,
 
+\\[
 \begin{array}{lclclcl}
 1&=&&=&7-3\cdot 2\\
 1&=&7-\cdot 2&=&7-(10-7)\cdot 2&=&7\cdot3 - 10\cdot 2\\
 1&=&\cdot 3-10\cdot 2&=&(97-10\cdot 9)\cdot 3-10\cdot 2&=&97\cdot 3-10\cdot 29 
 \end{array}
+\\]
+
 よって, 特別解 \\(x=-29,\ k=-3\\) が求まった. 
 次に, この一般解を求める. いま求めた \\(x,\ k\\) を代入すると $10(-29)+97(3)=1$.
 これを元の式から引くと,
 
+\\[
 \begin{array}{rr}
 & 10x &+ &97(-k) &= 1 \\
 -)&10(-29) &+ &97(3) &= 1
 \\hline
 &10(x+29)&+&97(-k-3)&=0
 \end{array}
+\\]
 
 で, 変形すると $10(x+29)=-97(-k-3)$ と表せる. 
 ここで, 先のユークリッドの互除法により $\gcd(10,97)=1$ であることがわかっているから, 
@@ -777,17 +861,21 @@ $x+29=97n\ (n\in\mathbb{Z})$ と表すことができることがわかる.
 先に示した復号化におけるモジュラ逆数の演算例,
 $q\equiv \dfrac{1}{10}\equiv 68\pmod{97}$ と整合であることがわかる.
 
-ここで, いまやった一連の作業を一般化しておく. この計算が $(s+1)$ 回で終わったとする.
+ここで, いま行った一連の作業を一般化しておく. この計算が $(s+1)$ 回で終わったとする.
+
+\\[
 \begin{aligned}
-&r_1&=&a-bq_1\tag{9}\\
-&r_2&=&b-r_1q_2\tag{10}\\
-&r_3&=&r_1-r_2q_3\tag{11}\\
+&r_1&=&a-bq_1\\
+&r_2&=&b-r_1q_2\\
+&r_3&=&r_1-r_2q_3\\
 &\cdots & & \cdots \\
-&r_i&=&r_{i-2}-r_{i-1}q_i\tag{i}\\
+&r_i&=&r_{i-2}-r_{i-1}q_i\\
 &\cdots & & \cdots \\
 &r_{s-1}&=&r_{s-3}-r_{s-2}q_{s-1}\\
 &d&=&r_{s-2}-r_{s-1}q_s
 \end{aligned}
+\\]
+
 よって \\(r_i=x_ia+y_ib\\) として \\(x_s,\ y_s\\) を求めればよいこととなる.
 まず, \\(r_i=a-bq_i\\) から \\(x_1=1,\ y_1=-q_1\\) について, \\(\\)
 を \\(\\) に代入し \\[r_2=b-(a-bq_1)q_2=-aq_2+b(1+q_1q_2)\\] とする.
@@ -795,20 +883,24 @@ $q\equiv \dfrac{1}{10}\equiv 68\pmod{97}$ と整合であることがわかる.
 一般に \\(r_i\\) が \\(a,\ b\\) で表せるとしたとき \\(r_i=x_i a+y_i b\\) と表せるから
 \\(x_i,\ y_i\\) の漸化式を次のようにおくことができる.
 
+\\[
 \begin{array}{lcl}
 r_{i-2}&=&x_{i-2}a+y_{i-2}b \\
 r_{i-1}&=&x_{i-1}a+y_{i-1}b \\
 r_i&=&x_i a+y_i b
 \end{array}
+\\]
 
 これらを \\(\\) に代入すると,
 \\[x_i a+y_i b=x_{i-2}a+y_{i-2}b-(x_{i-1}a+y_{i-1}b)q_i\\]
 両辺の \\(a,\ b\\) の係数を比較すると,
 
+\\[
 \begin{array}{lcl}
 x_i&=&x_{i-2}-x_{i-1}q_i\ (i\geq 3) \\
 y_{i}&=&y_{i-2} - y_{i-1}q_i
 \end{array}
+\\]
 
 よって, いまのように順に \\(x_3,\ x_4,\ \cdots,\ y_3,\ y_4,\cdots\\) と計算していけば
 $d$ の表示式である $d=xa+yb$ の $x$ と $y$ が求まる.
@@ -835,7 +927,7 @@ decode ((p, g, y), a) (x1:x2:xs) = case modExp x1 a p `modInv` p of
      Nothing -> Nothing
 ```
 
-#### 実行
+### 実行
 
 最後に, ここまでで作ったモジュールをロードして, 暗号化, 復号化を実行してみる.
 
@@ -853,14 +945,14 @@ Just "roki"
 
 うまくいっているようだ. なお, すべての実装やテストコードは,
 
-<p style="text-align: center;">
-<i class="fab fa-github" style="font-size: large; margin-right: 5px;"></i>
+<div  class="box has-text-centered is-shadowless">
+<i class="fab fa-github mr-2"></i>
 <a href="https://github.com/falgon/ElgamalEncryptionHs" id="impl">falgon/ElgamalEncryptionHs - The rustic implementation of ElGamal encryption encoder and its decoder.</a>
-</p>
+</div>
 
 にて公開している.
 
-### 参考文献
+## 参考文献
 
 * ["Primitive Elements vs. Generators"](https://mathforum.org/library/drmath/view/60779.html) 2018 年 7 月 9 日アクセス.
 * 伊東利哉, 辻井 重男 (1989)「[有限体における原始根の生成アルゴリズム](https://ipsj.ixsq.nii.ac.jp/ej/index.php?active_action=repository_view_main_item_detail&page_id=13&block_id=8&item_id=32713)」 2018 年 7 月 9 日アクセス.

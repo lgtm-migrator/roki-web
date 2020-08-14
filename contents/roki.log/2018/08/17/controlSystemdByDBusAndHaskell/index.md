@@ -14,7 +14,9 @@ D-Bus にいくつかの API を公開している.
 私の観測範囲内において, C や Python, Go 等でこれらを利用する例はそこそこ見たことがあるのだが, 
 Haskell での取り組みは一切見たことがなかったので, 少々これらで遊んで見た日記として本エントリに記す.
 
-### D-Bus API の確認
+<!--more-->
+
+## D-Bus API の確認
 
 実行環境は, 次の通りである.
 
@@ -50,7 +52,7 @@ More than 397 lines...
 このインタフェース表記の意味するところに関する詳細は,
 D-bus 仕様の Type System セクション[^2]に記載されている.
 
-### D-Bus の Haskell バインドの利用
+## D-Bus の Haskell バインドの利用
 
 [dbus](http://hackage.Haskell.org/package/dbus) が利用できる.
 例えば, 以下に示す`StartUnit`, `StopUnit`は,
@@ -177,9 +179,12 @@ mapM_ (print <=< flip (stopUnit client) "replace") args
 ```
 
 なお, 本エントリにおける一連の実装とその他の 
-systemd D-Bus API を利用したいくつかの snippets を, 下記リポジトリにて管理している. もしよければ.
+systemd D-Bus API を利用したいくつかの snippets を下記リポジトリにて管理している.
 
-* [r0ki/systemdplhs - Snippets collection that controls systemd from D-Bus with Haskell.](https://bitbucket.org/r0ki/systemdplhs/src/master/)
+<div class="box has-text-centered is-shadowless">
+<i class="fab fa-github mr-2"></i>
+[r0ki/systemdplhs - Snippets collection that controls systemd from D-Bus with Haskell.](https://bitbucket.org/r0ki/systemdplhs/src/master/)
+</div>
 
 [^1]: 説明は[公式ページ](https://www.freedesktop.org/wiki/Software/dbus/#index1h1)から.
 [^2]: "D-Bus Specification", <https://dbus.freedesktop.org/doc/dbus-specification.html#type-system> 2018 年 8 月 17 日アクセス.

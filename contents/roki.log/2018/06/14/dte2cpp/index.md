@@ -13,7 +13,7 @@ Prelude Data.Tuple.Extra> uncurry (+) $ first (*2) $ dupe 42
 Prelude Data.Tuple.Extra> uncurry (+) $ (+42) &&& (*2) $ 42
 168
 ```
-取り敢えず, 似たような構文で同じような処理となるように[作ってみた](https://github.com/falgon/SrookCppLibraries/tree/develop/srook/tuple/utility).
+取り敢えず, 似たような構文で同じような処理となるように[作ってみた](https://github.com/falgon/SrookCppLibraries/tree/develop/srook/tuple/utility). <!--more-->
 C++11 以降では, Variadic templates が使えるので, [Data.Tuple.Extra](http://hackage.Haskell.org/package/extra-1.6.8) ([Control.Arrow](http://hackage.Haskell.org/package/base-4.11.1.0/docs/Control-Arrow.html)) の`first`, `second`関数のように, タプルの 1 番目, 2 番目に作用させるといった関数をそれぞれ別個作る必要はない.
 従って, これを作用させるタプルのインデックス値で指定できるようにしてみた(`srook::tuple::utility::nth`). 他のものも同様, なんとなく似た感じになるように, なんとなくやってみた(?).
 

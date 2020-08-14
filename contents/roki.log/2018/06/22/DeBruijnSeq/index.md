@@ -6,39 +6,41 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 ---
 
 大学のレポート内で De Bruijn Sequence について書く機会があった.
-これまた[以前と同じく](https://falgon.github.io/roki.log/posts/2018/%206月/08/qft/), 
+これまた[以前と同じく](/roki.log/2018/06/08/qft/), 
 折角なのでこちらのブログにも, 若干内容を変えつつ載せておくことにした.
 
-De Bruijn Sequence は, オランダ人の数学者 Nicolaas de Bruijn に因んで命名された系列で, 特定の長さのすべての組み合わせを含む系列である. 
-次数 $n$ の $k$ 種類に関する De Bruijn Sequence $B(k, n)$ は, 長さ $n$ で表現可能なすべての部分列によって構成される.
+De Bruijn Sequence は, オランダ人の数学者 Nicolaas de Bruijn に因んで命名された系列で, 
+特定の長さのすべての組み合わせを含む系列である. 
+次数 $n$ の $k$ 種類に関する De Bruijn Sequence $B(k, n)$ は, 
+長さ $n$ で表現可能なすべての部分列によって構成される.
 次元数 $2$ (すなわちバイナリ) の De Bruijn Sequence は $B(2, n)$ であり, $n$ ビットの固有な部分系列から成る $2^n$ ビット長の系列である.
 例えば, $B(2, 3)$ は \\(00011101_{(2)}\\) であり $n$ に対する有向グラフが下図[^1]のように示される.
 
-<div style="text-align:center"><img src="../../../../../images/2018/June/deb_graph1.png"></div>
+![De Burijn Sequence \\(B(2,n)\\) の有向グラフ](./deb_graph1.png "De Burijn Sequence \\(B(2,n)\\) の有向グラフ")
 
+<!--more-->
 この系列から $3$ ビットずつ取る, または図 1 の有向グラフから $B(2, 3)$ を再構築していくと, 
 次の表で示す部分系列を構成することがわかる.
 
-<div class="table-responsive">
-<table class="table table-bordered table-hover"><thead><th>\\[B(2,3)\\]</th><th>\\[10\ {\rm進値}\\]</th></thead>
-<caption id="karnaugh1" style="caption-side: bottom">\\(B(2,3)\\) の部分系列</caption>
-<tbody>
-<tr><td>\\[\overbrace{000}^{sub\ seq}11101_{(2)}\\]</td><td>\\[0_{(10)}\\]</td></tr>
-<tr><td>\\[0\overbrace{001}^{sub\ seq}1101_{(2)}\\]</td><td>\\[1_{(10)}\\]</td></tr>
-<tr><td>\\[00\overbrace{011}^{sub\ seq}101_{(2)}\\]</td><td>\\[3_{(10)}\\]</td></tr>
-<tr><td>\\[000\overbrace{111}^{sub\ seq}01_{(2)}\\]</td><td>\\[7_{(10)}\\]</td></tr>
-<tr><td>\\[0001\overbrace{110}^{sub\ seq}1_{(2)}\\]</td><td>\\[6_{(10)}\\]</td></tr>
-<tr><td>\\[{00011\overbrace{101}^{sub\ seq}}_{(2)}\\]</td><td>\\[5_{(10)}\\]</td></tr>
-<tr><td>\\[{000111\overbrace{01\underbrace{0}_{cir}}^{sub\ seq}}_{(2)}\\]</td><td>\\[2_{(10)}\\]</td></tr>
-<tr><td>\\[{0001110\overbrace{1\underbrace{00}_{cir}}^{sub\ seq}}_{(2)}\\]</td><td>\\[4_{(10)}\\]</td></tr>
-</tbody>
-</table>
-</div> 
+| \\(B(2,3)\\) | \\(10\ {\rm進値}\\) |
+| :--: | :--: |
+| \\(\overbrace{000}^{sub\ seq}11101_{(2)}\\) | \\(0_{(10)}\\) |
+| \\(0\overbrace{001}^{sub\ seq}1101_{(2)}\\) | \\(1_{(10)}\\) |
+| \\(00\overbrace{011}^{sub\ seq}101_{(2)}\\) | \\(3_{(10)}\\) |
+| \\(000\overbrace{111}^{sub\ seq}01_{(2)}\\) | \\(7_{(10)}\\) |
+| \\(0001\overbrace{110}^{sub\ seq}1_{(2)}\\) | \\(6_{(10)}\\) |
+| \\({00011\overbrace{101}^{sub\ seq}}_{(2)}\\) | \\(5_{(10)}\\) |
+| \\({000111\overbrace{01\underbrace{0}_{cir}}^{sub\ seq}}_{(2)}\\) | \\(2_{(10)}\\) |
+| \\({0001110\overbrace{1\underbrace{00}_{cir}}^{sub\ seq}}_{(2)}\\) | \\(4_{(10)}\\) |
+
+Table: <span id="karnaugh1">\\(B(2,3)\\) の部分系列</span>
 
 最後の $2$ つの部分系列は \\(00011101_{(2)}\\) から $3$ ビットずつとって構成できないが, 系列の初めへ循環していると考えることで, これが成り立つ.
 
-De Bruijn Sequence は, いくつかのコンピュータアルゴリズムで応用でき, 例えば Number of Training Zero を求める問題も, よく知られた応用例の 1 つである. これは ntz と呼ばれる.
-以降, $m=n-1$, $x$ を $8$ ビットの値, $x_i\ \ (\left\{i \in \mathbb{Z}\mid 0 < i < 9\right\})$ を lsb 見た値
+De Bruijn Sequence は, いくつかのコンピュータアルゴリズムで応用でき,
+例えば Number of Training Zero を求める問題も, よく知られた応用例の 1 つである. これは ntz と呼ばれる.
+以降, $m=n-1$, $x$ を $8$ ビットの値, 
+$x_i\ \ (\left\{i \in \mathbb{Z}\mid 0 < i < 9\right\})$ を lsb 見た値
 $x$ の $i$ 番目のビット値, Number of Training Zero を ntz とする.
 
 例えば \\(x=192_{(10)}\\) は
@@ -150,5 +152,5 @@ main = mapM_ somebases [3..6]
 
 
 [^1]: Python, networkx, pyplot で[生成](https://gist.github.com/falgon/a3da8e0fd013f41de62e0d7a0288a66d).
-[^2]: 本エントリでは Haskell による実装を示しているが, だいぶ以前に C++ で同様の [ntz を実装した](https://github.com/falgon/SrookCppLibraries/blob/acfad043881d5559f921d547331ba9d5ec1b1d9f/srook/bit/algorithm/ntz.hpp)のであった. この実装は, [この Qiita 投稿](https://qiita.com/kazatsuyu/items/38203287c19890a2b7c6) の内容と殆ど同じ. C++ では, 簡単なテンプレートメタプログラミングにより, ビット長ごとに必要となるビットマスクや演算を, 同じ関数呼び出しから型ごとに適切に分岐するよう実装できる(Haskell でも, 似たようなことはできる).
+[^2]: 本エントリでは Haskell による実装を示しているが, だいぶ以前に C++ で同様の [ntz を実装した](https://github.com/falgon/SrookCppLibraries/blob/acfad043881d5559f921d547331ba9d5ec1b1d9f/srook/bit/algorithm/ntz.hpp)のであった. この実装は, [この Qiita 投稿](https://qiita.com/kazatsuyu/items/38203287c19890a2b7c6)の内容と殆ど同じ. C++ では, 簡単なテンプレートメタプログラミングにより, ビット長ごとに必要となるビットマスクや演算を, 同じ関数呼び出しから型ごとに適切に分岐するよう実装できる(Haskell でも, 似たようなことはできる).
 [^3]: Abbas Alhakim, "A SIMPLE COMBINATORIAL ALGORITHM FOR DE BRUIJN SEQUENCES" <https://www.mimuw.edu.pl/~rytter/TEACHING/TEKSTY/PreferOpposite.pdf> 2018-06-21 アクセス.

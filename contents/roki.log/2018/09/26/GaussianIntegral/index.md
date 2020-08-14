@@ -9,16 +9,18 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 個人的な学習の記録として, 本エントリにてガウス積分の公式とその証明について書く[^1]$.$
 筆者自身にとっての分かりやすさを優先しているため, 若干冗長的な記述があるかもしれない点に注意.
 
-<div class="panel panel-default">
-  <div class="panel-heading theo"><a id="GaussianIntegral" class="disabled">ガウス積分の公式</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-thm">
+<header class="m-thm-title"><p><span id="GaussianIntegral">ガウス積分の公式</span></p></header>
+<div class="m-thm-content">
   \\(x\in\mathbb{R}\\) のとき \\[\displaystyle\int_{-\infty}^{\infty}e^{-x^2}dx=\sqrt{\pi}\\]
   </div>
 </div>
 
-**証明**:
-<br>
+<!--more-->
 
+<div class="m-proof">
+<header class="m-proof-title"><p>ガウス積分の公式</p></header>
+<div class="m-proof-content">
 \\[I=\displaystyle\int_{-\infty}^{\infty}e^{-x^2}dx\\] とおく. 
 ここで, 最終的に \\(\pi\\) を出現させるために, 直交座標系から極座標系への移行を行いたい.
 そのために, まず二乗して
@@ -34,45 +36,53 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 
 \\(x=r\cos\theta,\ y=r\sin\theta, dx\ dy=rdrd\theta\\) とし[^2]
 
-\begin{aligned}
+\\[\begin{aligned}
 I^2&=&\int_{0}^{2\pi}\int_{0}^{\infty}e^{-r^2}rdrd\theta \\
 &=&\int_{0}^{2\pi}d\theta\int_{0}^{\infty}re^{-r^2}dr \\
 &=&2\pi\left[\dfrac{1}{2}e^{-r^2}\right]^{\infty}_{0} \\
 &=&\pi
-\end{aligned}
+\end{aligned}\\]
 もともと \\(I\\) は被積分関数の関数形であり, 
-定義域は \\(I > 0\\) だから, \\(I=\sqrt{\pi}\\). \\(\square\\)
+定義域は \\(I > 0\\) だから, \\(I=\sqrt{\pi}\\). 
+</div>
+</div>
 
 2 乗して \\(x^2+y^2=r^2\\)[^3] を出現させ, 極座標での表現を開始する流れは, 胸熱であった.
 さて, 以下はガウス積分の公式に関連した, いくつかの等式について示すこととする.
 
-<div class="panel panel-default">
-  <div class="panel-heading theo"><a id="SimilarGaussianIntegral1" class="disabled">ガウス積分の類似形 1</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-thm">
+<header class="m-thm-title"><p><span id="SimilarGaussianIntegral1">ガウス積分の類似形 1</span></p></header>
+<div class="m-thm-content">
   \\(x\in\mathbb{R}, a\in\mathbb{R}^{+}\\) のとき, \\[\displaystyle\int_{-\infty}^{\infty}e^{-ax^2}dx=\sqrt{\dfrac{\pi}{a}}\\]
   </div>
 </div>
 
-**証明**:<br>
-
+<div class="m-proof">
+<header class="m-proof-title"><p>ガウス積分の類似形 1</p></header>
+<div class="m-proof-content">
 \\(y=\sqrt{a}x, dy=\sqrt{a}dx\\) とし,
 
 \\[\int_{-\infty}^{\infty}e^{-ax^2}dx=\int_{-\infty}^{\infty}e^{-y^2}\cdot\dfrac{1}{\sqrt{a}}dy=\dfrac{1}{\sqrt{a}}\int_{-\infty}^{\infty}e^{-y^2}dy\tag{1}\\]
-\\(\\) の最右辺をみると[ガウス積分の公式](#GaussianIntegral)と全く同じなので, \\(=\sqrt{\dfrac{\pi}{a}}\\). \\(\square\\)
+\\(\\) の最右辺をみると[ガウス積分の公式](#GaussianIntegral)と全く同じなので, \\(=\sqrt{\dfrac{\pi}{a}}\\). 
+</div>
+</div>
 
-<div class="panel panel-default">
-  <div class="panel-heading theo"><a id="SimilarGaussianIntegral2" class="disabled">ガウス積分の類似形 2</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-thm">
+<header class="m-thm-title"><p><span id="SimilarGaussianIntegral2">ガウス積分の類似形 2</span></p></header>
+<div class="m-thm-content">
   \\(x\in\mathbb{R}, a\in\mathbb{R}^{+}\\) のとき, \\[\displaystyle\int_{0}^{\infty}e^{-ax^2}dx=\dfrac{1}{2}\sqrt{\dfrac{\pi}{a}}\\]
   </div>
 </div>
 
-**証明**:<br>
-
+<div class="m-proof">
+<header class="m-proof-title"><p>ガウス積分の類似形 2</p></header>
+<div class="m-proof-content">
 単に[ガウス積分の類似形 1](#SimilarGaussianIntegral1)の半分の領域となるだけなので,
-\\(\displaystyle\int_{0}^{\infty}e^{-ax^2}dx=\dfrac{1}{2}\sqrt{\dfrac{\pi}{a}}\\). \\(\square\\)
+\\(\displaystyle\int_{0}^{\infty}e^{-ax^2}dx=\dfrac{1}{2}\sqrt{\dfrac{\pi}{a}}\\).
+</div>
+</div>
 
-### 参考文献
+## 参考文献
 
 <ul>
 <li>「<a id="ref1" href="https://mathtrain.jp/gauss">ガウス積分の公式の 2 通りの証明</a>」 2018 年 9 月 26 日アクセス.</li>

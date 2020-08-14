@@ -10,7 +10,9 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 その上で分散コンパイルをして S3 へアップロードできれば, 
 そこそこクラウドでやった意味があるといえるのかななどと思いつき, 軽い気持ちで作ってみた記録.
 
-### 構成
+<!--more-->
+
+## 構成
 
 構成そのものはかなり単純だと思う. はじめに, いくつかのパラメータを指定する. 
 数は多いが, AWS EC2 の環境構築に最低限必要となるような要素に限られているはず.
@@ -29,14 +31,14 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 <img width="700" src="https://raw.githubusercontent.com/falgon/edcc/4a052baece667b6baf6d3e41ff3f0741faee5bed/assets/fig.png" alt="ugly activity diagram">
 </div>
 
-### 実装
+## 実装
 
 実装は, 次のリポジトリで管理している.
 
-<p style="text-align: center;">
-<i class="fab fa-github" style="font-size: large; margin-right: 5px;"></i>
+<div class="box has-text-centered is-shadowless">
+<i class="fab fa-github mr-2"></i>
 <a href="https://github.com/falgon/edcc">falgon/edcc - Simple and tiny comprehensive management tool for distributed compilation using distcc on AWS EC2.</a>
-</p>
+</div>
 
 まず, 起動したインスタンスのすべてに必要となるパッケージのインストールやセットアップを実行する必要があるが,
 これは構成にて述べたように, AWS EC2 の機能のうちの 1 つである, ユーザーデータ[^1]を利用して実行することとした.
@@ -79,7 +81,7 @@ EC2 においても各メタ情報を HTTP リクエストで取得できるこ�
 
 <script src="https://gist-it.appspot.com/https://github.com/falgon/edcc/blob/5f4cd53830691275e5c250ef2051adca9d1162d6/README.md?slice=68:102"></script>
 
-### 感想
+## 感想
 
 とにかく時間のない中であったので, 
 妥協してしまった点がいくらかあり,

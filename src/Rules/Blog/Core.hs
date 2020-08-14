@@ -30,8 +30,6 @@ import Utils (
 import qualified Vendor.FontAwesome as FA
 import qualified Vendor.KaTeX as KaTeX
 
-import Text.Pandoc.Options (WriterOptions (..),  HTMLMathMethod (..))
-
 appendFooter :: (Binary a, Typeable a, Semigroup a) 
     => BlogConfig m
     -> TimeLocale 

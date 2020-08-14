@@ -8,39 +8,53 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 
 学校の関係で MySQL を触る機会が増えてきたので, MySQL の C++ 向けライブラリを一度触っておこうという忘備録.
 
-<div class="p-3">
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a href="#tab1" class="nav-link active" data-toggle="tab">sql_executor.hpp</a>
-  </li>
-  <li class="nav-item">
-    <a href="#tab2" class="nav-link" data-toggle="tab">main.cpp</a>
-  </li>
-  <li class="nav-item">
-    <a href="#tab3" class="nav-link" data-toggle="tab">Makefile</a>
-  </li>
-  <li class="nav-item">
-    <a href="#tab4" class="nav-link" data-toggle="tab">docker-compose.yml</a>
-  </li>
+<div class="tabs is-toggle is-boxed is-centered mb-0" id="tabs">
+<ul>
+<li class="is-active" data-tab="1">
+<a>
+<span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span>
+<span>sql_executor.hpp</span>
+</a>
+</li>
+<li data-tab="2">
+<a>
+<span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span>
+<span>main.cpp</span>
+</a>
+</li>
+<li data-tab="3">
+<a>
+<span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span>
+<span>Makefile</span>
+</a>
+</li>
+<li data-tab="4">
+<a>
+<span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span>
+<span>docker-compose.yml</span>
+</a>
+</li>
 </ul>
 </div>
 
-<div class="tab-content" style="max-height: 510px; overflow: scroll;">
-  <div id="tab1" class="tab-pane active">
-    <script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=sql_executor.hpp" type="text/javascript"></script>
-  </div>
-  <div id="tab2" class="tab-pane">
-    <script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=main.cpp" type="text/javascript"></script>
-  </div>
-  <div id="tab3" class="tab-pane">
-    <script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=Makefile" type="text/javascript"></script>
-  </div>
-  <div id="tab4" class="tab-pane">
-    <script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=docker-compose.yml" type="text/javascript"></script>
-  </div>
+<div id="tab-content" style="max-height: 400px; overflow-y: scroll;">
+<div class="is-active acontent" data-content="1">
+<script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=sql_executor.hpp" type="text/javascript"></script>
 </div>
+<div class="acontent" data-content="2">
+<script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=main.cpp" type="text/javascript"></script>
+</div>
+<div class="acontent" data-content="3">
+<script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=Makefile" type="text/javascript"></script>
+</div>
+<div class="acontent" data-content="4">
+<script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=docker-compose.yml" type="text/javascript"></script>
+</div>
+</div>
+<script type="text/javascript" src="/js/uniq_tab.js"></script>
 
 これを実行すると, 次のように, 実在しそうでしなさそうな, 妙に怪しい雰囲気[^1]の一覧が出力される.
+<!--more-->
 
 ```
 |顧客番号| C001 |氏名| 青山 花子        |郵便番号| 958-3626     |住所| 大分県横浜市瀬谷区台場12丁目23番18号 勝どきコーポ435     |電話番号| 090-3537-6380

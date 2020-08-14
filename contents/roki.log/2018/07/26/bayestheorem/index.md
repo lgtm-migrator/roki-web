@@ -7,15 +7,15 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 
 ベイズの定理の導出から, モンティ・ホール問題への応用まで.
 
-### ベイズの定理の導出
+## ベイズの定理の導出
 
 事象 $A$
 が発生する確率を「\\(P(A) = A\\) が発生する確率 \\(\div\\) すべての事象の数」と書くとき,
 ベイズの定理は
 
-<div class="panel panel-default">
-  <div class="panel-heading theo"><a id="baysestheorem" class="disabled">ベイズの定理</a></div>
-  <div class="panel-body">
+<div class="m-thm">
+<header class="m-thm-title"><p><span id="baysestheorem">ベイズの定理</span></p></header>
+<div class="m-thm-content">
   事象 \\(B\\) のもとで事象 \\(A\\) が発生する確率
 \\[P(A\mid B)=\dfrac{P(B\mid A)P(A)}{P(B)}\ (P(B)\gt 0)\\]
   </div>
@@ -27,38 +27,43 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 $A$ および $B$ が発生した確率を $10$ とする.
 簡単のために, この事象関係を表すベン図を次に示す[^1].
 
-<div style="text-align:center">
-<img alt="ある事象を表したベン図" src="../../../../../images/2018/July/bayes_venn.png"/>
-</div>
+![ある事象を表したベン図](./bayes_venn.png "ある事象を表したベン図")
 
+<!--more-->
 まず, $A$ および $B$ が発生する確率 $P(A\cap B) = P(B\cap A)$ を求める.
 $A,\ B$ がそれぞれ発生する確率は,
-\begin{array}{lcl}
+\\[\begin{array}{lcl}
 P(A)&=&\dfrac{60}{200}=\dfrac{3}{10}\\ P(B)&=&\dfrac{40}{200}=\dfrac{1}{5}
-\end{array}
+\end{array}\\]
 である[^2]. 
 $B$ の下で $A$ が発生する確率と, $A$ の下で $B$ が発生する確率は,
-\begin{array}{lclcl}
+
+\\[\begin{array}{lclcl}
 P(A\mid B)&=&\dfrac{10}{40}&=&\dfrac{1}{4}\\
 P(B\mid A)&=&\dfrac{10}{60}&=&\dfrac{1}{6}
 \end{array}
+\\]
+
 である. そもそも, $B$ が発生しなければ, $A$ および $B$ が発生するということはないし,
 $A$ が発生しなければ, $B$ および $A$ が発生するということはないので,
-\begin{array}{lclclcl}
+
+\\[\begin{array}{lclclcl}
 P(A\cap B)&=&P(A\mid B)P(B)&=&\dfrac{1}{4}\cdot\dfrac{1}{5}&=&\dfrac{1}{20}\\
 P(B\cap A)&=&P(B\mid A)P(A)&=&\dfrac{1}{6}\cdot\dfrac{3}{10}&=&\dfrac{1}{20}
-\end{array}
+\end{array}\\]
+
 である. あとは変形すれば良いだけで,
-\begin{array}{lcl}
+
+\\[\begin{array}{lcl}
 P(A\mid B)P(B)&=&P(A\cap B)\\
 P(A\mid B)&=&\dfrac{P(A\cap B)}{P(B)}\\
 P(A\mid B)&=&\dfrac{P(B\mid A)P(A)}{P(B)}
-\end{array}
+\end{array}\\]
 
-### モンティ・ホール問題
+## モンティ・ホール問題
 
 確率論的な話となるとよく挙げられる有名な問題, モンティ・ホール問題をベイズの定理で解く.
-モンティ・ホール問題は, 
+モンティ・ホール問題とは, 以下の通りである.
 
 <blockquote>
 (snip)プレーヤーの前に閉まった3つのドアがあって、1つのドアの後ろには景品の新車が、2つのドアの後ろには、はずれを意味するヤギがいる。プレーヤーは新車のドアを当てると新車がもらえる。プレーヤーが1つのドアを選択した後、司会のモンティが残りのドアのうちヤギがいるドアを開けてヤギを見せる。
@@ -90,9 +95,11 @@ P(A\mid B)&=&\dfrac{P(B\mid A)P(A)}{P(B)}
 
 これらを基に, まず \\(P(A\mid B)\\) について式にすると,
 
+\\[
 \begin{array}{lclclcl}
 P(A\mid B) &=& \dfrac{P(B\mid A)P(A)}{P(B)} &=& \dfrac{\dfrac{1}{2}\cdot\dfrac{1}{3}}{\dfrac{1}{2}}&=&\dfrac{1}{3}
 \end{array}
+\\]
 
 \\(P(A\mid B)\\) とは先も述べたように, \\(A\\) 
 が景品のドアであると踏んだときに, それが景品のドアである確率である. よって,
@@ -102,9 +109,11 @@ P(A\mid B) &=& \dfrac{P(B\mid A)P(A)}{P(B)} &=& \dfrac{\dfrac{1}{2}\cdot\dfrac{1
 から上式のようになる. 
 次に, \\(P(C\mid B)\\) について式にすると,
 
+\\[
 \begin{array}{lclclcl}
 P(C\mid B) &=& \dfrac{P(B\mid C)P(C)}{P(B)}&=&\dfrac{1\cdot \dfrac{1}{3}}{\dfrac{1}{2}}&=&\dfrac{2}{3}
 \end{array}
+\\]
 
 \\(P(C\mid B)\\) とは先も述べたように, \\(C\\) 
 が景品のドアであると踏んだときに, それが景品のドアである確率である. よって,
@@ -118,9 +127,7 @@ Wikipedia にも似たような図があるが,
 選択を変えて景品のドアを当てた回数と,
 選択を変えずに景品のドアを当てた回数をプロットしてみた[^5].
 
-<div style="text-align:center">
-<img alt="モンティ・ホール問題の視覚化図" src="../../../../../images/2018/July/montyhalll.png" />
-</div>
+![モンティ・ホール問題の視覚化](./montyhalll.png "モンティ・ホール問題の視覚化")
 
 当たり前ではあるのだが, この図からも, 
 $C$ に変えた方が当たる回数が多くなっていることを確認できる.
