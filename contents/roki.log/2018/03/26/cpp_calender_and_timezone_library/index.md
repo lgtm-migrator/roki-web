@@ -2,17 +2,23 @@
 title: C++20 Calender and timezone library
 date: 2018-03-26 16:50:00
 tags: C++
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
-<strong>\[<i>2018/4/16 追記</i>:</strong> 本エントリは, 元々 [P0355R5](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0355r5.html) を参考にまとめを行った記事であるが, その後 [P0355R7](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0355r7.html) で
+本エントリは, 元々 [P0355R5](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0355r5.html) 
+を参考にまとめを行った記事であるが, 
+その後 [P0355R7](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0355r7.html) で
 
 * `sun`といった曜日を表すリテラルが全て`Sunday`, `may`といった月を表すリテラルが全て`May`といった形式に変更され, またこれらと`std::chrono::last_spec`型の`last`[^12]が`std::literals::chrono_literals`名前空間下から`std::chrono`名前空間下に移動された.
 * `system_clock::to_time_t`と`system_clock::from_time_t`を Deprecated としていたが, Deprecated でなくなった.
 
-といった他に, 細かい文面の改修や, `constexpr`がつけられるなどの変更が加えられたため, 本エントリにおいても, それに従い該当箇所を改変している(差分を示すことも考えたが, ただ見難くなるように感じたため, そのようなことはしなかった). これらの変更には対応したつもりだが, 細かい厳密な記述に関しては, やはり P0355 の最新リビジョンを追って確かめてほしい(そして, 間違った箇所があれば指摘くださると嬉しい).
-<strong><i>-- 追記ここまで</i>\]</strong>
+といった他に, 細かい文面の改修や, `constexpr`がつけられるなどの変更が加えられたため, 本エントリにおいても,
+それに従い該当箇所を改変している (差分を示すことも考えたが, ただ見難くなるように感じたため, 
+そのようなことはしなかった). 
+これらの変更には対応したつもりだが, 細かい厳密な記述に関しては, 
+やはり P0355 の最新リビジョンを追って確かめてほしい(そして, 間違った箇所があれば指摘くださると嬉しい).
 
-### 要旨
+## 要旨
 
 先週, 米国フロリダ州ジャクソンビルで ISO C++ 委員会によって, C++技術仕様(TS, 実験的機能ブランチ) と次の国際標準(IS) C++20 に関する作業が行われた.
 同会議で [Reddit で紹介されているように](https://www.reddit.com/r/cpp/comments/854mu9/2018_jacksonville_iso_c_committee_reddit_trip/),
@@ -22,7 +28,10 @@ C++20 にいくつかの機能が追加された. そのうちの 1 つである
 * 以下, 特に断らない限り, 全てのコード片において`using namespace std::chrono;`, `using namespace std::chrono_literals;`がされているとする.
 * 以下, 特に断らない限り, 各コードブロック以外で言及される`内容`といった記述については, 名前空間 `std::chrono`を省略する.
 
-### 設計
+<!--more-->
+
+## 設計
+
 以下の内容が追加される.
 
 * `<chrono>`に対するカレンダーおよびタイムゾーンライブラリをサポートするための最小限の拡張
@@ -32,6 +41,7 @@ C++20 にいくつかの機能が追加された. そのうちの 1 つである
 * [IANA Time Zone Database](http://www.iana.org/time-zones) でサポートされている, 閏秒を計算するための複数のクロック
 
 ### カレンダー
+
 本ライブラリ機能によって, 例えば 2016 年を次のように表現することができる.
 ```cpp
 auto y = std::chrono::year{2016};
@@ -567,9 +577,12 @@ public:
 * `gps_clock`は GPS 時刻を表現するクロックであり, UTC 1980 年 1 月 6 日 00:00:00 からの時間を測定する. 閏秒は含まれない[^10].
 * `file_clock`は, C++20 で追加されたエイリアス, `using file_time_type = std::chrono::time_point<std::chrono::file_clock>;`で利用されるファイルクロックである[^11].
 
-### 試用
-同ライブラリを利用した任意月のカレンダーを出力するプログラムは, [既にあった](http://d.hatena.ne.jp/yohhoy/20180322/p1)のだが, 特別何か別のものは思いつかないので,
+## 試用
+
+同ライブラリを利用した任意月のカレンダーを出力するプログラムは, 
+[既にあった](http://d.hatena.ne.jp/yohhoy/20180322/p1)のだが, 特別何か別のものは思いつかないので,
 とりあえず, 任意年の全ての月のカレンダーを出力するプログラムを書いて試用.
+
 ```cpp
 #include <algorithm>
 #include <array>
@@ -639,7 +652,7 @@ int main()
 
 タイムゾーンに関するサンプルは, [元の実装のドキュメント](https://howardhinnant.github.io/date/tz.html)で多く取り上げられている. フライトタイムの計算や, IANA タイムゾーンデータベースを利用しないカスタムタイムゾーンを作成する例などが掲示されている.
 
-### 感想
+## 感想
 
 * とてもよく作り込まれていて, 使いやすそうに感じる. 
 * C++ にこのような高レベル API が導入されるのは, 少し新鮮.

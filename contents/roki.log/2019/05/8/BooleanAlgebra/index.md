@@ -2,6 +2,7 @@
 title: ブール代数
 date: 2019-05-29 00:00:00
 tags: math
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 ブール代数は古典論理における命題論理と密接に関連している.
@@ -22,12 +23,14 @@ tags: math
 \\((B,\lor,\land,',0,1)\\) はブール代数である.
 すなわち, \\(x,y,z\in B\\) に対して, 次のすべての公理を満たした \\((B,\lor,\land,',0,1)\\) はブール代数である.
 
-<ol>
-<li><a id="boolean_algebra1" class="disabled">可換律</a>: \\(x\land y=y\land x,x\lor y=y\lor x\\)</li>
-<li><a id="boolean_algebra2" class="disabled">分配律</a>: \\((x\lor y)\land z=(x\land z)\lor(y\land z),(x\land y)\lor z=(x\lor z)\land(y\lor z)\\)</li>
-<li><a id="boolean_algebra3" class="disabled">同一律</a>: \\(^\forall x\in L\\) に対して \\(x\land 1=x,x\lor 0=x\\). ここで \\(1\\) は最大限, 単位元である. \\(0\\) は最小限, 零元である.</li>
-<li><a id="boolean_algebra4" class="disabled">補元律</a>: \\(^\exists x'\in L\ {\rm s.t.}\ ^\forall x\in L, x\lor x'=1, x\land x'=0\\)</li>
-</ol>
+1. \\(\htmlId{boolean_algebra1}{\rm 可換律}\\): \\(x\land y=y\land x,x\lor y=y\lor x\\)
+2. \\(\htmlId{boolean_algebra2}{\rm 分配律}\\): 
+\\((x\lor y)\land z=(x\land z)\lor(y\land z),(x\land y)\lor z=(x\lor z)\land(y\lor z)\\)
+3. \\(\htmlId{boolean_algebra3}{\rm 同一律}\\): \\(^\forall x\in L\\) に対して \\(x\land 1=x,x\lor 0=x\\). 
+ここで \\(1\\) は最大限, 単位元である. \\(0\\) は最小限, 零元である.
+4. \\(\htmlId{boolean_algebra4}{\rm 補元律}\\): 
+\\(^\exists x'\in L\ {\rm s.t.}\ ^\forall x\in L, x\lor x'=1, x\land x'=0\\)
+
 </div>
 </div>
 
@@ -94,7 +97,7 @@ x'_1&=&x'_1\land1&(\because {\rm \href{#boolean_algebra3}{公理 3}:同一律})\
 <div class="m-proof">
 <header class="m-proof-title"><p>べき等律</p></header>
 <div class="m-proof-content">
-[束の定理](https://falgon.github.io/roki.log/posts/2019/%203%E6%9C%88/15/Relation/#proof1)による.
+[束の定理](/roki.log/2019/03/15/Relation/#proof1)による.
 </div>
 </div>
 
@@ -389,10 +392,12 @@ f(x_1,x_2,\cdots,x_n)&=&x'_1\land x'_2\land\cdots\land x'_n\land f(0,0,\cdots,0)
 便宜上, 2 項演算子 \\(\mid\\) を最小項展開した形を \\(f_\mid(x_1,x_2)\\) で表すこととする.
 あとは[真理値表 2](#truthtable2) の \\(\mid\\) の列のとおりに \\(f_\mid(x_1,x_2)\\) の値を決めてやればよいので
 
+\\[
 \begin{aligned}
 f_\mid(x_1,x_2)&=&1\land x'_1\land x'_2\lor 1\land x'_1\land x_2\lor 1\land x_1\land x'_2\lor 0\land x_1\land x_2\\
 &=&x'_1\land x'_2\lor x'_1\land x_2\lor x_1\land x'_2
 \end{aligned}
+\\]
 
 従って, 否定論理積の PDNF は \\(x'_1\land x'_2\lor x'_1\land x_2\lor x_1\land x'_2\\) となる.
 この操作を振り返ると, 真理値表から PDNF を書くためには, 結果が \\(1\\) となっている入力変数の全パターンに対して, 
@@ -402,10 +407,14 @@ f_\mid(x_1,x_2)&=&1\land x'_1\land x'_2\lor 1\land x'_1\land x_2\lor 1\land x_1\
 [シャノンの展開定理の証明](#chanon_theorem_proof)でも示したように消えてしまうからである.
 同じようにして, 否定論理和, 排他的論理和も[真理値表 2](#truthtable2) の \\(\downarrow,\oplus\\) の列をみると, 
 \\(1\\) となる入力のパターンから
+
+\\[
 \begin{aligned}
 f_{\downarrow}(x_1,x_2)&=&x'_1\land x'_2\\
 f_{\oplus}(x_1,x_2)&=&x_1\land x'_2\lor x'_1\land x_2\\
 \end{aligned} 
+\\]
+
 となる.
 すなわち, 真理値表で表現できるブール式は PDNF で表せるということである[^5].
 
@@ -508,20 +517,24 @@ f(x_1,x_2)=
 2 項演算子 \\(\mid\\) を最大項展開した式 \\(f_{\mid}(x_1,x_2)\\) は,
 [真理値表 2](#truthtable2) の \\(\mid\\) の列のとおりに \\(f_{\mid}(x_1,x_2)\\) の値を決めてやればよいので
 
+\\[
 \begin{aligned}
 f_{\mid}(x_1,x_2)&=&(x_1\lor x_2\lor 1)\land (x_1\lor x'_2\lor 1)\land(x'_1\lor x_2\lor 1)\land(x'_1\lor x'_2\lor 0)\\
 &=&x'_1\lor x'_2
 \end{aligned}
+\\]
 
 従って, 否定論理積の PCNF は \\(x'_1\lor x'_2\\) となる. この操作を振り返ると, 真理値表から PCNF を書くためには,
 結果が \\(0\\) となっている入力変数の全パターンに対して, 元の入力変数の値が \\(1\\) なら補元をとり, \\(0\\) ならそのままで和を取り, それらすべての積を取ればよいことがわかる.
 何故ならば, 結果が \\(1\\) となる部分は, 和の性質, すなわち[公理 2: 同一律](#boolean_algebra3)より消えてしまうからである.
 同じようにして, 否定論理和, 排他的論理和も[真理値表 2](#truthtable2) の \\(\downarrow,\oplus\\) の列をみると, \\(0\\) となる入力のパターンから
 
+\\[
 \begin{aligned}
 f_{\downarrow}(x_1,x_2)&=&(x'_1\lor x'_2)\land(x'_1\lor x_2)\land(x_1\lor x'_2)\\
 f_{\oplus}(x_1,x_2)&=&(x'_1\lor x'_2)\land(x_1\lor y_1)
 \end{aligned}
+\\]
 
 となる. すなわち, 真理値表で表現できるブール式は, PCNF で表せるということである<sup><a class="footnote-ref" href="#fn-5">5</a></sup>.
 次に, 任意の論理式から PCNF に変換することを考える. 結論からいうと, 次の手順に従えば PCNF へ機械的に変換できることが知られている.
@@ -533,6 +546,7 @@ f_{\oplus}(x_1,x_2)&=&(x'_1\lor x'_2)\land(x_1\lor y_1)
 以下, PCNF で表されたブール式を \\(f(x_1,x_2,\cdots,x_n)_{\rm P C N F}\\) と書くこととする. 例えば, ブール式
 \\(f(x_1,x_2,x_3)=x_1\land(x'_2\land x_3)'\\) を PCNF で表すとすると,
 
+\\[
 \begin{aligned}
 f(x_1,x_2,x_3)&=&x_1\land(x'_2\land x_3)'\\
 &=&x_1\land(x_2\lor x'_3)&(\because {\rm 定理: \href{#de_morgan}{ド・モルガンの法則}})\\
@@ -544,11 +558,13 @@ f(x_1,x_2,x_3)&=&x_1\land(x'_2\land x_3)'\\
 &=&(x_1\lor x_2\lor x_3)\land(x_1\lor x_2\lor x'_3)\land(x_1\lor x'_2\lor x_3)\\
 &&\land(x_1\lor x'_2\lor x'_3)\land(x'_1\lor x_2\lor x'_3)&(\because {\rm 定理:\href{#idempotence}{べき等律}})
 \end{aligned}
+\\]
 
 従って \\[f(x_1,x_2,x_3)_{\rm P C N F}=(x_1\lor x_2\lor x_3)\land(x_1\lor x_2\lor x'_3)\land(x_1\lor x'_2\lor x_3)\land(x_1\lor x'_2\lor x'_3)\land(x'_1\lor x_2\lor x'_3)\\]
 
 となる. 例としてもう 1 つ, \\(f(x_1,x_2,x_3)=x_1\land x'_2\lor x_2\land x_3\\) としたときの PCNF は
 
+\\[
 \begin{aligned}
 f(x_1,x_2,x_3)&=&x_1\land x'_2\lor x_2\land x_3\\
 &=&(x_1\land x'_2\lor x_2)\land(x_1\land x'_2\lor x_3)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})\\
@@ -556,6 +572,7 @@ f(x_1,x_2,x_3)&=&x_1\land x'_2\lor x_2\land x_3\\
 &=&(x_1\lor x_2\lor x_3\land x'_3)\land(x_1\lor x_2\land x'_2\lor x_3)\land(x_1\land x'_1\lor x'_2\lor x_3)&(\because {\rm \href{#boolean_algebra4}{公理 4}:補元律})\\
 &=&(x_1\lor x_2\lor x_3)\land(x_1\lor x_2\lor x'_3)\land(x_1\lor x'_2\lor x_3)\land(x'_1\lor x'_2\lor x_3)&(\because {\rm \href{#boolean_algebra2}{公理 2}:分配律})
 \end{aligned}
+\\]
 
 従って
 \\[f(x_1,x_2,x_3)_{\rm P C N F}=(x_1\lor x_2\lor x_3)\land(x_1\lor x_2\lor x'_3)\land(x_1\lor x'_2\lor x_3)\land(x'_1\lor x'_2\lor x_3)\\]
@@ -575,6 +592,7 @@ f(x_1,x_2,x_3)&=&x_1\land x'_2\lor x_2\land x_3\\
 例えば式 (3) をカルノー図で表すと次のようになる.
 
 | \\(x_1\backslash x_2\\) | \\(0\\) | \\(1\\) |
+| :--: | :--: | :--: |
 | \\(0\\) | \\(1\\) | \\(0\\) |
 | \\(1\\) | \\(1\\) | \\(1\\) |
 
@@ -596,10 +614,12 @@ Table: カルノー図 1
 \\(g_1={1:1,2:1}, g_2={2:1,2:2}\\) とグループ化できることがわかる.
 従って, それぞれを論理式で基本積の形に表すと, 
 
+\\[
 \begin{aligned}
 g_1&=&x'_1\land x'_2\lor x_1\land x'_2&=&(x'_1\lor x_1)\land x'_2&=&x'_2\\
 g_2&=&x_1\land x'_2\lor x_1\land x_2&=&x_1\land(x'_2\lor x_2)&=&x_1
 \end{aligned}
+\\]
 
 よって, \\(=x'_2\lor x_1\\) とわかる. 別のカルノー図についてもやってみよう.
 
@@ -653,7 +673,7 @@ f(x_1,x_2,x_3,x_4)&=&x'_1\land x'_2\land x'_3\land x_4 \\
 &&\lor x'_1\land x_2\land x_3\land x_4\\
 &&\lor x'_1\land x_2\land x_3\land x'_4\\
 &&\lor x_1\land x'_2\land x_3\land x_4\\
-&&\lor x_1\land x'_2\land x_3\land x'_4\tag{4}
+&&\lor x_1\land x'_2\land x_3\land x'_4\tag{\htmlId{formula4}{4}}
 \end{aligned}\\]
 
 というブール関数を簡単化することを考える. このとき, \\(x_1\land x_2\\), また \\(x_1\land x'_2\land x'_3\land x'_4\\) は禁止項とする.
@@ -674,13 +694,15 @@ Table: カルノー図 3
 \\(g_1={1:2,2:2},g_2={2:3,2:4,3:3,3:4},g_3={3:3,3:4,4:3,4:4}\\) とグループ化できる.
 従って,
 
+\\[
 \begin{aligned}
 g_1&=&x'_1\land x'_2\land x'_3\land x_4\lor x'_1\land x_2\land x'_3\land x_4&=&x'_1\land x'_3\land x_4\\
 g_2&=&x'_1\land x_2\land x_3\land x_4\lor x'_1\land x_2\land x_3\land x'_4\lor x_1\land x_2 \land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4&=&x_2\land x_3\\
 g_3&=&x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4\lor x_1\land x'_2\land x_3\land x_4\lor x_1\land x'_2\land x_3\land x'_4&=&x_1\land x_3
 \end{aligned}
+\\]
 
-ゆえに, \\(\\) は
+ゆえに, 式 \\(\href{#formula4}{(4)}\\) は
 
 \\[f(x_1,x_2,x_3,x_4)=x'_1\land x'_3\land x_4\lor x_2\land x_3\lor x_1\land x_3\\]
 
@@ -690,11 +712,11 @@ g_3&=&x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4\lor x_1
 
 ### クワイン・マクラスキー法
 
-主にクワイン・マクラスキー法は \\[x\land y\lor x\land y'=x\land(y\lor y')=x\tag{5}\\] を繰り返し利用し, ブール関数を機械的に簡単化していく方法であり,
+主にクワイン・マクラスキー法は \\[x\land y\lor x\land y'=x\land(y\lor y')=x\tag{\htmlId{formula5}{5}}\\] を繰り返し利用し, ブール関数を機械的に簡単化していく方法であり,
 その手順は次のとおりである.
 
 1. ブール式を PDNF にする
-2. 式 \\(\\) を利用して圧縮し, 主項を求める
+2. 式 \\(\href{#formula5}{(5)}\\) を利用して圧縮し, 主項を求める
     1. ブール式を 2 進値に割り当てる[^7]
     2. ハミング距離 1 のビット列同士を可能な限り繰り返し組み合わせる
 3. 求めた主項からただ 1 つの最小項を包含する主項(必須項)を求める.
@@ -702,7 +724,7 @@ g_3&=&x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4\lor x_1
     1. 必須項の和をとる
     2. 必須項により包含されていない最小項があるとき, 最も簡単な主項を選択し和を取る.
 
-いま, 式 \\(\\) を簡単化することを考えるとしよう.
+いま, 式 \\(\href{#formula4}{(4)}\\) を簡単化することを考えるとしよう.
 このとき, まず式を PDNF にする. \\(\\) はすでに PDNF の形式となっているので, 今回は必要ない.
 次に, [カルノー図 3](#karnaugh3) の各セル \\(i:j\\) を \\(m_0=1:1,m_1=2:1,m_2=3:1,m_3=4:1,m_4=1:2,\cdots,m_{15}=4:4\\)
 とおき, PDNF を構成する各最小項について次のようにビット列と対応させる.
@@ -818,10 +840,12 @@ Table: 主項表 1
 
 式 \\(\\) を[公理2](#boolean_algebra2): 分配律および[吸収律](#absorption)を用いて変形していくと,
 
+\\[
 \begin{aligned}
 &=&(m_{4,5}\lor m_{4,5}\land m_{5,6,9,10})\land(m_{5,6,9,10}\land m_{9,10,13,14}\lor m_{9,10,13,14})\land(m_{10,11,14,15}\lor m_{10,11,14,15}\land m_{2,3,14,15})\\
 &=&m_{4,5}\land m_{9,10,13,14}\land m_{10,11,14,15}
 \end{aligned}
+\\]
 
 この主項の積となっている部分を主項の和とすることで, ブール関数の最簡形が求まる.
 従って, 先と同様の結果が機械的に得られたことがわかる.
@@ -831,7 +855,7 @@ Table: 主項表 1
 これらは一度プログラムで実装することが割と学習の定番となっているので, Haskell で実装した.
 次のリポジトリにて管理している.
 
-<div class="has-text-centered mb-2">
+<div class="has-text-centered mb-3 mt-3">
 <i class="fab fa-github fa-fw"></i>
 <a href="https://github.com/falgon/bsimplified">falgon/bsimplified - The simple and pure implementation of Quine-McCluskey method, Petrick's method and parsing of Boolean formula</a>
 </div>
@@ -925,17 +949,14 @@ Simplified terms: (m_0 m_1), (m_1 m_3)
 \\(\lor\\) を和 \\(+:L\times L\to L\\), 補元 \\(x'\\) を否定 \\(\overline{x}\\) とおく. 
 各演算子は, 次の[真理値表 1](#truthtable1) に従う (\\(\overline{y}\\) は \\(\overline{x}\\) と同様なので省略).
 
-<div class="table-responsive">
-<table class="table table-hover"><thead><th>\\(x\\)</th><th>\\(y\\)</th><th>\\(\overline{x}\\)</th><th>\\(x\cdot y\\)</th><th>\\(x+y\\)</th></thead>
-<caption id="truthtable1" style="caption-side: bottom">真理値表 1</caption>
-<tbody>
-<tr><td>\\(1\\)</td><td>\\(1\\)</td><td>\\(0\\)</td><td>\\(1\\)</td><td>\\(1\\)</td></tr>
-<tr><td>\\(1\\)</td><td>\\(0\\)</td><td>\\(0\\)</td><td>\\(0\\)</td><td>\\(1\\)</td></tr>
-<tr><td>\\(0\\)</td><td>\\(1\\)</td><td>\\(1\\)</td><td>\\(0\\)</td><td>\\(1\\)</td></tr>
-<tr><td>\\(0\\)</td><td>\\(0\\)</td><td>\\(1\\)</td><td>\\(0\\)</td><td>\\(0\\)</td></tr>
-</tbody>
-</table>
-</div> 
+| \\(x\\) | \\(y\\) | \\(\overline{x}\\) | \\(x\cdot y\\) | \\(x+y\\) |
+| :--: | :--: | :--: | :--: | :--: |
+| \\(1\\) | \\(1\\) | \\(0\\) | \\(1\\) | \\(1\\) |
+| \\(1\\) | \\(0\\) | \\(0\\) | \\(0\\) | \\(1\\) |
+| \\(0\\) | \\(1\\) | \\(1\\) | \\(0\\) | \\(1\\) |
+| \\(0\\) | \\(0\\) | \\(1\\) | \\(0\\) | \\(0\\) |
+
+Table: \\(\htmlId{truthtable1}{\rm 真理値表 1}\\)
 
 これは紛れもなくブール代数である.
 この形式の下で書かれる式は一般に論理式, 演算子は論理記号といわれる.
@@ -943,17 +964,14 @@ Simplified terms: (m_0 m_1), (m_1 m_3)
 ブール代数は排他的論理和: \\(\oplus\\), 否定論理積: \\(\mid\\), 否定論理和: \\(\downarrow\\) といった記号らをも含めて論理記号として扱うことが多い.
 これらの真理値表は \\(x,y\in L\\) に対して次の通りである.
 
-<div class="table-responsive">
-<table class="table table-hover"><thead><th>\\(x\\)</th><th>\\(y\\)</th><th>\\(x\mid y\\)</th><th>\\(x\downarrow y\\)</th><th>\\(x\oplus y\\)</th></thead>
-<caption id="truthtable2" style="caption-side: bottom">真理値表 2</caption>
-<tbody>
-<tr><td>\\(1\\)</td><td>\\(1\\)</td><td>\\(0\\)</td><td>\\(0\\)</td><td>\\(0\\)</td></tr>
-<tr><td>\\(1\\)</td><td>\\(0\\)</td><td>\\(1\\)</td><td>\\(0\\)</td><td>\\(1\\)</td></tr>
-<tr><td>\\(0\\)</td><td>\\(1\\)</td><td>\\(1\\)</td><td>\\(0\\)</td><td>\\(1\\)</td></tr>
-<tr><td>\\(0\\)</td><td>\\(0\\)</td><td>\\(1\\)</td><td>\\(1\\)</td><td>\\(0\\)</td></tr>
-</tbody>
-</table>
-</div> 
+| \\(x\\) | \\(y\\) | \\(x\mid y\\) | \\(x\downarrow y\\) | \\(x\oplus y\\) |
+| :--: | :--: | :--: | :--: | :--: |
+| \\(1\\) | \\(1\\) | \\(0\\) | \\(0\\) | \\(0\\) | 
+| \\(1\\) | \\(0\\) | \\(1\\) | \\(0\\) | \\(1\\) |
+| \\(0\\) | \\(1\\) | \\(1\\) | \\(0\\) | \\(1\\) | 
+| \\(0\\) | \\(0\\) | \\(1\\) | \\(1\\) | \\(0\\) |
+
+Table: \\(\htmlId{truthtable2}{\rm 真理値表 2}\\)
 
 とくに, 否定論理積 \\(\mid\\) はそれ一つで積, 和, 否定が定義できるため, 他の論理記号よりも特別視されるような場合のある結合子である. 
 これは, シェファーの棒記号といわれ, 真理値表をみるとわかるように \\(\overline{(x\land y)}\\), また \\(\overline{x}\lor \overline{y}\\) と同値である. 

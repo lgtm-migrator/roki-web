@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f5235c2c5cecb9c3cb134af8a9893dbb076ff7e10c71aff15b6811c28a6359e7
+-- hash: 35a43653f8fdc74f2a76f112fd6591e679b22df2d4a606386777ad883644130d
 
 name:           roki-web
 version:        0.1.0.0
@@ -36,6 +36,7 @@ library
       Contexts
       Contexts.Core
       Contexts.Field
+      Contexts.Utils
       Media
       Media.JS
       Media.SVG

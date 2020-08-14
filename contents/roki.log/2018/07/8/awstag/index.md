@@ -2,6 +2,7 @@
 title: EC2 のタグを SDK で操作
 date: 2018-07-08 12:50:00
 tags: golang, AWS, Networking
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 ついこの間に golang を初めて触り[^1],
@@ -12,12 +13,14 @@ golang でなにか作る良い機会であるような気がしたので,
 golang に慣れない身でも, API, 標準ライブラリ, 
 ドキュメントが整備されているおかげでサクサクと動くところまで持っていくことができた.
 
-<p style="text-align: center;">
+<div class="box has-text-centered is-shadowless">
 <i class="fab fa-github" style="font-size: large; margin-right: 5px;"></i>
 <a href="https://github.com/falgon/goec2tag">falgon/goec2tag: Instant CLI tool for mechanically manipulating AWS EC2 tags</a>
-</p>
+</div>
 
-ほぼリポジトリにおいてある README のままであるが.
+以下は Usage である (ほぼリポジトリにおいてある README のままであるが).
+
+<!--more-->
 ```sh
 $ ./dst/main --help
 Usage of ./dst/q3:

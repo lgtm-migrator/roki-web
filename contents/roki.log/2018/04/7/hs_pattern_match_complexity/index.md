@@ -2,11 +2,13 @@
 title: ghc パターンマッチの時間計算量
 date: 2018-04-07 16:50:00
 tags: Haskell
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 [reddit](https://www.reddit.com/r/Haskell/comments/8aaqr2/how_does_Haskell_work_with_multiequation_functions/?ref=share&ref_source=link) で見かけて, ふと気になったのでメモ.
-GCC で C/C++ コードの`switch`文および`case`節をコンパイルするとき, `case`節の数が一定以上を超えると, ジャンプテーブルを利用したアセンブリが吐き出される[^1].
-同様にして, ghc はパターンマッチで[ジャンプテーブルが用いられる場合がある](https://github.com/ghc/ghc/blob/7ff6023537fdef32bbe9b4c357012d705d9b931f/compiler/cmm/CmmSwitch.hs). <br>
+GCC で C/C++ コードの `switch` 文および `case` 節をコンパイルするとき, 
+`case` 節の数が一定以上を超えると, ジャンプテーブルを利用したアセンブリが吐き出される[^1].
+同様にして, ghc はパターンマッチで[ジャンプテーブルが用いられる場合がある](https://github.com/ghc/ghc/blob/7ff6023537fdef32bbe9b4c357012d705d9b931f/compiler/cmm/CmmSwitch.hs). <!--more-->
 以下, メーリングリスト[^2]から, パターンマッチの時間計算量に関する言及について一部引用.
 
 <blockquote>
@@ -40,7 +42,7 @@ bit trickier since lightweight locking mechanisms occur when multiple
 threads evaluate the same thunk, making it non-deterministic.</strong>
 </blockquote>
 
-関連URL:
+## 参考文献
 
 * [GHCのこと](http://www.kotha.net/hperf/ghc.html)
 * [A Term Pattern-Match Compiler Inspired by Finite Automata Theory](https://pdfs.semanticscholar.org/c0d6/f0225c5140d1528f35d187f070d415f33ed6.pdf)

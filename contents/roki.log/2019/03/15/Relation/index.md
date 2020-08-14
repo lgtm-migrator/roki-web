@@ -2,6 +2,7 @@
 title: 関係 (集合論)
 date: 2019-03-15 00:00:00
 tags: math
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 関係 (集合論) について復習.

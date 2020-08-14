@@ -2,17 +2,18 @@
 title: VRRP on AWS VPC-EC2
 date: 2018-07-23 06:05:00
 tags: golang, AWS, Networking
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 本エントリでは, VPC-EC2 で MASTER 側のヘルスが確認できなくなったときに, VRRP を用いてフェールオーバし, 
 一定度の可用性担保を実現する場合について[^1]取り上げる. VRRP の実装としては keepalived を用いることとする.
 
-### 前提
+## 前提
 
 次のシチュエーションを前提としている.
 
 * インスタンスが 2 つ以上作成済みで, 24, 80 番ポートを SG の設定で開けてあり, どちらにおいても apache2 と keepalived が稼働している.
-* keepalived.conf にそれぞれ MASTER と BACKUP が設定済みで, VPC-EC2 のルートテーブルにて, いまの設定にあわせて 1 つに VIP(192.168.1.1/32) が設定してある.
+* keepalived.conf にそれぞれ MASTER と BACKUP が設定済みで, VPC-EC2 のルートテーブルにて, いまの設定にあわせて 1 つに VIP (192.168.1.1/32) が設定してある.
 
 このシチュエーションがオンプレミス環境上の話であれば, 何の問題もなく, これでフェールオーバが実現できるのだが,
 AWS EC2 でこれを実現するためには, AWS のルートテーブル側の VIP ターゲットをも貼り直す操作が必要となり,
@@ -20,7 +21,9 @@ AWS EC2 でこれを実現するためには, AWS のルートテーブル側の
 いくらか調べて見ると, awscli で同様の環境を作っている事例を多く見るのだが, 
 本エントリでは諸事情より AWS SDK for go を使って, 操作することとした.
 
-### 設定と実装
+<!--more-->
+
+## 設定と実装
 
 結論からいえば, keepalived はユニキャストに対応しているので, それらの設定を行い, 互いに監視して,
 MASTER または BACKUP となったときに自動でルートテーブルを操作すれば良い. 
@@ -32,15 +35,18 @@ MASTER または BACKUP となったときに自動でルートテーブルを�
 
 ということで, これらの要件を自動化するべく実装した.
 
-<p style="text-align: center;">
-<i class="fab fa-github" style="font-size: large; margin-right: 5px;"></i>
+<div class="box has-text-centered is-shadowless">
+<i class="fab fa-github mr-2"></i>
 <a href="https://github.com/falgon/VKUVC">VKUVC - VPC-EC2 + Keepalived Utilities = VRRP on Cloud</a>
-</p>
+</div>
 
+動いている様子のデモビデオを録画した.
 
-リポジトリには各種説明と, デモビデオへのリンクが貼ってある. もしよければ.
+<div class="box has-text-centered is-shadowless">
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/b6y3CnaTiG0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
-### 余談
+## 余談
 
 今回 keepalived.conf の生成のために, はじめて`text/template`パッケージを用いた.
 といっても簡単な使い方しかしていないので, 今回のような事例の他にも, まだまだ応用範囲は広そうだが, それにしても中々便利であった.

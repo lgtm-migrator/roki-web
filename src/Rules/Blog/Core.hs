@@ -30,8 +30,6 @@ import Utils (
 import qualified Vendor.FontAwesome as FA
 import qualified Vendor.KaTeX as KaTeX
 
-import Text.Pandoc.Options (WriterOptions (..),  HTMLMathMethod (..))
-
 appendFooter :: (Binary a, Typeable a, Semigroup a) 
     => BlogConfig m
     -> TimeLocale 
@@ -109,15 +107,15 @@ blogRules isPreview bc faIcons = do
             <> blogTitleCtx (blogName bc)
             <> constField "google-cx" (blogGoogleCx bc)
             <> if isPreview then katexJsCtx else mempty
-    
+        feedContent = blogName bc <> "-feed-content"
+
     -- each posts
-            -- writerOptions
     postIDs <- sortChronological =<< getMatches (blogEntryPattern bc)
     eachPostsSeries postIDs $ \s -> do
         route $ gsubRoute "contents/" (const "") `composeRoutes` setExtension "html"
         compile $ pandocCompilerWith readerOptions (blogWriterOptions bc) 
             >>= absolutizeUrls
-            >>= saveSnapshot "feed-content"
+            >>= saveSnapshot feedContent
             >>= (if isPreview then return else KaTeX.render)
             >>= saveSnapshot (blogContentSnapshot bc)
             >>= loadAndApplyTemplate "contents/templates/blog/post.html" 
@@ -187,7 +185,7 @@ blogRules isPreview bc faIcons = do
     create [fromFilePath (blogName bc </> "feed" </> blogName bc <> ".xml")] $ do
         route idRoute
         compile $
-            loadAllSnapshots (blogEntryPattern bc) "feed-content"
+            loadAllSnapshots (blogEntryPattern bc) feedContent
                 >>= fmap (take 20) . recentFirst
                 >>= mapM (prependBaseUrl (feedRoot (blogAtomConfig bc)))
                 >>= renderAtom (blogAtomConfig bc) (bodyField "description" <> postCtx')

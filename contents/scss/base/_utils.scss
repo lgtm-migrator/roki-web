@@ -1,13 +1,12 @@
 .disabled {
-    color: #363636;
+    color: $grey-darker;
     pointer-events: none;
 }
 
 .comma-list {
-    display: inline;
+    @extend .is-inline, .ml-0;
     list-style: none;
     padding: 0;
-    margin-left: 0;
 
     & li {
         display: inline;
@@ -20,3 +19,11 @@
     }
 }
 
+#tab-content {
+    .acontent {
+        &.is-active {
+            @extend .is-block;
+        }
+        display: none;
+    }
+}

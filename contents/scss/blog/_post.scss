@@ -12,7 +12,7 @@ $tooltip-color: white;
     
 .social-icon {
     a {
-        color: #363636;
+        color: $grey-darker;
     }
     .social-icon-twitter:hover {
         color: $twitter-color;
@@ -54,10 +54,13 @@ article {
                     font-weight: normal;
                 }
                 ul, ol {
-                    list-style-position: inside;
+                    list-style-position: outside;
                 }
                 table {
                     @extend .container, .table;
+                }
+                figure {
+                    @extend .box, .has-text-centered, .is-shadowless, .mt-0, .mb-0;
                 }
                 @extend %math-system;
             }

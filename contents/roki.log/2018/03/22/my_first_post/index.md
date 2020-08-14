@@ -1,20 +1,38 @@
 ---
 title: ハローワールド
 date: 2018-03-22 16:50:00
-tags: Uncategorized
+tags: 
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
-### ブログを移転した
+<article class="message is-danger">
+<div class="message-body">
+<i class="fas fa-info-circle"></i>
+この記事は, 旧ブログに依存した文脈を含んでいます.
+すなわち, [旧ブログ](https://falgon.github.io/roki.log)への移転時に書かれた記事であり, 
+本ブログへの移転に関する記事ではありません. これは記録として残されています.
+</div>
+</article>
 
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+## ブログを移転した
 
 これまでは約二年ほど [はてブロ](https://roki.hateblo.jp/)に, メモや学習ログなどを投稿し, 利用させて頂いていたが,
-${\rm\LaTeX}$ の記述においてはてブロ固有の独特な記法を必要とされることがあり, これらの点で
+$\LaTeX$ の記述においてはてブロ固有の独特な記法を必要とされることがあり, これらの点で
 少し不便に感じていたので, 新たにブログを立ち上げこちらに移転することとした. 
-このブログは github pages でホスティングされており, [Pelican](https://github.com/getpelican) という Static site generator によって成り立っている. またテーマは, [nikhil-theme](https://github.com/gunchu/nikhil-theme) を[フォークして](https://github.com/falgon/nikhil-theme)利用させて頂いている.
+このブログは github pages でホスティングされており, 
+[Pelican](https://github.com/getpelican) という Static site generator によって成り立っている. 
+またテーマは, [nikhil-theme](https://github.com/gunchu/nikhil-theme) 
+を[フォークして](https://github.com/falgon/nikhil-theme)利用させて頂いている.
 
-### 移転で行った作業
-流れとしては, 通常通り, `pip` で Pelican を導入し, `pelican-quickstart` によって必要なディレクトリ階層と, 最低限のファイル構成を得て, そこから諸々の設定を行った. Pelican + github pages でブログを管理する事例はとても多く, また[ドキュメント](http://docs.getpelican.com/)も充実しており, 特別困ることはなかったが, いくつかテーマの修正, 機能追加などを行った. 
+<!--more-->
+
+## 移転で行った作業
+
+流れとしては, 通常通り, `pip` で Pelican を導入し, `pelican-quickstart` によって必要なディレクトリ階層と, 
+最低限のファイル構成を得て, そこから諸々の設定を行った. 
+Pelican + github pages でブログを管理する事例はとても多く, 
+また[ドキュメント](http://docs.getpelican.com/)も充実しており, 特別困ることはなかったが, 
+いくつかテーマの修正, 機能追加などを行った. 
 **本ブログ構造や管理に関する変更の記録は, 本エントリにて随時更新している**.
 
 * HTTP コンテンツが入り混じっていたため, これを[修正した](https://github.com/falgon/nikhil-theme/commit/c9e2b23e1a46ac35f66f5178cb16e1d5ea3f8a16).
@@ -26,30 +44,44 @@ ${\rm\LaTeX}$ の記述においてはてブロ固有の独特な記法を必要
 * 404 ページを追加した.
 * [pelican_dynamic プラグインを fork](https://github.com/falgon/pelican_dynamic) し, 少し修正して導入して d3.js が動くようにした.
 * テーマ内臓のシンタックスハイライトのスタイルシートが Mathjax の利用するスタイルシートと衝突しており([該当部分](https://github.com/SimonEnsemble/SimonEnsemble.github.io/blob/d41a60d001fb2c18cb123894bd9afbe76fadada1/_sass/_syntax.scss#L44-L45)), 数式が緑色でレンダリングされてしまっていた. これを, ワークアラウンドとして [Mathjax の使うクラスに対して`color: inherit;`を指定](https://github.com/falgon/nikhil-theme/commit/466dce1d0e17b8b48c506cef7a7e75321e61c162)し, 修正した[^1].
-* [python-livereload](https://livereload.readthedocs.io/en/latest/) を用いて記事のライブビューができるようにした. バックグラウンドで立ち上がって欲しいので, それら諸々をシェルスクリプトで書いた(以下の gist をサブモジュールとしてマスターブランチに登録している).
+* [python-livereload](https://livereload.readthedocs.io/en/latest/) を用いて記事のライブビューができるようにした. バックグラウンドで立ち上がって欲しいので, それら諸々をシェルスクリプトで書いた (以下の gist をサブモジュールとしてマスターブランチに登録している).
 
-<div class="p-3">
-<ul class="nav nav-tabs">
-  <li class="nav-item active">
-    <a href="#tab1" class="nav-link active" data-toggle="tab">live_preview.py</a>
-  </li>
-  <li class="nav-item">
-    <a href="#tab2" class="nav-link active" data-toggle="tab">live_preview.sh</a>
-  </li>
-  </ul>
-  </div>
-<div class="tab-content" style="max-height: 400px; overflow-y: scroll;">
-  <div id="tab1" class="tab-pane active">
-    <script src="https://gist.github.com/falgon/5d3fe6838e7f6cb4090823df417680e5.js?file=live_preview.py" type="text/javascript"></script>
-  </div>
-  <div id="tab2" class="tab-pane">
-    <script src="https://gist.github.com/falgon/5d3fe6838e7f6cb4090823df417680e5.js?file=live_preview.sh" type="text/javascript"></script>
-  </div>
+<div class="tabs is-toggle is-boxed is-centered mb-0" id="tabs">
+<ul>
+<li class="is-active" data-tab="1">
+<a>
+<span class="icon is-small"><i class="fab fa-python fa-fw"></i></span>
+<span>live_preview.py</span>
+</a>
+</li>
+<li data-tab="2">
+<a>
+<span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span>
+<span>live_preview.sh</span>
+</a>
+</li>
+</ul>
 </div>
+
+<div id="tab-content" style="max-height: 400px; overflow-y: scroll;">
+<div class="is-active acontent" data-content="1">
+<script 
+    src="https://gist.github.com/falgon/5d3fe6838e7f6cb4090823df417680e5.js?file=live_preview.py" 
+    type="text/javascript">
+</script>
+</div>
+<div class="acontent" data-content="2">
+<script 
+    src="https://gist.github.com/falgon/5d3fe6838e7f6cb4090823df417680e5.js?file=live_preview.sh" 
+    type="text/javascript">
+</script>
+</div>
+</div>
+<script type="text/javascript" src="/js/uniq_tab.js"></script>
 
 * ローカルマシンでのサイト生成をやめ, 特定ブランチへのプッシュをトリガーに Bitbucket Pipeline によってサイト生成, デプロイを行うこととした.
 
-### 構造
+## 構造
 
 フォークしたテーマと [pelican-plugins](https://github.com/getpelican/pelican-plugins) をマスターブランチのサブモジュールとして置いた.
 マスターブランチには, ブログ記事の下書きなども貯めようと思っていたため, 特別これを公開する意味はない.

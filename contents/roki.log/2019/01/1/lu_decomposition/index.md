@@ -2,6 +2,7 @@
 title: LU 分解
 date: 2019-01-01 00:00:00
 tags: math, Haskell
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 LU 分解に関して初歩的な内容から網羅的にまとめた.

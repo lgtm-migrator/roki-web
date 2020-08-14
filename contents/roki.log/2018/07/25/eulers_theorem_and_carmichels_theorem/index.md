@@ -2,6 +2,7 @@
 title: オイラーの定理とカーマイケルの定理
 date: 2018-07-25 00:32:00
 tags: Elementary number theory, Group theory, math
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 以前の記事, [エルガマル暗号](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/)では,
@@ -10,9 +11,12 @@ tags: Elementary number theory, Group theory, math
 その一般形であるオイラーの定理およびカーマイケルの定理について[特に触れなかった](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/#fn-5)ため,
 本エントリでそれらに関してまとめる. しばしば値の確認には, 簡単のため Haskell を使う.
 
-### オイラーの定理
+<!--more-->
 
-いま, [フェルマーテスト](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/#fermattest)を定義したとき, \\(FT_n(a)\\) をパスするには(すなわち, フェルマーの小定理が示す合同式が成り立つには), 要件として,
+## オイラーの定理
+
+いま, [フェルマーテスト](/roki.log/2018/07/13/elgamalEncryption/#fermattest)を定義したとき, 
+\\(FT_n(a)\\) をパスするには (すなわち, フェルマーの小定理が示す合同式が成り立つには), 要件として,
 既約剰余類郡 \\(\mathbb{Z}^{\ast}_n\\) の各要素と
 \\(^\exists a\ \in\mathbb{Z}\\) の積が全て異なり, 
 $\bmod n$ の既約代表系のすべての積と合同でなければならない.
@@ -35,9 +39,9 @@ $\gcd(1\cdot 3\cdot 5\cdot 7,8)=1$ だから, $1\cdot 3\cdot 5\cdot 7$ を約し
 \\[a^4\equiv 1\pmod{8}\tag{2}\\] 
 これは, $\gcd(a,n)=1$ ということの他に, $a$ および $n$ の値に依存した論ではない. すなわち,
 
-<div class="panel panel-default">
-  <div class="panel-heading theo"><a id="eulerstheorem" class="disabled">オイラーの定理</a></div>
-  <div class="panel-body">
+<div class="m-thm">
+<header class="m-thm-title"><p><span id="eulerstheorem">オイラーの定理</span></p></header>
+<div class="m-thm-content">
 \\[a^{\phi(n)}\equiv 1\pmod{n}\ (2\leq n\in\mathbb{Z}^{+},\ \gcd(a,n)=1)\\]
   </div>
 </div>
@@ -52,14 +56,14 @@ True
 
 $n$ が素数 $p$ であるとき, $\phi(p)=p-1$ で, フェルマーの小定理[^1]となる[^5].
 
-### ラグランジュの定理
+## ラグランジュの定理
 
 いま述べた[オイラーの定理](#eulerstheorem)は, 
 ラグランジュの定理を使っても証明できる. ラグランジュの定理は,
 
-<div class="panel panel-default">
-  <div class="panel-heading theo"><a id="lagrangestheorem" class="disabled">ラグランジュの定理</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="lagrangestheorem">ラグランジュの定理</span></p></header>
+<div class="m-def-content">
   有限郡 \\(G\\) の部分郡 \\(H\\) の位数 \\(\mid H\mid\\) は, \\(G\\) の位数 \\(\mid G\mid\\) 
   の約数となる.
   \\[\mid G\mid\ =\ \mid G:H\mid \mid H\mid\\]
@@ -68,14 +72,28 @@ $n$ が素数 $p$ であるとき, $\phi(p)=p-1$ で, フェルマーの小定�
 
 である. 
 
-**証明**: 有限郡 \\(G\\) の部分郡 \\(H\\) による類別が \\(\displaystyle G=\bigcup_i^r a_iH\\) であるとき, \\(\mid G\mid=r\mid H\mid\\) といえる. この \\(r\\) は \\(r=\mid G:H\mid\\) 
-そのものなので, \\(\mid G\mid\ =\ \mid G:H\mid\mid H\mid\\). \\(\square\\)
+<div class="m-proof">
+<header class="m-proof-title"><p><span id="euclidean">ラグランジュの定理</span></p></header>
+<div class="m-proof-content">
+有限郡 \\(G\\) の部分郡 \\(H\\) による類別が \\(\displaystyle G=\bigcup_i^r a_iH\\) であるとき, \\(\mid G\mid=r\mid H\mid\\) といえる. この \\(r\\) は \\(r=\mid G:H\mid\\) 
+そのものなので, \\(\mid G\mid\ =\ \mid G:H\mid\mid H\mid\\). 
+</div>
+</div>
 
 ごく直感的な定理である. これを使えば, [オイラーの定理](#eulerstheorem)は次のように証明できる.
 
-**補題1**: 有限郡 $G$ とその元 $^\forall g\in G$ に対し, $g^{\mid G\mid}=e$. $e\in G$ は単位元. 
+<div class="m-lem">
+<header class="m-lem-title"><p>補題 1</p></header>
+<div class="m-lem-content">
+有限郡 $G$ とその元 $^\forall g\in G$ に対し, $g^{\mid G\mid}=e$. $e\in G$ は単位元. 
+</div>
+</div>
 
-**証明**:
+
+<div class="m-proof">
+<header class="m-proof-title"><p><span id="euclidean">補題 1</span></p></header>
+<div class="m-proof-content">
+
 巡回部分郡 $H=\lt g\gt$ の元 $g$ の位数 $\mid H\mid$ は,
 巡回して $g^i=e$ となる最小の $i\in\mathbb{N}$ であるといえる. すなわち
 \\[g^{\mid H\mid}=e\\]
@@ -85,14 +103,21 @@ $n$ が素数 $p$ であるとき, $\phi(p)=p-1$ で, フェルマーの小定�
 \\[g^{\mid H\mid\mid G:H\mid}=e\\]
 ラグランジュの定理より
 \\[g^{\mid G\mid}=e\\]
-\\(\square\\)
+</div>
+</div>
 
-**オイラーの定理の証明**:
-[オイラーの定理](#eulerstheorem)を仮定したとき, 脚注[^2]より剰余類 \\(\overline{a}\\) は法 \\(n\\) に関する既約剰余類郡 \\(\mathbb{Z}^{\ast}_{n}\\) に含まれる.  \\(\mid\mathbb{Z}^{\ast}_{n}\mid=\phi(n)\\) だから補題 1 より 
-\\(\overline{a}^{\phi(n)}=\overline{a^{\phi(n)}}=\overline{1}\\). \\(\square\\)
+<div class="m-proof">
+<header class="m-proof-title"><p><span id="euclidean">オイラーの定理</span></p></header>
+<div class="m-proof-content">
+[オイラーの定理](#eulerstheorem)を仮定したとき, 
+脚注[^2]より剰余類 \\(\overline{a}\\) は法 \\(n\\) 
+に関する既約剰余類郡 \\(\mathbb{Z}^{\ast}_{n}\\) に含まれる.  
+\\(\mid\mathbb{Z}^{\ast}_{n}\mid=\phi(n)\\) だから補題 1 より 
+\\(\overline{a}^{\phi(n)}=\overline{a^{\phi(n)}}=\overline{1}\\).
+</div>
+</div>
 
-
-### カーマイケルの定理
+## カーマイケルの定理
 
 [オイラーの定理](#eulerstheorem)で用いる $\phi$ 関数は, 
 $a^{m}\equiv 1\pmod{n}\ (m\in{N}, \gcd(a,n)=1$ を成立させる最小の整数 $m$ を持ち得ない.
@@ -107,12 +132,11 @@ True
 カーマイケルの \\(\lambda\\) 関数は, 与えられた整数 $n$ に対して同合同式を満足する最小の
 $m$ を定義より自明に与える.
 
-DeclareMathOperator{\lcm}{lcm}
-
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="lagrangestheorem" class="disabled">カーマイケルの \\(\lambda\\) 関数</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p>カーマイケルの \\(\lambda\\) 関数</p></header>
+<div class="m-def-content">
   扱う文字を全て整数とし, \\(\lambda(n)\\) は
+  \\[
   \begin{array}{lcl}
   \lambda(1)&:=&1\\
   \lambda(2)&:=&1\\
@@ -120,19 +144,21 @@ DeclareMathOperator{\lcm}{lcm}
   \lambda(2^k)&:=&\phi(2^k)\ (0\leq k\leq 2)\\
   \lambda(2^k)&:=&2^{k-2}=\dfrac{\phi(2^k)}{2}\ (e\geq 3)\\
   \lambda(p^h)&:=&\phi(p^h)=(p-1)\cdot p^{h-1}\ (p\ is\ an\ odd\ prime, h\geq 1)\\
-  \lambda(2^kp_1^{h_1}p_2^{h_2}p_3^{h_3}\cdots p_t^{h_t})&:=&\lcm(\lambda(2^k),\lambda(p_1^{h_1}),\lambda(p_2^{h_2}),\lambda(p_3^{h_3}),\cdots,\lambda(p_t^{h_t}))\ (p_n\ is\ an\ odd\ prime, k\geq 0, h_n\geq 1)
+  \lambda(2^kp_1^{h_1}p_2^{h_2}p_3^{h_3}\cdots p_t^{h_t})&:=&\mathrm{lcm}(\lambda(2^k),\lambda(p_1^{h_1}),\lambda(p_2^{h_2}),\lambda(p_3^{h_3}),\cdots,\lambda(p_t^{h_t}))\ (p_n\ is\ an\ odd\ prime, k\geq 0, h_n\geq 1)
   \end{array}
+  \\]
   と定義する.
   </div>
 </div>
-<div class="panel panel-default">
-  <div class="panel-heading theo"><a id="carmichelstheorem" class="disabled">カーマイケルの定理</a></div>
-  <div class="panel-body" style="overflow:scroll">
+
+<div class="m-thm">
+<header class="m-thm-title"><p><span id="carmichelstheorem">カーマイケルの定理</span></p></header>
+<div class="m-thm-content">
   \\[a^{\lambda(n)}\equiv 1\pmod{n}\ (2\leq n\in\mathbb{Z}^{+},\ \gcd(a,n)=1)\\]
-  </div>
+</div>
 </div>
 
-実装して確かめよう.
+実装して確かめてみる.
 
 ```Haskell
 *Main> let carmichael'sLambda n = head [k | k <- [1..], and [(m `modExp` k $ n) < 2 | m <- [1..n] gcd m n < 2]]

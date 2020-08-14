@@ -2,20 +2,24 @@
 title: シンプルなブリッジのソフトウェア実装
 date: 2018-05-29 19:42:00
 tags: C++, Network
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 以前の投稿, [ARPパケットに対する挙動からネットワーク上の盗聴者を特定する](https://falgon.github.io/roki.log/posts/2018/%205月/01/detectPromiscuous/)にて, 実験を行うにあたりリンクレイヤー上のパケットの受信と送信を行なった. このパケットを別のネットワークインタフェースから送出するようにすればブリッジになるし, MAC アドレステーブルと照合して転送すれば L2 スイッチにもなるとのことで, 一応 Linux 上で動くものを作ってみた.
 
-<p style="text-align: center;">
-<i class="fab fa-github" style="font-size: large; margin-right: 5px;"></i>
+<div class="box has-text-centered is-shadowless">
+<i class="fab fa-github mr-2"></i>
 <a href="https://github.com/falgon/toybridge">toybridge - The simply Linux network bridge implementation for learning</a>
-</p>
+</div>
 
 2 枚の NIC が必要であるが, Virtual Box の仮想アダプタを利用すれば良い. 
 実装の本質的な部分は, 異なるディスクリプタへの書き込みのみである.
 これを応用して, 複数個のネットワークインタフェースにも対応してみたい.
 
-### 余談
+<!--more-->
+
+## 余談
+
 以下, ブリッジそのものの話題とは少しずれるが, 先に述べた以前の記事での実装と, そのコードのスタイルについて少し触れる.
 
 C++ 言語とそのコミュニティにおいては, エラー/例外をどのように扱うべきなのか, 
@@ -26,7 +30,8 @@ C++ 言語とそのコミュニティにおいては, エラー/例外をどの�
 通常のこのようなディスクリプタを取り回すようなプログラムでは, エラーチェックが顕著となりやすく, 本質的な処理と紛れてしまうことがある. 特に, C のライブラリや API を用いる場合は, 戻り値にエラーの状態を持たせることが多いので, 単純に記述すれば`if`文のネストになる. そこで, 実験的に C++ に Haskell の IO モナドのようなパラダイムの一部を持ち込んで使ってみたのが, 前回と今回の実装である. 
 なお, Haskell の IO モナドのようなパラダイムを C++ に持ち込もうという発想は, 特別目新しいものではなく[^2], 以前から一部で取り上げられていた話題である. 個人的には, `if`文でエラーハンドリングを随時行うよりも, 本質的な処理のみが視覚内に収まってくることから, このスタイルは好みであるが, C++ の標準ライブラリにおける入出力の表現—シフト演算子のオーバーロードが, C++ コミュニティ内であまり好評ではない一面もある[^3]. そのような側面から見れば, あまり良いとは言えないのかもしれない.
 
-### 参考文献
+## 参考文献
+
 * 小俣光之 (2011) 『ルーター自作でわかるパケットの流れ』技術評論社. ISBN978-4-7741-4745-1
 
 [^1]: これに関する詳しい言及は, Herb Sutter 氏による新しい例外機構の提案文書を参照. [\[P0709R0\]](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0709r0.pdf) Herb Sutter. "Zero-overhead deterministic exceptions: Throwing values" (WG21 paper, 2018-05-02)

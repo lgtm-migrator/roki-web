@@ -2,6 +2,7 @@
 title: Haskell でリンクレイヤーにおける ICMP パケットの構築, 送受信および解析による ping の実装
 date: 2018-09-15 00:00:00
 tags: Haskell, Networking
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 Haskell で低レイヤーのネットワークプログラミングをそういえばしたことがなかったので, 
@@ -19,14 +20,16 @@ ICMP パケットは IP パケットであるので,
 ARP パケットの自作を要するということは, デフォルトゲートウェイやサブネット環境などを取得する機能も必要である.
 これらを自作してみた.
 
-### 環境
+<!--more-->
+
+## 環境
 
 環境は, 本エントリ末尾に記載のリポジトリ内にある 
 [Vagrantfile](https://github.com/falgon/network-basal/blob/8ba27abae4fa69652756ef7941f6377d46b54eff/testenv/Vagrantfile) 
 の通りで, ごく普通の Ubuntu 18.04 仮想マシンである.
 テスト用途として, 同一プライベートネットワーク上にもう 1 つ同 OS のノードを用意している.
 
-### ARP 
+## ARP 
 
 まずは冒頭で述べた理由より, ARP パケットの作成, 送受信および解析の機能を実装する必要がある.
 ARP に関しては, RFC 826 を再確認しつつ実装した.
@@ -51,7 +54,7 @@ $ sudo stack --allow-different-user exec arp-exe -- eth2 192.168.33.12 # リポ�
 Just 08:00:27:8b:b4:ae
 ```
 
-### サブネットの判定とデフォルトゲートウェイの取得
+## サブネットの判定とデフォルトゲートウェイの取得
 
 目的対象ノードの MAC アドレスを取得する必要性は先に述べた通りで,
 いまそれが同一ネットワーク上にあるならば, 単にそのノードを指定して ARP を送出すればよいのであるが,
@@ -65,20 +68,20 @@ Linux 上でこれを行う方法としては, `getifaddrs`等を呼び出すこ
 既存のモジュール等でこれを自由に扱う手立てはどうにもないようであった.
 これは仕方がないので, FFI を利用して`getifaddrs`を呼び出し, 取得することとした.
 
-### その他
+## その他
 
 その他はざっくりいえば, IP ヘッダ, ICMP データをそれぞれ RFC に記述のとおり並べたり, 読んだりすればよい.
 結局, 詳細は下記リポジトリを参照されたい.
 
-### 実装
+## 実装
 
 実装は, 次のリポジトリで管理している. 
 冒頭でも述べた通り, リポジトリ内にある Vagrantfile の環境上で動作を確認している.
 
-<p style="text-align: center;">
+<div class="box has-text-centered is-shadowless">
 <i class="fab fa-github" style="font-size: large; margin-right: 5px;"></i>
 <a href="https://github.com/falgon/network-basal">falgon/network-basal - Low layer network packet utilities</a>
-</p>
+</div>
 
 
 これには先に述べた arp-exe のほかに, 実行可能なアプリケーションとして,
@@ -101,7 +104,7 @@ PING 8.8.8.8: 56 data bytes
 冒頭で述べたような立場からすれば, これの実装に対しては特に意味はないのであるが,
 一応, 同様にして動くということをみるために作ってみた.
 
-### 感想
+## 感想
 
 Haskell でまとまったプログラムを書いたことは, 今回と[エルガマル暗号の実装](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/)以外ではあまりなかったため, 
 学びがあった. ネットワークに関しても, やはり実装することでかなり整理がついたように思える.

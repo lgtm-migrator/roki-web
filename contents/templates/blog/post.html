@@ -1,3 +1,8 @@
+$if(js)$
+$for(js)$
+<script defer type="text/javascript" src="$src-script$"></script>
+$endfor$
+$endif$
 <main class="section main" role="main">
     <article class="container">
         <div class="card mb-1 is-shadowless">
@@ -27,6 +32,14 @@
                 </header>
 
                 <section class="mt-5 content">
+                    $if(header-warn)$
+                    <article class="message is-warning">
+                        <div class="message-body">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            $header-warn$
+                        </div>
+                    </article>
+                    $endif$
                     $body$
                 </section>
                 <hr class="hr" />

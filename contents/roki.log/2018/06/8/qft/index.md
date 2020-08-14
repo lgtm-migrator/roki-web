@@ -2,16 +2,19 @@
 title: QFTのメモ
 date: 2018-06-08 16:50:00
 tags: math, Quantum mechanics
+header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
 お題自由な学校のレポート課題[^1]内で, ショアのアルゴリズムを説明するために
-QFT の概要について示したのだが, 折角なのでその内容の一部を抜粋し, こちらのブログのほうにも載せておくことにした.
-ショアのアルゴリズムについては, 調べればいくらでも出てくるし, 学会誌, 書籍等で分かり易く述べられていることも多いので,
+QFT の概要について示したのだが, 折角なのでその内容の一部を抜粋し, 
+こちらのブログのほうにも載せておくことにした.
+ショアのアルゴリズムについては, 調べればいくらでも出てくるし, 学会誌, 
+書籍等で分かり易く述べられていることも多いので,
 本エントリで特別取り上げることはしないが, その大体は以下のアクティビティ図の手順の通りである[^2].
 
-<p style="text-align:center">
-<img alt="ショアのアルゴリズムアクティビティ図" src="../../../../../images/2018/June/shoractivity.png" width="450" />
-</p>
+![ショアのアルゴリズムのアクティビティ図](./shoractivity.png "ショアのアルゴリズムのアクティビティ図"){ width=450 }
+
+<!--more-->
 
 <i>なお, 私自身は量子力学, 量子コンピュータ分野における専門家ではないため, 注意してください.
 間違った箇所, 不自然な箇所等ございましたら, ご報告いただけると幸いです.</i>
@@ -30,18 +33,21 @@ QFT の概要について示したのだが, 折角なのでその内容の一�
 制御位相シフトゲートを利用することで実現できる. 
 次に, 2 Qubit を用いた QFT の量子回路図を示す[^4].
 
-<p style="text-align:center">
-<img alt="アダマールゲートと制御位相シフトゲートによる 2 qubit QFT 量子回路" src="../../../../../images/2018/June/2qubitQtf.png" width=300 />
-</p>
+![アダマールゲートと制御位相シフトゲートによる 2 qubit QFT 量子回路](./2qubitQtf.png "アダマールゲートと制御位相シフトゲートによる 2 qubit QFT 量子回路"){ width=300 }
 
-ここで \\(|q_1\rangle\\) は \\[|0\rangle + \exp(j\pi q_{1})|1\rangle \to |0\rangle + \exp(\dfrac{j\pi}{2}(2q_1+q_0))|1\rangle \tag{2}\\] と変化し, 
+ここで \\(|q_1\rangle\\) は 
+\\[|0\rangle + \exp(j\pi q_{1})|1\rangle \to |0\rangle + 
+\exp(\dfrac{j\pi}{2}(2q_1+q_0))|1\rangle \tag{2}\\] と変化し, 
 \\(|q_0\rangle\\) は \\[|0\rangle + \exp(j\pi q_{0})|1\rangle \tag{3}\\] と変化することがいえる. 
-いま, 式 $$ の結果を \\(|a_0\rangle\\), 
-式 $$ の結果を \\(|a_1\rangle\\) としたとき 
+いま, 式 $(2)$ の結果を \\(|a_0\rangle\\), 
+式 $(3)$ の結果を \\(|a_1\rangle\\) としたとき 
 $$|a_1\rangle |a_0\rangle = \left\{|0\rangle + \exp(j\pi q_0)|1\rangle\right\}\left\{|0\rangle + \exp(j\pi q_1 + \dfrac{j\pi q_0}{2})|1\rangle\right\}\tag{4}$$ がいえる. 
 ここで, $q$ および $a$ の値の $2$ 進表記をそれぞれ \\([q_1, q_0],\ [a_1, a_0]\\) とすると, 
-\\(q = 2q_1 + q_0,\ a = 2a_1+a_0\\) であるので式 $$ は,
-$$ |a\rangle = |0\rangle + \exp(\dfrac{j\pi}{2}q)|1\rangle + \exp(\dfrac{j\pi}{2}q\times 2)|2\rangle + \exp(\dfrac{j\pi}{2}q\times 3)|3\rangle $$ と展開できる. 
+\\(q = 2q_1 + q_0,\ a = 2a_1+a_0\\) であるので式 $(4)$ は,
+
+$$|a\rangle = |0\rangle + \exp(\dfrac{j\pi}{2}q)|1\rangle + 
+\exp(\dfrac{j\pi}{2}q\times 2)|2\rangle + \exp(\dfrac{j\pi}{2}q\times 3)|3\rangle $$ 
+と展開できる. 
 $|a\rangle$ の各状態の係数が $|q\rangle$ の各状態の係数のフーリエ変換になっていることがわかる.
 
 [^1]: 内容の全コンテンツを[リポジトリ](https://bitbucket.org/r0ki/52520001/src)にまとめているのでもし良ければ.
