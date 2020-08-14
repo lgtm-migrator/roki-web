@@ -226,7 +226,7 @@ const Graph = (() => {
             const it = this[input]();
             if (is_undefined(it)) return;
 
-            const regexp = /\([^\)]*\)/g;
+            const regexp = /\([^)]*\)/g;
             try {
                 var f = math.parse('f(x) = ' + it.fs).compile();
                 var f_diff = math.parse('g(x) = ' + it.fds).compile();
