@@ -36,7 +36,7 @@ jobs:
         stack config set system-ghc --global true
         stack config set install-ghc --global false
     - name: Install dependencies and build the site generator
-    - run: |
+      run: |
         stack --local-bin-path . install --flag hakyll:-previewServer --flag hakyll:-watchServer
         npm ci
     - name: Build site
