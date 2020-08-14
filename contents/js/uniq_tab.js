@@ -2,7 +2,7 @@ const TABS = [...document.querySelectorAll("#tabs li")];
 const CONTENT = [...document.querySelectorAll("#tab-content div")];
 const ACTIVE_CLASS = "is-active";
 
-const update_active_tab = (selected) => {
+const updateActiveTab = (selected) => {
     TABS.forEach(function(tab) {
         if (tab && tab.classList.contains(ACTIVE_CLASS)) {
             tab.classList.remove(ACTIVE_CLASS);
@@ -11,7 +11,7 @@ const update_active_tab = (selected) => {
     selected.classList.add(ACTIVE_CLASS);
 }
 
-const update_active_content = (selected) => {
+const updateActiveContent = (selected) => {
     CONTENT.forEach(function(item) {
         if (item && item.classList.contains(ACTIVE_CLASS)) {
             item.classList.remove(ACTIVE_CLASS);
@@ -23,14 +23,14 @@ const update_active_content = (selected) => {
     });
 }
 
-const init_tabs = () => {
+const initTabs = () => {
     TABS.forEach((tab) => {
       tab.addEventListener("click", (e) => {
         let selected = tab.getAttribute("data-tab");
-        update_active_tab(tab);
-        update_active_content(selected);
+        updateActiveTab(tab);
+        updateActiveContent(selected);
       })
     })
 }
 
-init_tabs();
+initTabs();
