@@ -23,7 +23,7 @@ const update_active_content = (selected) => {
     });
 }
 
-const initTabs = () => {
+const init_tabs = () => {
     TABS.forEach((tab) => {
       tab.addEventListener("click", (e) => {
         let selected = tab.getAttribute("data-tab");
@@ -33,4 +33,4 @@ const initTabs = () => {
     })
 }
 
-initTabs();
+init_tabs();
