@@ -8,6 +8,7 @@ import Data.Binary (Binary)
 import Data.Time.Format (formatTime, TimeLocale)
 import Data.Time.LocalTime (utcToLocalTime, TimeZone)
 import Data.Typeable (Typeable)
+import Data.List.Extra (dropPrefix)
 import Data.Maybe (catMaybes)
 import Control.Monad (forM_)
 import Control.Monad.Except (MonadError (..))
@@ -25,7 +26,8 @@ import Utils (
   , makePageIdentifier
   , modifyExternalLinkAttr
   , prependBaseUrl
-  , sanitizeDisqusName)
+  , sanitizeDisqusName
+  , fixSelfLink)
 import qualified Vendor.FontAwesome as FA
 import qualified Vendor.KaTeX as KaTeX
 
@@ -187,7 +189,13 @@ blogRules isPreview bc faIcons = do
             loadAllSnapshots (blogEntryPattern bc) feedContent
                 >>= fmap (take 20) . recentFirst
                 >>= mapM (prependBaseUrl (feedRoot (blogAtomConfig bc)))
-                >>= renderAtom (blogAtomConfig bc) (bodyField "description" <> postCtx')
+                >>= renderAtom (blogAtomConfig bc) 
+                    (mapContext (dropPrefix ("/" <> blogName bc)) (urlField "url") 
+                        <> bodyField "description" 
+                        <> postCtx')
+                >>= fixSelfLink bc -- HACK: There is no way to control this externally, 
+                -- as it will be overwritten by `urlField "url"` in `Hakyll.Web.Feed`. 
+                -- But I don't want to selfmade to edit the self url.
 
     -- Search result page
     let rootTemplate = fromFilePath $ 
@@ -205,12 +213,12 @@ blogRules isPreview bc faIcons = do
     create [fromFilePath (blogName bc </> "sitemap.xml")] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAllSnapshots (blogEntryPattern bc) (blogContentSnapshot bc)
-            let hostCtx = constField "host" ("https://" <> siteName </> blogName bc)
+            posts <- recentFirst =<< loadAllSnapshots (blogEntryPattern bc) feedContent 
+            let hostCtx = constField "webroot" ("https://" <> siteName)
                 sitemapCtx = hostCtx
+                    <> blogTitleCtx (blogName bc)
                     <> listField "pages" (siteMapDateCtx <> hostCtx <> defaultContext) (return posts)
             makeItem ""
                 >>= loadAndApplyTemplate 
-                    (fromFilePath $ 
-                        intercalateDir [contentsRoot, "templates", "blog", "sitemap.xml"])
+                    (fromFilePath $ intercalateDir [contentsRoot, "templates", "blog", "sitemap.xml"])
                         sitemapCtx

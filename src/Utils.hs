@@ -1,18 +1,24 @@
 module Utils (
-    absolutizeUrls,
-    modifyExternalLinkAttr,
-    sanitizeTagName,
-    sanitizeDisqusName,
-    makePageIdentifier,
-    getStringField,
-    prependBaseUrl
+    absolutizeUrls
+  , modifyExternalLinkAttr
+  , sanitizeTagName
+  , sanitizeDisqusName
+  , makePageIdentifier
+  , getStringField
+  , prependBaseUrl
+  , fixSelfLink
 ) where
 
 import Control.Monad (liftM2)
 import Data.Char (toLower, isAlphaNum)
+import Data.List (isPrefixOf)
+import Data.List.Extra (dropPrefix)
 import Hakyll 
 import System.FilePath ((</>), takeDirectory, takeFileName, normalise, isRelative, isAbsolute)
 import qualified Text.HTML.TagSoup as TS
+
+import Config.Site (siteName)
+import Config.Blog
 
 absolutizeUrls :: Item String -> Compiler (Item String)
 absolutizeUrls item = getUnderlying >>= fmap (maybe item (flip fmap item . withUrls . f)) . getRoute
@@ -57,3 +63,20 @@ prependBaseUrl base = return . fmap (withUrls prependBaseUrl')
 
 sanitizeDisqusName :: String -> String
 sanitizeDisqusName = map (\x -> if x == '.' then '-' else x)
+
+fixSelfLink :: BlogConfig m -> Item String -> Compiler (Item String)
+fixSelfLink bc = return . fmap (withTags f)
+    where
+        wrongPrefix = "https://" <> siteName </> blogName bc </> blogName bc
+        correctPrefix = "https://" <> siteName </> blogName bc
+        f t@(TS.TagOpen "link" as) 
+            | lookup "rel" as /= Just "self" = t
+            | otherwise = flip (maybe t) (lookup "href" as) $ \href ->
+                if wrongPrefix `isPrefixOf` href then 
+                    TS.TagOpen "link" 
+                        [ ("href", correctPrefix <> dropPrefix wrongPrefix href)
+                        , ("rel", "self")
+                        ]
+                else t
+        f t = t
+

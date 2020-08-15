@@ -37,7 +37,7 @@ atomConfig = H.FeedConfiguration {
   , H.feedDescription = "Roki Diary"
   , H.feedAuthorName = "Roki"
   , H.feedAuthorEmail = "falgon53@yahoo.co.jp"
-  , H.feedRoot = siteName </> blogName
+  , H.feedRoot = "https://" <> siteName </> blogName
   }
 
 {-# INLINE contentSnapshot #-}
