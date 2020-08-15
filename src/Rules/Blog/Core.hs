@@ -26,8 +26,7 @@ import Utils (
     absolutizeUrls
   , makePageIdentifier
   , modifyExternalLinkAttr
-  , sanitizeDisqusName
-  , fixSelfLink)
+  , sanitizeDisqusName)
 import qualified Vendor.FontAwesome as FA
 import qualified Vendor.KaTeX as KaTeX
 

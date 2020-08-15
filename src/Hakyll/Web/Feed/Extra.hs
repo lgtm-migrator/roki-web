@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell, OverloadedStrings, LambdaCase #-}
 module Hakyll.Web.Feed.Extra (
     FeedConfiguration (..)
   , renderAtom
@@ -70,7 +70,7 @@ renderFeed feedTpl itemTpl config itemContext items = do
         
         updatedField = field "updated" $ const $ case items of
             [] -> return "Unknown"
-            (x:_) -> unContext itemContext' "updated" [] x >>= \cf -> case cf of
+            (x:_) -> unContext itemContext' "updated" [] x >>= \case
                 StringField s -> return s
                 _ -> fail "Hakyll.Web.Feed.Extra.renderFeed: Internal error"
 

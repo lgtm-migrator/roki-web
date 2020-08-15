@@ -5,7 +5,6 @@ module Utils (
   , sanitizeDisqusName
   , makePageIdentifier
   , getStringField
-  , fixSelfLink
 ) where
 
 import Control.Monad (liftM2)
@@ -55,20 +54,4 @@ getStringField key cs = do
 
 sanitizeDisqusName :: String -> String
 sanitizeDisqusName = map (\x -> if x == '.' then '-' else x)
-
-fixSelfLink :: BlogConfig m -> Item String -> Compiler (Item String)
-fixSelfLink bc = return . fmap (withTags f)
-    where
-        wrongPrefix = "https://" <> siteName </> blogName bc </> blogName bc
-        correctPrefix = "https://" <> siteName </> blogName bc
-        f t@(TS.TagOpen "link" as) 
-            | lookup "rel" as /= Just "self" = t
-            | otherwise = flip (maybe t) (lookup "href" as) $ \href ->
-                if wrongPrefix `isPrefixOf` href then 
-                    TS.TagOpen "link" 
-                        [ ("href", correctPrefix <> dropPrefix wrongPrefix href)
-                        , ("rel", "self")
-                        ]
-                else t
-        f t = t
 
