@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>roki.diary</title>
-    <link href="roki.dev/roki.diary/roki.diary/feed/roki.diary.xml" rel="self" />
-    <link href="roki.dev/roki.diary" />
-    <id>roki.dev/roki.diary/roki.diary/feed/roki.diary.xml</id>
+    <link href="https://roki.dev/roki.diary/feed/roki.diary.xml" rel="self" />
+    <link href="https://roki.dev/roki.diary" />
+    <id>https://roki.dev/roki.diary</id>
     <author>
         <name>Roki</name>
         <email>falgon53@yahoo.co.jp</email>
@@ -11,11 +11,11 @@
     <updated>2017-04-16T19:50:00Z</updated>
     <entry>
     <title>ロクロ回しをしてきた</title>
-    <link href="roki.dev/roki.diary/roki.diary/2017/04/16/rokuro/index.html" />
-    <id>roki.dev/roki.diary/roki.diary/2017/04/16/rokuro/index.html</id>
+    <link href="https://roki.dev/roki.diary/2017/04/16/rokuro/index.html" />
+    <id>https://roki.dev/roki.diary/2017/04/16/rokuro/index.html</id>
     <published>2017-04-16T19:50:00Z</published>
     <updated>2017-04-16T19:50:00Z</updated>
-    <summary type="html"><![CDATA[<p>下記の通り, ロクロ回しをしてきました. 中央の一番小さいものが私の作品です<a href="roki.dev/roki.diary/roki.diary/2017/04/16/rokuro/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. 主人によれば, 器の大きさによって器の大きさが示されるらしいです<span class="emoji" data-emoji="thinking">🤔</span></p>
+    <summary type="html"><![CDATA[<p>下記の通り, ロクロ回しをしてきました. 中央の一番小さいものが私の作品です<a href="/roki.diary/2017/04/16/rokuro/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. 主人によれば, 器の大きさによって器の大きさが示されるらしいです<span class="emoji" data-emoji="thinking">🤔</span></p>
 <blockquote class="twitter-tweet tw-align-center">
 <p lang="ja" dir="ltr">
 ロクロ回しやってきた。主人の方はパソコンスクールの講師さんだった。まさか、ロクロ回しに行ってプログラミングの話をするとは…。 <a href="https://t.co/WSnJcNG0yp">pic.twitter.com/WSnJcNG0yp</a>
@@ -28,21 +28,21 @@
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>両脇のものは彼女の作品です. 私より手が小さいのに何故そんな大きなものが作れるのか, 謎が深まるばかりでした.<a href="roki.dev/roki.diary/roki.diary/2017/04/16/rokuro/#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1" role="doc-endnote"><p>両脇のものは彼女の作品です. 私より手が小さいのに何故そんな大きなものが作れるのか, 謎が深まるばかりでした.<a href="/roki.diary/2017/04/16/rokuro/#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>]]></summary>
 </entry>
 <entry>
     <title>ビールは良いぞ</title>
-    <link href="roki.dev/roki.diary/roki.diary/2016/12/18/beer-is-good/index.html" />
-    <id>roki.dev/roki.diary/roki.diary/2016/12/18/beer-is-good/index.html</id>
+    <link href="https://roki.dev/roki.diary/2016/12/18/beer-is-good/index.html" />
+    <id>https://roki.dev/roki.diary/2016/12/18/beer-is-good/index.html</id>
     <published>2016-12-18T16:50:00Z</published>
     <updated>2016-12-18T16:50:00Z</updated>
     <summary type="html"><![CDATA[<p>この記事は <a href="http://www.adventar.org/calendars/1348">Beer Advent Calender 2016</a>, 18 日の記事です.</p>
 <h2 id="前置き">前置き</h2>
 <p>こんにちは. 私はお酒が好きです. お酒といっても色々あると思うのですが, 中でもビールが好きでたまりません. 私は本エントリ執筆時点でビール歴 2 年の若僧ですが, これまでに飲んだ中で個人的に好きなビールを順不同, ジャンル無関係に紹介し, 感想を書きたいと思います.</p>
 <figure>
-<img src="roki.dev/roki.diary/roki.diary/2016/12/18/beer-is-good/beers.jpg" width="400" alt /><figcaption>たくさんのビール</figcaption>
+<img src="/roki.diary/2016/12/18/beer-is-good/beers.jpg" width="400" alt /><figcaption>たくさんのビール</figcaption>
 </figure>
 <!--more-->
 <h2 id="ビールビールビール">ビール！ビール！ビール！</h2>
