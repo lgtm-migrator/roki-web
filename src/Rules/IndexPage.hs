@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Rules.IndexPage (rules) where
 
 import Control.Monad (forM)
@@ -44,6 +45,8 @@ rules bcs faIcons = do
                 >>= loadAndApplyTemplate rootTemplate aBlogCtx
                 >>= modifyExternalLinkAttr
                 >>= FA.render faIcons
+
+    match "CNAME" $ route idRoute >> compile copyFileCompiler
     where
         indexPath = fromGlob $ intercalateDir [contentsRoot, "pages", "index.html"]
         rootTemplate = fromFilePath $ intercalateDir [contentsRoot, "templates", "site", "default.html"]
