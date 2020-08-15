@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Config.Blog.AnotherBlog (
+module Config.Blogs.TechBlog (
     blogName
   , entryPattern
   , entryFilesPattern
@@ -17,12 +17,12 @@ import qualified Hakyll as H
 import System.FilePath ((</>))
 
 import qualified Archives as A
-import qualified Config.Blog.Utils as BU
-import Config.Core (siteName)
+import qualified Config.Blogs.Utils as BU
+import Config.Site (siteName)
 
 {-# INLINE blogName #-}
 blogName :: FilePath
-blogName = "roki.diary"
+blogName = "roki.log"
 
 -- contents/roki.log/year/month/day/title/index.md
 entryPattern :: H.Pattern
@@ -34,7 +34,7 @@ entryFilesPattern = BU.entryFilesPattern blogName
 atomConfig :: H.FeedConfiguration
 atomConfig = H.FeedConfiguration {
     H.feedTitle = blogName
-  , H.feedDescription = "Roki Diary"
+  , H.feedDescription = "Roki tech blog"
   , H.feedAuthorName = "Roki"
   , H.feedAuthorEmail = "falgon53@yahoo.co.jp"
   , H.feedRoot = siteName </> blogName

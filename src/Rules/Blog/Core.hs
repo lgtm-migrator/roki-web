@@ -16,11 +16,10 @@ import System.FilePath ((</>))
 
 import Archives
 import Config
-import Contexts (postCtx, siteCtx, listCtx, blogTitleCtx, katexJsCtx)
-import Contexts.Field (tagCloudField', yearMonthArchiveField)
+import Config.Blog
+import Contexts (dateCtx, postCtx, siteCtx, listCtx, blogTitleCtx, katexJsCtx, gSuiteCtx)
+import Contexts.Field (tagCloudField', yearMonthArchiveField, searchBoxResultField)
 import Config.RegexUtils (intercalateDir)
-import Rules.Blog.BlogConfig
-import Rules.Blog.Search
 import Utils (
     absolutizeUrls
   , makePageIdentifier
@@ -87,7 +86,7 @@ listPageRules isPreview title faIcons tags bc pgs = paginateRules pgs $ \pn pat 
                 <> listCtx isPreview
                 <> tagCloudField' "tag-cloud" tags
                 <> blogTitleCtx (blogName bc)
-                <> constField "google-cx" (blogGoogleCx bc)
+                <> gSuiteCtx bc
             postCtx' = teaserField "teaser" (blogContentSnapshot bc)
                 <> postCtx isPreview tags
                 <> blogTitleCtx (blogName bc)
@@ -105,7 +104,7 @@ blogRules isPreview bc faIcons = do
     let postCtx' = postCtx isPreview tags 
             <> tagCloudField' "tag-cloud" tags
             <> blogTitleCtx (blogName bc)
-            <> constField "google-cx" (blogGoogleCx bc)
+            <> gSuiteCtx bc
             <> if isPreview then katexJsCtx else mempty
         feedContent = blogName bc <> "-feed-content"
 
@@ -197,10 +196,21 @@ blogRules isPreview bc faIcons = do
         route idRoute
         compile $
             makeItem ""
-                >>= loadAndApplyTemplate rootTemplate
-                    (bodyField (searchBoxResult (blogGoogleCx bc)) <> postCtx')
+                >>= loadAndApplyTemplate rootTemplate (searchBoxResultField <> postCtx')
                 >>= absolutizeUrls
                 >>= appendFooter bc defaultTimeLocale' timeZoneJST
                 >>= modifyExternalLinkAttr
                 >>= FA.render faIcons
-                
+
+    create [fromFilePath (blogName bc </> "sitemap.xml")] $ do
+        route idRoute
+        compile $ do
+            posts <- recentFirst =<< loadAllSnapshots (blogEntryPattern bc) (blogContentSnapshot bc)
+            let hostCtx = constField "host" ("https://" <> siteName </> blogName bc)
+                sitemapCtx = hostCtx
+                    <> listField "pages" (dateCtx <> hostCtx <> defaultContext) (return posts)
+            makeItem ""
+                >>= loadAndApplyTemplate 
+                    (fromFilePath $ 
+                        intercalateDir [contentsRoot, "templates", "blog", "sitemap.xml"])
+                        sitemapCtx

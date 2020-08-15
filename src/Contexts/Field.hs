@@ -1,11 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Contexts.Field (
-    localDateField,
-    tagsField',
-    tagCloudField',
-    descriptionField,
-    imageField,
-    yearMonthArchiveField
+    localDateField
+  , tagsField'
+  , tagCloudField'
+  , descriptionField
+  , imageField
+  , yearMonthArchiveField
+  , searchBoxResultField
 ) where
 
 import Control.Monad (liftM2, forM_)
@@ -97,3 +98,7 @@ buildYearMonthArchiveField ya ma pageYear = fmap TL.unpack $ renderTextT $
 
 yearMonthArchiveField :: String -> YearlyArchives -> MonthlyArchives -> Maybe String -> Context a
 yearMonthArchiveField key ya ma s = field key $ const $ buildYearMonthArchiveField ya ma s
+
+searchBoxResultField :: Context String
+searchBoxResultField = constField "body" $ 
+    TL.unpack $ renderText $ div_ [class_ "gcse-searchresults-only"] ""

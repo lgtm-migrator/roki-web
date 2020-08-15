@@ -5,12 +5,12 @@ import System.FilePath ((</>))
 import Hakyll
 
 import Config (contentsRoot, siteName)
+import Config.Blog
 import Config.RegexUtils (intercalateDir)
 import Config.Contributions
 import Contexts (siteCtx, blogTitleCtx)
 import Utils (absolutizeUrls, modifyExternalLinkAttr)
 import qualified Vendor.FontAwesome as FA
-import Rules.Blog.BlogConfig
 
 mkBlogCtx :: String -> BlogConfig m -> Compiler (Context String)
 mkBlogCtx key obs = do

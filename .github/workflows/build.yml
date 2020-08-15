@@ -40,11 +40,18 @@ jobs:
         ./site --version
         npm ci
     - name: Build roki.dev
+      if: github.ref == 'refs/heads/master'
       run: |
         ./site build
         ./site check --internal-links
         tar cvf docs.tar.xz docs
+    - name: Build roki.dev (fast build)
+      if: github.ref == 'refs/heads/develop'
+      run: |
+        ./site build --preview
+        ./site check --internal-links
     - name: Upload artifact
+      if: github.ref == 'refs/heads/master'
       uses: actions/upload-artifact@v2
       with:
           name: roki.dev

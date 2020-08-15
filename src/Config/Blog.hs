@@ -1,4 +1,4 @@
-module Rules.Blog.BlogConfig (
+module Config.Blog (
     BlogConfig (..)
 ) where
 
@@ -18,6 +18,6 @@ data BlogConfig m = BlogConfig {
   , blogMonthlyArchivesBuilder :: m MonthlyArchives
   , blogYearlyPagePath :: FilePath -> FilePath
   , blogMonthlyPagePath :: (FilePath, FilePath) -> FilePath
-  , blogGoogleCx :: String
   , blogWriterOptions :: WriterOptions
+  , blogGoogleCx :: String
   }

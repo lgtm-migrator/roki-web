@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Config.Blog.Utils (
+module Config.Blogs.Utils (
     entryPattern
   , entryFilesPattern
   , contentSnapshot
@@ -15,7 +15,8 @@ import qualified Hakyll as H
 import System.FilePath ((</>))
 
 import qualified Archives as A
-import Config.Core (contentsRoot, timeZoneJST, defaultTimeLocale')
+import Config.Program (contentsRoot)
+import Config.Site (timeZoneJST, defaultTimeLocale')
 import Config.RegexUtils (intercalateDir, yyyy, mm, dd)
 import Utils (sanitizeTagName)
 

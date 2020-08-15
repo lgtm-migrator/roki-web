@@ -1,7 +1,5 @@
 module Rules.Blog (
-    module Rules.Blog.Core,
-    module Rules.Blog.Search
+    module Rules.Blog.Core
 ) where
 
 import Rules.Blog.Core
-import Rules.Blog.Search
