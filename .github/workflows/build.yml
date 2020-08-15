@@ -39,7 +39,6 @@ jobs:
         stack --local-bin-path . install --flag hakyll:-previewServer --flag hakyll:-watchServer
         ./site --version
         npm ci
-    - run: echo ${{ github.ref }}
     - name: Build roki.dev
       if: github.ref == 'refs/heads/master'
       run: |
@@ -47,7 +46,7 @@ jobs:
         ./site check --internal-links
         tar cvf docs.tar.xz docs
     - name: Build roki.dev (fast build)
-      if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/ci/github-actions'
+      if: github.ref == 'refs/heads/develop' || github.ref == 'refs/pull/48/merge'
       run: |
         ./site build --preview
         ./site check --internal-links
