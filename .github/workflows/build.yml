@@ -46,7 +46,7 @@ jobs:
         ./site check --internal-links
         tar cvf docs.tar.xz docs
     - name: Build roki.dev (fast build)
-      if: github.ref == 'refs/heads/develop' || github.ref == 'refs/pull/48/merge'
+      if: github.ref == 'refs/heads/develop'
       run: |
         ./site build --preview
         ./site check --internal-links
