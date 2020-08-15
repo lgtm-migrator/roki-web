@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Contexts.Core (
-    dateCtx
+    siteMapDateCtx
   , blogTitleCtx
   , siteCtx
   , postCtx
@@ -26,6 +26,9 @@ import Contexts.Field (localDateField, tagsField', descriptionField, imageField)
 
 dateCtx :: Context String
 dateCtx = localDateField defaultTimeLocale' timeZoneJST "date" "%Y/%m/%d %R"
+
+siteMapDateCtx :: Context String
+siteMapDateCtx = localDateField defaultTimeLocale' timeZoneJST "date" "%Y-%m-%d"
 
 blogTitleCtx :: String -> Context String
 blogTitleCtx = constField "blog-title"

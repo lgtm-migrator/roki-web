@@ -17,7 +17,7 @@ import System.FilePath ((</>))
 import Archives
 import Config
 import Config.Blog
-import Contexts (dateCtx, postCtx, siteCtx, listCtx, blogTitleCtx, katexJsCtx, gSuiteCtx)
+import Contexts (siteMapDateCtx, postCtx, siteCtx, listCtx, blogTitleCtx, katexJsCtx, gSuiteCtx)
 import Contexts.Field (tagCloudField', yearMonthArchiveField, searchBoxResultField)
 import Config.RegexUtils (intercalateDir)
 import Utils (
@@ -208,7 +208,7 @@ blogRules isPreview bc faIcons = do
             posts <- recentFirst =<< loadAllSnapshots (blogEntryPattern bc) (blogContentSnapshot bc)
             let hostCtx = constField "host" ("https://" <> siteName </> blogName bc)
                 sitemapCtx = hostCtx
-                    <> listField "pages" (dateCtx <> hostCtx <> defaultContext) (return posts)
+                    <> listField "pages" (siteMapDateCtx <> hostCtx <> defaultContext) (return posts)
             makeItem ""
                 >>= loadAndApplyTemplate 
                     (fromFilePath $ 
