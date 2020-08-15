@@ -1,7 +1,9 @@
 module Config (
-    module Config.Core,
-    module Config.Contributions
+    module Config.Site
+  , module Config.Program
+  , module Config.Contributions
 ) where
 
-import Config.Core
+import Config.Site
+import Config.Program
 import Config.Contributions

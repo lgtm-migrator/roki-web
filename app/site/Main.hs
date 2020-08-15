@@ -4,23 +4,21 @@ module Main (main) where
 import Data.Foldable (fold)
 import Data.Version (showVersion)
 import Development.GitRev (gitHash)
-import qualified Paths_roki_web as P 
-
 import Hakyll
+import qualified Paths_roki_web as P 
 import qualified Options.Applicative as OA
 
 import Config (hakyllConfig, siteName, writerOptions, writerPreviewOptions)
-import qualified Config.Blog.TechBlog as TB
-import qualified Config.Blog.AnotherBlog as AB
+import qualified Config.Blog as B
+import qualified Config.Blogs.TechBlog as TB
+import qualified Config.Blogs.AnotherBlog as AB
 import qualified Vendor.FontAwesome as FA
-
+import qualified Rules.Blog as B
 import qualified Rules.Media as Media
 import qualified Rules.Vendor as Vendor
 import qualified Rules.Src.Style as Style
 import qualified Rules.Src.JavaScript as Js
 import qualified Rules.IndexPage as IP
-
-import qualified Rules.Blog as B
 
 data Opts = Opts 
     { optPreviewFlag :: !Bool
@@ -126,8 +124,8 @@ techBlogConf = B.BlogConfig {
   , B.blogMonthlyArchivesBuilder = TB.buildMonthlyArchives
   , B.blogYearlyPagePath = TB.yearlyPagePath
   , B.blogMonthlyPagePath = TB.monthlyPagePath
-  , B.blogGoogleCx = "002573853708615501531:c0ipiy0rxaw"
   , B.blogWriterOptions = writerOptions
+  , B.blogGoogleCx = "c0ipiy0rxaw"
   }
 
 diaryConf :: B.BlogConfig Rules
@@ -143,8 +141,8 @@ diaryConf = B.BlogConfig {
   , B.blogMonthlyArchivesBuilder = AB.buildMonthlyArchives
   , B.blogYearlyPagePath = AB.yearlyPagePath
   , B.blogMonthlyPagePath = AB.monthlyPagePath
-  , B.blogGoogleCx = "002573853708615501531:rzk_3jogdf4"
   , B.blogWriterOptions = writerOptions
+  , B.blogGoogleCx = "rzk_3jogdf4"
   }
 
 main :: IO ()

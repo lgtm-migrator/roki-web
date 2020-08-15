@@ -1,10 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Contexts.Core (
-    blogTitleCtx,
-    siteCtx,
-    postCtx,
-    listCtx,
-    katexJsCtx
+    dateCtx
+  , blogTitleCtx
+  , siteCtx
+  , postCtx
+  , listCtx
+  , katexJsCtx
+  , gSuiteCtx
 ) where
 
 import Data.String (fromString)
@@ -15,9 +17,10 @@ import Lucid.Html5
 import Hakyll
 import System.FilePath (takeDirectory, takeFileName, (</>))
 
-import Config (timeZoneJST, defaultTimeLocale', siteName, contentsRoot)
-import qualified Config.Blog.TechBlog as TB
-import qualified Config.Blog.AnotherBlog as BA
+import Config (timeZoneJST, defaultTimeLocale', siteName, contentsRoot, GSuite (..), gSuiteConf)
+import Config.Blog
+import qualified Config.Blogs.TechBlog as TB
+import qualified Config.Blogs.AnotherBlog as BA
 import Contexts.Utils (metadataToListField)
 import Contexts.Field (localDateField, tagsField', descriptionField, imageField)
 
@@ -111,3 +114,7 @@ jsPathCtx = listFieldWith "js" ctx $ \item -> do
         }
         jsDirPath s = dropPrefix contentsRoot $ takeDirectory $ 
             toFilePath (itemIdentifier s)
+
+gSuiteCtx :: BlogConfig m -> Context String
+gSuiteCtx bc = constField "google-cx" (gCxPrefix gSuiteConf <> ":" <> blogGoogleCx bc)
+    <> constField "google-site-verification" (gSiteVerifyKey gSuiteConf)

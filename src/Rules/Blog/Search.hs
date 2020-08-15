@@ -10,6 +10,4 @@ import Lucid.Base (renderText)
 import Lucid.Html5
 
 searchBoxResult :: String -> String
-searchBoxResult cx = TL.unpack $ renderText $ do
-    script_ [async_ "", src_ $ "https://cse.google.com/cse.js?cx=" <> T.pack cx] T.empty
-    div_ [class_ "gcse-searchresults-only"] ""
+searchBoxResult cx = TL.unpack $ renderText $ div_ [class_ "gcse-searchresults-only"] ""

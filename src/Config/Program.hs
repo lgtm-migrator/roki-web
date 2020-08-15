@@ -1,21 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Config.Core (
-    siteName,
-    contentsRoot,
-    hakyllConfig,
-    readerOptions,
-    writerOptions,
-    writerPreviewOptions,
-    tagSoupOption,
-    timeZoneJST,
-    defaultTimeLocale'
+module Config.Program (
+    contentsRoot
+  , hakyllConfig
+  , readerOptions
+  , writerOptions
+  , writerPreviewOptions
+  , tagSoupOption
 ) where
 
 import Control.Monad (liftM2)
 import Data.Char (toLower)
 import Data.List (isPrefixOf, isSuffixOf)
-import Data.Time.Format (TimeLocale (..), defaultTimeLocale)
-import Data.Time.LocalTime (TimeZone (..))
 import Hakyll
 import System.FilePath (takeFileName)
 import Text.Pandoc.Options (
@@ -26,9 +21,6 @@ import Text.Pandoc.Options (
   , enableExtension
   , disableExtension)
 import qualified Text.HTML.TagSoup as T
-
-siteName :: String
-siteName = "roki.dev"
 
 contentsRoot :: FilePath
 contentsRoot = "contents"
@@ -74,11 +66,3 @@ tagSoupOption = T.RenderOptions {
   }
   where
     minimize = ["area", "br", "col", "embed", "hr", "img", "input", "meta", "link", "param"]
-
-timeZoneJST :: TimeZone
-timeZoneJST = TimeZone (9 * 60) False "JST"
-
-defaultTimeLocale' :: TimeLocale
-defaultTimeLocale' = defaultTimeLocale {
-    knownTimeZones = knownTimeZones defaultTimeLocale <> [timeZoneJST]
-  }
