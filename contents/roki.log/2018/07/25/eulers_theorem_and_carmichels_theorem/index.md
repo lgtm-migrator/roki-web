@@ -5,10 +5,10 @@ tags: Elementary number theory, Group theory, math
 header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
-以前の記事, [エルガマル暗号](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/)では,
+以前の記事, [エルガマル暗号](/roki.log/2018/07/13/elgamalEncryption/)では,
 エルガマル暗号に関する諸々の前提の説明と, その実装について示した. 
 同エントリ内で, フェルマーの小定理[^1]については取り扱ったものの, 
-その一般形であるオイラーの定理およびカーマイケルの定理について[特に触れなかった](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/#fn-5)ため,
+その一般形であるオイラーの定理およびカーマイケルの定理について[特に触れなかった](/roki.log/2018/07/13/elgamalEncryption/#fn-5)ため,
 本エントリでそれらに関してまとめる. しばしば値の確認には, 簡単のため Haskell を使う.
 
 <!--more-->
@@ -32,7 +32,7 @@ Prelude> [x * 2 `rem` 8 | x <- [0..7]]
 そこで, 先に述べた剰余類の既約代表系を考える. これは $\phi(8)=4$ 個[^3]で, $1,3,5,7$ である.
 これを同じように, \\(\left\{1\cdot a,\ 3\cdot a,\ 5\cdot a,\ 7\cdot a\right\}\\) とし, 
 先の要件を確認すると, 
-[この補題2](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/#lem2)より, 
+[この補題2](/roki.log/2018/07/13/elgamalEncryption/#lem2)より, 
 $\bmod 8$ で全体として \\(\left\{1,3,5,7\right\}\\) と一致していて,
 \\[1\cdot 3\cdot 5\cdot 7\equiv 1\cdot 3\cdot 5\cdot 7\cdot a^4\pmod{8}\tag{1}\\]
 $\gcd(1\cdot 3\cdot 5\cdot 7,8)=1$ だから, $1\cdot 3\cdot 5\cdot 7$ を約して,
@@ -167,8 +167,8 @@ $m$ を定義より自明に与える.
 True
 ```
 
-[^1]: 証明: [フェルマーの小定理](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/#fermatstheorem)
+[^1]: 証明: [フェルマーの小定理](/roki.log/2018/07/13/elgamalEncryption/#fermatstheorem)
 [^2]: 補足. 郡 $G$ とその部分郡 $H$ があるとき, $H$ は郡であるから単位元 $e\in H$ を含む. よって, $^\exists a\in G$ の剰余類を $aH=\left\{ah\mid h\in H\right\}$ としたとき(簡単のため, 左剰余類として式をおいたが, これに深い意味はない.), $a=ae\in aH$ より $a\in aH$ である. この $a$ を剰余類 $aH$ の代表という. また郡 $G$ は, 異なる \\(a_i\\) を代表とした剰余類 \\(a_iH\\) によって類別できる(\\(\displaystyle G=\bigcup_i a_iH\\)). この \\(\mid G:H\mid\\) 個の類別に対して, 各剰余類から代表の元を取り, 構成した集合を, $G$ の $H$ に対する代表系という.
-[^3]: ここで, $\phi$ は, [オイラーのトーシェント関数](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/#totientf).
-[^4]: コード内の`totient`と`modExp`は, それぞれ以前の投稿のうち, [オイラーのトーシェント関数の実装部分](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/#totientf)と, [カーマイケル数を得るための実装](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/#modexpref)を利用.
+[^3]: ここで, $\phi$ は, [オイラーのトーシェント関数](/roki.log/2018/07/13/elgamalEncryption/#totientf).
+[^4]: コード内の`totient`と`modExp`は, それぞれ以前の投稿のうち, [オイラーのトーシェント関数の実装部分](/roki.log/2018/07/13/elgamalEncryption/#totientf)と, [カーマイケル数を得るための実装](/roki.log/2018/07/13/elgamalEncryption/#modexpref)を利用.
 [^5]: この補足は冗長的かもしれないが, $n$ が素数 $p$ である場合, \\(\mathbb{Z}_p^{\ast}\\) が構成されるから, これから取った代表は素数 $p$ と互いに素であることから, 既約代表である. この事実も, 一般に \\(\\) から \\(\\) へのような式変形が実行できることとの整合を示す.

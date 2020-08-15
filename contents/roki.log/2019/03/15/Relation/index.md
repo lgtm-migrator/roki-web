@@ -7,30 +7,35 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 
 関係 (集合論) について復習.
 
-### 一般的な関係
+## 一般的な関係
 
 いま, 二つの要素の順序体を $\left\lt a, b\right\gt$ と書くこととする.
 他の異なる順序体 \\(\left\lt c, b\right\gt\\) に対し, 以下の通り定義する.
 
+\\[
 \begin{aligned}
 \left\lt a,b\right\gt=\left\lt c,d\right\gt&:=&a=c, b=d\\
 {\rm デカルト積} = {\rm 直積} = A\times B&:=&\left\{\left\lt a,b\right\gt\mid a\in A, b\in B\right\}
 \end{aligned}
+\\]
 
 このとき順序体の要素を \\(n\\) 個に拡張したものを \\(n\\)-tuple といい, 以下の通り定義する.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="n-tuple" class="disabled">\\(n\\)-tuple の同値関係と直積</a></div>
-  <div class="panel-body">
-\begin{aligned}
-\left\lt a_1,a_2,\cdots,a_n\right\gt=\left\lt b_1,b_2,\cdots,b_n\right\gt&:=&(a_1=b_1,a_2=b_2,\cdots,a_n=b_n) \tag{1} \\
-{\rm デカルト積} =  {\rm直積} = A_1\times A_2\times\cdots\times A_n=\prod_{i=1}^{n}A_i&:=&\left\{\left\lt a_1,a_2,\cdots,a_n\right\gt\mid a_1\in A_1,a_2\in A_2,\cdots,a_n\in A_n\right\} \tag{2}
-\end{aligned}
+<!--more-->
+
+<div class="m-def">
+<header class="m-def-title"><p><span id="n-tuple">\\(n\\)-tuple の同値関係と直積</span></p></header>
+<div class="m-def-content">
+\\[
+\left\lt a_1,a_2,\cdots,a_n\right\gt=\left\lt b_1,b_2,\cdots,b_n\right\gt:=(a_1=b_1,a_2=b_2,\cdots,a_n=b_n) \tag{1} \\]
+\\[
+{\rm デカルト積} =  {\rm直積} = A_1\times A_2\times\cdots\times A_n=\prod_{i=1}^{n}A_i:=\left\{\left\lt a_1,a_2,\cdots,a_n\right\gt\mid a_1\in A_1,a_2\in A_2,\cdots,a_n\in A_n\right\} \tag{2}
+\\]
   </div>
 </div>
 
 
-なお \\(\\) より \\(A^n:=(A_1=A_2=\cdots =A_n)\\) が自明に導ける.
+なお \\((2)\\) より \\(A^n:=(A_1=A_2=\cdots =A_n)\\) が自明に導ける.
 いま集合 \\(A\\) から \\(B\\) に対する二項関係 \\(R\subseteq A\times B\\) があって, 
 \\(\left\lt a,b\right\gt\in R\\) ならば \\(a\\) と \\(b\\) は関係 \\(R\\) にあるといい, 
 \\(R(a,b)\\) または \\(aRb\\) と書く.
@@ -41,7 +46,8 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 \\(\overline{R}(a,b)\\) または \\(a\overline{R}b\\) と書く.
 このとき \\(A=B\\) ならば二項関係 \\(R\subseteq (A^2=A\times B)\\) を \\(A\\) 上の二項関係という[^1].
 
-例えば, 自然数の集合 \\(\mathbb{N}\\) に対し, その[同値関係](#equivalence_relation) "\\(=\\)" を順序体を用いて新たに
+例えば, 自然数の集合 \\(\mathbb{N}\\) に対し, その[同値関係](#equivalence_relation) "\\(=\\)" 
+を順序体を用いて新たに
 
 \\[R:={\left\lt n,n\right\gt\mid n\in \mathbb{N}}\subseteq\mathbb{N}^2\\]
 
@@ -60,9 +66,9 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 
 二項関係は, より一般化することができる.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="n-ary_relation" class="disabled">\\(n\\) 項関係</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="n-ary_relation">\\(n\\) 項関係</span></p></header>
+<div class="m-def-content">
 いま複数の集合の直積の部分集合, すなわち \\(n\\) 項関係 \\(R\subseteq\prod_{i=1}^{n}A_i\\) があって,
 \\(\left\lt a_1,a_2,\cdots,a_n\right\gt\in R\\) ならば \\(a_1,a_2,\cdots,a_n\\) は 関係
 \\(R\\) にあるといい, \\(R(a_1,a_2,\cdots,a_n)\\) と書く.
@@ -76,9 +82,9 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 
 ここで, 本ブログ内で特に断りなく使われる一般的な関係に関する記号の表記, その意図について表明しておく.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="order_symbol" class="disabled">本ブログで使われる一般的な関係に関する記号表記</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="order_symbol">本ブログで使われる一般的な関係に関する記号表記</span></p></header>
+<div class="m-def-content">
 任意の二項関係 \\(\lesssim\\) の要素 \\(\left\lt a,b\right\gt\in\ \lesssim\\) に対し:
 <ul>
 <li>\\(\prec\ :={\left\lt a,b \right\gt\mid \left\lt a, b\right\gt\in\ \lesssim, a\not=b}\\)</li>
@@ -92,13 +98,13 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 すなわち, \\(x\prec y\\) は \\(x\\) は真に \\(y\\) の前にある, 
 \\(x\ll y\\) は \\(x\\) は \\(y\\) の直前にあることを意味する.
 
-### 主な二項関係の規則
+## 主な二項関係の規則
 
 主な二項関係における規則を以下に定義する.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="reflexive_relation" class="disabled">反射律</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="reflexive_relation">反射律</span></p></header>
+<div class="m-def-content">
   二項関係 \\(R\subseteq A\times B\\), また \\(x\in A\cap B\\) があって, \\(\left\lt x,x\right\gt\in R\\) が存在するとき 
   \\(R\\) は反射律を満たすという.
   </div>
@@ -107,9 +113,9 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 例えば, 実数の集合 \\(\mathbb{R}\\) をとってみると, 任意の \\(^\forall x\in\mathbb{R}\\) に対して \\(x\leq x\\) であるから \\(\leq\\) は \\(\mathbb{R}\\) の下で反射律を満たす.
 しかし, \\(x\lt x\\) は成立しないので, \\(\lt\\) は \\(\mathbb{R}\\) の下で反射律を満たさない.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="symmetric_relation" class="disabled">対象律</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="symmetric_relation">対象律</span></p></header>
+<div class="m-def-content">
   二項関係 \\(R\subseteq A\times B\\), また \\(x,y\in A\cap B\\) があって, \\(\left\lt x,y\right\gt\in R\\) ならば
   \\(\left\lt y,x\right\gt \in R\\) が存在するとき, \\(R\\) は対象律を満たすという.
   </div>
@@ -127,9 +133,9 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 * 必ずしも \\(x=y\\) ではない
 * 真に大きい/小さい関係はあり得ない. \\(R\not=\ \prec\\) かつ \\(R\not=\ \succ\\) (すべてのありとあらゆる集合上で \\(x\prec y ならば y\not\prec x\\) なので)
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="antisymmetric_relation" class="disabled">反対象律</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="antisymmetric_relation">反対象律</span></p></header>
+<div class="m-def-content">
   二項関係 \\(R\subseteq A\times B\\), また \\(x,y\in A\cap B\\) があって, \\(\left\lt x,y\right\gt\in R\\) に対し 
   \\(\left\lt y,x\right\gt\in R\\) 
   が存在するならば \\(x=y\\) のとき, \\(R\\) は反対象律を満たすという.
@@ -150,9 +156,9 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 
 * 対象的な二項関係が存在するとき, 必ず \\(x=y\\)
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="transitive_relation" class="disabled">推移律</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="transitive_relation">推移律</span></p></header>
+<div class="m-def-content">
   二項関係 \\(R\subseteq A\times B\\), また \\(x,y,z\in A\cap B\\) があって, \\(\left\lt x,y\right\gt,\left\lt y,z\right\gt\in R\\) ならば 
   \\(\left\lt x,z\right\gt \in R\\) が存在するとき, \\(R\\) は推移律を満たすという.
 </div>
@@ -167,9 +173,9 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 
 ### 主な二項関係
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="previous_order" class="disabled">前順序</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="previous_order">前順序</span></p></header>
+<div class="m-def-content">
   二項関係 \\(R\\) が集合 \\(A\\) 上で<a href="#reflexive_relation">反射律</a>, <a href="#transitive_relation">推移律</a>を同時に満たすとき, \\(R\\) は \\(A\\) 上の前順序関係という.
 </div>
 </div>
@@ -179,9 +185,9 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 グー \\(\lesssim\cdots\\) といった循環関係がないこと,
 グラフで表したときに有向非巡回グラフとなることを要請している.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="equiv_relation" class="disabled">同値</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="equiv_relation">同値</span></p></header>
+<div class="m-def-content">
   <a href="#previous_order">前順序関係</a> \\(R\\) が集合 \\(A\\) 上で<a href="#symmetric_relation">対象律</a>を満たすとき, 
   \\(R\\) は \\(A\\) 上で同値律を満たすという.
   また:
@@ -225,9 +231,9 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 
 であるので, \\(X/R={{1,6,11,16},{10,15},{3}}\\) である.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="ordered_relation" class="disabled">半順序</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="ordered_relation">半順序</span></p></header>
+<div class="m-def-content">
   <a href="#previous_order">前順序関係</a> \\(R\\) が集合 \\(A\\) 
   上で<a href="#antisymmetric_relation">反対象律</a>を満たすとき, \\(R\\) は \\(A\\) 上の半順序関係という.
   </div>
@@ -245,10 +251,9 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 
 半順序集合が定義できれば, (最(大|小), 極(大|小))(要素|元)が定義できる.
 
-<div class="panel panel-default">
-  <div class="panel-heading def">
-  <a id="extremum" class="disabled">(最(大|小)|極(大|小))(要素|元)</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="extremum">(最(大|小)|極(大|小))(要素|元)</span></p></header>
+<div class="m-def-content">
 半順序集合 \\(A\\) の要素 \\(a_0\in A\\) について 
 
 <ul>
@@ -279,9 +284,9 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 
 半順序集合が定義できれば, (上|下)(界|限)が定義できる.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="upper_least_bound" class="disabled">(上|下)(界|限)</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="upper_least_bound">(上|下)(界|限)</span></p></header>
+<div class="m-def-content">
 半順序集合 \\((\wp(X),\leq)\\) の空でない部分集合 \\(A\not =\emptyset\\) 
 の任意の要素 \\(a\in A\\) に対し,
 <ul>
@@ -302,9 +307,9 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 また, 実数全体の集合 \\(R\\) の空でない部分集合が(上|下)に有界ならば, その(上|下)限が必ず存在する. 
 これは, ワイエルストラスの定理といわれる.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="directed_set_def" class="disabled">有向 (directed) 集合</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="directed_set_def">有向 (directed) 集合</span></p></header>
+<div class="m-def-content">
 集合 \\(A\not=\emptyset\\) と<a href="#previous_order">前順序関係</a> \\(R\\) との組 \\((A,R)\\) に対し, 
 \\(A\\) の任意の有限部分集合 \\(X\subseteq A\\) の上界 \\(\sup X\in A\\)
 が存在するとき, \\(A\\) を有向 (directed) 集合という.
@@ -328,10 +333,9 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 \left\lt a_3,a_1\right\gt,\left\lt a_3,a_2\right\gt}\\) の有向グラフによる図示</figcaption>
 </figure>
 
-
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="upper_least_bound" class="disabled">全順序</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="upper_least_bound">全順序</span></p></header>
+<div class="m-def-content">
 <a href="#ordered_relation">半順序関係</a> \\(R\\) が集合 \\(A\\) 上の任意の要素に対して比較可能であるとき, \\(R\\) は \\(A\\) 上の全順序関係という.
 </div>
 </div>
@@ -340,7 +344,7 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 その他, 例えば, 大小関係 \\(\leq\\) 
 は自然数の集合 \\(\mathbb{N}\\) 上で全順序関係である.
 
-### ハッセ図
+## ハッセ図
 
 主に半順序集合の図示の方法としてよく使われるハッセ図について, 以下にいくつかの例を示す.
 
@@ -399,21 +403,19 @@ x\mid y{\rm\ かつ}\ y\mid z{\rm\ ならば}\ x\mid z
 
 このときの最小元および下限は \\(\emptyset\\) であり, 最大元および上限は \\({x_1,x_2,x_3}\\) である.
 
-### 半順序集合の拡張
+## 半順序集合の拡張
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="directet_partial_set_def" class="disabled">
-  有向半順序 (directed partial order) 集合</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="directet_partial_set_def">有向半順序 (directed partial order) 集合</span></p></header>
+<div class="m-def-content">
   <a href="#ordered_relation">半順序関係</a> \\(R\\) と<a href="#directed_set_def">有向集合</a> \\(A\\) の組 
   \\((A, R)\\) に対し \\(A\\) を有向半順序 dpo (directed partial order) 集合という.
 </div>
 </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="dcpo_def" class="disabled">
-  有向完備半順序 (directed complete partial order) 集合</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="dcpo_def">有向完備半順序 (directed complete partial order) 集合</span></p></header>
+<div class="m-def-content">
   <a href="#ordered_relation">半順序</a>集合 \\(A\\) の任意の有向部分集合 \\(X\subseteq A\\) について, 
 \\(X\\) の上限 \\(\sup X\in A\\) が存在するとき, \\(A\\) を有向完備半順序
 dcpo (directed complete partial order) 集合という.
@@ -429,9 +431,9 @@ dcpo 集合である
 たまに任意の部分集合が有向部分集合でなければならないと捉えられる場合があるが,
 そうではなく, あくまで有向部分集合として構成可能な部分集合のうちという意味合いである).
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="cpo_def" class="disabled">完備半順序 (complete partial order) 集合</a></div>
-  <div class="panel-body">
+<div class="m-def">
+<header class="m-def-title"><p><span id="cpo_def">備半順序 (complete partial order) 集合</span></p></header>
+<div class="m-def-content">
 次の 2 つの条件を満たす半順序集合 \\(A\\) を完備半順序集合 cpo (complete partial order) という.
 <ol>
 <li>\\(A\\) は <a href="#dcpo_def">dcpo</a> 集合</li>
@@ -452,10 +454,10 @@ dcpo 集合である
 
 なお, cpo は上限をもつ $\omega$ 鎖と定義することもできる.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="lattice_def" class="disabled">束</a></div>
-  <div class="panel-body">
-二項演算子 \\(\land,\lor\\)<sup id="fnref-9"><a class="footnote-ref" href="#fn-9">9</a></sup>
+<div class="m-def">
+<header class="m-def-title"><p><span id="lattice_def">束</span></p></header>
+<div class="m-def-content">
+二項演算子 \\(\land,\lor\\)[^9]
 のもとで閉じている空でない集合 \\(L\\) の任意の要素 \\(x,y,z\in L\\) に対して, 次の三つの束の公理
 <ol>
 <li id="lattice1">可換律:\\(x\land y=y\land x, x\lor y=y\lor x\\)</li>
@@ -472,7 +474,7 @@ M=\left\{m\mid a,b\lesssim m,m\in S\right\}\\]
 M=\left\{m\mid a,b\gtrsim m,m\in S\right\}\\] と書くこととすると,
 \\(\sup{a,b},\inf{a,b}\\) はそれぞれ \\(a\lor b,a\land b\\) と同値である.
 すなわち, 束とは, \\(x, y\\) 
-について上限と下限が存在する半順序集合のことである<sup id="fnref-10"><a class="footnote-ref" href="#fn-10">10</a></sup>.
+について上限と下限が存在する半順序集合のことである[^10].
 また, 
 
 <ul>
@@ -549,9 +551,9 @@ x&=&x\lor 0\\
 同様に \\(y=x\lor y\\) となるから \\(x=y\\). \\(\square\\)
 
 束 \\(L\\) のすべての元が補元をもつとき, \\(L\\) は可補束, または相補束という.
-可補分配束は一般に[ブール代数](https://falgon.github.io/roki.log/posts/2019/%205%E6%9C%88/29/BooleanAlgebra/)である[^11].
+可補分配束は一般に[ブール代数](/roki.log/2019/05/8/BooleanAlgebra/)である[^11].
 
-### 参考文献
+## 参考文献
 
 1. <a id="ref1" href="http://mathworld.wolfram.com/Extremum.html">Extremum - Wolfram MathWorld</a> 2019/3/15  アクセス.
 2. <a id="ref2" href="https://www.encyclopediaofmath.org/index.php?title=Maximum_and_minimum_of_a_function">Maximum and minimum of a function - Encyclopedia of Mathematics</a> 2019/3/15 アクセス.
@@ -561,12 +563,12 @@ x&=&x\lor 0\\
 
 [^1]: 例えば \\(xy\\) 座標平面を \\(\mathbb{R}^2\\) と書くのは, それが実数二つのペアの集合と考えられるからである.
 [^2]: 任意の整数 \\(a,b,c,n\in \mathbb{N}\\) に対して \begin{aligned}a\equiv b \pmod n\\ a\equiv b\pmod n&\rightarrow& b\equiv a\pmod n\\ a\equiv b, b\equiv c\pmod n &\rightarrow& a\equiv c\pmod n\end{aligned} であることを容易に確かめられる. 従って, 合同は同値関係である.
-[^3]: これをとくに剰余類という. FYI: [エルガマル暗号, ガロア体のセクションを参照](https://falgon.github.io/roki.log/posts/2018/%207%E6%9C%88/13/elgamalEncryption/).
-[^5]: 関連: [\\(\epsilon-\delta\\) 論法](https://falgon.github.io/roki.log/posts/2018/10%E6%9C%88/04/jacobian/#epsilonDelta-definitionOfLimit)
+[^3]: これをとくに剰余類という. FYI: [エルガマル暗号, ガロア体のセクションを参照](/roki.log/2018/07/13/elgamalEncryption/).
+[^5]: 関連: [\\(\epsilon-\delta\\) 論法](/roki.log/2018/10/4/jacobian/#epsilonDelta-definitionOfLimit)
 [^6]: ここで, \\(\wp(A)\\) は \\(\wp(A):={Y\mid Y\subseteq A}\\) であり, \\(A\\) の冪集合という. すなわち \\(A={a,b}\\) とすると \\(\wp(A)={\emptyset,{a},{b},{a,b}}\\) となる. いまその要素の個数を \\(\left|\wp(A)\right|\\) と書くとすると, \\(\left|\wp(A)\right|\\) は集合 \\(A\\) の全要素の全組み合わせであるので \\(\left|\wp(A)\right|={}_3C_0+{}_3C_1+{}_3C_2=7\\) となる. 従って, ここで取り上げた例題について丁寧に書き出してみると, \\[\wp(X)-{\emptyset,X}={X,{x_1,x_2},{x_1,x_3},{x_2,x_3},{x_1},{x_2},{x_3},\emptyset}-{\emptyset,X}\\] ということ.
-[^7]: \\(\mid\\) は整数論の界隈で普遍的な記述である. 「割り切れない」も同様にして \\(\not\mid\\) と書いたりする. FYI: [エルガマル暗号](https://falgon.github.io/roki.log/posts/2018/%207%E6%9C%88/13/elgamalEncryption/)
+[^7]: \\(\mid\\) は整数論の界隈で普遍的な記述である. 「割り切れない」も同様にして \\(\not\mid\\) と書いたりする. FYI: [エルガマル暗号](/roki.log/2018/07/13/elgamalEncryption/)
 [^8]: \\(1\\) と自分自身以外の数で割り切れるかを考える. \\(1\\) は始点なので, \\(1\\) のノードへ向けられる辺はないだろう. \\(2\\) について考えてみると, \\(1\mid 2,3\\) なら \\(1\mid 3\\) であるが, \\(4\\) は \\(1\mid 2\mid 4\\) である. これを全要素について適用していくと図のようになる.
 [^9]: 論理記号とは無関係であることに注意.
 [^10]: 半順序集合 \\(S\\) の任意の要素 \\(x, y\\) に対して \\(\sup{x,y},\inf{x,y}\\) が存在すれば, \\(x, y\\) と順序関係のある \\(z\in S\\) に対して
 \begin{aligned}\sup\left\{x,y\right\}&=&\sup\left\{y,x\right\}\\ \sup\left\{\sup\left\{x,y\right\},z\right\}&=&\sup\left\{x,\sup\left\{y,z\right\}\right\}\\ \sup\left\{x,\inf\left\{x,y\right\}\right\}&=&x\end{aligned} より束の公理を満たす. 双対の原理より双対についても成り立つ.
-[^11]: 可補束ついて次の性質が成り立つ. \begin{aligned}x''&=&x\\ 0'&=&1\\ 1'&=&0\\ x\lor 0&=&x\\ x\land 0&=&0\\ x\lor 1&=&1\\ x\land 1&=&x\\ (x\land y)'&=&x'\lor y'\\ (x\lor y)'&=&x'\land y'\\ x\leq y&\leftrightarrow& y'\leq x'\end{aligned} 面倒なので証明略. [ブール代数](https://falgon.github.io/roki.log/posts/2019/%205%E6%9C%88/29/BooleanAlgebra/)のエントリにて分配律を用いずに証明しているものがあるので, それで代用できるかと.
+[^11]: 可補束ついて次の性質が成り立つ. \begin{aligned}x''&=&x\\ 0'&=&1\\ 1'&=&0\\ x\lor 0&=&x\\ x\land 0&=&0\\ x\lor 1&=&1\\ x\land 1&=&x\\ (x\land y)'&=&x'\lor y'\\ (x\lor y)'&=&x'\land y'\\ x\leq y&\leftrightarrow& y'\leq x'\end{aligned} 面倒なので証明略. [ブール代数](/roki.log/2019/05/29/BooleanAlgebra/)のエントリにて分配律を用いずに証明しているものがあるので, それで代用できるかと.

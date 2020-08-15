@@ -25,6 +25,7 @@ import qualified Rules.Blog as B
 data Opts = Opts 
     { optPreviewFlag :: !Bool
     , optVerbose :: !Bool
+    , optInternalLinks :: !Bool
     , optCmd :: !Command
     }
 
@@ -73,10 +74,17 @@ verbose = OA.switch $ mconcat [
   , OA.help "Run in verbose mode"
   ]
 
+internalLinks :: OA.Parser Bool
+internalLinks = OA.switch $ mconcat [
+    OA.long "internal-links"
+  , OA.help "Check internal links only"
+  ]
+
 programOptions :: Configuration -> OA.Parser Opts
 programOptions conf = Opts 
     <$> preview 
     <*> verbose
+    <*> internalLinks
     <*> OA.hsubparser (buildCmd 
         <> checkCmd 
         <> cleanCmd 
@@ -142,7 +150,7 @@ diaryConf = B.BlogConfig {
 main :: IO ()
 main = do
     opts <- OA.execParser $ optsParser hakyllConfig
-    hakyllWithArgs hakyllConfig (Options (optVerbose opts) (optCmd opts)) $ do
+    hakyllWithArgs hakyllConfig (Options (optVerbose opts) $ mapIL (optInternalLinks opts) (optCmd opts)) $ do
         Media.rules >> Vendor.rules (optPreviewFlag opts) >> Style.rules >> Js.rules
         faIcons <- fold <$> preprocess FA.loadFontAwesome
 
@@ -155,4 +163,6 @@ main = do
         IP.rules [tc, dc] faIcons
 
         match "contents/templates/**" $ compile templateBodyCompiler
-
+    where
+        mapIL b (Check _) = Check b
+        mapIL _ x = x

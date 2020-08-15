@@ -106,7 +106,7 @@ e.g.:
 * $f(n):=\gcd(n,k)$. $k=2$ としたとき, $f(15)=f(3)f(5)=1,\ f(24)=f(3)f(8)=2$
 * 指数法則: $k\in\mathbb{Z}$ に対する $n^k$
 * メビウス関数 \\(:= \mu(n)\\). \\(\mu(18)=\mu(2\cdot 3^2)=0,\ \mu(6)=\mu(2\cdot 3)=1, \mu(7)=-1\\).
-* [オイラーのトーシェント関数](https://falgon.github.io/roki.log/posts/2018/%207月/13/elgamalEncryption/#totientf) \\(:= \phi(n)\\). \\(\phi(6)=\phi(3)\cdot\phi(2)=2,\ \phi(28)=\phi(4)\cdot\phi(7)=12\\).
+* [オイラーのトーシェント関数](/roki.log/2018/07/13/elgamalEncryption/#totientf) \\(:= \phi(n)\\). \\(\phi(6)=\phi(3)\cdot\phi(2)=2,\ \phi(28)=\phi(4)\cdot\phi(7)=12\\).
 
 また, 完全乗法的関数は以下で定義される[^1].
 

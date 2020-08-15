@@ -67,4 +67,4 @@ Boost.Program_options とかの非標準ライブラリを使うことになる�
 自作するかになるだろうなあなどと思った. C++20 に期待(?).
 
 
-[^1]: roki (2018) 「roki (2018)「golang 始めたてメモ」<https://falgon.github.io/roki.log/posts/2018/%206月/17/golangtrial/>
+[^1]: roki (2018) 「roki (2018)「golang 始めたてメモ」\\(\url{/roki.log/2018/06/17/golangtrial/}\\)

@@ -50,7 +50,7 @@ main = do
 * "Network.AWS" <http://hackage.Haskell.org/package/amazonka-1.6.0/docs/Network-AWS.html> 2018 年 6 月 24 日アクセス
 * "Network.AWS.EC2" <http://hackage.Haskell.org/package/amazonka-ec2-1.6.0/docs/Network-AWS-EC2.html> 2018 年 6 月 24 日アクセス
 
-[^1]: roki (2018)「golang 始めたてメモ」<https://falgon.github.io/roki.log/posts/2018/%206月/17/golangtrial/>
+[^1]: roki (2018)「golang 始めたてメモ」\\(\url{/roki.log/2018/06/17/golangtrial/}\\)
 [^2]: 「AWS SDK とツール」<https://aws.amazon.com/en/getting-started/tools-sdks/> 2018 年 6 月 24 日アクセス.
 [^3]: [参照](#ref1).
 [^4]: [参照](#ref2).

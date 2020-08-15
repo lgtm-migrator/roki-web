@@ -5,7 +5,7 @@ tags: math, Haskell
 header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 ---
 
-### 要旨
+## 要旨
 
 本エントリー(WIP)はカーブフィッティング全般に関して記述したものであり,
 それぞれの原理, 性質について学んだ際のメモとして, より単純なものから広く浅く挙げています.
@@ -14,24 +14,24 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 何かありましたら, コメント等で指摘していただけるとありがたいです.
 また, 本エントリ内における近似およびプロット等に関する実装は次のリポジトリ
 
-<p style="text-align: center;">
-<i class="fab fa-github" style="font-size: large; margin-right: 5px;"></i>
+<div class="box has-text-centered is-shadowless">
+<i class="fab fa-github mr-2"></i>
 <a href="https://github.com/falgon/PlayLinearAlgebra">falgon/PlayLinearAlgebra - My playground about linear albebra: LU decomposition, pseudo inverse, least squared method, etc...</a>
-</p>
+</div>
 
 にまとまっています.
 
 <!--more-->
 
-### 線形回帰
+## 線形回帰
 
 まずは, 回帰解析のうち最も基本的な手法である最小二乗法について.
 次のような散布図[^1]を考える.
 
-<p style="text-align:center">
-<img src="../../../../../images/2018/October/20/data.png" alt="dataset figure" width="600px"></p>
+![データセット](./data.png "データセット"){ width=600px }
 
-このデータセットは, [マイルラン](https://en.wikipedia.org/wiki/Mile_run)という中距離マラソンにおける男子世界記録の遷移を表しており,
+このデータセットは, 
+[マイルラン](https://en.wikipedia.org/wiki/Mile_run)という中距離マラソンにおける男子世界記録の遷移を表しており,
 横軸が世界記録を更新した年, 縦軸がその記録の秒数となっている.
 この散布図は負の相関関係があるといえる.
 まあ, 記録の更新というのは, ゴールするまでのタイムが縮んだということをいうので,
@@ -42,10 +42,10 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 つまり各点からの距離が最も小さくなるような直線を引きたいとしよう.
 これが本エントリにおける主題である.
 
-#### 線形最小二乗法
+### 線形最小二乗法
 
 最小二乗法は, 上記のようなデータの組 $(x_i,y_i)$ が \\(n\\) 組与えられたとき(\\(x_i\\) の全てが等しい場合を除いて)に, 
-それらの点に相応しい関数 \\[y_i=a_i+a_ix^1_1+\cdots+a_ix^n_i\tag{i}\\] の係数(傾きと切片)を決定する方法である(定義式は \\(\\)). 
+それらの点に相応しい関数 \\[y_i=a_i+a_ix^1_1+\cdots+a_ix^n_i\tag{i}\\] の係数(傾きと切片)を決定する方法である(定義式は \\((14)\\)). 
 なお, このときの線形性とは, 係数 \\(a_k\\) の線形性を意味しており, すなわち応答変数 \\(y\\) は係数 \\(a_k\\) の線形関数を表している.
 まずは最もシンプルな例として, 回帰モデルを \\(y=ax+b\\) として考えると, これに対する線形最小二乗法は, 簡単に導出できる:
 
@@ -58,9 +58,9 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 これが誤差を相殺してしまったり, 値を負にしてしまうからである.
 絶対値を用いないのは, 後の微分計算を可能にするためである.
 
-さて, いま \\(\\) の最小値を求めたいわけだが, 
+さて, いま \\((1)\\) の最小値を求めたいわけだが, 
 簡単のためにここでまず \\(b\\) を固定したと考える. 
-すると, \\(\\) は単なる \\(a\\) の二次関数と捉えることができる.
+すると, \\((1)\\) は単なる \\(a\\) の二次関数と捉えることができる.
 その係数 \\(\displaystyle\sum^{n}_{i=1}x_i^2\\) は正であるので, 
 この二次関数は, 下に凸の放物線を描くことがわかる.
 よってこの二次関数の最小値は, 接線の傾きを \\(0\\) とした値をとることがいえるので, それを
@@ -73,17 +73,20 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 \\[\frac{\partial\epsilon(a,b)}{\partial b}=0\\]
 
 とかける. いま求めたかったのはこのどちらをも満たす \\(a,b\\) であるので,
-これらの連立方程式を解けば良いこととなる. 従って \\(\\) より
+これらの連立方程式を解けば良いこととなる. 従って \\((1)\\) より
 
+\\[
 \begin{aligned}
 &&\begin{cases}
 &\displaystyle\frac{\partial\epsilon(a,b)}{\partial a}&=&\displaystyle\sum_{i=1}^{n}2(y_i-(ax_i+b))\cdot(-x_i)&=&0 \\
 &\displaystyle\frac{\partial\epsilon(a,b)}{\partial b}&=&\displaystyle\sum_{i=1}^{n}2(y_i-(ax_i+b))&=&0
 \end{cases}
 \end{aligned}
+\\]
 
 このような, 線形方程式におけるすべての定数項が $0$ であるものを同次線形系(英:homogeneous linear system)という. この両辺を \\(2\\) で割って,
 
+\\[
 \begin{aligned}
 &\leftrightarrow
 &\begin{cases}
@@ -97,9 +100,11 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 \end{cases}
 \tag{2}
 \end{aligned}
+\\]
 
 両辺を \\(n\\) で割って,
 
+\\[
 \begin{aligned}
 &\leftrightarrow
 &\begin{cases}
@@ -107,7 +112,7 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 &\displaystyle a\frac{\sum_{i=1}^n x_i}{n}&+&b&=&\frac{\sum_{i=1}^ny_i}{n}
 \end{cases}
 \end{aligned}
-
+\\]
 ここで, \\(\frac{\sum_{i=1}^n x_i}{n}\\) は \\(x\\) の総和をその個数で割っているので
 \\(x\\) の平均,
 \\(\frac{\sum_{i=1}^ny_i}{n}\\) は \\(y\\) の総和をその個数で割っているので 
@@ -118,93 +123,101 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 よって, \\(b=-a\overline{x}+\overline{y}\\) を代入すれば \\(a\\) も求まるわけだが, 
 一旦これを行列で表現すると,
 
+\\[
 \begin{aligned}
-(\begin{array}{cc}
+\left(\begin{array}{cc}
 \overline{x^2} & \overline{x} \\ \overline{x} & 1
-\end{array})
-(\begin{array}{c}
+\end{array}\right)
+\left(\begin{array}{c}
 a \\ b
-\end{array})
+\end{array}\right)
 &=&
-(\begin{array}{c}
+\left(\begin{array}{c}
 \overline{xy} \\
 \overline{y}
-\end{array})
+\end{array}\right)
 \end{aligned}
+\\]
 
 左辺の行列の行列式 
 
+\\[
 \begin{aligned}
-{\rm det}(\begin{array}{cc}
+{\rm det}\left(\begin{array}{cc}
 \overline{x^2} & \overline{x} \\ \overline{x} & 1
-\end{array})
+\end{array}\right)
 \end{aligned}
+\\]
 
 は, \\(x_i\\) がすべて等しくない限り \\(0\\) とはならない. 
 いまはそのような場合を除いているから, 同行列は正則で
 
+\\[
 \begin{aligned}
-(\begin{array}{c}
+\left(\begin{array}{c}
 a \\ b
-\end{array})
-&=&(\begin{array}{cc}
+\end{array}\right)
+&=&\left(\begin{array}{cc}
 \overline{x^2} & \overline{x} \\ \overline{x} & 1
-\end{array})^{-1}
-(\begin{array}{c}
+\end{array}\right)^{-1}
+\left(\begin{array}{c}
 \overline{xy} \\
 \overline{y}
-\end{array}) 
+\end{array}\right) 
 \end{aligned}
+\\]
 
 より \\((a\ b)^T\\) は
 
+\\[
 \begin{aligned}
-&=&(\begin{array}{c}
+&=&\left(\begin{array}{c}
 \frac{\overline{xy}-\overline{x}\cdot\overline{y}}{\overline{x^2}-\overline{x}^2} \\
 \frac{\overline{x^2}\cdot\overline{y}-\overline{xy}\cdot\overline{x}}{\overline{x^2}-\overline{x}^2}
-\end{array})\tag{3}
+\end{array}\right)\tag{3}
 \end{aligned}
+\\]
 
 と求まる.  ここで, \\(\overline{xy}-\overline{x}\cdot\overline{y}\\) は共分散,
 \\(\overline{x^2}-\overline{x}^2\\) は分散の形になっているので, \\(a\\) は \\(\frac{\mathrm{Cov}(x,y)}{\sigma_x^2}\\) とまとめることができ, よくみる最小二乗法の定義式の形となった.
 実際にプログラムにすることを考えるときは, 平均などはどうでもよくて,
-単に \\(\\) の各項に \\(n\\) を乗じた形で計算すればよい. つまり,
+単に \\((3)\\) の各項に \\(n\\) を乗じた形で計算すればよい. つまり,
 
+\\[
 \begin{aligned}
-&\leftrightarrow&
-(\begin{array}{cc}
+(2)&\leftrightarrow&
+\left(\begin{array}{cc}
 \displaystyle \sum_{i=1}^{n}x^2_i &\displaystyle \sum_{i=1}^{n}x_i \\
 \displaystyle \sum_{i=1}^{n}x_i &n
-\end{array})
-(\begin{array}{c}
+\end{array}\right)
+\left(\begin{array}{c}
 a \\ b
-\end{array})&=&
-(\begin{array}{c}
+\end{array}\right)&=&
+\left(\begin{array}{c}
 \displaystyle\sum_{i=1}^{n}x_i y_i \\ \displaystyle\sum_{i=1}^{n}y_i 
-\end{array})
+\end{array}\right)
 \\ 
 &\leftrightarrow&
-(\begin{array}{c}
+\left(\begin{array}{c}
 a \\ b
-\end{array})&=&
-(\begin{array}{cc}
+\end{array}\right)&=&
+\left(\begin{array}{cc}
 \displaystyle \sum_{i=1}^{n}x^2_i &\displaystyle \sum_{i=1}^{n}x_i \\
 \displaystyle \sum_{i=1}^{n}x_i &n
-\end{array})^{-1}
-(\begin{array}{c}
+\end{array}\right)^{-1}
+\left(\begin{array}{c}
 \displaystyle\sum_{i=1}^{n}x_i y_i \\ \displaystyle\sum_{i=1}^{n}y_i 
-\end{array}) \\
-&&&=&(\begin{array}{c}
+\end{array}\right) \\
+&&&=&\left(\begin{array}{c}
 \frac{(\sum^n_{i=1}x_iy_i) n-(\sum^n_{i=1}x_i)(\sum^n_{i=1}y_i)}{(\sum^n_{i=1}x^2_i) n-(\sum^n_{i=1}x_i)^2} \\
 \frac{(\sum^n_{i=1}x^2_i)(\sum^n_{i=1}y_i)-(\sum^n_{i=1}x_iy_i)(\sum^n_{i=1}x_i)}{(\sum^n_{i=1}x^2_i) n-(\sum^n_{i=1}x_i)^2}
-\end{array})
+\end{array}\right)
 \end{aligned}
+\\]
 
 である. これを用いて, 次のように近似できる.
 
-<p style="text-align:center">
-<img src="../../../../../images/2018/October/20/lenarEquations.png" alt="lenear equations" width="600px">
-</p>
+![lenear equations](./lenarEquations.png "lenear equations"){ width=600px }
 
 というのが, 最も素朴な最小二乗法の例である[^2]. 
 より一般に, \\(y\\) が \\(m\\) 次の多項式 \\(\displaystyle f(x)=b+\sum_{j=1}^{m}a_j x^{j}\\) 
@@ -215,6 +228,7 @@ a \\ b
 
 先と同様, 各変数ごとの偏微分が \\(0\\) となる連立方程式を解けば良いから,
 
+\\[
 \begin{aligned}
 \begin{cases}
 &\displaystyle\frac{\partial\epsilon}{\partial b}&=&\displaystyle-\sum_{i=1}^{n}2(y_i-b-\sum_{j=1}^{m}a_j x^{j})&=&0 \\
@@ -223,55 +237,60 @@ a \\ b
 &\displaystyle\frac{\partial\epsilon}{\partial a_m}&=&\displaystyle-\sum_{i=1}^{n}2x^m_i(y_i-b-\sum_{j=1}^{m}a_j x^{j})&=&0 
 \end{cases}
 \end{aligned}
+\\]
 
 先の例に合わせて, 両辺を \\(2n\\) で割った行列とすると, 平均の記号を用いて
 
+\\[
 \begin{aligned}
-(\begin{array}{cccc}
+\left(\begin{array}{cccc}
 1 & \overline{x} & \cdots & \overline{x^m} \\
 \overline{x} & \overline{x^2} & \cdots & \overline{x^{m+1}} \\
 \vdots & \vdots & \ddots & \vdots \\
 \overline{x^m} & \overline{x^{m+1}} & \cdots & \overline{x^{2m}}
-\end{array})
-(\begin{array}{c}
+\end{array}\right)
+\left(\begin{array}{c}
 b \\ a_1 \\ \vdots \\ a_m
-\end{array})=
-(\begin{array}{c}
+\end{array}\right)=
+\left(\begin{array}{c}
 \overline{y} \\
 \overline{xy} \\
 \vdots \\
 \overline{x^my}
-\end{array})
+\end{array}\right)
 \end{aligned}
+\\]
 
 なので,
 
+\\[
 \begin{aligned}
-(\begin{array}{c}
+\left(\begin{array}{c}
 b \\ a_1 \\ \vdots \\ a_m
-\end{array})&=&
-(\begin{array}{cccc}
+\end{array}\right)&=&
+\left(\begin{array}{cccc}
 1 & \overline{x} & \cdots & \overline{x^m} \\
 \overline{x} & \overline{x^2} & \cdots & \overline{x^{m+1}} \\
 \vdots & \vdots & \ddots & \vdots \\
 \overline{x^m} & \overline{x^{m+1}} & \cdots & \overline{x^{2m}}
-\end{array})^{-1}
-(\begin{array}{c}
+\end{array}\right)^{-1}
+\left(\begin{array}{c}
 \overline{y} \\
 \overline{xy} \\
 \vdots \\
 \overline{x^my}
-\end{array}) \\
-&=&(\begin{array}{cccc}
+\end{array}\right) \\
+&=&\left(\begin{array}{cccc}
 n & \displaystyle\sum^{n}_{i=1}x_i & \cdots & \displaystyle\sum^{n}_{i=1}x^m_i \\
 \displaystyle\sum^{n}_{i=1}x_i & \displaystyle\sum^{n}_{i=1}x_i^2 & \cdots & \displaystyle\sum^{n}_{i=1}x_i^{m+1} \\
 \vdots & \vdots & \ddots & \vdots \\
 \displaystyle\sum^{n}_{i=1}x_i^m & \displaystyle\sum^{n}_{i=1}x_i^{m+1} & \cdots & \displaystyle\sum^{n}_{i=1}x_i^{2m}
-\end{array})^{-1}
-(\begin{array}{c}
+\end{array}\right)^{-1}
+\left(\begin{array}{c}
 \displaystyle\sum^n_{i=1}y_i \\ \displaystyle\sum^n_{i=1}x_iy_i \\ \vdots \\ \displaystyle\sum^n_{i=1}x_i^my_i
-\end{array})
+\end{array}\right)
 \end{aligned}
+\\]
 
 で求まる. 
 この正確な解を機械的に求める場合には,
@@ -280,68 +299,68 @@ n & \displaystyle\sum^{n}_{i=1}x_i & \cdots & \displaystyle\sum^{n}_{i=1}x^m_i \
 
 先のデータは直線的であったので, 今度は曲線が引けそうなデータセットとして, \\(x_i=i-1, y_i=\sin(x_i)+\epsilon, i=1,2,\cdots,11\\) に対し, フィッティングを試行してみる事とする.
 ここで \\(\epsilon\\) は \\(\mathrm{N}(0, 0.2)\\) の正規分布に従う確率変数である.
-次のアニメーションでは, 次数 \\(1\leq m\leq 9\\) に応じた近似の遷移を観察できる(LU 分解による計算 \\(\to\\) [解説](https://falgon.github.io/roki.log/posts/2019/%201%E6%9C%88/01/LUDecomposition/)).
+次のアニメーションでは, 次数 \\(1\leq m\leq 9\\) に応じた近似の遷移を観察できる(LU 分解による計算 \\(\to\\) [解説](/roki.log/2019/01/1/LUDecomposition/)).
 
-<p style="text-align:center">
-<img src="../../../../../images/2018/October/20/out.gif" alt="lenear equations" width="600px">
-</p>
+![lenear equations](./out.gif "lenear equations"){ width=600px }
 
-ところで, 冒頭で示した関数 \\(\\) の線形回帰モデルは, 次のように表すことができる.
+ところで, 冒頭で示した関数 \\((i)\\) の線形回帰モデルは, 次のように表すことができる.
 
 \\[y_i=a_0+\sum^m_{j=1}a_jf_j(x_i^1,x_i^2,\cdots,x_i^n)+u_i,\ i=1,\cdots,m\tag{ii}\\]
 
 ここで, \\(f_j\\) は独立変数 \\(x_{i}^k\\) のスカラー関数, \\(u_i\\) は \\(i\\) 番目のノイズ項(確率変数)である.
 線形最小二乗法は, 単にすべてのデータ値に対する偏差の二乗和を最小化する. すなわち, データに関わらず全ての値が同じように扱われる.
 これは, すべてのノイズ項 \\(u_i\\) の確率分布が同一であると仮定することと同値であり,
-従って, すべての \\(u_i\\) は無相関かつ [i.i.d](https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#iid) で
+従って, すべての \\(u_i\\) は無相関かつ [i.i.d](/roki.log/2018/10/28/probabilityTerms/#iid) で
 \\(\mathrm{N}(0,\sigma^2)\\) (標準正規分布) に従うことを前提としているといえる[^4].
 
-#### 一般逆行列
+## 一般逆行列
 
 ここまでは, 回帰直線の考え方に沿って近似曲線/直線を得た訳であるが, 
 そもそも, \\((x_i,y_i)\\) の組があって線形方程式 \\(y\\) の \\(x\\) 
 に関する関数における"適当な"係数が"直接"求まるような行列があれば良いのではないだろうか. 
 つまり \\(m\\) を方程式の個数, \\(n'=n+1\\) を未知数の個数とし, \\(X\boldsymbol{a}=\boldsymbol{y}\ \ {\rm where}\ X\in\mathbb{R}^{m\times n'}, \boldsymbol{a}\in\mathbb{R}^{n'\times 1}, \boldsymbol{y}\in\mathbb{R}^{m\times 1}\\)[^5] としたとき
 
+\\[
 \begin{aligned}
-(\begin{array}{c}
+\left(\begin{array}{c}
 y_1 \\
 y_2 \\
 \vdots \\
 y_m
-\end{array})=
-(\begin{array}{cccc}
+\end{array}\right)=
+\left(\begin{array}{cccc}
 x_1^0 & x_1^1 & \cdots & x_1^n \\
 x_2^0 & x_2^1 & \cdots & x_2^n \\
 \vdots  & \vdots & \ddots & \vdots \\
 x_m^0 & x_m^1 &\cdots & x_m^n
-\end{array})
-(\begin{array}{c}
+\end{array}\right)
+\left(\begin{array}{c}
 a_0 \\
 a_1 \\
 \vdots \\
 a_n
-\end{array}) \\
-(\begin{array}{cccc}
+\end{array}\right) \\
+\left(\begin{array}{cccc}
 x_1^0 & x_1^1 & \cdots & x_1^n \\
 x_2^0 & x_2^1 & \cdots & x_2^n \\
 \vdots  & \vdots & \ddots & \vdots \\
 x_m^0 & x_m^1 &\cdots & x_m^n
-\end{array})^{-1}
-(\begin{array}{c}
+\end{array}\right)^{-1}
+\left(\begin{array}{c}
 y_1 \\
 y_2 \\
 \vdots \\
 y_m
-\end{array})
+\end{array}\right)
 =
-(\begin{array}{c}
+\left(\begin{array}{c}
 a_0 \\
 a_1 \\
 \vdots \\
 a_n
-\end{array})\tag{5}
+\end{array}\right)\tag{5}
 \end{aligned}
+\\]
 
 を解いて, それが求まれば良いのではないか, 
 ということである(\\(n+1\\) と \\(m\\) は必ずしも等しくないことに注意[^3]). このときに考えられるパターンは, 次のとおりである:
@@ -357,9 +376,9 @@ a_n
 これらのすべてのパターンに対して"適当であるような"解を与える逆行列を考えれば, どのような方程式にも"適当であるような"解を与えることができる.
 このように, 正則でない行列に対する擬似的な逆行列の定義を一般逆行列という.
 
-<div class="panel panel-default">
-<div class="panel-heading def"><a id="GeneralizedInverse" class="disabled">一般逆行列</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p><span id="GeneralizedInverse">一般逆行列</span></p></header>
+<div class="m-def-content">
   次の式を満たす行列
   \\(X^-\in\mathbb{R}^{m\times n'}\\) 
   を一般逆行列といい,
@@ -373,29 +392,27 @@ a_n
 いくらかの一般逆行列は次で定めるムーア・ベンローズ一般逆行列(以下 MP 逆行列)に従っており, 
 暗に一般逆行列と言ってこの MP 逆行列のことを示すような場合が巷ではある[^6].
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="MPPseudoInverse" class="disabled">Moore-Penrose 一般逆行列</a></div>
-  <div class="panel-body" style="overflow:scroll">
-  次のすべての条件を満たす<a href="#GeneralizedInverse">一般逆行列</a> \\(X^{\dagger}\\) は 
-  Moore-Penrose 一般逆行列(MP 逆行列)といい, 
-  その存在は一意<sup id="fnref-7"><a class="footnote-ref" href="#fn-7">7</a></sup>である.
-    \begin{aligned}
-    X X^\dagger X&=&X\tag{6} \\
-    X^{\dagger}X X^{\dagger}&=&X^{\dagger}\tag{7} \\
-    (X^{\dagger}X)^T&=&X^{\dagger}X\tag{8} \\
-    (X X^{\dagger})^T&=&X X^{\dagger}\tag{9}
-    \end{aligned}
+<div class="m-def">
+<header class="m-def-title"><p><span id="MPPseudoInverse">Moore-Penrose 一般逆行列</span></p></header>
+<div class="m-def-content">
+次のすべての条件を満たす<a href="#GeneralizedInverse">一般逆行列</a> \\(X^{\dagger}\\) は 
+Moore-Penrose 一般逆行列(MP 逆行列)といい, 
+その存在は一意[^7]である.
+\\[X X^\dagger X=X\tag{6}\\]
+\\[X^{\dagger}X X^{\dagger}=X^{\dagger}\tag{7}\\]
+\\[(X^{\dagger}X)^T=X^{\dagger}X\tag{8}\\]
+\\[(X X^{\dagger})^T=X X^{\dagger}\tag{9}\\]
   </div>
 </div>
 
-#### 最小二乗形一般逆行列
+### 最小二乗形一般逆行列
 
 まず, ケース 2 の場合について考える. これは, 最小二乗形一般逆行列といわれる一般逆行列を用いる.
 これが定める"適当であるような"解とは, その名の通り, すべての方程式の二乗誤差が最小である値であり, まさしく上で述べた最小二乗法の値である.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="LeastSquaresGeneralizedInverse" class="disabled">最小二乗形一般逆行列</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p><span id="LeastSquaresGeneralizedInverse">最小二乗形一般逆行列</span></p></header>
+<div class="m-def-content">
   正規方程式 \\[\boldsymbol{a}=X^-\boldsymbol{y}\\] の解 
   \\(\boldsymbol{a}\\) を二乗誤差最小の値で定める
   <a href="#GeneralizedInverse">一般逆行列</a> 
@@ -407,13 +424,13 @@ a_n
 
 以下, 最小二乗形一般逆行列の定式を求めるが, 上で既に述べた内容と本質的には全く変わらない. 
 ここで, 少し扱いやすくするために, \\(n\\) 次多項式を \\(f_n(x)=a_0x^0_i+a_1x^1_i+\cdots+a_nx^n_i=\sum^{n}_{j=0}a_jx^j_i\\),
-\\(\\) の \\(x_i^j\\) についての行列を \\(X\\) とする. そしてその \\(i\\) 行目を 1 つの縦ベクトルとしたものを 
+\\((5)\\) の \\(x_i^j\\) についての行列を \\(X\\) とする. そしてその \\(i\\) 行目を 1 つの縦ベクトルとしたものを 
 \\(\boldsymbol{x_i}\\) (\\({\rm e.g.}\ \ \boldsymbol{x_1}=(x_1^0, x_1^1, \cdots, x_1^n )^T\\)) とし,
-\\(\\) の式を
+\\((4)\\) の式を
 
 \\[\epsilon=\sum_{i=1}^{m}(y_i-f_n(\boldsymbol{x_i}))^2\tag{10}\\]
 
-というように表す(これは \\(\\) と全く同じことを書いただけである)とする.
+というように表す(これは \\((4)\\) と全く同じことを書いただけである)とする.
 \\(f(\boldsymbol{x_i})=\boldsymbol{x_i}^T\boldsymbol{a}\\) だから
 
 \\[=\sum_{i=1}^{m}(y_i-\boldsymbol{x_i}^T\boldsymbol{a})^2\\]
@@ -445,7 +462,7 @@ a_n
 このとき \\(m\lt n\\) ならば, \\(X^T X\\) が非正則となってしまうから, 最小二乗形一般逆行列は構成できない. この結果から, 時間計算量は多項式時間 \\(\mathrm{O}(n^3)\\) であることがわかる. 
 また, 最小二乗形一般逆行列は, [MP 逆行列](#MPPseudoInverse)であることが導出できる[^8].
 
-#### 最小ノルム形一般逆行列
+### 最小ノルム形一般逆行列
 
 次に, ケース 3 の場合を考える. この場合, 最小ノルム形一般逆行列を用いる.
 ケース 3 は様々な値が解になりうるということであったが, 
@@ -454,9 +471,9 @@ a_n
 その \\(L^2\\) ノルム \\(\mid\mid \boldsymbol{a}\mid\mid_2\\)
 が最小となるように定める.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="MinimumNormGeneralizedInverse" class="disabled">最小ノルム形一般逆行列</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p><span id="MinimumNormGeneralizedInverse">最小ノルム形一般逆行列</span></p></header>
+<div class="m-def-content">
   正規方程式 \\[\boldsymbol{a}=X^-\boldsymbol{y}\\] の解 
   \\(\boldsymbol{a}\\) をその \\(L^2\\) ノルム \\(\mid\mid \boldsymbol{a}\mid\mid_2\\)
   が最小となる値で定める<a href="#GeneralizedInverse">一般逆行列</a> 
@@ -477,21 +494,25 @@ a_n
 
 ラグランジュの未定乗数法に従い, それぞれの偏導関数から求めて
 
+\\[
 \begin{aligned}
 \begin{cases}
 \frac{\partial}{\partial\boldsymbol{a}}\mathcal{L}(\boldsymbol{a})&=&2\boldsymbol{a}-X^T\boldsymbol{\lambda}&=&0 \\
 \frac{\partial}{\partial\boldsymbol{\lambda}}\mathcal{L}(\boldsymbol{a})&=&\boldsymbol{y}-X\boldsymbol{a}&=&0
 \end{cases}
 \end{aligned}
+\\]
 
 よって
 
+\\[
 \begin{aligned}
 \begin{cases}
 \boldsymbol{a}&=&\frac{1}{2}X^T\lambda \\
 \boldsymbol{y}&=&X\boldsymbol{a}
 \end{cases}\leftrightarrow\boldsymbol{y}=\frac{1}{2}X X^T\lambda
 \end{aligned}
+\\]
 
 \\(m\lt n'\\) ならば \\(X X^T\\) は正則なので
 
@@ -499,65 +520,57 @@ a_n
 
 $X\boldsymbol{a}=X\left\{X^T(X X^T)^{-1}\boldsymbol{y}\right\}=(X X^T)(X X^T)^{-1}\boldsymbol{y}=\boldsymbol{y}$ よりこの正規方程式の解が一般逆行列として成立していることが確認できる.
 
-#### 制限つき最小二乗法
+### 制限つき最小二乗法
 
 最後に, 重複がある(ランク落ちである)ケースを考える.
 この場合は, \\(X^T X, X X^T\\) がともに特異行列となってしまうため,
 対象の行列に対してまず特異値分解(以下 SVD)を行う.
 
-<div class="panel panel-default">
-  <div class="panel-heading def"><a id="SVD" class="disabled">特異値分解</a></div>
-  <div class="panel-body" style="overflow:scroll">
+<div class="m-def">
+<header class="m-def-title"><p><span id="SVG">特異値分解</span></p></header>
+<div class="m-def-content">
 \\(^\forall X\in\mathbb{R}^{m\times n'}\\) に対して
 \\[
- ^\exists U\in\mathbb{R}^{m\times m}, ^\exists V\in\mathbb{R}^{n'\times n'},
- ^\exists \Sigma\in\mathbb{R}^{n'\times m}\ {\rm s.t.}\ 
-X = U\Sigma V^T \\ {\rm where}\ \Sigma=( 
-                      \begin{array}{ccccc}
-                             \lambda_1&\cdots&0 \\ 
-                             \vdots&\ddots&\vdots \\
-                             0&\cdots&\lambda_{r} \\
-                             &&&0 \\
-                             &&&&0
-                      \end{array}
-              ), \lambda_1\geq\cdots\geq\lambda_{r}\geq 0,
-              r=\mathrm{rank}(X)=\min(m,n')
+^\exists U\in\mathbb{R}^{m\times m}, ^\exists V\in\mathbb{R}^{n'\times n'},
+^\exists \Sigma\in\mathbb{R}^{n'\times m}\ {\rm s.t.}\ 
+X = U\Sigma V^T \\ {\rm where}\ \Sigma=\left(\begin{array}{ccccc}\lambda_1&\cdots&0 \\ \vdots&\ddots&\vdots \\ 0&\cdots&\lambda_{r} \\ &&&0 \\ &&&&0 \end{array}\right), \lambda_1\geq\cdots\geq\lambda_{r}\geq 0,r=\mathrm{rank}(X)=\min(m,n')
 \\]
-このとき \\(U\Sigma V^T\\) を \\(X\\) の特異値分解(英: Singular value decomposition)という.
-
-  </div>
+このとき \\(U\Sigma V^T\\) を \\(X\\) の特異値分解 
+(英: Singular value decomposition) という.
+</div>
 </div>
 
 これは 
 
+\\[
 \begin{aligned}
 \displaystyle\sum^{r}_{i=1}\lambda_i\boldsymbol{u_i}\boldsymbol{v_i}^T\ {\rm where}
 \ \begin{array}{cc}
 (\boldsymbol{u_1},\cdots,\boldsymbol{u_m})^T
-&=&(\begin{array}{ccc}
+&=&\left(\begin{array}{ccc}
 u_{11}&\cdots&u_{1m} \\
 \vdots&\ddots&\vdots\\ 
 u_{m1}&\cdots&u_{mm}
-\end{array})&=&U \\
+\end{array}\right)&=&U \\
 (\boldsymbol{v_1},\cdots,\boldsymbol{v_{n'}})^T
-&=&(\begin{array}{ccc}
+&=&\left(\begin{array}{ccc}
 v_{11}&\cdots&v_{1n'} \\
 \vdots&\ddots&\vdots\\
 v_{n'1}&\cdots&v_{n'n'}
-\end{array})&=&V
+\end{array}\right)&=&V
 \end{array}
 \end{aligned}
-
+\\]
 
 と同値であり, 一般に \\(\lambda_i\\) を特異値, \\(\boldsymbol{u_i}\\) を左特異ベクトル
 \\(\boldsymbol{v_i}\\) を右特異ベクトルという.
 
 **TODO: 詳解を追記**
 
-#### オーバーフィッティングと正則化およびその評価
+### オーバーフィッティングと正則化およびその評価
 
 先に, 次数に応じた近似の遷移が観察できるアニメーションを示したが, あまり次数を大きくすると, データ点の間で誤差が大きくなってしまうことがある. これをオーバーフィッティングという.
-先と同様, \\(x_i=i-1, y_i=\sin(x_i)+\epsilon, i=1,2,\cdots,11\\) に対する各次元での係数を見てみると(\\(\\) では, 
+先と同様, \\(x_i=i-1, y_i=\sin(x_i)+\epsilon, i=1,2,\cdots,11\\) に対する各次元での係数を見てみると(\\((5)\\) では, 
 係数のベクトルを \\((a_0,a_1,\cdots,a_n)^T\\) と並べているが, 下記は \\((a_n,a_{n-1},\cdots,a_0)^T\\) の順である),
 
 ```haskell
@@ -614,14 +627,14 @@ v_{n'1}&\cdots&v_{n'n'}
 
 \\(m=10\\) のモデルによる近似は \\(m=9\\) の場合と比べて激しく振れていることが見てとれる.
 
-<p style="text-align:center">
-<img src="../../../../../images/2018/November/image9.png" alt="non regulared" width="320px">
-<img src="../../../../../images/2018/November/image10.png" alt="non regulared" width="320px">
-</p>
+<div class="box has-text-centered is-shadowless">
+![non regulared 1](./image9.png "non regulared 1"){ width=320px }
+![non regulared 2](./image10.png "non regulared 2"){ width=320px }
+</div>
 
 天下り的になってしまうが, このような現象は推定する係数に対して標本数が少ないようなときによく遭遇する. その特徴として, いま示したように, 係数の絶対値が大きくなることが挙げられる.
 従って, 次数を適当に固定した上で(この場合 \\(n=\\)データ数\\(-1\\), すなわちデータ数から機械的に次数を決定する), 係数を絶対値を制限することができれば, これを防ぐことができるだろう. 
-具体的な手法として, 式 \\(\\) に対してノルムを加え, その最小化を求めるといったような[^9]手法が広く知られている.
+具体的な手法として, 式 \\((4)\\) に対してノルムを加え, その最小化を求めるといったような[^9]手法が広く知られている.
 この手法は, ノルムに対して, 次のように平滑化パラメータ \\(\lambda \geq 0\\) 
 を作用させることで正則化の強度を設定することができる. 
 
@@ -640,17 +653,21 @@ v_{n'1}&\cdots&v_{n'n'}
 例えば, \\(\lambda\\) を標本数に依らず直接作用させる形式で 
 \\(R(\boldsymbol{v})\\) を \\(L^2\\) ノルムとする[^9]と,
 
+\\[
 \begin{aligned}
 \epsilon(\boldsymbol{a})_\lambda&=&\sum^m_{i=1}(y_i-f_n(\boldsymbol{x}_i))^2+\lambda\sum_{j=0}^{n}a^2_j \\
 &=&(\boldsymbol{y}-X\boldsymbol{a})^T(\boldsymbol{y}-X\boldsymbol{a})+\lambda\boldsymbol{a}^T\boldsymbol{a}
 \end{aligned}
+\\]
 
 先と同様に \\(\nabla\epsilon(\boldsymbol{a})_\lambda=0\\) とおいて,
 
+\\[
 \begin{aligned}
 \nabla\epsilon(\boldsymbol{a})_\lambda&=&-2X^T(\boldsymbol{y}-X\boldsymbol{a})+2\lambda\boldsymbol{a} \\
 &=&2(\lambda I+X^T X)\boldsymbol{a}-2X^T\boldsymbol{y}\\ &=&0
 \end{aligned}
+\\]
 
 従ってこの正規方程式の解は,
 
@@ -669,17 +686,17 @@ v_{n'1}&\cdots&v_{n'n'}
 
 次のようになる.
 
-<p style="text-align:center">
-<img src="../../../../../images/2018/November/image0.1.png" alt="regulared 0.1" width="320px">
-<img src="../../../../../images/2018/November/image1.0.png" alt="regulared 1.0" width="320px">
-<img src="../../../../../images/2018/November/image10.0.png" alt="regulared 10.0" width="320px">
-</p>
+<div class="box has-text-centered is-shadowless">
+![regulared 0.1](./image0.1.png "regulared 0.1"){ width=320px }
+![regulared 1.0](./image1.0.png "regulared 1.0"){ width=320px }
+![regulared 10.0](./image10.0.png "regulared 10.0"){ width=320px }
+</div>
 
 問題は, どのようにしてオーバーフィッティングを評価するかである.
 データセット \\(\bf x\\) に対し, 真の値 \\(t_i\\) を
-$D=\left\{({\bf x_1},t_1), ({\bf x_2},t_2),\cdots,({\bf x_m},t_m)\right\} {\rm where}\ t_i=g+u_i\ (\because\ \ {\text より})$ 
+$D=\left\{({\bf x_1},t_1), ({\bf x_2},t_2),\cdots,({\bf x_m},t_m)\right\} {\rm where}\ t_i=g+u_i\ (\because\ \ {\text (ii) より})$ 
 とし, 回帰分析によって得られるモデル
-\\(\hat{f}_n({\bf y_i})=f_n(\boldsymbol{x'_i})\ {\rm where}\ \boldsymbol{x'_i}=({\bf y_i^0},{\bf y_i^1},\cdots,{\bf y_i^n})^T (\because \ {\text より})\\)
+\\(\hat{f}_n({\bf y_i})=f_n(\boldsymbol{x'_i})\ {\rm where}\ \boldsymbol{x'_i}=({\bf y_i^0},{\bf y_i^1},\cdots,{\bf y_i^n})^T (\because \ {\text (10) より})\\)
 との差を次のように定義する.
 
 \\[L(t_i, \hat{f}_n(\boldsymbol{{\bf x_i}})):=(t_i-\hat{f}_n(\boldsymbol{{\bf x_i}}))^2\\]
@@ -687,22 +704,26 @@ $D=\left\{({\bf x_1},t_1), ({\bf x_2},t_2),\cdots,({\bf x_m},t_m)\right\} {\rm w
 この \\(L\\) は損失関数といわれる. 
 ここで, \\(\bf x_i\\) と \\(t_i\\) が得られる同時確率を考慮すると, 損失の期待値は
 
+\\[
 \begin{aligned}
 E\left[L(t_i, \hat{f}_n({\bf x_i}))\right]&=&
 \int\int(t_i-\hat{f}_n({\bf x_i}))^2P(t_i\cap{\bf x_i})dt_id{\bf x_i} \\
-&=&\int\left\{\int(t_i-\hat{f}_n({\bf x_i}))^2P(t_i\mid{\bf x_i})dt_i\right\}P({\bf x_i})d{\bf x_i}\ (\because \href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#MulTheoremConditionalProbability}{\text 条件付き確率の乗法定理})
+&=&\int\left\{\int(t_i-\hat{f}_n({\bf x_i}))^2P(t_i\mid{\bf x_i})dt_i\right\}P({\bf x_i})d{\bf x_i}\ (\because \href{/roki.log/2018/10/28/probabilityTerms/#MulTheoremConditionalProbability}{\text 条件付き確率の乗法定理})
 \end{aligned}
+\\]
 
 \\(\int(t_i-\hat{f}_n({\bf x_i}))^2P(t_i|{\bf x_i})\\) 
 を最小化したいので, 
 これを \\(g({\bf y})=\int(t_i-\hat{f}_n({\bf y_i}))^2P(t_i|{\bf y_i})\\) とおいて
 
+\\[
 \begin{aligned}
 \frac{\partial}{\partial \hat{f}_n({\bf x_i})} g({\bf x_i})&=&2\int(t_i-\hat{f}_n({\bf x_i}))P(t\mid{\bf x_i})dt_i \\
 &=&2\int\left\{\hat{f}_n({\bf x_i})P(t_i\mid{\bf x_i})\right\}dt_i-2\int t_i P(t_i\mid{\bf x_i})dt_i \\
 &=&2\hat{f}_n({\bf x_i})\int P(t_i\mid{\bf x_i})dt_i-2\int t_i P(t_i\mid{\bf x_i})dt_i \\
-&=&2\hat{f}_n({\bf x_i})-2\int t_i P(t_i\mid {\bf x_i})dt_i\ (\because \href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#normalizationLaw}{\text 規格化条件})
+&=&2\hat{f}_n({\bf x_i})-2\int t_i P(t_i\mid {\bf x_i})dt_i\ (\because \href{/roki.log/2018/10/28/probabilityTerms/#normalizationLaw}{\text 規格化条件})
 \end{aligned}
+\\]
 
 \\(\therefore\\)
 
@@ -718,10 +739,11 @@ $${\rm MSE}:=\sum^m_{i=1}L(t_i,\hat{f}_n({\bf x_i}))$$
 
 この期待値をできる限り小さくしたい.
 
-$$E\left[{\rm MSE}\right]=E\left[\sum^m_{i=1}L(t_i,\hat{f}_n({\bf x}))\right]=\sum_{i=1}^mE\left[L(t_i,\hat{f}_n({\bf x}))\right]\ (\because \href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#fn-2}{\text 期待値の線形性})$$
+$$E\left[{\rm MSE}\right]=E\left[\sum^m_{i=1}L(t_i,\hat{f}_n({\bf x}))\right]=\sum_{i=1}^mE\left[L(t_i,\hat{f}_n({\bf x}))\right]\ (\because \href{/roki.log/2018/10/28/probabilityTerms/#fn-2}{\text 期待値の線形性})$$
 
 $E\left[L(t_i,\hat{f}_n({\bf x_i}))\right]$ について展開すると,
 
+\\[
 \begin{aligned}
 E\left[L(t_i,\hat{f}_n({\bf x_i}))\right]&=&
 E\left[(t_i-\hat{f}_n({\bf x_i}))^2\right] \\
@@ -740,31 +762,37 @@ E\left[(t_i-E\left[t_i\mid{\bf x_i}\right])^2\right] \\
 +E\left[(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x_i}))^2\right] \\
 +E\left[2(t_i-E\left[t_i\mid{\bf x_i}\right])(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x_i}))\right]
 \end{array}
-(\because \href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#fn-2}{\text 期待値の線形性})
+(\because \href{/roki.log/2018/10/28/probabilityTerms/#fn-2}{\text 期待値の線形性})
 \end{aligned}
+\\]
 
 第三項について
 
+\\[
 \begin{aligned}
-E\left[2(t_i-E\left[t_i\mid{\bf x_i}\right])(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x}))\right]&=&2(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x}))E\left[(t_i-g)\right]\ (\because \href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#mjx-eqn-eq%3Aexaxiom3}{E\left[a A\right]=a E\left[A\right]}) \\
-&=&2(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x}))(E\left[t_i\right]-E\left[E\left[t_i\mid{\bf x_i}\right]\right])\ (\because \href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#fn-2}
+E\left[2(t_i-E\left[t_i\mid{\bf x_i}\right])(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x}))\right]&=&2(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x}))E\left[(t_i-g)\right]\ (\because \href{/roki.log/2018/10/28/probabilityTerms/#mjx-eqn-eq%3Aexaxiom3}{E\left[a A\right]=a E\left[A\right]}) \\
+&=&2(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x}))(E\left[t_i\right]-E\left[E\left[t_i\mid{\bf x_i}\right]\right])\ (\because \href{/roki.log/2018/10/28/probabilityTerms/#fn-2}
 {\text 期待値の線形性}) \\
-&=&2(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x}))(E\left[t_i\right]-E\left[t_i\right]) \ (\because \href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#fn-4}{E\left[B\right]=E\left[E\left[B\mid A\right]\right]}) \\
+&=&2(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x}))(E\left[t_i\right]-E\left[t_i\right]) \ (\because \href{/roki.log/2018/10/28/probabilityTerms/#fn-4}{E\left[B\right]=E\left[E\left[B\mid A\right]\right]}) \\
 &=&0
 \end{aligned}
+\\]
 
 \\(\therefore\\)
 
+\\[
 \begin{aligned}
 E\left[L(t_i,\hat{f}_n({\bf x_i}))\right]&=&
 E\left[(t_i-E\left[t_i\mid{\bf x_i}\right])^2\right]+
 E\left[(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x}))^2\right] \\
 &=&E\left[u^2\right]+E\left[(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x_i}))^2\right]
 \end{aligned}
+\\]
 
 この第一項は, 真の値と最小化された理想の関数の差であるので, ノイズ項に対応することとなる.
 従って, 第一項に関してもう少し潜り込んでみると
 
+\\[
 \begin{aligned}
 E\left[(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x_i}))^2\right]&=&
 E\left[(E\left[t_i\mid{\bf x_i}\right]-E\left[\hat{f}_n({\bf x_i})\right]+E\left[\hat{f}_n({\bf x_i})\right]-\hat{f}_n({\bf x_i}))^2\right]\ (\because {\rm augmentation\ trick})\\
@@ -778,17 +806,19 @@ E\left[(E\left[t_i\mid{\bf x_i}\right]-E\left[\hat{f}_n({\bf x_i})\right]+E\left
 (E\left[\hat{f}_n({\bf x_i})\right]-\hat{f}_n({\bf x_i}))^2+\\
 2(E\left[t_i\mid{\bf x_i}\right]-E\left[\hat{f}_n({\bf x_i})\right])(E\left[\hat{f}_n({\bf x_i})\right]-\hat{f}_n({\bf x_i}))^2
 \end{array}
-\right]\ (\because ) \\
+\right]\ (\because (12)) \\
 &=&\begin{array}{c}
 E\left[(E\left[t_i\mid{\bf x_i}\right]-E\left[\hat{f}_n({\bf x_i})\right])^2\right]+\\
 E\left[(E\left[\hat{f}_n({\bf x_i})\right]-\hat{f}_n({\bf x_i}))^2\right]+\\
 2E\left[(E\left[t_i\mid{\bf x_i}\right]-E\left[\hat{f}_n({\bf x_i})\right])(E\left[\hat{f}_n({\bf x_i})\right]-\hat{f}_n({\bf x_i}))^2\right]
 \end{array}\ \\
-&&(\because \href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#fn-2}{\text 期待値の線形性}, \href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#mjx-eqn-eq%3Aexaxiom3}{E\left[a A\right]=a E\left[A\right]})
+&&(\because \href{/roki.log/2018/10/28/probabilityTerms/#fn-2}{\text 期待値の線形性}, \href{/roki.log/2018/10/28/probabilityTerms/#mjx-eqn-eq%3Aexaxiom3}{E\left[a A\right]=a E\left[A\right]})
 \end{aligned}
+\\]
 
 第三項について
 
+\\[
 \begin{aligned}
 &2E\left[(E\left[t_i\mid{\bf x_i}\right]-E\left[\hat{f}_n({\bf x_i})\right])(E\left[\hat{f}_n({\bf x_i})\right]-\hat{f}_n({\bf x_i}))^2\right]=
 2(
@@ -801,15 +831,16 @@ E\left[\hat{f}_n({\bf x_i})E\left[\hat{f}_n({\bf x_i})\right]\right]
 )
 \tag{13}
 \end{aligned}
+\\]
 
 ここで
 
-* $\href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#mjx-eqn-eq%3Aexaxiom3}{E\left[a A\right]=a E\left[A\right]}
-, \href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#consExpisCons}{E\left[a\right]=a} \to E\left[E\left[a\right]\right]=a$ より 
+* $\href{/roki.log/2018/10/28/probabilityTerms/#mjx-eqn-eq%3Aexaxiom3}{E\left[a A\right]=a E\left[A\right]}
+, \href{/roki.log/2018/10/28/probabilityTerms/#consExpisCons}{E\left[a\right]=a} \to E\left[E\left[a\right]\right]=a$ より 
 $$E\left[E\left[t_i\mid{\bf x_i}\right]E\left[\hat{f}_n({\bf x_i})\right]\right]=E\left[t_i\mid{\bf x_i}\right]E\left[\hat{f}_n({\bf x_i})\right]$$
-* $\href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#consExpisCons}{E\left[a\right]=a} \to E\left[E\left[a\right]\right]=a$ より $$E\left[E\left[\hat{f}_n({\bf x_i})\right]^2\right]=E\left[\hat{f}_n({\bf x_i})\right]^2$$
-* $\href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#mjx-eqn-eq%3Aexaxiom3}{E\left[a A\right]=a E\left[A\right]}$ より $$E\left[\hat{f}_n({\bf x_i})E\left[t_i\mid{\bf x_i}\right]\right]=E\left[t_i\mid{\bf x_i}\right]E\left[\hat{f}_n({\bf x_i})\right]$$
-* $\href{https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#mjx-eqn-eq%3Aexaxiom3}{E\left[a A\right]=a E\left[A\right]}$ より $$E\left[\hat{f}_n({\bf x_i})E\left[\hat{f}_n({\bf x_i})\right]\right]=E\left[\hat{f}_n({\bf x_i})\right]^2$$
+* $\href{/roki.log/2018/10/28/probabilityTerms/#consExpisCons}{E\left[a\right]=a} \to E\left[E\left[a\right]\right]=a$ より $$E\left[E\left[\hat{f}_n({\bf x_i})\right]^2\right]=E\left[\hat{f}_n({\bf x_i})\right]^2$$
+* $\href{/roki.log/2018/10/28/probabilityTerms/#mjx-eqn-eq%3Aexaxiom3}{E\left[a A\right]=a E\left[A\right]}$ より $$E\left[\hat{f}_n({\bf x_i})E\left[t_i\mid{\bf x_i}\right]\right]=E\left[t_i\mid{\bf x_i}\right]E\left[\hat{f}_n({\bf x_i})\right]$$
+* $\href{/roki.log/2018/10/28/probabilityTerms/#mjx-eqn-eq%3Aexaxiom3}{E\left[a A\right]=a E\left[A\right]}$ より $$E\left[\hat{f}_n({\bf x_i})E\left[\hat{f}_n({\bf x_i})\right]\right]=E\left[\hat{f}_n({\bf x_i})\right]^2$$
 
 よって
 
@@ -826,6 +857,7 @@ $$
 
 \\(\therefore\\)
 
+\\[
 \begin{aligned}
 E\left[(E\left[t_i\mid{\bf x_i}\right]-\hat{f}_n({\bf x_i}))^2\right]
 &=&
@@ -833,12 +865,15 @@ E\left[(E\left[t_i\mid{\bf x_i}\right]-E\left[\hat{f}_n({\bf x_i})\right])^2\rig
 &=&
 {\rm Bias}\left[\hat{f}_n({\bf x_i})\right]^2+{\rm Var}\left[\hat{f}_n({\bf x_i})\right]
 \end{aligned}
+\\]
 
 また
 
+\\[
 \begin{aligned}
 E\left[L(t_i,\hat{f}_n({\bf x_i}))\right]={\rm Bias}\left[\hat{f}_n({\bf x_i})\right]^2+{\rm Var}\left[\hat{f}_n({\bf x_i})\right]+\sigma^2
 \end{aligned}
+\\]
 
 この一連の展開作業は, バイアス-バリアンス分解といわれる.
 バイアスは, 損失の期待値を最小化する $E\left[t|{\bf x_i}\right]$ とのずれの期待値である. 
@@ -903,34 +938,36 @@ True
 
 \\(\mathrm{N}(0,0.2)\\) の確率誤差の他に, 4 つの外れ値[^10]を仕込んだこのデータへ線形最小二乗法(\\(n=1\\))を施すと, 外れ値に影響された推定が行われることがわかる.
 
-<p style="text-align:center">
-<img src="../../../../../images/2018/November/outliers.png" alt="lenear equations" width="600px">
-</p>
+![lenear equations](outliers.png "lenear equations"){ width=600px }
 
 これを防ぐ方法はいくつか存在する.
 以下, 説明のために改めて, \\(p\\) 個の独立変数を有する多重線形回帰モデルを \\[\boldsymbol{y}=X'\boldsymbol{\beta}+\boldsymbol{u}\\] とする.
 ここで \\(\boldsymbol{\beta}=\boldsymbol{a}\\) で \\(X'\\) は説明変数の行 \\(\boldsymbol{x'_i}=(x'_{i1}, x'_{i2},\cdots,x'_{ip})^T\\) 
 を有するフルランク行列 \\(X'\in\mathbb{R}^{m\times p}\\) であり, 
-\\(\boldsymbol{u}\\) は [i.i.d](https://falgon.github.io/roki.log/posts/2018/10月/28/probabilityTerms/#iid) かつ
+\\(\boldsymbol{u}\\) は [i.i.d](/roki.log/2018/10/28/probabilityTerms/#iid) かつ
 \\(\mathrm{N}(0,\sigma^2)\\) に従う確率誤差のベクトル \\(\boldsymbol{u}=(u_1,u_2,\cdots,u_m)^T\in\mathbb{R}^{m\times 1}\\) とする.
 なおこの定義に従うと, (Ordinary least squares より)通常の最小二乗法は次の式で定義できる.
 
+\\[
 \begin{aligned}
 \mathrm{OLS}(X',\boldsymbol{y})&:=&\mathrm{arg}\min_\boldsymbol{\boldsymbol{\beta}}\sum^m_{i=1}r(\boldsymbol{\beta})^2_i \tag{14} \\
-&=&
+&=&(11)
 \end{aligned}
+\\]
 
-ここで \\(r(\boldsymbol{\beta})_i\\) は \\(r(\boldsymbol{\beta})_i=y_i-\boldsymbol{x}_i\boldsymbol{\beta}\\) である(\\(\\) の偏差の部分).
+ここで \\(r(\boldsymbol{\beta})_i\\) は \\(r(\boldsymbol{\beta})_i=y_i-\boldsymbol{x}_i\boldsymbol{\beta}\\) である(\\((4)\\) の偏差の部分).
 以下, パラメータのベクトル \\(\boldsymbol{\beta}\\) を明示的に示す必要がないときには \\(r(\boldsymbol{\beta})_i\\) を \\(r_i\\) と示すこととする.
 
-#### 最小刈込み二乗法
+### 最小刈込み二乗法
 
 一言でいえば, この方法は単純に外れ値を最小二乗法の対象から除外してしまう方法である(以下 Least trimmed squares[^11] より LTS と記述)といわれる.
 
+\\[
 \begin{aligned}
 \mathrm{LTS}(X,\boldsymbol{y},k)&:=&\mathrm{arg}\min_\boldsymbol{\beta}\sum^k_{i=1}r(\boldsymbol{\beta})^2_{(i)} \\
 &&{\rm s.t.\ } r(\boldsymbol{\beta})^2_{(1)}\leq r(\boldsymbol{\beta})^2_{(2)}\leq\cdots\leq r(\boldsymbol{\beta})^2_{(m)}
 \end{aligned}
+\\]
 
 ここで \\(r(\boldsymbol{\beta})_{(i)}\\) は \\(i\\) 番目に小さい残差を示す.
 要するに, \\(m\\) 個の偏差の二乗を昇順で並べ, 
@@ -967,7 +1004,7 @@ LTS は次の手順で実行する.
 [^5]: 複素行列について扱う場合, 転置行列を随伴行列, 直交行列をユニタリ行列にすれば同様にして求まる.
 [^6]: 例えば, Wolfram 言語では[`PseudoInverse`](https://reference.wolfram.com/language/ref/PseudoInverse.html)という組み込みシンボルがあるが, これは MP 逆行列を算出する. また R 言語の[`pinv`](https://www.rdocumentation.org/packages/pracma/versions/1.9.9/topics/pinv)関数も同様.
 [^7]: 一意性の証明: いま \\(X\\) に 2 つの相異なる MP 逆行列 \\(A^{\dagger}\not =B^{\dagger}\\) が存在すると仮定する. まず \\(A^{\dagger}\\) について, \\(A^{\dagger} = A^{\dagger} X A^\dagger = A^\dagger(X A^\dagger)^T=A^\dagger(X B^\dagger X A^\dagger)^T=A^\dagger(X A^\dagger)^T(X B^\dagger)^T= A^\dagger X A^\dagger X B^\dagger=A^\dagger X B^\dagger\\). 次に \\(B^\dagger\\) について, \\(B^\dagger = B^\dagger X B^\dagger = (B^\dagger X)^T B^\dagger = (B^\dagger X A^\dagger X)^T B^\dagger = (A^\dagger X)^T (B^\dagger X)^T B^\dagger = A^\dagger X B^\dagger X B^\dagger = A^\dagger X B^\dagger\\). 背理により, \\(A^\dagger=B^\dagger\\). \\(\square\\)
-[^8]: 最小二乗形一般逆行列が MP 逆行列であることの証明: \\(X^{\dagger}X=\underbrace{(X^T X)^{-1}X^T}_{X^\dagger} X=I\\) だから \\(,, , \\) より \begin{aligned}X X^\dagger X&=&X(X^\dagger X)&=&X\\ X^\dagger X X^\dagger&=&(X^\dagger X)X^\dagger&=&X^\dagger\\ (X^\dagger X)^T&=&I^T&=&I&=&X^\dagger X\\ (X X^\dagger)^T&=&\left\{X(X^T X)^{-1}X^T\right\}^T&=&X(X^T X)^{-1}X^T&=&X X^\dagger\end{aligned} なお最後の式変形では, \\((A B)^T =B^T A^T, (A^{-1})^T=(A^T)^{-1}\\) を用いた. \\(\square\\)
+[^8]: 最小二乗形一般逆行列が MP 逆行列であることの証明: \\(X^{\dagger}X=\underbrace{(X^T X)^{-1}X^T}_{X^\dagger} X=I\\) だから \\((6),(7),(8),(9)\\) より \begin{aligned}X X^\dagger X&=&X(X^\dagger X)&=&X\\ X^\dagger X X^\dagger&=&(X^\dagger X)X^\dagger&=&X^\dagger\\ (X^\dagger X)^T&=&I^T&=&I&=&X^\dagger X\\ (X X^\dagger)^T&=&\left\{X(X^T X)^{-1}X^T\right\}^T&=&X(X^T X)^{-1}X^T&=&X X^\dagger\end{aligned} なお最後の式変形では, \\((A B)^T =B^T A^T, (A^{-1})^T=(A^T)^{-1}\\) を用いた. \\(\square\\)
 [^9]: このような, \\(\lambda\sum_{j=0}^{n}\left|a_j\right|^q\\) で \\(q=2\\) の場合を Ridge 回帰という. また \\(q=1\\) のとき(すなわち正則化項が \\(L^1\\) ノルム)を Lasso 回帰という. さらに, これらの正則化項の線形結合の形式をとる Elastic Net 回帰というモデルもある(Elastic Net 回帰に関する[参考文献2](#ref1)). この形式で表せる正則化項を用いる回帰をブリッジ回帰という.
 [^10]: このような, 線形性の見られるデータセットに従わず, かつ直交座標系における \\(Y\\) 軸方向にデータポイント \\((x'_{ij},y_i)\\) が外れているような点を垂直外れ値(英: vertical outlier)という. また同状況下で \\(X\\) 軸方向に大きく外れているような点を悪いレバレッジ点(英: bad leverage point)という. さらに, \\((x'_{ij},y_i)\\) が大多数のパターンに従うとき, それを良いレバレッジ点(英: good leverage point)という(\\(\to\\)[参考文献8](#ref4), [参考文献9](#ref5)).
 [^11]: LTS の歴史的背景および専門家らによる認識に関する言及: <i>Peter Rousseeuw introduced several robust regression estimators, including least median of squares (LMS) and least trimmed squares (LTS), see Rousseeuw (1984) as well as the monograph Rousseeuw and Leroy (1987). LTS converges at rate $n^{\frac{1}{2}}$ with the same assymptotic efficiency under normalityas Huber’s skip estimator. The LMS convergence rate is $n^{\frac{1}{3}}$ and its objective function is less smooth than LTS. As a consequence, as argued in Rousseeuw and van Driessen (2006), LTS is now preferred over LMS.</i> -- [参考文献7 pp.2](#ref2), <i>この他にも残差の 2 乗のメディアンを最少にする LMS (least median of squares) などが提案されているが，いずれも収束が遅く，効率も高くないこともあり，Huber (2009) は根本的な問題の検討が必要と指摘している．</i> -- [参考文献5 pp.174](#ref3)
