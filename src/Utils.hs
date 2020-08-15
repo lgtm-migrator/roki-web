@@ -1,18 +1,22 @@
 module Utils (
-    absolutizeUrls,
-    modifyExternalLinkAttr,
-    sanitizeTagName,
-    sanitizeDisqusName,
-    makePageIdentifier,
-    getStringField,
-    prependBaseUrl
+    absolutizeUrls
+  , modifyExternalLinkAttr
+  , sanitizeTagName
+  , sanitizeDisqusName
+  , makePageIdentifier
+  , getStringField
 ) where
 
 import Control.Monad (liftM2)
 import Data.Char (toLower, isAlphaNum)
+import Data.List (isPrefixOf)
+import Data.List.Extra (dropPrefix)
 import Hakyll 
 import System.FilePath ((</>), takeDirectory, takeFileName, normalise, isRelative, isAbsolute)
 import qualified Text.HTML.TagSoup as TS
+
+import Config.Site (siteName)
+import Config.Blog
 
 absolutizeUrls :: Item String -> Compiler (Item String)
 absolutizeUrls item = getUnderlying >>= fmap (maybe item (flip fmap item . withUrls . f)) . getRoute
@@ -48,12 +52,6 @@ getStringField key cs = do
         StringField x -> Just x
         _ -> Nothing
 
-prependBaseUrl :: String -> Item String -> Compiler (Item String)
-prependBaseUrl base = return . fmap (withUrls prependBaseUrl')
-    where
-        prependBaseUrl' u
-            | not (isExternal u) && isAbsolute u = base <> u
-            | otherwise = u
-
 sanitizeDisqusName :: String -> String
 sanitizeDisqusName = map (\x -> if x == '.' then '-' else x)
+

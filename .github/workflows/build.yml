@@ -29,6 +29,10 @@ jobs:
       with:
           path: ~/.stack
           key: stack-v2-${{ runner.os }}-${{ hashFiles('stack.yaml') }}
+    - name: Setup Tools
+      run: |
+        sudo apt-get install -y libxml2-utils
+        xmllint --version
     - name: Setup Stack
       if: steps.stack-cache.outputs.cache-hit != 'true'
       run: |
@@ -39,17 +43,25 @@ jobs:
         stack --local-bin-path . install --flag hakyll:-previewServer --flag hakyll:-watchServer
         ./site --version
         npm ci
-    - name: Build roki.dev
+    - name: Build and validate roki.dev
       if: github.ref == 'refs/heads/master'
       run: |
         ./site build
         ./site check --internal-links
+        xmllint docs/roki.log/sitemap.xml --noout
+        xmllint docs/roki.log/feed/roki.log.xml --noout
+        xmllint docs/roki.diary/sitemap.xml --noout
+        xmllint docs/roki.diary/feed/roki.diary.xml --noout
         tar cvf docs.tar.xz docs
-    - name: Build roki.dev (fast build)
+    - name: Build and validate roki.dev (fast build)
       if: github.ref == 'refs/heads/develop'
       run: |
         ./site build --preview
         ./site check --internal-links
+        xmllint docs/roki.log/sitemap.xml --noout
+        xmllint docs/roki.log/feed/roki.log.xml --noout
+        xmllint docs/roki.diary/sitemap.xml --noout
+        xmllint docs/roki.diary/feed/roki.diary.xml --noout
     - name: Upload artifact
       if: github.ref == 'refs/heads/master'
       uses: actions/upload-artifact@v2

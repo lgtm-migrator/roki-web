@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1cfef66b43278dbb47c65da4603309d087833a637965e3b3d1ca33f0f5256056
+-- hash: 43708aeff80d4cfa8fd6a06af474a42f36b43d2166ee0e3f009d99cb4fa19e09
 
 name:           roki-web
 version:        0.1.0.0
@@ -39,6 +39,7 @@ library
       Contexts.Core
       Contexts.Field
       Contexts.Utils
+      Hakyll.Web.Feed.Extra
       Media
       Media.JS
       Media.SVG
@@ -67,6 +68,7 @@ library
     , containers
     , dhall
     , extra
+    , file-embed
     , filepath
     , gitrev
     , hakyll
@@ -99,6 +101,7 @@ executable site
     , containers
     , dhall
     , extra
+    , file-embed
     , filepath
     , gitrev
     , hakyll
