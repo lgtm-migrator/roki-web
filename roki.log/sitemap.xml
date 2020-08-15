@@ -15,245 +15,245 @@
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2020/03/17/SelfMadeCCompiler/index.html</loc>
-    <lastmod>2020/03/18 09:00</lastmod>
+    <lastmod>2020-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2019/05/8/BooleanAlgebra/index.html</loc>
-    <lastmod>2019/05/29 09:00</lastmod>
+    <lastmod>2019-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2019/03/15/Relation/index.html</loc>
-    <lastmod>2019/03/15 09:00</lastmod>
+    <lastmod>2019-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2019/03/7/ParabolicMotion/index.html</loc>
-    <lastmod>2019/03/07 09:00</lastmod>
+    <lastmod>2019-03-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2019/01/3/least_squares/index.html</loc>
-    <lastmod>2019/01/03 09:00</lastmod>
+    <lastmod>2019-01-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2019/01/1/lu_decomposition/index.html</loc>
-    <lastmod>2019/01/01 09:00</lastmod>
+    <lastmod>2019-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/12/24/newtonRaphson/index.html</loc>
-    <lastmod>2018/12/25 01:20</lastmod>
+    <lastmod>2018-12-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/10/28/probabilityTerms/index.html</loc>
-    <lastmod>2018/10/28 09:00</lastmod>
+    <lastmod>2018-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/10/4/jacobian/index.html</loc>
-    <lastmod>2018/10/04 09:00</lastmod>
+    <lastmod>2018-10-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/09/26/GaussianIntegral/index.html</loc>
-    <lastmod>2018/09/26 09:00</lastmod>
+    <lastmod>2018-09-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/09/15/scratchPacket/index.html</loc>
-    <lastmod>2018/09/15 09:00</lastmod>
+    <lastmod>2018-09-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/09/6/The_definition_of_Trigonometric_function/index.html</loc>
-    <lastmod>2018/09/06 09:00</lastmod>
+    <lastmod>2018-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/08/17/controlSystemdByDBusAndHaskell/index.html</loc>
-    <lastmod>2018/08/17 09:00</lastmod>
+    <lastmod>2018-08-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/08/15/aws_ec2_distcc/index.html</loc>
-    <lastmod>2018/08/15 09:00</lastmod>
+    <lastmod>2018-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/08/1/aws_sns_s3_ec2/index.html</loc>
-    <lastmod>2018/08/01 09:00</lastmod>
+    <lastmod>2018-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/07/26/bayestheorem/index.html</loc>
-    <lastmod>2018/07/26 09:32</lastmod>
+    <lastmod>2018-07-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/index.html</loc>
-    <lastmod>2018/07/25 09:32</lastmod>
+    <lastmod>2018-07-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/07/23/ec2failover/index.html</loc>
-    <lastmod>2018/07/23 15:05</lastmod>
+    <lastmod>2018-07-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/07/20/cppdemysql/index.html</loc>
-    <lastmod>2018/07/20 09:31</lastmod>
+    <lastmod>2018-07-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/07/13/elgamalEncryption/index.html</loc>
-    <lastmod>2018/07/14 07:50</lastmod>
+    <lastmod>2018-07-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/07/9/arithmeticfunc/index.html</loc>
-    <lastmod>2018/07/10 07:50</lastmod>
+    <lastmod>2018-07-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/07/8/awstag/index.html</loc>
-    <lastmod>2018/07/08 21:50</lastmod>
+    <lastmod>2018-07-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/06/24/amazonka/index.html</loc>
-    <lastmod>2018/06/24 19:45</lastmod>
+    <lastmod>2018-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/06/22/DeBruijnSeq/index.html</loc>
-    <lastmod>2018/06/23 07:35</lastmod>
+    <lastmod>2018-06-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/06/17/golangtrial/index.html</loc>
-    <lastmod>2018/06/17 19:45</lastmod>
+    <lastmod>2018-06-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/06/14/dte2cpp/index.html</loc>
-    <lastmod>2018/06/15 01:50</lastmod>
+    <lastmod>2018-06-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/06/8/qft/index.html</loc>
-    <lastmod>2018/06/09 01:50</lastmod>
+    <lastmod>2018-06-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/05/29/networkBridge/index.html</loc>
-    <lastmod>2018/05/30 04:42</lastmod>
+    <lastmod>2018-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/05/18/fibGeneralTerm/index.html</loc>
-    <lastmod>2018/05/19 04:42</lastmod>
+    <lastmod>2018-05-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/05/1/detect_promiscuous/index.html</loc>
-    <lastmod>2018/05/02 04:42</lastmod>
+    <lastmod>2018-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/04/20/bezier/index.html</loc>
-    <lastmod>2018/04/21 01:50</lastmod>
+    <lastmod>2018-04-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/04/15/hermite_curve/index.html</loc>
-    <lastmod>2018/04/16 01:50</lastmod>
+    <lastmod>2018-04-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/04/7/hs_pattern_match_complexity/index.html</loc>
-    <lastmod>2018/04/08 01:50</lastmod>
+    <lastmod>2018-04-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/03/26/cpp_calender_and_timezone_library/index.html</loc>
-    <lastmod>2018/03/27 01:50</lastmod>
+    <lastmod>2018-03-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://roki.dev/roki.log/roki.log/2018/03/22/my_first_post/index.html</loc>
-    <lastmod>2018/03/23 01:50</lastmod>
+    <lastmod>2018-03-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
