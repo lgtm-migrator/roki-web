@@ -3,7 +3,8 @@ module Config.Blog (
 ) where
 
 import Archives
-import Hakyll
+import Hakyll hiding (FeedConfiguration (..), renderAtom)
+import Hakyll.Web.Feed.Extra (FeedConfiguration)
 import Text.Pandoc.Options (WriterOptions)
 
 data BlogConfig m = BlogConfig {

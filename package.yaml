@@ -33,6 +33,7 @@ dependencies:
     - dhall
     - optparse-applicative
     - gitrev
+    - file-embed
 
 library:
     source-dirs:

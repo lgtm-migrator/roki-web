@@ -14,6 +14,7 @@ module Config.Blogs.AnotherBlog (
 ) where
 
 import qualified Hakyll as H
+import Hakyll.Web.Feed.Extra hiding (renderAtom)
 import System.FilePath ((</>))
 
 import qualified Archives as A
@@ -31,13 +32,14 @@ entryPattern = BU.entryPattern blogName
 entryFilesPattern :: H.Pattern
 entryFilesPattern = BU.entryFilesPattern blogName
 
-atomConfig :: H.FeedConfiguration
-atomConfig = H.FeedConfiguration {
-    H.feedTitle = blogName
-  , H.feedDescription = "Roki Diary"
-  , H.feedAuthorName = "Roki"
-  , H.feedAuthorEmail = "falgon53@yahoo.co.jp"
-  , H.feedRoot = "https://" <> siteName </> blogName
+atomConfig :: FeedConfiguration
+atomConfig = FeedConfiguration {
+    feedTitle = blogName
+  , feedWebRoot = "https://" <> siteName
+  , feedBlogName = blogName
+  , feedDescription = "Roki Diary"
+  , feedAuthorName = "Roki"
+  , feedAuthorEmail = "falgon53@yahoo.co.jp"
   }
 
 {-# INLINE contentSnapshot #-}

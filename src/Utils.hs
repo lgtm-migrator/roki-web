@@ -5,7 +5,6 @@ module Utils (
   , sanitizeDisqusName
   , makePageIdentifier
   , getStringField
-  , prependBaseUrl
   , fixSelfLink
 ) where
 
@@ -53,13 +52,6 @@ getStringField key cs = do
     return $ case s of
         StringField x -> Just x
         _ -> Nothing
-
-prependBaseUrl :: String -> Item String -> Compiler (Item String)
-prependBaseUrl base = return . fmap (withUrls prependBaseUrl')
-    where
-        prependBaseUrl' u
-            | not (isExternal u) && isAbsolute u = base <> u
-            | otherwise = u
 
 sanitizeDisqusName :: String -> String
 sanitizeDisqusName = map (\x -> if x == '.' then '-' else x)

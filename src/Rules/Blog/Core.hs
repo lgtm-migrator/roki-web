@@ -12,7 +12,8 @@ import Data.List.Extra (dropPrefix)
 import Data.Maybe (catMaybes)
 import Control.Monad (forM_)
 import Control.Monad.Except (MonadError (..))
-import Hakyll
+import Hakyll hiding (FeedConfiguration (..), renderAtom)
+import Hakyll.Web.Feed.Extra
 import System.FilePath ((</>))
 
 import Archives
@@ -25,7 +26,6 @@ import Utils (
     absolutizeUrls
   , makePageIdentifier
   , modifyExternalLinkAttr
-  , prependBaseUrl
   , sanitizeDisqusName
   , fixSelfLink)
 import qualified Vendor.FontAwesome as FA
@@ -188,14 +188,7 @@ blogRules isPreview bc faIcons = do
         compile $
             loadAllSnapshots (blogEntryPattern bc) feedContent
                 >>= fmap (take 20) . recentFirst
-                >>= mapM (prependBaseUrl (feedRoot (blogAtomConfig bc)))
-                >>= renderAtom (blogAtomConfig bc) 
-                    (mapContext (dropPrefix ("/" <> blogName bc)) (urlField "url") 
-                        <> bodyField "description" 
-                        <> postCtx')
-                >>= fixSelfLink bc -- HACK: There is no way to control this externally, 
-                -- as it will be overwritten by `urlField "url"` in `Hakyll.Web.Feed`. 
-                -- But I don't want to selfmade to edit the self url.
+                >>= renderAtom (blogAtomConfig bc) (bodyField "description" <> postCtx')
 
     -- Search result page
     let rootTemplate = fromFilePath $ 
