@@ -9,6 +9,7 @@ import Text.Pandoc.Options (WriterOptions)
 
 data BlogConfig m = BlogConfig {
     blogName :: String
+  , blogDescription :: String
   , blogTagBuilder :: m Tags
   , blogTagPagesPath :: FilePath -> FilePath
   , blogEntryPattern :: Pattern

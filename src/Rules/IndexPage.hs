@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Rules.IndexPage (rules) where
 
 import Control.Monad (forM)
@@ -8,20 +9,18 @@ import Config (contentsRoot, siteName)
 import Config.Blog
 import Config.RegexUtils (intercalateDir)
 import Config.Contributions
-import Contexts (siteCtx, blogTitleCtx)
+import Contexts (siteCtx)
 import Utils (absolutizeUrls, modifyExternalLinkAttr)
 import qualified Vendor.FontAwesome as FA
 
 mkBlogCtx :: String -> BlogConfig m -> Compiler (Context String)
 mkBlogCtx key obs = do
     posts <- fmap (take 4) . recentFirst =<< loadAllSnapshots (blogEntryPattern obs) (blogContentSnapshot obs)
-    return $ listField key siteCtx' (return posts) 
-        <> defaultContext 
+    return $ listField key (siteCtx <> defaultContext) (return posts)
+        <> constField "blog-title" (blogName obs)
+        <> constField "blog-description" (blogDescription obs)
         <> siteCtx
-    where
-        siteCtx' = siteCtx
-            <> blogTitleCtx (blogName obs)
-            <> defaultContext
+        <> defaultContext 
 
 rules :: [BlogConfig m] -> FA.FontAwesomeIcons -> Rules ()
 rules bcs faIcons = do
@@ -44,6 +43,9 @@ rules bcs faIcons = do
                 >>= loadAndApplyTemplate rootTemplate aBlogCtx
                 >>= modifyExternalLinkAttr
                 >>= FA.render faIcons
+
+    match "CNAME" $ route idRoute >> compile copyFileCompiler
     where
         indexPath = fromGlob $ intercalateDir [contentsRoot, "pages", "index.html"]
         rootTemplate = fromFilePath $ intercalateDir [contentsRoot, "templates", "site", "default.html"]
+

@@ -152,10 +152,13 @@ span.both-lined:after {
 
 .blog-intro {
     width: 100%;
-    padding-bottom: 4px;
-    border-bottom: solid 1px $grey-light;
+    padding-bottom: 5px;
+    border-bottom: solid 1px $grey-lighter;
     border-image: linear-gradient(to right, $grey-light 0% 50%, transparent 100%);
     border-image-slice: 1;
+    border-right: 0;
+    border-top: 0;
+    border-left: 0;
 }
 
 .katex-display > .katex {

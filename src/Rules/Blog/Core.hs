@@ -8,7 +8,6 @@ import Data.Binary (Binary)
 import Data.Time.Format (formatTime, TimeLocale)
 import Data.Time.LocalTime (utcToLocalTime, TimeZone)
 import Data.Typeable (Typeable)
-import Data.List.Extra (dropPrefix)
 import Data.Maybe (catMaybes)
 import Control.Monad (forM_)
 import Control.Monad.Except (MonadError (..))
@@ -87,6 +86,7 @@ listPageRules isPreview title faIcons tags bc pgs = paginateRules pgs $ \pn pat 
                 <> listCtx isPreview
                 <> tagCloudField' "tag-cloud" tags
                 <> blogTitleCtx (blogName bc)
+                <> constField "blog-description" (blogDescription bc)
                 <> gSuiteCtx bc
             postCtx' = teaserField "teaser" (blogContentSnapshot bc)
                 <> postCtx isPreview tags
@@ -105,6 +105,7 @@ blogRules isPreview bc faIcons = do
     let postCtx' = postCtx isPreview tags 
             <> tagCloudField' "tag-cloud" tags
             <> blogTitleCtx (blogName bc)
+            <> constField "blog-description" (blogDescription bc)
             <> gSuiteCtx bc
             <> if isPreview then katexJsCtx else mempty
         feedContent = blogName bc <> "-feed-content"
