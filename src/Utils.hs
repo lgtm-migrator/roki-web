@@ -9,14 +9,9 @@ module Utils (
 
 import Control.Monad (liftM2)
 import Data.Char (toLower, isAlphaNum)
-import Data.List (isPrefixOf)
-import Data.List.Extra (dropPrefix)
 import Hakyll 
-import System.FilePath ((</>), takeDirectory, takeFileName, normalise, isRelative, isAbsolute)
+import System.FilePath ((</>), takeDirectory, takeFileName, normalise, isRelative)
 import qualified Text.HTML.TagSoup as TS
-
-import Config.Site (siteName)
-import Config.Blog
 
 absolutizeUrls :: Item String -> Compiler (Item String)
 absolutizeUrls item = getUnderlying >>= fmap (maybe item (flip fmap item . withUrls . f)) . getRoute

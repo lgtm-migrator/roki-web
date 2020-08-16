@@ -15,13 +15,12 @@ import Data.List.Extra (dropPrefix)
 import Lucid.Base (renderText)
 import Lucid.Html5
 import Hakyll
-import System.FilePath (takeDirectory, takeFileName, (</>))
+import System.FilePath (takeDirectory, (</>))
 
 import Config (timeZoneJST, defaultTimeLocale', siteName, contentsRoot, GSuite (..), gSuiteConf)
 import Config.Blog
 import qualified Config.Blogs.TechBlog as TB
 import qualified Config.Blogs.AnotherBlog as BA
-import Contexts.Utils (metadataToListField)
 import Contexts.Field (localDateField, tagsField', descriptionField, imageField)
 
 dateCtx :: Context String
@@ -35,10 +34,12 @@ blogTitleCtx = constField "blog-title"
 
 techBlogCtx :: Context String
 techBlogCtx = constField "tech-blog-title" TB.blogName
+    <> constField "tech-blog-description" TB.blogDesc
     <> constField "tech-blog-issue-req" "https://github.com/falgon/roki-web/issues/new/choose"
 
 privBlogCtx :: Context String
 privBlogCtx = constField "diary-title" BA.blogName
+    <> constField "diary-description" BA.blogDesc
 
 blogCtx :: Context String
 blogCtx = techBlogCtx <> privBlogCtx
@@ -85,9 +86,6 @@ postCtx isPreview tags = dateCtx
     <> jsPathCtx
     <> defaultContext
     <> if isPreview then katexJsCtx else mempty
-    where
-        f s | takeFileName s == "index.html" = takeDirectory s
-            | otherwise = s
 
 listCtx :: Bool -> Context String
 listCtx isPreview = siteCtx

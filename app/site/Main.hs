@@ -4,11 +4,13 @@ module Main (main) where
 import Data.Foldable (fold)
 import Data.Version (showVersion)
 import Development.GitRev (gitHash)
+import Data.String (fromString)
 import Hakyll
 import qualified Paths_roki_web as P 
 import qualified Options.Applicative as OA
 
 import Config (hakyllConfig, siteName, writerOptions, writerPreviewOptions)
+import Config.RegexUtils (intercalateDir)
 import qualified Config.Blog as B
 import qualified Config.Blogs.TechBlog as TB
 import qualified Config.Blogs.AnotherBlog as AB
@@ -114,6 +116,7 @@ optsParser conf = OA.info (OA.helper <*> versionOption <*> programOptions conf) 
 techBlogConf :: B.BlogConfig Rules
 techBlogConf = B.BlogConfig {
     B.blogName = TB.blogName
+  , B.blogDescription = TB.blogDesc
   , B.blogTagBuilder = TB.buildTags
   , B.blogTagPagesPath = TB.tagPagesPath
   , B.blogEntryPattern = TB.entryPattern
@@ -131,6 +134,7 @@ techBlogConf = B.BlogConfig {
 diaryConf :: B.BlogConfig Rules
 diaryConf = B.BlogConfig {
     B.blogName = AB.blogName
+  , B.blogDescription = AB.blogDesc
   , B.blogTagBuilder = AB.buildTags
   , B.blogTagPagesPath = AB.tagPagesPath
   , B.blogEntryPattern = AB.entryPattern
@@ -160,7 +164,8 @@ main = do
         B.blogRules (optPreviewFlag opts) dc faIcons
         IP.rules [tc, dc] faIcons
 
-        match "contents/templates/**" $ compile templateBodyCompiler
+        match (fromString $ intercalateDir ["contents", "templates", "**"]) $ 
+            compile templateBodyCompiler
     where
         mapIL b (Check _) = Check b
         mapIL _ x = x

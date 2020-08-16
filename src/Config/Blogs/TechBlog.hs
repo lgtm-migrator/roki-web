@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Config.Blogs.TechBlog (
     blogName
+  , blogDesc
   , entryPattern
   , entryFilesPattern
   , atomConfig
@@ -13,9 +14,13 @@ module Config.Blogs.TechBlog (
   , buildMonthlyArchives
 ) where
 
+import qualified Data.Text as T
+import qualified Data.Text.Lazy as TL
+import Data.String (fromString)
 import qualified Hakyll as H
 import Hakyll.Web.Feed.Extra hiding (renderAtom)
-import System.FilePath ((</>))
+import Lucid.Base (renderText)
+import Lucid.Html5
 
 import qualified Archives as A
 import qualified Config.Blogs.Utils as BU
@@ -24,6 +29,13 @@ import Config.Site (siteName)
 {-# INLINE blogName #-}
 blogName :: FilePath
 blogName = "roki.log"
+
+blogDesc :: String
+blogDesc = TL.unpack $ renderText $ do
+    a_ [href_ $ T.pack $ "/" <> blogName] $ fromString blogName
+    p_ [class_ "is-inline"] $ 
+        " is a blog written about efforts and learning related to technology, mathematics, " 
+            <> "etc (Most of the content of the article is written in Japanese)."
 
 -- contents/roki.log/year/month/day/title/index.md
 entryPattern :: H.Pattern
