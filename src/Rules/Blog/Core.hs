@@ -8,9 +8,10 @@ import Data.Binary (Binary)
 import Data.Time.Format (formatTime, TimeLocale)
 import Data.Time.LocalTime (utcToLocalTime, TimeZone)
 import Data.Typeable (Typeable)
-import Data.Maybe (catMaybes)
+import Data.Maybe (catMaybes, isJust)
 import Control.Monad (forM_)
 import Control.Monad.Except (MonadError (..))
+import Control.Monad.Extra (findM, ifM, mconcatMapM)
 import Hakyll hiding (FeedConfiguration (..), renderAtom)
 import Hakyll.Web.Feed.Extra
 import System.FilePath ((</>))
@@ -68,6 +69,12 @@ eachPostsSeries postIDs rules =
             getMetadataField i "date" 
                 >>= maybe (fail "no 'date' field") (return . map (\x -> if x == '-' then '/' else x))
 
+{-# INLINE pluginCtx #-}
+pluginCtx :: MonadMetadata m => [Item a] -> String -> m (Context b)
+pluginCtx posts pluginName = ifM
+    (isJust <$> findM (fmap isJust . flip getMetadataField pluginName . itemIdentifier) posts)
+    (return $ boolField pluginName (const True))
+    (return mempty)
 
 listPageRules :: Bool
     -> Maybe String
@@ -80,7 +87,9 @@ listPageRules isPreview title faIcons tags bc pgs = paginateRules pgs $ \pn pat 
     route idRoute
     compile $ do
         posts <- recentFirst =<< loadAllSnapshots pat (blogContentSnapshot bc)
+        pCtx <- mconcatMapM (pluginCtx posts) ["d3", "mathjs"]
         let blogCtx = listField "posts" postCtx' (return posts)
+                <> pCtx
                 <> paginateContext pgs pn
                 <> maybe missingField (constField "title") title
                 <> listCtx isPreview
@@ -91,6 +100,7 @@ listPageRules isPreview title faIcons tags bc pgs = paginateRules pgs $ \pn pat 
             postCtx' = teaserField "teaser" (blogContentSnapshot bc)
                 <> postCtx isPreview tags
                 <> blogTitleCtx (blogName bc)
+                <> pCtx
 
         makeItem ""
             >>= loadAndApplyTemplate "contents/templates/blog/post-list.html" blogCtx
