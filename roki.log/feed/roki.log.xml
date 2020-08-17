@@ -26,21 +26,24 @@
 </div>
 <p>執筆時最新のコミット <a href="https://github.com/falgon/htcc/tree/230137475bf08265db9bd31ea65e2d867b1207fc">2301374</a> におけるコンパイル可能なコードは構文は, テストコードに記されている通りである. より実用的な (コンパイル可能な) サンプルコードは example 配下にある (ナップザック問題, 連結リストのマージソート, Fisher–Yates シャッフルとクイックソート, ライフゲームシミュレータ等).</p>
 <p>htcc は標準 C 言語<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>の構文の他に, 一部の GNU 拡張の構文を実装している. 例えば, <a href="https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html">Statement Expression</a> はそのうちの一つである. 近年, Rust のような多くの“現代的な”言語は, 文の構文を式として捉えている<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>が, Statement Expression はそれと同様の機能, すなわち, C の compound-statement を式として捉える機能を提供する. また, <a href="https://gcc.gnu.org/onlinedocs/gcc/Conditionals.html">Conditionals with Omitted Operands</a> もそのうちの一つである. 条件演算子は N1570 において次のように定義されているが</p>
+<p><span class="math display">
+\begin{array}{llllll}
+\text{conditional-expression}:\\
+&amp;\text{logical-OR-expression}\\
+&amp;\text{logical-OR-expression}&amp;?&amp;\text{expression}&amp;:&amp;\text{conditional-expression}
+\end{array}
+</span></p>
 <p>この expression オペランドが省略された次の構文</p>
+<p><span class="math display">
+\begin{array}{lll}
+\text{logical-OR-expression}&amp;?:&amp;\text{conditional-expression}
+\end{array}
+</span></p>
 <p>をサポートする.</p>
 <p>htcc の機能そのものの説明は, 基本的に上記リポジトリの README.md に書かれている通りであるが, ここにコミット <a href="https://github.com/falgon/htcc/tree/230137475bf08265db9bd31ea65e2d867b1207fc">2301374</a> 時点での説明を再掲することとする.</p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;"><img src="https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/some_operation.gif" alt="htcc の実行イメージ" /></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">htcc の実行イメージ</td>
-</tr>
-</tbody>
-</table>
+<figure>
+<img src="https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/some_operation.gif" title="htcc の実行イメージ" alt /><figcaption>htcc の実行イメージ</figcaption>
+</figure>
 <p>コマンドラインオプションは次のようになっている.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="/roki.log/2020/03/17/SelfMadeCCompiler/#cb1-1" aria-hidden="true"></a>$ <span class="ex">stack</span> exec htcc -- -h</span>
 <span id="cb1-2"><a href="/roki.log/2020/03/17/SelfMadeCCompiler/#cb1-2" aria-hidden="true"></a><span class="ex">Usage</span>: htcc [--visualize-ast] [--img-resolution RESOLUTION] file [-o<span class="kw">|</span><span class="ex">--out</span> file]</span>
@@ -1676,20 +1679,59 @@ M=\left\{m\mid a,b\gtrsim m,m\in S\right\}</span> と書くこととすると, <
 図6: 半順序集合 <span class="math inline">(\wp({x_1,x_2,x_3}), \subset)</span> のハッセ図による図示, <span class="math inline">\sup\left\{\left\{x_1\right\},\left\{x_2\right\}\right\}</span> を強調
 </figcaption>
 </figure>
-<p>ハッセ図で考えると, 上方向に辺を辿っていったとき, 各ノードそれぞれが順序比較可能でありかつ最小であるものが上限となる. 同様に, 例えば</p>
-<p>となる. 最後の \(\) はすべての束の任意の要素について言えることである. すなわち任意の束 <span class="math inline">L</span> の任意の要素 <span class="math inline">x\in L</span> に対して <span class="math inline">\sup{x,x}=x</span> である. これは, 束の公理から導ける, 一般にべき等律といわれる定理である.</p>
-<p><strong><a id="proof1" class="disabled">証明</a></strong>:</p>
+<p>ハッセ図で考えると, 上方向に辺を辿っていったとき, 各ノードそれぞれが順序比較可能でありかつ最小であるものが上限となる. 例えば</p>
+<p><span class="math display">
+\begin{aligned}
+\sup\left\{\left\{x_1,x_2\right\},\left\{x_2,x_3\right\}\right\}&amp;=&amp;\left\{x_1,x_2,x_3\right\}\\
+\sup\left\{\left\{x_1\right\},\left\{x_2,x_3\right\}\right\}&amp;=&amp;\left\{x_1,x_2,x_3\right\}\\
+\sup\left\{\emptyset,\left\{x_1,x_2\right\}\right\}&amp;=&amp;\left\{x_1,x_2\right\}\\
+\sup\left\{\emptyset,\emptyset\right\}&amp;=&amp;\emptyset\tag{9}
+\end{aligned}
+</span></p>
+<p>となる. 最後の <span class="math inline">(9)</span> はすべての束の任意の要素について言えることである. すなわち任意の束 <span class="math inline">L</span> の任意の要素 <span class="math inline">x\in L</span> に対して <span class="math inline">\sup{x,x}=x</span> である. これは, 束の公理から導ける, 一般にべき等律といわれる定理である.</p>
+<div class="m-proof">
+<header class="m-proof-title">
+<p>
+<span id="proof1">べき等律</span>
+</p>
+</header>
+<div class="m-proof-content">
 <p><span class="math inline">x,y\in L,z=(x\lor y)</span> に対して</p>
-<p><span class="math inline">\square</span></p>
+<p><span class="math display">
+\begin{aligned}
+\sup\left\{x,x\right\}\leftrightarrow x\lor x&amp;=&amp;x\lor(x\land(x\lor y)) &amp; (\because {\rm \href{#lattice3}{公理3}: 吸収律})\\
+&amp;=&amp;x\lor (x\land z)&amp;(\because {\rm \href{#lattice3}{公理3}: 吸収律})\\
+&amp;=&amp;x&amp;(\because {\rm \href{#lattice3}{公理3}: 吸収律})
+\end{aligned}
+</span></p>
+</div>
+</div>
 <p>ここで一度, 上の定理に加えて考察できるいくつかの事項を羅列する.</p>
 <ul>
 <li>下限は, 上限の逆順序で定義されるものである. 例えば, <span class="math inline">\inf{{x_1},{x_2}}=\emptyset</span> である</li>
 <li><a id="necessarily_exists_extremum" class="disabled">完備束</a> <span class="math inline">(L,\land,\lor)</span> の任意の部分集合 <span class="math inline">S\subseteq L</span> に対して <span class="math inline">S=\emptyset</span> ならば <span class="math inline">\sup S=\min L</span>, <span class="math inline">S=L</span> ならば <span class="math inline">\sup S=\max D</span> である</li>
 </ul>
 <p>いま, 分配束 <span class="math inline">L</span> の最大元, 最小元をそれぞれ <span class="math inline">1,0</span> と書くこととする. 束 <span class="math inline">L</span> の任意の要素 <span class="math inline">x,y\in L</span> について <span class="math inline">x\lor y=1,x\land y=0</span> を満足するとき, <span class="math inline">x</span> は <span class="math inline">y</span> の補元といい, <span class="math inline">x'</span> または <span class="math inline">\bar{x}</span> と書く. 元 <span class="math inline">1,0</span> はそれぞれ単位元, 零元である. このときの <span class="math inline">L</span> の補元は, 唯一に定まる.</p>
-<p><strong>証明</strong>:</p>
+<div class="m-proof">
+<header class="m-proof-title">
+<p>
+<span class="math inline">L</span> の補元の唯一性
+</p>
+</header>
+<div class="m-proof-content">
 <p><span class="math inline">x,y\in L</span> が <span class="math inline">a\in L</span> の二つの補元だと仮定する.</p>
-<p>同様に <span class="math inline">y=x\lor y</span> となるから <span class="math inline">x=y</span>. <span class="math inline">\square</span></p>
+<p><span class="math display">
+\begin{aligned}
+x&amp;=&amp;x\lor 0\\
+&amp;=&amp;x\lor(a\land y)\\
+&amp;=&amp;(x\lor a)\land(x\lor y)\\
+&amp;=&amp;1\land(x\lor y)\\
+&amp;=&amp;x\land y
+\end{aligned}
+</span></p>
+<p>同様に <span class="math inline">y=x\lor y</span> となるから <span class="math inline">x=y</span>.</p>
+</div>
+</div>
 <p>束 <span class="math inline">L</span> のすべての元が補元をもつとき, <span class="math inline">L</span> は可補束, または相補束という. 可補分配束は一般に<a href="/roki.log/2019/05/8/BooleanAlgebra/">ブール代数</a>である<a href="/roki.log/2019/03/15/Relation/#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>.</p>
 <h2 id="参考文献">参考文献</h2>
 <ol type="1">
@@ -3270,7 +3312,7 @@ u_{kj}&amp;=&amp;\frac{(x_{kj}-\sum^{k-1}_{i=1}l_{ki}u_{ij})}{l_{kk}},\ (j=k,k+1
     <id>https://roki.dev/roki.log/2018/12/24/newtonRaphson/index.html</id>
     <published>2018-12-24T16:20:00Z</published>
     <updated>2018-12-24T16:20:00Z</updated>
-    <summary type="html"><![CDATA[<p>久しぶりにまた<a href="/roki.log/2018/12/24/newtonRaphson/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>なにか d3.js で視覚化してみたくなったのだが, このエントリがポストされる次の日は<a href="https://ja.wikipedia.org/wiki/%E3%82%A2%E3%82%A4%E3%82%B6%E3%83%83%E3%82%AF%E3%83%BB%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%88%E3%83%B3">アイザック・ニュートン</a>の誕生日らしいので, 今回はニュートン法(Newton Raphson 法)を視覚化してみることにした. 早速であるが以下がその成果物である<a href="/roki.log/2018/12/24/newtonRaphson/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. <span class="math inline">f(x)=0</span> となる関数 <span class="math inline">f(x)</span> とその導関数 <span class="math inline">f'(x)</span> 及びニュートン法の初期値を受け付け, 実行をクリックすると関数とニュートン法の計算過程における接線がプロットされる. デフォルトでは, <span class="math inline">\sqrt{2}</span> の値を計算するように設定してある. 入力された関数を元に数値微分をしても良かったのだが, なんとなく導関数を入力したかったので, そのようなことはしなかった.</p>
+    <summary type="html"><![CDATA[<p>久しぶりにまた<a href="/roki.log/2018/12/24/newtonRaphson/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>なにか d3.js で視覚化してみたくなったのだが, このエントリがポストされる次の日は<a href="https://ja.wikipedia.org/wiki/%E3%82%A2%E3%82%A4%E3%82%B6%E3%83%83%E3%82%AF%E3%83%BB%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%88%E3%83%B3">アイザック・ニュートン</a>の誕生日らしいので, 今回はニュートン法 (Newton Raphson 法) を視覚化してみることにした. 早速であるが以下がその成果物である<a href="/roki.log/2018/12/24/newtonRaphson/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. <span class="math inline">f(x)=0</span> となる関数 <span class="math inline">f(x)</span> とその導関数 <span class="math inline">f'(x)</span> 及びニュートン法の初期値を受け付け, 実行をクリックすると関数とニュートン法の計算過程における接線がプロットされる. デフォルトでは, <span class="math inline">\sqrt{2}</span> の値を計算するように設定してある. 入力された関数を元に数値微分をしても良かったのだが, なんとなく導関数を入力したかったので, そのようなことはしなかった.</p>
 <div id="vis" class="mb-4" style="width:400px; height: 310px; margin: 0 auto;">
 
 </div>
@@ -3308,7 +3350,7 @@ Fail
 </div>
 <br>
 <div class="form-group" style="margin-top: 10px;">
-<p><label>初期値 :</label> <input id="initial_value" type="text" class="input" style="max-width: 200px;" value="5" placeholder="e.g: 5"></p>
+<p><label>初期値: </label> <input id="initial_value" type="text" class="input" style="max-width: 200px;" value="5" placeholder="e.g: 5"></p>
 </div>
 <br> <input style="margin-top: 10px;" id="startNewtonRaph" class="button is-link is-light" type="button" value="実行" onclick="update()" />
 </form>
@@ -3325,10 +3367,10 @@ Fail
 <p>ここで</p>
 <p><span class="math display">
 \begin{aligned}\partial f(x,y):=
-(\begin{array}{cc}
+\left(\begin{array}{cc}
 \frac{\partial f_{1}(x,y)}{\partial x} &amp; \frac{\partial f_{1}(x,y)}{\partial y} \\
 \frac{\partial f_{2}(x,y)}{\partial x} &amp; \frac{\partial f_{2}(x,y)}{\partial y}
-\end{array})
+\end{array}\right)
 \end{aligned}
 </span></p>
 <p>なお <span class="math inline">\partial f(x,y)</span> はヤコビ行列といわれる. 実際にコンピュータで計算する際には, <span class="math inline">{\partial f(x_{n},y_{n})}^{-1}(f_{1}(x_{n}, y_{n}),f_{2}(x_{n},y_{n}))^T</span> を求めるのは計算量と誤差の観点から見て困難なので, <span class="math inline">\partial f(x_{n},y_{n})\boldsymbol{a}=(f_{1}(x_{n}, y_{n}),f_{2}(x_{n},y_{n}))^T</span> を LU 分解などで解き <span class="math inline">(x_n,y_n)^T-\boldsymbol{a}</span> と解くことになる.</p>
