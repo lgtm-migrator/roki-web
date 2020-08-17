@@ -53,17 +53,21 @@ htcc は標準 C 言語[^2]の構文の他に, 一部の GNU 拡張の構文を�
 もそのうちの一つである.
 条件演算子は N1570 において次のように定義されているが
 
+\\[
 \begin{array}{llllll}
 \text{conditional-expression}:\\
 &\text{logical-OR-expression}\\
 &\text{logical-OR-expression}&?&\text{expression}&:&\text{conditional-expression}
 \end{array}
+\\]
 
 この expression オペランドが省略された次の構文
 
+\\[
 \begin{array}{lll}
 \text{logical-OR-expression}&?:&\text{conditional-expression}
 \end{array}
+\\]
 
 をサポートする.
 
@@ -73,9 +77,7 @@ htcc の機能そのものの説明は, 基本的に上記リポジトリの REA
 時点での説明を再掲することとする.
 
 
-| ![htcc の実行イメージ](https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/some_operation.gif) |
-| :--: |
-| htcc の実行イメージ |
+![htcc の実行イメージ](https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/some_operation.gif "htcc の実行イメージ")
 
 コマンドラインオプションは次のようになっている.
 
