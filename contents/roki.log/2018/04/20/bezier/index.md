@@ -4,6 +4,7 @@ date: 2018-04-20 16:50:00
 tags: math, Haskell
 header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 js: quadraticBezier.js
+d3: enable
 ---
 
 典型的なパラメトリック曲線の一種である, ベジェ曲線(Bézier curve)についての学習メモ. パラメトリック曲線とその一種であるエルミート曲線に関しては, [前回の記事](/roki.log/2018/04/15/hermite-curve/)を参照.

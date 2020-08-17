@@ -4,10 +4,12 @@ date: 2018-12-24 16:20:00
 tags: math, javascript
 header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>から移植された記事です. よって, その内容として, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>に依存した文脈が含まれている可能性があります. 予めご了承下さい.
 js: newtonRaphson.js
+d3: enable
+mathjs: enable
 ---
 
 久しぶりにまた[^1]なにか d3.js で視覚化してみたくなったのだが, 
-このエントリがポストされる次の日は[アイザック・ニュートン](https://ja.wikipedia.org/wiki/%E3%82%A2%E3%82%A4%E3%82%B6%E3%83%83%E3%82%AF%E3%83%BB%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%88%E3%83%B3)の誕生日らしいので, 今回はニュートン法(Newton Raphson 法)を視覚化してみることにした.
+このエントリがポストされる次の日は[アイザック・ニュートン](https://ja.wikipedia.org/wiki/%E3%82%A2%E3%82%A4%E3%82%B6%E3%83%83%E3%82%AF%E3%83%BB%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%88%E3%83%B3)の誕生日らしいので, 今回はニュートン法 (Newton Raphson 法) を視覚化してみることにした.
 早速であるが以下がその成果物である[^2]. 
 $f(x)=0$ となる関数 $f(x)$ とその導関数 \\(f'(x)\\) 及びニュートン法の初期値を受け付け, 
 実行をクリックすると関数とニュートン法の計算過程における接線がプロットされる.
@@ -17,7 +19,6 @@ $f(x)=0$ となる関数 $f(x)$ とその導関数 \\(f'(x)\\) 及びニュー�
 
 <div style="width:400px; height: 310px; margin: 0 auto;" class="mb-4" id="vis"></div>
 <div class="content">
-
 <div id="success_panel" class="message is-primary" style="display: none;">
 <div class="message-header">
 <p>Success</p>
@@ -47,7 +48,7 @@ $f(x)=0$ となる関数 $f(x)$ とその導関数 \\(f'(x)\\) 及びニュー�
 <input id="func_differential" type="text" class="input" style="max-width: 200px;" value="2*x" placeholder="e.g: 2 * x">
 </div><br>
 <div class="form-group" style="margin-top: 10px;">
-<label>初期値 :</label>
+<label>初期値: </label>
 <input id="initial_value" type="text" class="input" style="max-width: 200px;" value="5" placeholder="e.g: 5">
 </div><br>
 <input 
@@ -105,10 +106,10 @@ $f(x)=0$ となる関数 $f(x)$ とその導関数 \\(f'(x)\\) 及びニュー�
 
 \\[
 \begin{aligned}\partial f(x,y):=
-(\begin{array}{cc}
+\left(\begin{array}{cc}
 \frac{\partial f_{1}(x,y)}{\partial x} & \frac{\partial f_{1}(x,y)}{\partial y} \\
 \frac{\partial f_{2}(x,y)}{\partial x} & \frac{\partial f_{2}(x,y)}{\partial y}
-\end{array})
+\end{array}\right)
 \end{aligned}
 \\]
 

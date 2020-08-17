@@ -503,29 +503,35 @@ x\land(y\lor z)=(x\land y)\lor(x\land z)\\) を満たす束をとくに分配束
 \\(\sup\left\{\left\{x_1\right\},\left\{x_2\right\}\right\}\\) を強調</figcaption></figure>
 
 ハッセ図で考えると, 上方向に辺を辿っていったとき, 各ノードそれぞれが順序比較可能でありかつ最小であるものが上限となる.
-同様に, 例えば 
+例えば 
 
+\\[
 \begin{aligned}
 \sup\left\{\left\{x_1,x_2\right\},\left\{x_2,x_3\right\}\right\}&=&\left\{x_1,x_2,x_3\right\}\\
 \sup\left\{\left\{x_1\right\},\left\{x_2,x_3\right\}\right\}&=&\left\{x_1,x_2,x_3\right\}\\
 \sup\left\{\emptyset,\left\{x_1,x_2\right\}\right\}&=&\left\{x_1,x_2\right\}\\
 \sup\left\{\emptyset,\emptyset\right\}&=&\emptyset\tag{9}
 \end{aligned}
+\\]
 
-となる. 最後の \\(\\) はすべての束の任意の要素について言えることである. 
+となる. 最後の \\((9)\\) はすべての束の任意の要素について言えることである. 
 すなわち任意の束 \\(L\\) の任意の要素 \\(x\in L\\) に対して \\(\sup{x,x}=x\\) である.
 これは, 束の公理から導ける, 一般にべき等律といわれる定理である.
 
-<strong><a id="proof1" class="disabled">証明</a></strong>:
-
+<div class="m-proof">
+<header class="m-proof-title"><p><span id="proof1">べき等律</span></p></header>
+<div class="m-proof-content">
 \\(x,y\in L,z=(x\lor y)\\) に対して
 
+\\[
 \begin{aligned}
 \sup\left\{x,x\right\}\leftrightarrow x\lor x&=&x\lor(x\land(x\lor y)) & (\because {\rm \href{#lattice3}{公理3}: 吸収律})\\
 &=&x\lor (x\land z)&(\because {\rm \href{#lattice3}{公理3}: 吸収律})\\
 &=&x&(\because {\rm \href{#lattice3}{公理3}: 吸収律})
 \end{aligned}
-\\(\square\\)
+\\]
+</div>
+</div>
 
 ここで一度, 上の定理に加えて考察できるいくつかの事項を羅列する.
 
@@ -536,10 +542,12 @@ x\land(y\lor z)=(x\land y)\lor(x\land z)\\) を満たす束をとくに分配束
 \\(x\\) は \\(y\\) の補元といい, \\(x'\\) または \\(\bar{x}\\) と書く.
 元 \\(1,0\\) はそれぞれ単位元, 零元である. このときの \\(L\\) の補元は, 唯一に定まる.
 
-**証明**:
-
+<div class="m-proof">
+<header class="m-proof-title"><p>\\(L\\) の補元の唯一性</p></header>
+<div class="m-proof-content">
 \\(x,y\in L\\) が \\(a\in L\\) の二つの補元だと仮定する.
 
+\\[
 \begin{aligned}
 x&=&x\lor 0\\
 &=&x\lor(a\land y)\\
@@ -547,8 +555,11 @@ x&=&x\lor 0\\
 &=&1\land(x\lor y)\\
 &=&x\land y
 \end{aligned}
+\\]
 
-同様に \\(y=x\lor y\\) となるから \\(x=y\\). \\(\square\\)
+同様に \\(y=x\lor y\\) となるから \\(x=y\\). 
+</div>
+</div>
 
 束 \\(L\\) のすべての元が補元をもつとき, \\(L\\) は可補束, または相補束という.
 可補分配束は一般に[ブール代数](/roki.log/2019/05/8/BooleanAlgebra/)である[^11].
