@@ -107,7 +107,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo
             });
-            if (r.data.status === "build") {
+            if (r.data.status === "built") {
               res = true;
               clearInterval(it);
             } else if (c > ${{ env.POLLING_MAX }}) {
