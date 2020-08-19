@@ -3,32 +3,32 @@ name: CI
 on:
   push:
     branches:
-        - develop
-        - master
+      - develop
+      - master
   pull_request:
     branches:
-        - develop
-        - master
+      - develop
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
       with:
-          submodules: true
+        submodules: true
     - uses: actions/setup-haskell@v1.1.2
       with:
         ghc-version: '8.8.3'
         enable-stack: latest
     - uses: actions/setup-node@v1
       with:
-          node-version: '14'
+        node-version: '14'
     - name: Cache
       uses: actions/cache@v2
       id: stack-cache
       with:
-          path: ~/.stack
-          key: stack-v2-${{ runner.os }}-${{ hashFiles('stack.yaml') }}
+        path: ~/.stack
+        key: stack-v2-${{ runner.os }}-${{ hashFiles('stack.yaml') }}
     - name: Setup Tools
       run: |
         sudo apt-get install -y libxml2-utils
@@ -66,8 +66,8 @@ jobs:
       if: github.ref == 'refs/heads/master'
       uses: actions/upload-artifact@v2
       with:
-          name: roki.dev
-          path: docs.tar.xz
+        name: roki.dev
+        path: docs.tar.xz
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -84,3 +84,46 @@ jobs:
       with:
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         publish_dir: ./docs
+  page-insight:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: false
+    - name: Polling until deployed
+      env:
+        POLLING_MAX: 10
+        POLLING_DURATION_MILLISECONDS: 5000
+      uses: actions/github-script@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        result-encoding: string
+        script: |
+          let c = 0;
+          let res = false;
+          const it = setInterval(async () => {
+            const r = await github.repos.getLatestPagesBuild({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            if (r.data.status === "built") {
+              res = true;
+              clearInterval(it);
+            } else if (c > ${{ env.POLLING_MAX }}) {
+              res = false;
+              clearInterval(it);
+            }
+            ++c;
+          }, ${{ env.POLLING_DURATION_MILLISECONDS }});
+          return res.toString();
+    - name: Get page insights
+      if: ${{ steps.set-result.outputs.result }} == "true"
+      env:
+        SP_THRESHOLD: 65
+        PC_THRESHOLD: 90
+        LOCALE: ja_JP
+      run: |
+        npm ci
+        npx psi https://$(cat CNAME) --strategy=mobile --locale=${{ env.LOCALE }} --threshold=${{ env.SP_THRESHOLD }} || return 0
+        npx psi https://$(cat CNAME) --strategy=desktop --locale=${{ env.LOCALE }} --threshold=${{ env.PC_THRESHOLD }} || return 0
