@@ -115,7 +115,6 @@ jobs:
               clearInterval(it);
             }
             ++c;
-            console.log(r);
           }, ${{ env.POLLING_DURATION_MILLISECONDS }});
           return res.toString();
     - name: Get page insights
@@ -123,7 +122,8 @@ jobs:
       env:
         SP_THRESHOLD: 65
         PC_THRESHOLD: 90
+        LOCALE: ja_JP
       run: |
         npm ci
-        npx psi https://$(cat CNAME) --strategy=mobile --locale=Japan --threshold=${{ env.SP_THRESHOLD }}
-        npx psi https://$(cat CNAME) --strategy=desktop --locale=Japan --threshold=${{ env.PC_THRESHOLD }}
+        npx psi https://$(cat CNAME) --strategy=mobile --locale=${{ env.LOCALE }} --threshold=${{ env.SP_THRESHOLD }} || return 0
+        npx psi https://$(cat CNAME) --strategy=desktop --locale=${{ env.LOCALE }} --threshold=${{ env.PC_THRESHOLD }} || return 0
