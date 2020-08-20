@@ -1,0 +1,12 @@
+name: Posts CI
+
+on:
+  push:
+    brnaches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.repository == 'falgon/roki-web-posts'
+    steps:
+    - uses: actions/checkout@v2
