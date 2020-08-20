@@ -2,7 +2,7 @@ name: Posts CI
 
 on:
   push:
-    brnaches: [master]
+    brnaches: [release]
 
 jobs:
   deploy:
@@ -10,3 +10,4 @@ jobs:
     if: github.repository == 'falgon/roki-web-posts'
     steps:
     - uses: actions/checkout@v2
+    
