@@ -25,7 +25,7 @@
 <p><i class="fab fa-github fa-fw"></i> <a href="https://github.com/falgon/htcc">falgon/htcc - A tiny C language compiler (x86-64) (WIP)</a></p>
 </div>
 <p>執筆時最新のコミット <a href="https://github.com/falgon/htcc/tree/230137475bf08265db9bd31ea65e2d867b1207fc">2301374</a> におけるコンパイル可能なコードは構文は, テストコードに記されている通りである. より実用的な (コンパイル可能な) サンプルコードは example 配下にある (ナップザック問題, 連結リストのマージソート, Fisher–Yates シャッフルとクイックソート, ライフゲームシミュレータ等).</p>
-<p>htcc は標準 C 言語<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>の構文の他に, 一部の GNU 拡張の構文を実装している. 例えば, <a href="https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html">Statement Expression</a> はそのうちの一つである. 近年, Rust のような多くの“現代的な”言語は, 文の構文を式として捉えている<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>が, Statement Expression はそれと同様の機能, すなわち, C の compound-statement を式として捉える機能を提供する. また, <a href="https://gcc.gnu.org/onlinedocs/gcc/Conditionals.html">Conditionals with Omitted Operands</a> もそのうちの一つである. 条件演算子は N1570 において次のように定義されているが</p>
+<p>htcc は標準 C 言語 <a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> の構文の他に, 一部の GNU 拡張の構文を実装している. 例えば, <a href="https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html">Statement Expression</a> はそのうちの一つである. 近年, Rust のような多くの“現代的な”言語は, 文の構文を式として捉えている <a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> が, Statement Expression はそれと同様の機能, すなわち, C の compound-statement を式として捉える機能を提供する. また, <a href="https://gcc.gnu.org/onlinedocs/gcc/Conditionals.html">Conditionals with Omitted Operands</a> もそのうちの一つである. 条件演算子は N1570 において次のように定義されているが</p>
 <p><span class="math display">
 \begin{array}{llllll}
 \text{conditional-expression}:\\
@@ -61,7 +61,7 @@
 <span id="cb1-14"><a href="/roki.log/2020/03/17/SelfMadeCCompiler/#cb1-14" aria-hidden="true"></a>  <span class="ex">-w</span>,--supress-warns       Disable all warning messages</span></code></pre></div>
 <p>例えば, 標準出力に <code>hello world</code> を出力する C ソースコードのコンパイルは, 次のように実行できる.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="/roki.log/2020/03/17/SelfMadeCCompiler/#cb2-1" aria-hidden="true"></a>$ <span class="bu">echo</span> <span class="st">'int printf(); int main() { printf(&quot;hello world!\n&quot;); }'</span> <span class="kw">|</span> <span class="ex">stack</span> exec htcc -- /dev/stdin <span class="kw">|</span> <span class="fu">gcc</span> -xassembler -no-pie -o out -  </span></code></pre></div>
-<p>htcc には, 内部で構築した構文木をベクタ画像として視覚化し, 出力する機能を実装してある<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. 次の表は, 実行されるコマンドと出力されるベクタ画像の対応を示したものである.</p>
+<p>htcc には, 内部で構築した構文木をベクタ画像として視覚化し, 出力する機能を実装してある <a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. 次の表は, 実行されるコマンドと出力されるベクタ画像の対応を示したものである.</p>
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
 <thead>
@@ -125,7 +125,7 @@ int main() { fizzbuzz(50); }' |\
 <p>が挙げられる. また, 今回は, <a href="https://gitmoji.carloscuesta.me/">gitmoji</a> のガイドラインに従って, コミットメッセージに絵文字を含めてみた. これに大した理由はないが, やってみた結果としては, 後にコミットを見返した際に, 視覚的な印象により, 多少はその概要をより素早く見直すことができるような気はした.</p>
 <h2 id="まとめ">まとめ</h2>
 <p>これは, 字句解析器や構文解析器の自動生成ツールを用いずに x86-64 アセンブラを出力する C コンパイラを作ってみるという目的の他, 私自身が関数プログラミングと圏論の関係性を学び, それをコンパイラ開発という一つの用途にあてはめたときに発見できる明確な有用性について, 私自身が議論できるようになる, という目的で行った取り組みであったが, C コンパイラはそれなりに動くところまで作れ, またモナドを利用した言語内 DSL による文脈の強制は, コンパイラ開発の場面でも強力な機能であり, その結果として, 生成されるコードの安全性を保証するに至るということも身を以て分かり, 新たな興味や疑問も多く湧いたので, 私自身にとっては非常に有意義な取り組みであった.</p>
-<p>今後は, 生成コードの最適化, 質の良いエラーと警告情報の提供, アドレスサニタイザに関して深掘りしていきたい. また, いわゆるプログラム論理として言われる分野の応用による, マルチステージプログラミング<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>や, 定理証明支援等の分野には非常に興味があるため, そのような方向へ広げていきたい.</p>
+<p>今後は, 生成コードの最適化, 質の良いエラーと警告情報の提供, アドレスサニタイザに関して深掘りしていきたい. また, いわゆるプログラム論理として言われる分野の応用による, マルチステージプログラミング <a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> や, 定理証明支援等の分野には非常に興味があるため, そのような方向へ広げていきたい.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
