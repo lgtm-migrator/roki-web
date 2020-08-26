@@ -14,6 +14,13 @@
   </url>
 
   <url>
+    <loc>https://roki.dev/roki.log/2020/08/25/hello-roki-web/index.html</loc>
+    <lastmod>2020-08-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://roki.dev/roki.log/2020/03/17/SelfMadeCCompiler/index.html</loc>
     <lastmod>2020-03-18</lastmod>
     <changefreq>weekly</changefreq>

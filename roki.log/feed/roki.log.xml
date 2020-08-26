@@ -8,8 +8,124 @@
         <name>Roki</name>
         <email>falgon53@yahoo.co.jp</email>
     </author>
-    <updated>2020-03-18T00:00:00Z</updated>
+    <updated>2020-08-25T20:45:32Z</updated>
     <entry>
+    <title>個人ページ, ブログを移行した</title>
+    <link href="https://roki.dev/roki.log/2020/08/25/hello-roki-web/index.html" />
+    <id>https://roki.dev/roki.log/2020/08/25/hello-roki-web/index.html</id>
+    <published>2020-08-25T20:45:32Z</published>
+    <updated>2020-08-25T20:45:32Z</updated>
+    <summary type="html"><![CDATA[<p><a href="https://falgon.github.io/roki/">旧個人ページ</a>及び, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>を本ウェブサイト (<a href="/">roki.dev</a>), 本ブログ (<a href="/roki.log">roki.dev/roki.log</a>, <a href="/roki.diary">roki.dev/roki.diary</a>) に移行した. 以下では, 移行した経緯や技術的概要, 本サイトおよびブログの方針について (ゆるく) 紹介したい.</p>
+<!--more-->
+<h2 id="移行に至った経緯">移行に至った経緯</h2>
+<p>移行前の<a href="https://falgon.github.io/roki.log/">旧ブログ</a><a href="/roki.log/2020/08/25/hello-roki-web/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>の構成では, static site generator である <a href="https://github.com/getpelican/pelican">pelican</a> を使っていた. 以下に, それを使ってそこそこの期間の運用をした上で, 実状, 感想を挙げる.</p>
+<ul>
+<li><a href="http://www.pelicanthemes.com/">テンプレート</a>や<a href="https://github.com/getpelican/pelican-plugins">プラグイン</a>が充実しており, 設定も非常に少ない記述から簡潔に行えるようになっていて, 主観的な感想として pelican は使い勝手の良いツールであった. 自分の場合は, <a href="https://github.com/gunchu/nikhil-theme">nikhil-theme</a> を元に<a href="https://github.com/falgon/nikhil-theme">拡張して</a>利用しており, いくつかの機能の追加実装や bug fix, 依存関係の更新作業などを行っていた</li>
+<li>記事の執筆は Markdown で行い, D3.js や emscripten を導入していたので, 記事内で簡単なシミュレータや計算の視覚化などでヌルヌル動かしたり, 遊んだりできるようにしていた</li>
+<li>執筆時には MathJax が意図通り描画できているか等で瞬時にプレビューを見たかったため, 記事内の更新に合わせて記事のリビルド, ブラウザの自動リロードがされる<a href="https://gist.github.com/falgon/5d3fe6838e7f6cb4090823df417680e5">スクリプト</a>を作り, それを実用していたのでブログ記事執筆時のストレスもそこまではなかった</li>
+<li>全体のブログ記事管理の仕組みとして, draft から release ブランチに merge &amp; push すると, <a href="https://bitbucket.org/r0ki/roki.log/addon/pipelines/home#!/results/288">Bitbucket Pipelines が走り</a><a href="/roki.log/2020/08/25/hello-roki-web/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, ブログのビルドと GitHub pages へのデプロイが実行されるようにしていたので, 管理コストや記事公開のための作業も少なく, その点は快適であった</li>
+<li><a href="https://falgon.github.io/roki.log/posts/2018/%203%E6%9C%88/22/my_first_post/">その他の細かい作業</a> (旧ブログ記事) を行うことで“色々とそれなりに”便利にしていた</li>
+</ul>
+<p>…とこれまでを振り返ると, あまり不満はなかったのではないかというような気がしてくるが, 全く不満がなかったかというとやはりそうではない.</p>
+<ul>
+<li>元テンプレートの Bootstrap のバージョンが低い</li>
+<li>MathJax が重い</li>
+<li>テンプレートが膨大</li>
+<li>標準 (プラグイン) の検索機能が日本語に未対応</li>
+<li>リンクのバリデーション機能がない</li>
+<li>無料 GitHub アカウントでもプライベートリポジトリが使えるようになり, Bitbucket と GitHub 間を横断させる必然性がなくなった (GitHub Actions も使えるようになったことで, ブログ管理のすべてを GitHub のみで一元管理できる)</li>
+<li>記事や記事内で使うスクリプトを校生するもの (textlint の linter 等) と, ブログそのもの (Jinja2 テンプレート, ビルド, デプロイ, ライブプレビュー, プラグイン管理…) は全くの別物なので, これらの管理を分離したい</li>
+</ul>
+<p>無論, 元のブログでも修正, 更新, 機能追加でこれらをすべて満たそうとすることはできるが, もうそこまでするならいっそのことリニューアルしてしまったほうが…<span class="emoji" data-emoji="thinking">🤔</span>となってしまった.<br /></p>
+<p>ブログの他にも, 個人 (プロフィール) サイトを公開しており, それにおいては Typescript + React を使って<a href="https://github.com/falgon/roki">構築していた</a><a href="/roki.log/2020/08/25/hello-roki-web/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. こちらは特に何か変わったこともしていないので, 特筆すべきトピックもないのだが, そこまで DOM 操作をするわけでもないプロフィールページにこれらの技術を用いたのはオーバースペックだったし, bundle.js の重さからしてもあまり理にかなっていなかったように思う.</p>
+<h2 id="新個人サイトとブログ">新個人サイトとブログ</h2>
+<p>そのようなわけで, 上記のようなモチベーションがあり, 本個人サイトとブログを新設したわけだが, 今回新設したことによって, これらの不満足な点についてすべて解消ができたと考えている. それを果たすことのできた要因や特徴について, いくつか挙げていければと思う.</p>
+<h3 id="hakyll-について">Hakyll について</h3>
+<p>今回, この新個人サイトとブログを新設するにおいては, Haskell 製の static site generator である <a href="https://jaspervdj.be/hakyll/">Hakyll</a> を使った. 一言に static site generator と聞くと, テンプレートがいくつかあって, それのうちの何かを選び, 場合によってはカスタムなどして, また config があって, そこに任意のほげほげを設定して…というイメージが湧くかもしれない. Hakyll においても, 勿論そのような使い方が可能なのだが, Hakyll はあくまでも static site generator そのものを作るためのライブラリであるという点で特徴的である (と私は感じている). これにより, static site の細かい部分にまで手を付けることができるのである. <br /><br /></p>
+<p>例えば, 上記で問題視していた「MathJax が重い」についてであるが, これについてはまず <span class="math inline">\KaTeX</span> へ移行することで対応を行おうと当初考えていた. しかしよくよく考えてみると, <a href="https://hackage.haskell.org/package/hakyll-4.13.4.0/docs/Hakyll-Core-UnixFilter.html#v:unixFilter"><code>unixFilter</code></a> といったような, 外部のプログラムを <code>Compiler</code> として扱うための便利な関数もあるので, こういったものを使って <span class="math inline">\KaTeX</span> から吐き出される数式のタグをサイト生成時に埋め込めれば, わざわざ javascript から動的に書き換える必要すらないのでは…となり<a href="/roki.log/2020/08/25/hello-roki-web/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, 今回はそのように実装することで, 静的な数式レンダリングが行えるようになった<a href="/roki.log/2020/08/25/hello-roki-web/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. <br /><br /></p>
+<p>ただこれについては, ビルド時間が比較的長くなるという問題がある. 後述しているように, このウェブサイトのビルド, デプロイに関してはすべて GitHub Actions 上で行っているのもあり, デプロイ前のビルドで時間がかかっても, (GitHub Actions 上で許される範囲内ならば) 特別問題はないのだが, 手元で記事のプレビューをすぐしたいとき等にこれはストレスになる (Hakyll はデフォルト (<a href="https://hackage.haskell.org/package/hakyll-4.13.4.0/docs/Hakyll-Main.html#v:hakyll"><code>hakyll</code></a>, <a href="https://hackage.haskell.org/package/hakyll-4.13.4.0/docs/Hakyll-Main.html#v:hakyllWith"><code>hakyllWith</code></a> 等) で <code>watch</code> オプションが使えるようになっている. これは, 記事等の更新があった場合に自動でビルドを再実行してくれるものである). 今回は <code>hakllWithArgs</code> を用いて, まずこちらでプログラムへの引数を拡張し, それによって static site のビルドの挙動を切り替えられるようにすることでこの問題に対処した. 具体的には, 以下の <code>--preview</code> フラグをセットして実行することにより, ビルド時に <span class="math inline">\KaTeX</span> のレンダリングを行わないようにし, 生成される HTML の <code>head</code> の中に <span class="math inline">\KaTeX</span> を動的にレンダリングする js ファイルを埋め込むようにした.</p>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/af49165391316846dbfbd41056b0a0d14f0e2640/README.md?slice=18:40"></script>
+<p>別の似たような事例として, 不必要な js ファイルの読み込みを行わないようにするといった工夫ができる. このブログでは <a href="https://d3js.org/">d3.js</a> と <a href="https://mathjs.org/">math.js</a> を使えるようにしてあるのだが, 全ての記事でこれらを利用するわけではないので, そのようなときはスクリプトファイルの読み込みを抑えたい. ある記事でこれらのうちの何かが使われたとき, 必要にスクリプトファイルの読み込みが必要になるであろうシーンは, 単一の記事を表示するときと, <code>teaser</code> 内にそれが表示範囲として入っていてかつ記事一覧を表示するときであり, 単一の記事を表示しているときは, 単に <code>metadataField</code> にその読み込みの記述があるかないかで判定できるが, 記事一覧を表示するときはその表示される記事一覧の <code>teaser</code> に表示範囲として含まれているか判定しなければならない. が, <code>teaser</code> 内のコンテンツまで読んで判定するとなると, 後々なにか変わった読み込み方をしたくなったときなどに柔軟な対応ができなくなる等の懸念事項があったので, 今回は記事一覧に表示される記事の <code>metadataField</code> に読み込みの記述があれば (<code>teaser</code> に含まれているかとは無関係に), その記事一覧のページにスクリプト読み込みを埋め込むようにしている.</p>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blog/a496b4fe14d6e0b26861f47fac800fb5f1d1222e/src/Rules/Blog/Core.hs?slice=72:77"></script>
+<p>…というように, 様々なパフォーマンスに対するニーズについて柔軟に対応ができる点も, Hakyll の良いところであると思う.</p>
+<h3 id="リッチな設定ファイル">リッチな設定ファイル</h3>
+<p><a href="/">個人ページ</a>の Contributions の一覧は (より多く増やしていきたいという気持ちも込めて) HTML テンプレートに直接埋め込むのではなく, 外部ファイルから読み込むようにしている. その外部ファイルの形式として, 今回は <a href="https://github.com/dhall-lang/dhall-lang">Dhall</a> を採用した. Dhall は簡単に言えば, json に型, 関数, インポートの機能が乗っかった設定ファイル言語である<a href="/roki.log/2020/08/25/hello-roki-web/#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. ここでは Dhall そのものについて詳しくは説明しないが, 例えば, 以下のように各ジャンルについて Union で定義し, 文字列への射を定義することで, 誤った文字列の設定を静的に防ぐといったことができる.</p>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/dca4914dad8f00c167e3eea9ba0de6221cdd4243/contents/config/contributions/Type/Genre.dhall"></script>
+<p>Haskell との親和性も高く, 例えば <code>Dhall.input</code> 等で簡単に読み込むことができる.</p>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/ab69900746e7ffa9c4a7ec2a4d3c84429e52f406/src/Config/Contributions.hs?slice=16:45"></script>
+<h3 id="rssatom-feed-や-site-map">RSS/Atom Feed や Site map</h3>
+<p>このサイトは, トップの個人ページの下に二つのブログがぶら下がっている構造をしており, よって, Site map や Atom に関してそれぞれのブログから提供する必要がある.</p>
+<p>これは, 標準の <code>renderRSS</code> や <code>renderAtom</code> では対応できないのだが, <code>renderRssWithTemplates</code> や <code>renderAtomWithTemplates</code> で独自の XML テンプレートやコンテキストを渡すことができるので, サイトの構造に合わせて柔軟な対応ができる. Site map については標準の機能として盛り込まれていないのだが, Hakyll のサイトからも紹介されている<a href="https://robertwpearce.com/hakyll-pt-2-generating-a-sitemap-xml-file.html">このブログ記事</a>の通り, Feed の生成と同様, 以下のように XML 用のテンプレートファイルを読ませたり (Lucid 等の) DSL で生成したもの等を使えば良い.</p>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/a496b4fe14d6e0b26861f47fac800fb5f1d1222e/src/Rules/Blog/Core.hs?slice=215:227"></script>
+<h3 id="バージョン情報の埋め込み">バージョン情報の埋め込み</h3>
+<p>このブログ及びウェブページを生成するアプリケーションのバージョン情報には <a href="https://github.com/falgon/roki-web/blob/72473891c2bb4c31534aafa0b8d76ae88cfe3683/roki-web.cabal#L10">Cabal ファイル</a>で定義されたパッケージバージョンと Git のコミットハッシュ値を埋め込んでいる.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="/roki.log/2020/08/25/hello-roki-web/#cb1-1" aria-hidden="true"></a>$ <span class="ex">stack</span> exec site -- --version</span>
+<span id="cb1-2"><a href="/roki.log/2020/08/25/hello-roki-web/#cb1-2" aria-hidden="true"></a><span class="ex">The</span> static site roki.dev compiler</span>
+<span id="cb1-3"><a href="/roki.log/2020/08/25/hello-roki-web/#cb1-3" aria-hidden="true"></a><span class="ex">version</span>: 0.1.0.0, commit hash: d4dcc402eb6ac271ec070a539e206580ad9cbe5e</span></code></pre></div>
+<p>Git のコミットハッシュ値を埋め込むのには <a href="http://hackage.haskell.org/package/gitrev-1.3.1/docs/Development-GitRev.html#v:gitHash"><code>Development.GitRev.gitHash</code></a> が非常に便利で役立った.</p>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/d8a997823c03ebf8008f56c6cebf870e66140545/app/site/Main.hs?slice=95:104"></script>
+<h3 id="css-フレームワーク-bulma">CSS フレームワーク Bulma</h3>
+<p>このブログは CSS のフレームワークとして <a href="https://bulma.io/">Bulma</a> を使用している. 当初は以前のブログと同様に Bootstrap を使おうかと考えていたが, 極力 javascript をなくし, 最小構成を軽くしたいと考えていたため, こちらを採用した. ウェブサイトのデザインについて疎い私であっても, 一応このような“それなりにそれっぽい”見た目を構成できたという点において, この CSS フレームワークには助けられたといえる. 個人的に非常に便利だったのが, Bulma の提供している <a href="https://bulma.io/documentation/helpers/">Helpers</a> で, これは単に色の定数値や <code>margin</code>, <code>padding</code> 等に関するショートカットが用意されているのだが, 「ほんのちょっと手を入れたい」というときのタイプ数がかなり抑えられるので, 精神的負担が少なく, とても良いものであった.</p>
+<p>また, 数学系の記事を書く際には「定義」, 「命題」, … といったような見出しをつけたいものだが, このスタイルの作成についても助けられた (Bulma が便利というのもあるが, 単純に SCSS の展開能力にも助けられた).</p>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/f5735daf569603ba872b9ee56820dfbbbbe4423e/contents/scss/blog/_mixins.scss"></script>
+<p>これを使って, 例えば以下のように書けば</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-1" aria-hidden="true"></a><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;m-prop&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb2-2"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-2" aria-hidden="true"></a><span class="kw">&lt;header</span><span class="ot"> class=</span><span class="st">&quot;m-prop-title&quot;</span><span class="kw">&gt;&lt;p&gt;</span>ABC 予想<span class="kw">&lt;/p&gt;&lt;/header&gt;</span></span>
+<span id="cb2-3"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-3" aria-hidden="true"></a><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;m-prop-content&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb2-4"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-4" aria-hidden="true"></a>\\[ a + b = c \\]</span>
+<span id="cb2-5"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-5" aria-hidden="true"></a>を満たす, 互いに素な自然数の組 \\(a, b, c\\) に対し, 積 \\(abc\\) の互いに異なる素因数の積を \\(d\\) とおく.</span>
+<span id="cb2-6"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-6" aria-hidden="true"></a>このとき, 任意の \\(\epsilon\gt 0\\) に対して,</span>
+<span id="cb2-7"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-7" aria-hidden="true"></a>\\[ c\gt d^{1+\epsilon} \\]</span>
+<span id="cb2-8"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-8" aria-hidden="true"></a>を満たす組 \\((a,b,c)\\) は高々有限個しか存在しない</span>
+<span id="cb2-9"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-9" aria-hidden="true"></a><span class="kw">&lt;/div&gt;</span></span>
+<span id="cb2-10"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-10" aria-hidden="true"></a><span class="kw">&lt;/div&gt;</span></span></code></pre></div>
+<p>次のような表示になる.</p>
+<div class="m-prop">
+<header class="m-prop-title">
+<p>
+ABC 予想
+</p>
+</header>
+<div class="m-prop-content">
+<p><span class="math display"> a + b = c </span> を満たす, 互いに素な自然数の組 <span class="math inline">a, b, c</span> に対し, 積 <span class="math inline">abc</span> の互いに異なる素因数の積を <span class="math inline">d</span> とおく. このとき, 任意の <span class="math inline">\epsilon\gt 0</span> に対して, <span class="math display"> c\gt d^{1+\epsilon} </span> を満たす組 <span class="math inline">(a,b,c)</span> は高々有限個しか存在しない</p>
+</div>
+</div>
+<h3 id="cicd-と全体の管理体系">CI/CD と全体の管理体系</h3>
+<p>前述したとおり, このブログ, ウェブページは GitHub Actions でビルド, デプロイを行っており, それ以外の CI/CD としていくつかボットを設定している. この構成の特徴としては, ドラフトをリモートリポジトリに非公開の状態で保存できるようにしてあること, またそれが Git 上で矛盾しないように構成している点が挙げられると思う. といっても, 下図の通り非常にシンプルな構成である.</p>
+<figure>
+<img src="https://user-images.githubusercontent.com/1241783/90969880-d99b8a00-e538-11ea-8f35-684365e14406.png" title="個人ページ/ブログ管理の構造" width="640" alt /><figcaption>個人ページ/ブログ管理の構造</figcaption>
+</figure>
+<p>執筆時点現在では, 少なくとも GitHub 上において「プライベートブランチ」なる概念は存在しない. 従って, 非公開情報を扱いたいのならば, 必然的にそれをプライベートリポジトリとして扱う必要があるが, この構成はドラフトとリリースでリポジトリの公開情報をそれぞれわけることができるということに加えて, ブログ記事そのものに対する管理と, ウェブサイトを生成するアプリケーションの管理を分離することができるという利点がある. 例えば, ブログ記事の管理のほうで扱われるのは Markdown テキスト, 画像などのメディアファイル, 記事内で使うような js ファイル等であり, これらの linter やメディアファイルへの自動圧縮などの CI/CD を構成する際に, アプリケーションの CI と完全に分離できるのである.<br /><br /> なお, この構成をするのには既存の Action である <a href="https://github.com/peaceiris/actions-gh-pages">GitHub Actions for GitHub Pages</a> が非常に役立った. 特に, 既存のファイルを残すように設定できたり, 外部のプロジェクトへ Push できる設定項目については特筆すべき内容で, この Action のおかげで全体の構成をスムーズに行うことが出来たといっても過言ではない. <br /><br /> 次に, パフォーマンス計測についてであるが, 一応デプロイした後に, Google PageSpeed Insights で, <a href="https://github.com/falgon/roki-web/runs/1027626194?check_suite_focus=true">デプロイ後の状態を計測させるようにしている</a>. 現状, PC 版は 90, モバイル版は 65 を閾値として取り敢えず合否を設定しているが, モバイル版のスコアをもう少し上げられるようにしていきたいところである. これには, <a href="https://github.com/actions/github-script">actions/github-script</a> が非常に役立った. javascript を直接書き込める Action で, 手軽に導入が勧められる. 以下の処理においては, GitHub pages の状態がデプロイ完了になるまでポーリングさせている.</p>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/415890efb43ac2e286b721b09a2881337a0245f0/.github/workflows/build.yml?slice=96:128"></script>
+<p>さて, ここまで見てみて, もしかすると, どうやって roki-web と roki-web-post 側で同期を取っているのか, 普段はこの環境でどのようにブログの更新等行うのか等, 疑問に思うかもしれないので少し補足しておく. まず, ブログ記事の更新は, すべて roki-web-post リポジトリ内で行う. roki-web リポジトリ内では, ブログ記事については一切触らない. これをもし触ってしまうと, GitHub Actions によって roki-web の master ブランチにプッシュした際にコンフリクトすることになるので, この点では注意が必要である (が, まあもし間違えて触ってしまったとしてもそこは Git なので別になんとかなる). 反対に, ウェブサイトを生成するアプリケーションについて, roki-web-post では一切触らない. ウェブサイトを生成するアプリケーションについて何らかの変更を加えたい場合は, roki-web のみから行うようにする. <br /> 次に roki-web で何らかの変更が加えられたときに, roki-web-post がどのようにそれを取り込めばよいかであるが, これは単純に remote を複数登録しておいて, 場合によって切り替えて pull してくれば良い. もっと言えば, 下記のように設定しているので,</p>
+<pre><code>$ git remote -v
+origin  git@github.com:falgon/roki-web-post.git (fetch)
+origin  git@github.com:falgon/roki-web-post.git (push)
+site-system git@github.com:falgon/roki-web.git (fetch)
+site-system git@github.com:falgon/roki-web.git (push)</code></pre>
+<p>roki-web の変更を取り込むときは単に</p>
+<pre><code>$ git pull site-system master</code></pre>
+<p>等をすれば良いようにしている. このとき, <code>--set-upstream</code> 等でデフォルトを <code>origin</code> に設定しておくと, ぼーっとしていて <code>site-system</code> 取り込んでしまった！だとか <code>site-system</code> に push してしまった！等という事故を防ぎやすくなる.<br /><br /></p>
+<p>なお, roki-web へのデプロイは deployment key を使って行っているが, これは <a href="https://docs.github.com/en/actions/reference/events-that-trigger-workflows#triggering-new-workflows-using-a-personal-access-token">Action 内でデフォルトで使える <code>GITHUB_TOKEN</code> では, あるワークフローによって別のワークフローをトリガーできないため</a>である.</p>
+<blockquote>
+<p>When you use the repository’s GITHUB_TOKEN to perform tasks on behalf of the GitHub Actions app, events triggered by the GITHUB_TOKEN will not create a new workflow run.</p>
+</blockquote>
+<p>この回避策に関しては, <a href="https://github.com/peter-evans/create-pull-request/blob/8f96fd02520b1086ddc0ec0625b6b5814fb0e694/docs/concepts-guidelines.md#triggering-further-workflow-runs">create pull request という GitHub Actions のドキュメント</a>中に記載があるので, 必要ならば参照すると良いかもしれない.</p>
+<h2 id="総括">総括</h2>
+<p>ここまで振り返ってみて, 割とまだまだ拘れる点はあると感じている. 例えば, テンプレートの Lucid 化だとか, 現在の実装をもう少しモナドの合成等ですっきり表せないか等である. 一応, このブログ, ウェブページを構築した際に何をやったのかまとめやすいように, 構築するのに行った大体のタスクについて<a href="https://github.com/falgon/roki-web/issues?q=is%3Aissue+label%3Ainit-build+">ラベルをつけておいた</a>ので, 気になる場合は見てみても良いかもしれない. そのようなわけで, 今後はこのブログ, ウェブサイトを使って以前と同様何かしら書いていければと思っているので, (お手柔らかに) よろしくお願い致します.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>それよりも前は 2016 年に<a href="https://roki.hateblo.jp/">はてなブログ (Roki のチラ裏)</a> で技術系の記事を書いていた. さらにそれよりも前はアメーバブログで技術系の記事を書いていたが, 随分前にもう消してしまっていた…特別意識しているわけではないが, こう見ると二年周期で移行している気がする… (もう移行はしたくないなぁという気持ち)<a href="/roki.log/2020/08/25/hello-roki-web/#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>ここで貼っている Pipelines のリンクは, このブログへ移行する前の旧ブログに対する最後の変更コミットのもの. 切ない.<a href="/roki.log/2020/08/25/hello-roki-web/#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>元々は何か色々と DOM 操作をするつもりでいたのだが, 結局単なるプロフィールページなのでオーバースペックであった. この旧プロフィールページはすでにクローズしているが, 記録としてなんとなくキャプチャしたものを <a href="https://youtu.be/31VIygOOwLw">YouTube にアップロードしておいた</a>ので, もし興味があれば.<a href="/roki.log/2020/08/25/hello-roki-web/#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>同様の取り組みをされているサイトがいくつかあったため, 大いに参考とさせて頂いた.<a href="/roki.log/2020/08/25/hello-roki-web/#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>これにより, 例えば比較的多くの数式を使っている「<a href="/roki.log/2018/07/13/elgamalEncryption/index.html">エルガマル暗号</a>」といった記事について, Google PageSpeed Insights で何度か計測した結果, <a href="https://falgon.github.io/roki.log/posts/2018/%207%E6%9C%88/13/elgamalEncryption/">旧ブログ記事</a>と比較してインタラクティブになるまでの時間が PC で平均 7 倍, モバイルで平均 5 倍高速になった (てきとう調べ)<a href="/roki.log/2020/08/25/hello-roki-web/#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>あくまで設定のための言語であり, チューリング完全ではない. Dhall については, 別途なにか記事を書きたい…<a href="/roki.log/2020/08/25/hello-roki-web/#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>]]></summary>
+</entry>
+<entry>
     <title>Haskell で C コンパイラを作ってみた</title>
     <link href="https://roki.dev/roki.log/2020/03/17/SelfMadeCCompiler/index.html" />
     <id>https://roki.dev/roki.log/2020/03/17/SelfMadeCCompiler/index.html</id>
@@ -18,14 +134,14 @@
     <summary type="html"><![CDATA[<p>本エントリ投稿の 2, 3 ヶ月前に Haskell でスクラッチから x86-64 向けの C コンパイラを作った. 本エントリは, その記録である.</p>
 <!--more-->
 <h2 id="動機背景">動機/背景</h2>
-<p>動機としては, 私は 2020 年度の新卒として, とある会社に技術者として入社することとなっており, コンパイラの自作は, 社会人になる前に, 前々から一度はやっておきたいと思っていた事柄の一つであったこと, また関数プログラミングとの関係性について探求したかったこと, さらに, 一部には, 関数プログラミングはコンパイラ開発を容易にする <a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> という認識があるが, 数学的構造の実用化の一つとも言える関数プログラミングに関する考察においては, 圏論的な理由付けによりその有用性を言うことができるはずであろうという, 私の中での何となくの予想が本当であるのかどうか, 確認したかったことから, 実際に Haskell で C コンパイラを作るに至った. なお, 圏論の話題は再度別のエントリとしてまとめ, その後, さらに別のエントリにそれと関連付いた話題としてまとめようと考えているため, 本エントリでは特に立ち入らず, あくまでも, Haskell で C コンパイラを作ってみたという単なる取り組みへの記録程度に止める.</p>
+<p>動機としては, 私は 2020 年度の新卒として, とある会社に技術者として入社することとなっており, コンパイラの自作は, 社会人になる前に, 前々から一度はやっておきたいと思っていた事柄の一つであったこと, また関数プログラミングとの関係性について探求したかったこと, さらに, 一部には, 関数プログラミングはコンパイラ開発を容易にする<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>という認識があるが, 数学的構造の実用化の一つとも言える関数プログラミングに関する考察においては, 圏論的な理由付けによりその有用性を言うことができるはずであろうという, 私の中での何となくの予想が本当であるのかどうか, 確認したかったことから, 実際に Haskell で C コンパイラを作るに至った. なお, 圏論の話題は再度別のエントリとしてまとめ, その後, さらに別のエントリにそれと関連付いた話題としてまとめようと考えているため, 本エントリでは特に立ち入らず, あくまでも, Haskell で C コンパイラを作ってみたという単なる取り組みへの記録程度に止める.</p>
 <h2 id="成果">成果</h2>
 <p>プロジェクトは, 次のリポジトリにて管理している.</p>
 <div class="has-text-centered mb-2">
 <p><i class="fab fa-github fa-fw"></i> <a href="https://github.com/falgon/htcc">falgon/htcc - A tiny C language compiler (x86-64) (WIP)</a></p>
 </div>
 <p>執筆時最新のコミット <a href="https://github.com/falgon/htcc/tree/230137475bf08265db9bd31ea65e2d867b1207fc">2301374</a> におけるコンパイル可能なコードは構文は, テストコードに記されている通りである. より実用的な (コンパイル可能な) サンプルコードは example 配下にある (ナップザック問題, 連結リストのマージソート, Fisher–Yates シャッフルとクイックソート, ライフゲームシミュレータ等).</p>
-<p>htcc は標準 C 言語 <a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> の構文の他に, 一部の GNU 拡張の構文を実装している. 例えば, <a href="https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html">Statement Expression</a> はそのうちの一つである. 近年, Rust のような多くの“現代的な”言語は, 文の構文を式として捉えている <a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> が, Statement Expression はそれと同様の機能, すなわち, C の compound-statement を式として捉える機能を提供する. また, <a href="https://gcc.gnu.org/onlinedocs/gcc/Conditionals.html">Conditionals with Omitted Operands</a> もそのうちの一つである. 条件演算子は N1570 において次のように定義されているが</p>
+<p>htcc は標準 C 言語<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>の構文の他に, 一部の GNU 拡張の構文を実装している. 例えば, <a href="https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html">Statement Expression</a> はそのうちの一つである. 近年, Rust のような多くの“現代的な”言語は, 文の構文を式として捉えている<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>が, Statement Expression はそれと同様の機能, すなわち, C の compound-statement を式として捉える機能を提供する. また, <a href="https://gcc.gnu.org/onlinedocs/gcc/Conditionals.html">Conditionals with Omitted Operands</a> もそのうちの一つである. 条件演算子は N1570 において次のように定義されているが</p>
 <p><span class="math display">
 \begin{array}{llllll}
 \text{conditional-expression}:\\
@@ -61,7 +177,7 @@
 <span id="cb1-14"><a href="/roki.log/2020/03/17/SelfMadeCCompiler/#cb1-14" aria-hidden="true"></a>  <span class="ex">-w</span>,--supress-warns       Disable all warning messages</span></code></pre></div>
 <p>例えば, 標準出力に <code>hello world</code> を出力する C ソースコードのコンパイルは, 次のように実行できる.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="/roki.log/2020/03/17/SelfMadeCCompiler/#cb2-1" aria-hidden="true"></a>$ <span class="bu">echo</span> <span class="st">'int printf(); int main() { printf(&quot;hello world!\n&quot;); }'</span> <span class="kw">|</span> <span class="ex">stack</span> exec htcc -- /dev/stdin <span class="kw">|</span> <span class="fu">gcc</span> -xassembler -no-pie -o out -  </span></code></pre></div>
-<p>htcc には, 内部で構築した構文木をベクタ画像として視覚化し, 出力する機能を実装してある <a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. 次の表は, 実行されるコマンドと出力されるベクタ画像の対応を示したものである.</p>
+<p>htcc には, 内部で構築した構文木をベクタ画像として視覚化し, 出力する機能を実装してある<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. 次の表は, 実行されるコマンドと出力されるベクタ画像の対応を示したものである.</p>
 <div class="table-responsive">
 <table class="table table-bordered table-hover">
 <thead>
@@ -125,7 +241,7 @@ int main() { fizzbuzz(50); }' |\
 <p>が挙げられる. また, 今回は, <a href="https://gitmoji.carloscuesta.me/">gitmoji</a> のガイドラインに従って, コミットメッセージに絵文字を含めてみた. これに大した理由はないが, やってみた結果としては, 後にコミットを見返した際に, 視覚的な印象により, 多少はその概要をより素早く見直すことができるような気はした.</p>
 <h2 id="まとめ">まとめ</h2>
 <p>これは, 字句解析器や構文解析器の自動生成ツールを用いずに x86-64 アセンブラを出力する C コンパイラを作ってみるという目的の他, 私自身が関数プログラミングと圏論の関係性を学び, それをコンパイラ開発という一つの用途にあてはめたときに発見できる明確な有用性について, 私自身が議論できるようになる, という目的で行った取り組みであったが, C コンパイラはそれなりに動くところまで作れ, またモナドを利用した言語内 DSL による文脈の強制は, コンパイラ開発の場面でも強力な機能であり, その結果として, 生成されるコードの安全性を保証するに至るということも身を以て分かり, 新たな興味や疑問も多く湧いたので, 私自身にとっては非常に有意義な取り組みであった.</p>
-<p>今後は, 生成コードの最適化, 質の良いエラーと警告情報の提供, アドレスサニタイザに関して深掘りしていきたい. また, いわゆるプログラム論理として言われる分野の応用による, マルチステージプログラミング <a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> や, 定理証明支援等の分野には非常に興味があるため, そのような方向へ広げていきたい.</p>
+<p>今後は, 生成コードの最適化, 質の良いエラーと警告情報の提供, アドレスサニタイザに関して深掘りしていきたい. また, いわゆるプログラム論理として言われる分野の応用による, マルチステージプログラミング<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>や, 定理証明支援等の分野には非常に興味があるため, そのような方向へ広げていきたい.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
@@ -5193,729 +5309,6 @@ P(C\mid B) &amp;=&amp; \dfrac{P(B\mid C)P(C)}{P(B)}&amp;=&amp;\dfrac{1\cdot \dfr
 <li id="fn1" role="doc-endnote"><p>この個人情報と思わしきリストは, コード内のコメントにも書いたが, 偽の個人情報をランダムに生成する Python 製の<a href="https://github.com/joke2k/faker">ライブラリ</a>で自動生成したものである. 同ライブラリは日本語だけでなく, 様々な国の様式に沿ったそれらしき文字列を提供してくれるので, <code>hoge</code>や<code>foo</code>等に飽きたら, これを使えば良いのではないのだろうか :p<a href="/roki.log/2018/07/20/cppdemysql/#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2" role="doc-endnote"><p>なお, このインクルードしている Srook というものは, 私の自作ライブラリです. このブログに移行してくる前のブログでは, よく取り扱っていました.<a href="/roki.log/2018/07/20/cppdemysql/#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3" role="doc-endnote"><p><code>playing::cppconn</code>とかいうふざけた名前空間だが.<a href="/roki.log/2018/07/20/cppdemysql/#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>]]></summary>
-</entry>
-<entry>
-    <title>エルガマル暗号</title>
-    <link href="https://roki.dev/roki.log/2018/07/13/elgamalEncryption/index.html" />
-    <id>https://roki.dev/roki.log/2018/07/13/elgamalEncryption/index.html</id>
-    <published>2018-07-13T22:50:00Z</published>
-    <updated>2018-07-13T22:50:00Z</updated>
-    <summary type="html"><![CDATA[<p>エルガマル暗号が離散対数問題の応用であることは認知していたものの, きっちりと自分でまとめたことが無かったと思うので, それに関連する諸々の前提についてもふまえて, 一度書くことにした. また, その処理系を<a href="/roki.log/2018/07/13/elgamalEncryption/#impl">実装した</a>. 本エントリでは, 同暗号プロトコルの話の前にまず前提を示し, その後, 実装の観点から見た要点を示す.</p>
-<!--more-->
-<p><br><i>※ 内容にはできる限り注意を払っておりますが, 筆者は暗号プロトコル等に関する専門家ではないため, 注意してください. 間違った箇所, 不自然な箇所等があれば, ご報告いただけると幸いです.</i></p>
-<h2 id="ユークリッドの互除法">ユークリッドの互除法</h2>
-<p>これは, とても有名なアルゴリズムだと思われるので, わざわざ特別取り上げる必要はないようにも思ったのだが, 本エントリでは最大公約数を存分に利用するので, これを自明として取り上げないのも頂けない. したがって, 簡単に説明, 証明をして終わりとする. ユークリッドの互除法は以下で定義される.</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-<span id="euclidean">ユークリッドの互除法</span>
-</p>
-</header>
-<div class="m-def-content">
-<span class="math inline">2</span> つの自然数 <span class="math inline">a, b\in\mathbb{N}</span> の最大公約数を求めるアルゴリズム.
-</div>
-</div>
-<p>最大公約数を求める方法として, 素因数分解をひたすら行うのには, 計算量的に限界がある. そこで, 古代ギリシャの数学者ユークリッドは, この問題を幾何学的に考察した(図示された例は調べるとたくさんある). たとえば <span class="math inline">a=12345678,\ b=87654321</span> の最大公約数を求めるとする(以下これを <span class="math inline">\gcd(a,b)=c</span> と書く). これをユークリッドの互除法は,</p>
-<p><span class="math display">\begin{array}{rr}
-87654321&amp;=&amp;12345678\cdot 7&amp;+&amp;1234575\\
-12345678&amp;=&amp;1234575\cdot 9&amp;+&amp;1234503\\
-1234575&amp;=&amp;1234503&amp;+&amp;72\\
-1234503&amp;=&amp;72\cdot 17145&amp;+&amp;63\\
-72&amp;=&amp;63&amp;+&amp;9\\
-63&amp;=&amp;\underbrace{9}_{c}\cdot 7
-\end{array}
-</span></p>
-<p>より <span class="math inline">\gcd(a,b)=9</span> というように解く. これで最大公約数を求まる根拠を以下証明する.</p>
-<div class="m-lem">
-<header class="m-lem-title">
-<p>
-補題 1
-</p>
-</header>
-<div class="m-lem-content">
-<p><span class="math inline">\gcd(a,b)=\gcd(a-b, b)=\gcd(a-2b,b)=\gcd(a-3b,b)=\cdots\ (a, b\in\mathbb{N})</span> が成り立つ.</p>
-</div>
-</div>
-<div class="m-proof">
-<header class="m-proof-title">
-<p>
-<span id="lemma1">補題 1</span>
-</p>
-</header>
-<div class="m-proof-content">
-<p><strong>証明</strong>: <span class="math inline">a,\ b</span> の公約数を <span class="math inline">d</span> とすると, <span class="math inline">d\mid a\land d\mid b \Rightarrow d\mid a-b</span>. また <span class="math inline">a-b</span> と <span class="math inline">b</span> の公約数を <span class="math inline">e</span> とすると, <span class="math inline">e\mid a-b\land e\mid b\Rightarrow e\mid (a-b)+b=e\mid a</span>.</p>
-<p><span class="math inline">\therefore</span> 公約数の全体が一致するから, 最大公約数も一致して, <span class="math inline">\gcd(a,b)=\gcd(a-b,b)</span>. これを繰り返すと <span class="math display">
-\gcd(a,b)=\gcd(a-b,b)=\gcd(a-2b,b)=\gcd(a-3b,b)=\cdots
-</span></p>
-</div>
-</div>
-<div class="m-prop">
-<header class="m-prop-title">
-<p>
-<span id="prop1">命題 1</span>
-</p>
-</header>
-<div class="m-prop-content">
-<p>ユークリッドの互除法により <span class="math inline">c</span> が最大公約数となる.</p>
-</div>
-</div>
-<div class="m-proof">
-<header class="m-proof-title">
-<p>
-命題 1
-</p>
-</header>
-<div class="m-proof-content">
-<p><span class="math inline">a, b\in\mathbb{Z}^{+}</span> があるとき, 除算は <span class="math inline">a=bq+r,\ 0\leq r\lt b</span> と表せる. <a href="/roki.log/2018/07/13/elgamalEncryption/#lemma1">補題 1</a> より, <span class="math inline">\gcd(a,b)=\gcd(a-bq,b)=\gcd(b,r)</span> がいえる. ここで,</p>
-<p><span class="math display">
-\begin{array}{ll}
-a&amp;=&amp;bq_1+r_1&amp; (0\lt r_1\lt b),&amp; \gcd(a,b)&amp;=&amp;\gcd(b,r_1)\\
-b&amp;=&amp;r_1q_2+r_2&amp; (0\lt r_2\lt r_1),&amp; \gcd(b,r_1)&amp;=&amp;\gcd(r_1,r_2)\\
-r_1&amp;=&amp;r_2q_3+r_3&amp; (0\lt r_3\lt r_2),&amp; \gcd(r_1,r_2)&amp;=&amp;\gcd(r_2,r_3)\\
-\cdots &amp;&amp;&amp; \cdots &amp;&amp;&amp; \cdots \\
-r_i&amp;=&amp;r_{i+1}q_{i+2}+r_{i+2}&amp; (0\lt r_{i+2}\lt r_{i+1}),&amp; \gcd(r_i,r_{i+1})&amp;=&amp;\gcd(r_{i+1},r_{i+2})\\
-\cdots &amp;&amp;&amp; \cdots &amp;&amp;&amp; \cdots \\
-r_{n-2}&amp;=&amp;r_{n-1}q_n+r_n&amp;(0\lt r_n\lt r_{n-1}),&amp;\gcd(r_{n-2},r_{n-1})&amp;=&amp;\gcd(r_{n-1},r_n)\\
-r_{n-1}&amp;=&amp;r_nq_{n+1}&amp;&amp; \gcd(r_{n-1},r_n)&amp;=&amp;r_n
-\end{array}
-</span></p>
-<p>として, <span class="math inline">(n+1)</span> 回で割り切れたとすると, <span class="math inline">r_n</span> が最大公約数 <span class="math inline">c</span> となる.</p>
-</div>
-</div>
-<h2 id="ガロア体">ガロア体</h2>
-<p>ある集合に対して, 加法および乗法における結合律の満足と分配律の成立が両立する演算を定義する. この公理を体の公理といい, それを満たす集合を体, とくに位数が有限である体を有限体, ガロア体といい, これを素数 <span class="math inline">p</span> を位数として <span class="math inline">GF(p)</span> と書く.</p>
-<p>このような体は位数を素数で構成すると簡単に構成でき<a href="/roki.log/2018/07/13/elgamalEncryption/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, これを素体という. いま, <span class="math inline">k\in\mathbb{Z}</span> と合同な整数の全体を <span class="math inline">\overline{k}</span> と表し, これを <span class="math inline">k</span> を含む剰余類という.<br />
-なお, 一般に <span class="math inline">a\equiv b\pmod{c} \Leftrightarrow \overline{a}=\overline{b}</span> である. ガロア体は, <span class="math inline">\mathbb{Z}/p\mathbb{Z}</span>(以下これを簡単のため, <span class="math inline">\mathbb{Z}_p</span> と書く.) を整数を <span class="math inline">p</span> で割った余りから構成される素体として, 次のように構成することで, その同型となる. <span class="math display">\mathbb{Z}_p={\overline{0},\cdots, \overline{p-1} \pmod{p} }</span></p>
-<p>例えば, <span class="math inline">GF(2) = \{0, 1\}</span> であり, このときの四則演算は「整数の世界で四則演算をして, それを <span class="math inline">2</span> で割った余り」と定義する<a href="/roki.log/2018/07/13/elgamalEncryption/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. なおこの演算規則は加算が XOR に, 乗算が AND に対応する.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-1" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> <span class="op">:</span>m <span class="op">+</span><span class="dt">Data.Bits</span></span>
-<span id="cb1-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-2" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Data.Bits</span><span class="op">&gt;</span> <span class="kw">let</span><span class="ot"> finitef ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [<span class="dt">Int</span>]; finitef p <span class="ot">=</span> [x <span class="ot">`mod`</span> p <span class="op">|</span> x <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span>p<span class="op">-</span><span class="dv">1</span>]]</span>
-<span id="cb1-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-3" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Data.Bits</span><span class="op">&gt;</span> finitef <span class="dv">2</span></span>
-<span id="cb1-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-4" aria-hidden="true"></a>[<span class="dv">0</span>,<span class="dv">1</span>]</span>
-<span id="cb1-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-5" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Data.Bits</span><span class="op">&gt;</span> <span class="fu">map</span> (<span class="ot">`mod`</span> <span class="dv">2</span>) (finitef <span class="dv">2</span>) <span class="op">==</span> (<span class="fu">map</span> (<span class="ot">`xor`</span> <span class="dv">0</span>) <span class="op">$</span> finitef <span class="dv">2</span>)</span>
-<span id="cb1-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-6" aria-hidden="true"></a><span class="dt">True</span></span>
-<span id="cb1-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-7" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Data.Bits</span><span class="op">&gt;</span> <span class="fu">map</span> ((<span class="ot">`mod`</span> <span class="dv">2</span>) <span class="op">.</span> (<span class="op">+</span><span class="dv">1</span>)) (finitef <span class="dv">2</span>) <span class="op">==</span> (<span class="fu">map</span> (<span class="ot">`xor`</span> <span class="dv">1</span>) <span class="op">$</span> finitef <span class="dv">2</span>)</span>
-<span id="cb1-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-8" aria-hidden="true"></a><span class="dt">True</span></span>
-<span id="cb1-9"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-9" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Data.Bits</span><span class="op">&gt;</span> <span class="fu">map</span> ((<span class="ot">`mod`</span> <span class="dv">2</span>) <span class="op">.</span> (<span class="op">*</span><span class="dv">0</span>)) (finitef <span class="dv">2</span>) <span class="op">==</span> (<span class="fu">map</span> (<span class="op">.&amp;.</span> <span class="dv">0</span>) <span class="op">$</span> finitef <span class="dv">2</span>)</span>
-<span id="cb1-10"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-10" aria-hidden="true"></a><span class="dt">True</span></span>
-<span id="cb1-11"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-11" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Data.Bits</span><span class="op">&gt;</span> <span class="fu">map</span> (<span class="ot">`mod`</span> <span class="dv">2</span>) (finitef <span class="dv">2</span>) <span class="op">==</span> (<span class="fu">map</span> (<span class="op">.&amp;.</span> <span class="dv">1</span>) <span class="op">$</span> finitef <span class="dv">2</span>)</span>
-<span id="cb1-12"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb1-12" aria-hidden="true"></a><span class="dt">True</span></span></code></pre></div>
-<h2 id="オイラーの-phi-関数">オイラーの <span class="math inline">\phi</span> 関数</h2>
-<p>オイラーの <span class="math inline">\phi</span> (トーシェント)関数は, 正整数 <span class="math inline">n</span> に対する <span class="math inline">1</span> から <span class="math inline">n</span> までの自然数のうち <span class="math inline">n</span> と互いに素なものの個数を <span class="math inline">\phi(n)</span> として与えることによって定まる乗法的関数<a href="/roki.log/2018/07/13/elgamalEncryption/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>である. この関数は <span class="math inline">p_i</span> を <span class="math inline">n</span> の素因数として, 次の式で定義できる<a href="/roki.log/2018/07/13/elgamalEncryption/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-<span id="totientf">オイラーの <span class="math inline">\phi</span> 関数</span>
-</p>
-</header>
-<div class="m-def-content">
-<span class="math display">\phi(n)=n\displaystyle\prod_{i=1}^k(1-\dfrac{1}{p_i})</span>
-</div>
-</div>
-<p>例えば <span class="math inline">\phi(14) = 6</span> である(<span class="math inline">14 = 2 \cdot 7</span> だから, <span class="math inline">14(1-\dfrac{1}{2})(1-\dfrac{1}{7}) = 6</span>. これを列挙すると, <span class="math inline">1,3,5,9,11,13</span>). 特に, <span class="math inline">n</span> が素数である場合, <span class="math inline">1</span> から <span class="math inline">n-1</span> のうち <span class="math inline">n</span> の素因数である <span class="math inline">n</span> を因数としてもつことはないから <span class="math inline">n</span> が素数のとき <span class="math inline">\phi(n) = n - 1</span> が成り立つ.</p>
-<p>以下で, <span class="math inline">p</span> が素数のとき, 先頭から <span class="math inline">100</span> 個の素数 <span class="math inline">p_i=p_0,p_1,p_2,\cdots,p_{99}</span> に対して, <span class="math inline">\phi(p_i)=p_i - 1</span> であることを確認する.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-1" aria-hidden="true"></a><span class="ot">{-# OPTIONS_GHC -Wall #-}</span></span>
-<span id="cb2-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-2" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></span>
-<span id="cb2-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-3" aria-hidden="true"></a></span>
-<span id="cb2-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-4" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Numbers.Primes</span> (primes)</span>
-<span id="cb2-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-5" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.List</span> (nub)</span>
-<span id="cb2-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-6" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Tuple.Extra</span> (first, second, dupe)</span>
-<span id="cb2-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-7" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Ratio</span> ((%), numerator)</span>
-<span id="cb2-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-8" aria-hidden="true"></a></span>
-<span id="cb2-9"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-9" aria-hidden="true"></a><span class="ot">primeFactors ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [<span class="dt">Int</span>]</span>
-<span id="cb2-10"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-10" aria-hidden="true"></a>primeFactors <span class="ot">=</span> <span class="fu">flip</span> go primes</span>
-<span id="cb2-11"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-11" aria-hidden="true"></a>    <span class="kw">where</span></span>
-<span id="cb2-12"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-12" aria-hidden="true"></a>        go _ [] <span class="ot">=</span> []</span>
-<span id="cb2-13"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-13" aria-hidden="true"></a>        go n xxs<span class="op">@</span>(x<span class="op">:</span>xs) </span>
-<span id="cb2-14"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-14" aria-hidden="true"></a>            <span class="op">|</span> n <span class="op">&lt;</span> (x<span class="op">^</span>(<span class="dv">2</span><span class="ot"> ::</span> <span class="dt">Int</span>)) <span class="ot">=</span> [n <span class="op">|</span> n <span class="op">&gt;</span> <span class="dv">1</span>]</span>
-<span id="cb2-15"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-15" aria-hidden="true"></a>            <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="kw">let</span> (d, r) <span class="ot">=</span> n <span class="ot">`quotRem`</span> x <span class="kw">in</span></span>
-<span id="cb2-16"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-16" aria-hidden="true"></a>                <span class="kw">if</span> r <span class="op">==</span> <span class="dv">0</span> <span class="kw">then</span> x<span class="op">:</span>go d xxs <span class="kw">else</span> go n xs</span>
-<span id="cb2-17"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-17" aria-hidden="true"></a></span>
-<span id="cb2-18"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-18" aria-hidden="true"></a><span class="ot">totient ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
-<span id="cb2-19"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-19" aria-hidden="true"></a>totient <span class="ot">=</span> <span class="fu">numerator</span> <span class="op">.</span> <span class="fu">uncurry</span> (<span class="op">*</span>) <span class="op">.</span> first (<span class="op">%</span> <span class="dv">1</span>) <span class="op">.</span> second (<span class="fu">foldr</span> (\x acc <span class="ot">-&gt;</span> (x <span class="op">%</span> x <span class="op">-</span> <span class="dv">1</span> <span class="op">%</span> x) <span class="op">*</span> acc) <span class="dv">1</span> <span class="op">.</span> nub <span class="op">.</span> primeFactors) <span class="op">.</span> dupe</span>
-<span id="cb2-20"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-20" aria-hidden="true"></a></span>
-<span id="cb2-21"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-21" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb2-22"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb2-22" aria-hidden="true"></a>main <span class="ot">=</span> <span class="fu">print</span> <span class="op">$</span> <span class="fu">and</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">100</span> [totient p <span class="op">==</span> (p <span class="op">-</span> <span class="dv">1</span>) <span class="op">|</span> p <span class="ot">&lt;-</span> primes]</span></code></pre></div>
-<h2 id="フェルマーの小定理">フェルマーの小定理</h2>
-<div class="m-lem">
-<header class="m-lem-title">
-<p>
-<span id="lemma2">補題 2</span>
-</p>
-</header>
-<div class="m-lem-content">
-<p>奇素位数 <span class="math inline">p</span> のガロア体 <span class="math inline">GF(p)</span> の既約剰余類郡を <span class="math inline">\mathbb{Z}^{\ast}_{p}={\overline{1},\overline{2},\cdots,\overline{p-1}}</span> としたとき, <span class="math inline">^\exists b,^\exists c \in \mathbb{Z}^{\ast}_{p} (b \neq c)</span> があって, <span class="math inline">ba\equiv ca\pmod{p}</span> となる <span class="math inline">a \in \mathbb{Z}^{\ast}_{p}\ (\gcd(a, p)=1)</span> は存在せず, <span class="math inline">\mathbb{Z}^{\ast}_{p}</span> の異なる項は非合同.</p>
-</div>
-</div>
-<div class="m-proof">
-<header class="m-proof-title">
-<p>
-<span id="lemma2">補題 2</span>
-</p>
-</header>
-<div class="m-proof-content">
-<p><span class="math inline">\gcd(a, p) = 1</span> であるから <span class="math inline">ba\equiv ca\pmod{p}</span> の両辺から <span class="math inline">a</span> を約せて <span class="math inline">b\equiv c\pmod{p}</span>. <span class="math inline">b &lt; p</span> および <span class="math inline">c &lt; p</span> から従い <span class="math inline">b = c</span> となり不条理.</p>
-</div>
-</div>
-<div class="m-thm">
-<header class="m-thm-title">
-<p>
-<span id="fermatstheorem">フェルマーの小定理</span>
-</p>
-</header>
-<div class="m-thm-content">
-<p><span class="math inline">p</span> が素数 <span class="math inline">\Rightarrow\ ^\forall a\ (\gcd(a,p) = 1)</span> に対して, <span class="math display">a^{p-1}\equiv 1\pmod{p}\tag{2}</span></p>
-</div>
-</div>
-<div class="m-proof">
-<header class="m-proof-title">
-<p>
-フェルマーの小定理
-</p>
-</header>
-<div class="m-proof-content">
-<p><a href="/roki.log/2018/07/13/elgamalEncryption/#lemma2">補題 2</a> より従って, <span class="math inline">\mathbb{Z}^{\ast}_{p}</span> の各要素と <span class="math inline">a</span> の積は全て異なり, かつ <span class="math inline">\mathbb{Z}^{\ast}_{p}</span> はそれらで尽くされる. また, それらの積の <span class="math inline">\pmod{p}</span> は <span class="math inline">\pmod{p}</span> の既約代表系 <span class="math inline">{1, 2, \cdots, p-1}</span> のすべての積と合同: <span class="math display">1\cdot 2\cdot\cdots\cdot(p-1)\equiv (a)(2a)\cdots(p-1)a\pmod{p}</span> <span class="math display">(p-1)!\equiv (p-1)!\cdot a^{p-1}\pmod{p}</span> <span class="math inline">\gcd((p-1)!, p) = 1</span> であるから, 両辺からこれを約し,</p>
-<p><span class="math display">a^{p-1}\equiv 1\pmod{p} </span></p>
-</div>
-</div>
-<p>簡単に確認<a href="/roki.log/2018/07/13/elgamalEncryption/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb3-1" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> <span class="op">:</span>m <span class="op">+</span><span class="dt">Data.Numbers.Primes</span></span>
-<span id="cb3-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb3-2" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Data.Numbers.Primes</span><span class="op">&gt;</span> <span class="kw">let</span><span class="ot"> fermatLT ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]; fermatLT p <span class="ot">=</span> [a<span class="op">^</span>(p<span class="op">-</span><span class="dv">1</span>) <span class="ot">`mod`</span> p <span class="op">|</span> a <span class="ot">&lt;-</span> [<span class="dv">1</span><span class="op">..</span>p<span class="op">-</span><span class="dv">1</span>], <span class="fu">gcd</span> p a <span class="op">==</span> <span class="dv">1</span>]</span>
-<span id="cb3-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb3-3" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Data.Numbers.Primes</span><span class="op">&gt;</span> <span class="fu">and</span> <span class="op">$</span> <span class="fu">map</span> ((<span class="fu">all</span> (<span class="dv">1</span><span class="op">==</span>)) <span class="op">.</span> fermatLT) <span class="op">$</span> <span class="fu">take</span> <span class="dv">50</span> primes</span>
-<span id="cb3-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb3-4" aria-hidden="true"></a><span class="dt">True</span></span></code></pre></div>
-<h2 id="原始元">原始元</h2>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-位数
-</p>
-</header>
-<div class="m-def-content">
-<p><span class="math inline">n \in\mathbb{Z}^{+},\ a \in\mathbb{Z},\ \gcd(n, a) = 1</span> に対して <span class="math inline">a^d\equiv 1\pmod{n}</span> のような最小の <span class="math inline">d\in\mathbb{Z}^{+}</span> を <span class="math inline">a</span> の<span class="math inline">\pmod{n}</span> での位数といい, これを <span class="math inline">d=\mathrm{ord}_n(a)</span> と書く.</p>
-</div>
-</div>
-<p>ただし, 以下添え字 <span class="math inline">n</span> は明確である場合には省くこととする. たとえば <span class="math inline">p=7</span> としたときの <span class="math inline">1 \leq a\leq 6</span> の <span class="math inline">a</span> の冪 <span class="math inline">\pmod 7</span> を一覧にすると次のとおりである.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb4-1" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> <span class="kw">let</span> f p <span class="ot">=</span> <span class="fu">foldr</span> (\x acc <span class="ot">-&gt;</span> [a<span class="op">^</span>x <span class="ot">`mod`</span> p <span class="op">|</span> a <span class="ot">&lt;-</span> [<span class="dv">1</span><span class="op">..</span>p<span class="op">-</span><span class="dv">1</span>]] <span class="op">:</span> acc) [] [<span class="dv">1</span><span class="op">..</span>p]</span>
-<span id="cb4-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb4-2" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> <span class="fu">mapM_</span> <span class="fu">print</span> <span class="op">$</span> f <span class="dv">7</span></span>
-<span id="cb4-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb4-3" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>]</span>
-<span id="cb4-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb4-4" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">1</span>]</span>
-<span id="cb4-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb4-5" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">6</span>]</span>
-<span id="cb4-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb4-6" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">1</span>]</span>
-<span id="cb4-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb4-7" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>]</span>
-<span id="cb4-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb4-8" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>]</span>
-<span id="cb4-9"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb4-9" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>]</span></code></pre></div>
-<p>6 乗ですべて <span class="math inline">\equiv 1\pmod{7}</span> というのが, 先に述べたフェルマーの小定理であるが, それよりも前に <span class="math inline">\equiv 1\pmod{7}</span> となる数があることがわかる. これをいま述べた <span class="math inline">\mathrm{ord}</span> で表せば, <span class="math inline">\mathrm{ord}(1)=1, \mathrm{ord}(2)=3, \mathrm{ord}(3)=6, \mathrm{ord}(4)=3, \mathrm{ord}(5)=6, \mathrm{ord}(6)=2</span> である. また, この結果が <span class="math inline">\phi(6) = 2</span> と整合であることが確認できる. <span class="math inline">\mathrm{ord}(3), \mathrm{ord}(5)</span> が他と相違なる部分は, <span class="math inline">1</span> から <span class="math inline">6</span> までの数がちょうど <span class="math inline">1</span> 回ずつ現れることである. このように,</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-<span id="primitive_root">原始根
-</p>
-</header>
-<div class="m-def-content">
-<p><span class="math inline">\pmod{n}</span> での位数が <span class="math inline">\phi(n)</span> である整数</p>
-</div>
-</div>
-<p>を <span class="math inline">n</span> の原始根という.</p>
-<p>同様に, 原始元とは, 奇素数 <span class="math inline">p</span> と元 <span class="math inline">a \in \mathbb{Z}^{+} (a &lt; p)</span> があって, <span class="math inline">p</span> を法とする剰余類で累乗していくと, <span class="math inline">1</span> から <span class="math inline">p-1</span> のすべての元をつくす郡(巡回郡)を構成する元 <span class="math inline">a</span> をいう. これは,</p>
-<ul>
-<li><span class="math inline">a^{p-1}</span> で初めて <span class="math inline">a^{n} \equiv 1\pmod{p}</span> となるような元 <span class="math inline">a</span>(生成元であるから)</li>
-<li>位数が<span class="math inline">p-1</span> となる元 <span class="math inline">a</span></li>
-</ul>
-<p>ともいえる.</p>
-<p>とくになにも考えず, 与えられた素数 <span class="math inline">p</span> に対する <span class="math inline">GF(p)</span> の原始元を素朴に生成してみる.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-1" aria-hidden="true"></a><span class="ot">{-# OPTIONS_GHC -Wall #-}</span></span>
-<span id="cb5-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-2" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></span>
-<span id="cb5-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-3" aria-hidden="true"></a></span>
-<span id="cb5-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-4" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.List</span> (findIndices)</span>
-<span id="cb5-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-5" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Numbers.Primes</span> (primes)</span>
-<span id="cb5-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-6" aria-hidden="true"></a></span>
-<span id="cb5-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-7" aria-hidden="true"></a><span class="ot">primitiveElem ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]</span>
-<span id="cb5-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-8" aria-hidden="true"></a>primitiveElem p <span class="ot">=</span> go [((a<span class="op">^</span>n <span class="ot">`mod`</span> p) <span class="op">==</span> <span class="dv">1</span>, a) <span class="op">|</span> a <span class="ot">&lt;-</span> [<span class="dv">2</span><span class="op">..</span>p<span class="op">-</span><span class="dv">1</span>], n <span class="ot">&lt;-</span> [<span class="dv">1</span><span class="op">..</span>p<span class="op">-</span><span class="dv">1</span>]]</span>
-<span id="cb5-9"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-9" aria-hidden="true"></a>    <span class="kw">where</span></span>
-<span id="cb5-10"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-10" aria-hidden="true"></a>        go [] <span class="ot">=</span> [];</span>
-<span id="cb5-11"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-11" aria-hidden="true"></a>        go xs<span class="op">@</span>(x<span class="op">:</span>_) <span class="ot">=</span> <span class="kw">let</span> d <span class="ot">=</span> <span class="fu">drop</span> (<span class="fu">fromIntegral</span> (p<span class="op">-</span><span class="dv">1</span>)) xs <span class="kw">in</span> </span>
-<span id="cb5-12"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-12" aria-hidden="true"></a>            <span class="kw">case</span> findIndices <span class="fu">fst</span> <span class="op">$</span> <span class="fu">take</span> (<span class="fu">fromIntegral</span> (p<span class="op">-</span><span class="dv">1</span>)) xs <span class="kw">of</span> </span>
-<span id="cb5-13"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-13" aria-hidden="true"></a>               [i] <span class="op">|</span> i <span class="op">==</span> <span class="fu">fromIntegral</span> (p<span class="op">-</span><span class="dv">2</span>) <span class="ot">-&gt;</span> <span class="fu">snd</span> x<span class="op">:</span>go d</span>
-<span id="cb5-14"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-14" aria-hidden="true"></a>                _ <span class="ot">-&gt;</span> go d</span>
-<span id="cb5-15"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-15" aria-hidden="true"></a></span>
-<span id="cb5-16"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-16" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb5-17"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb5-17" aria-hidden="true"></a>main <span class="ot">=</span> <span class="fu">mapM_</span> (<span class="fu">print</span> <span class="op">.</span> primitiveElem) <span class="op">$</span> <span class="fu">take</span> <span class="dv">100</span> <span class="op">$</span> <span class="fu">drop</span> <span class="dv">1</span> primes</span></code></pre></div>
-<p><a href="https://wandbox.org/permlink/1ESn07fY95vwqEpv" id="thiscode">実行結果</a><a href="/roki.log/2018/07/13/elgamalEncryption/#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. 上の冪の一覧のとおり, 素数 <span class="math inline">p</span> を位数とするガロア体はその原始元を <span class="math inline">a</span> として <span class="math display">GF(p)= \left\{0, 1, a, a^{2}, \cdots, a^{p-2}\tag{3}\right\}</span> と構成されることがわかる. <span class="math inline">p=7</span> であれば, 原始根は <span class="math inline">\phi(6)=2</span> であり, その <span class="math inline">1</span> つは <span class="math inline">g=3</span> であるからこの冪乗 <span class="math inline">n\equiv g^{f}\pmod{7}</span> で <span class="math inline">p-1=6</span> までの全て, すなわち先の <span class="math inline">\mathrm{ord}(3)</span> の縦の列が得られる.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb6-1" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> [<span class="dv">3</span><span class="op">^</span>x <span class="ot">`mod`</span> <span class="dv">7</span> <span class="op">|</span> x <span class="ot">&lt;-</span> [<span class="dv">1</span><span class="op">..</span><span class="dv">6</span>]]</span>
-<span id="cb6-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb6-2" aria-hidden="true"></a>[<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">1</span>]</span></code></pre></div>
-<h2 id="離散対数問題">離散対数問題</h2>
-<p><span class="math inline">(3)</span> を前提とし <span class="math inline">g^{f}\equiv n\pmod{p}\ (1\leq n \leq p-1)</span> を満たす <span class="math inline">f</span> は <span class="math inline">0\leq f\leq p-2</span> のうち, ただ <span class="math inline">1</span> つだけ存在する. これを <span class="math inline">n</span> の指数または離散対数といい, <span class="math inline">f=\log_{g}n\pmod{p}</span> および <span class="math inline">\mathrm{Ind}f=\mathrm{Ind}_{g}(n)</span> と書く. この <span class="math inline">n</span> を真数, または離散真数という. 以下は, <span class="math inline">3\leq p \leq 19\ (p\ is\ prime)</span> でその最小の原始根 <span class="math inline">g</span> の冪乗 <span class="math inline">n\equiv g^f\pmod{p}</span> の昇順を <span class="math inline">x</span> 軸, <span class="math inline">\mathrm{Ind}f=\mathrm{Ind}_{g}(n)</span> を <span class="math inline">y</span> 軸として, それぞれの各離散対数をプロットした図<a href="/roki.log/2018/07/13/elgamalEncryption/#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>である.</p>
-<figure>
-<img src="/roki.log/2018/07/13/elgamalEncryption/fig.png" alt /><figcaption>離散対数を視覚化した図</figcaption>
-</figure>
-<p>これを見てもわかるように, <span class="math inline">f</span> の値に規則性は見られず, 予測困難な振る舞いをすることがわかる. 例えば, <span class="math inline">p=19,\ g=2,\ n=3</span> とすると</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb7-1" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> <span class="fu">head</span> [f <span class="op">|</span> f <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span><span class="dv">17</span>], <span class="dv">2</span><span class="op">^</span>f <span class="ot">`mod`</span> <span class="dv">19</span> <span class="op">==</span> <span class="dv">3</span> <span class="ot">`mod`</span> <span class="dv">19</span>]</span>
-<span id="cb7-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb7-2" aria-hidden="true"></a><span class="dv">13</span></span></code></pre></div>
-<p>より <span class="math inline">f=13</span> であることがわかる. この場合, まだ <span class="math inline">p</span> が小さい素数であるからこそ, このような総当たりで解が得られるのだが, 大きな <span class="math inline">p</span> に対する総当たりでは, 実用的な時間で解を得ることができない. これを離散対数問題という. エルガマル暗号は, <span class="math inline">g</span> と <span class="math inline">f</span> から <span class="math inline">n</span> を求めることは容易であるが, いま述べたように <span class="math inline">g</span> と <span class="math inline">n</span> から <span class="math inline">f</span> を求めることは困難であるという事実を利用することで, 公開鍵暗号方式としての成立および暗号学的安全性の担保を確立する<a href="/roki.log/2018/07/13/elgamalEncryption/#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>.</p>
-<h2>
-<a id="genencanddec" class="disabled">暗号の生成と解読</a>
-</h2>
-<p>以上を前提として, 暗号の生成とその解読方法について示す. 受信者は下準備として次の手順で公開鍵と秘密鍵を生成する:</p>
-<ol type="1">
-<li>大きな素数 <span class="math inline">p</span> を選ぶ.</li>
-<li><span class="math inline">\phi(p-1)</span> 個の <span class="math inline">p</span> の原始根のうち, 任意の <span class="math inline">1</span> つ <span class="math inline">g</span> を選ぶ.</li>
-<li>任意の正整数 <span class="math inline">a\in\mathbb{Z}^{+},\ (a &lt; p)</span> を選ぶ.</li>
-<li><span class="math inline">y\equiv g^a\pmod{p}</span> を計算する.</li>
-<li>公開鍵を <span class="math inline">{p, g, y}</span>, 秘密鍵を <span class="math inline">{a}</span> とする.</li>
-</ol>
-<p>平文の列を <span class="math inline">x_1,x_2,\cdots,x_t\ (x_i &lt; p)</span>, 最初の平文を <span class="math inline">x</span> とし, 発信者は次の手順で暗号文を生成する:</p>
-<ol type="1">
-<li>任意の正整数 <span class="math inline">k\in\mathbb{Z}^{+}</span> を選ぶ.</li>
-<li><span class="math inline">\alpha\equiv g^k\pmod{p}</span> を計算する.</li>
-<li><span class="math inline">z\equiv y^k\pmod{p}</span> と <span class="math inline">\beta\equiv xz\pmod{p}</span> を計算し, <span class="math inline">x</span> に対する <span class="math inline">\gamma ={\alpha,\ \beta}</span> を得る.</li>
-<li><span class="math inline">x_t</span> に到達するまで 1 から 3 の手順を繰り返す. 到達すれば, 暗号文の生成は完了である.</li>
-</ol>
-<p>受信者は次の手順で暗号を解く:</p>
-<ol type="1">
-<li><span class="math inline">\gamma</span> から <span class="math inline">x</span> を得るためには, <span class="math inline">y^k</span> を要する. 秘密鍵 <span class="math inline">a</span> を使い, <span class="math inline">z\equiv y^k \equiv (g^a)^k\equiv(g^k)^a\equiv\alpha^a\pmod{p}</span> と計算する.</li>
-<li><span class="math inline">x\equiv \dfrac{\beta}{z}\pmod{p}</span> であるので, <span class="math inline">\pmod{p}</span> で <span class="math inline">z</span> のモジュラ逆数 <span class="math inline">zq\equiv 1\pmod{p},\ q\equiv\dfrac{1}{z}\pmod{p}</span> を計算する.</li>
-<li><span class="math inline">x\equiv\dfrac{\beta}{z}\equiv\beta q\equiv u\pmod{p}\ (u&lt; p)</span> を計算する. ここで, <span class="math inline">x&lt; p</span> であるから, この結果が平文である.</li>
-</ol>
-<p>実際にこれを手計算で実行してみる. <span class="math inline">p=97</span> とする. 従って <span class="math inline">g=5</span> となる. ここで <span class="math inline">a=7</span> とする. <span class="math inline">y\equiv 5^7\pmod{97}</span> より <span class="math inline">y\equiv 5^7\equiv 40\pmod{97}</span> だから, 公開鍵は <span class="math inline">{97,5,40}</span>, 秘密鍵は <span class="math inline">{7}</span> である. 次に暗号文を作成する. 平文は, 次のアスキーコードで表現された文字列とする.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb8-1" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> <span class="op">:</span>m <span class="op">+</span><span class="dt">Data.Char</span></span>
-<span id="cb8-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb8-2" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Data.Char</span><span class="op">&gt;</span> <span class="fu">map</span> <span class="fu">ord</span> <span class="st">&quot;OK&quot;</span></span>
-<span id="cb8-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb8-3" aria-hidden="true"></a>[<span class="dv">79</span>,<span class="dv">95</span>]</span></code></pre></div>
-<p>ここで <span class="math inline">x=79,\ k = 5</span> とする. <span class="math inline">\alpha\equiv 5^5\equiv 21\pmod{97}</span> また <span class="math inline">z\equiv 40^5\equiv 10\pmod{97}</span> より <span class="math inline">\beta\equiv 79\cdot 10\equiv 14\pmod{97}</span>. 従って, <span class="math inline">\gamma={21, 14}</span> となる. <span class="math inline">x=95</span> にも同様の計算(<span class="math inline">k</span> は毎度ランダムに選ぶ. 次は <span class="math inline">k=6</span> であったとした.)を施して, 全体の暗号文を<code>[21, 14, 8, 73]</code>とする. これを解読する. <span class="math inline">z\equiv 21^7\equiv 10\pmod{97}</span> で, <span class="math inline">z\equiv y^k\pmod{97}</span>. <span class="math inline">10q\equiv 1\pmod{97}</span> だから <span class="math inline">q\equiv\dfrac{1}{10}\equiv 68\pmod{97}</span>. ここで <span class="math inline">u\equiv 14\cdot 68\equiv 97\pmod{p}</span> で, <span class="math inline">u&lt; p</span> だから <span class="math inline">x\equiv u\pmod{p}</span>. よって <span class="math inline">1</span> 文字目は <span class="math inline">79</span>. 同様に <span class="math inline">2</span> 文字目も計算し, 全体の平文が手に入る. 解読の段階で <span class="math inline">a=7</span> を知らなかった場合, 離散対数問題を解くことに相当するため, 平文を得るのは非常に困難となる.</p>
-<h2 id="実装">実装</h2>
-<p>ここからは, これをプログラムとして実装することを考える. 第一に必要となるものは, 大きな素数の生成器である. 方法としては, ランダムに奇数を生成し, Miller-Rabin 素数判定法などの確率的素数判定法を用いることが実例として多い<a href="/roki.log/2018/07/13/elgamalEncryption/#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>ので, ひとまず素数生成には Miller-Rabin 素数判定法を使うこととする.</p>
-<h3 id="フェルマーテスト-miller-rabin-素数判定法">フェルマーテスト, Miller-Rabin 素数判定法</h3>
-<p>Miller-Rabin 素数判定法は, フェルマーテストの改良と言えるので, まずその説明から行う. フェルマーテストは, 先に述べたフェルマーの小定理の対偶<a href="/roki.log/2018/07/13/elgamalEncryption/#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>を利用した判定方法であるといえる.</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-<span id="fermattest">フェルマーテスト</span>
-</p>
-</header>
-<div class="m-def-content">
-<p><span class="math inline">FT_n(a): =\gcd(a, n)=1</span> を満たす <span class="math inline">n \in\mathbb{Z}^{+}</span> と底 <span class="math inline">a\in\mathbb{Z}^{+}</span> があって, <span class="math inline">a^{n-1}\equiv 1\pmod{n}</span> が成り立つか.</p>
-</div>
-</div>
-<p>この答えが yes であるとき <span class="math inline">n</span> は <span class="math inline">FT_n(a)</span> をパスしたといえば, フェルマーの小定理は, 「<span class="math inline">n</span> が素数ならば, <span class="math inline">n</span> は <span class="math inline">^\forall a(\gcd(a,n)=1)</span> に対する <span class="math inline">FT_n(a)</span> をパスした」といい, この対偶をとると,「<span class="math inline">FT_n(a)</span> をパスしない <span class="math inline">\gcd(a,n)=1</span> の <span class="math inline">a</span> があれば, <span class="math inline">n</span> は素数ではない」といえる. たとえば, <span class="math inline">n=15</span> とすると <span class="math inline">2^{15-1}\equiv 2^{14}\equiv 4\not\equiv 1\pmod{15}</span> であるから <span class="math inline">15</span> は素数ではない. しかしながら, <span class="math inline">^\forall a(\gcd(a,n)=1)</span> に対して <span class="math inline">FT_n(a)</span> をパスしても <span class="math inline">n</span> が素数であるとは断言できない. このような</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-カーマイケル数
-</p>
-</header>
-<div class="m-def-content">
-<span class="math inline">^\forall a(\gcd(n, a)=1)</span> に対して <span class="math inline">FT_n(a)</span> をパスする合成数
-</div>
-</div>
-<p>をカーマイケル数という. 一般的に, そのような <span class="math inline">n</span> は少ないことが知られている. ところで, カーマイケル数は奇数である.</p>
-<div class="m-prop">
-<header class="m-prop-title">
-<p>
-<span id="prop2">命題 2</span>
-</p>
-</header>
-<div class="m-prop-content">
-<p>カーマイケル数は奇数</p>
-</div>
-</div>
-<div class="m-proof">
-<header class="m-proof-title">
-<p>
-命題 2
-</p>
-</header>
-<div class="m-proof-content">
-<p><span class="math inline">a^n\equiv a\pmod{n}</span> に <span class="math inline">a=n-1</span> を代入すると <span class="math inline">(-1)^n\equiv -1\pmod{n}</span> となるが, このとき <span class="math inline">n</span> を偶数とすると <span class="math inline">1\equiv -1\pmod{n}</span> となってしまい不条理. <span class="math inline">\therefore</span> 背理により題意は示された.</p>
-</div>
-</div>
-<p>一方,</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-<span class="math inline">a</span> を底とする偽素数
-</p>
-</header>
-<div class="m-def-content">
-<p><span class="math inline">\gcd(n, a)=1</span> のある <span class="math inline">a</span> に対して <span class="math inline">FT_n(a)</span> をパスする合成数</p>
-</div>
-</div>
-<p>を <span class="math inline">a</span> を底とする偽素数という.</p>
-<p>以下で, 取り敢えず <span class="math inline">200</span> 個の偽素数(結果的にはカーマイケル数)を<a class="disabled" id="modexpref">得てみた</a><a href="/roki.log/2018/07/13/elgamalEncryption/#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-1" aria-hidden="true"></a><span class="ot">{-# OPTIONS_GHC -Wall #-}</span></span>
-<span id="cb9-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-2" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></span>
-<span id="cb9-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-3" aria-hidden="true"></a></span>
-<span id="cb9-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-4" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Numbers.Primes</span> (primes)</span>
-<span id="cb9-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-5" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Bits</span> (<span class="dt">Bits</span>, (.&amp;.), shiftR)</span>
-<span id="cb9-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-6" aria-hidden="true"></a></span>
-<span id="cb9-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-7" aria-hidden="true"></a><span class="ot">{-# INLINE modExp #-}</span></span>
-<span id="cb9-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-8" aria-hidden="true"></a><span class="ot">modExp ::</span> (<span class="dt">Integral</span> a, <span class="dt">Bits</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
-<span id="cb9-9"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-9" aria-hidden="true"></a>modExp <span class="ot">=</span> go <span class="dv">1</span></span>
-<span id="cb9-10"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-10" aria-hidden="true"></a>    <span class="kw">where</span></span>
-<span id="cb9-11"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-11" aria-hidden="true"></a>        go r _ <span class="dv">0</span> _ <span class="ot">=</span> r</span>
-<span id="cb9-12"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-12" aria-hidden="true"></a>        go r x n m</span>
-<span id="cb9-13"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-13" aria-hidden="true"></a>            <span class="op">|</span> n <span class="op">.&amp;.</span> <span class="dv">1</span> <span class="op">==</span> <span class="dv">1</span> <span class="ot">=</span> go (r <span class="op">*</span> x <span class="ot">`rem`</span> m) (x <span class="op">*</span> x <span class="ot">`rem`</span> m) (n <span class="ot">`shiftR`</span> <span class="dv">1</span>) m</span>
-<span id="cb9-14"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-14" aria-hidden="true"></a>            <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> go r (x <span class="op">*</span> x <span class="ot">`rem`</span> m) (n <span class="ot">`shiftR`</span> <span class="dv">1</span>) m</span>
-<span id="cb9-15"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-15" aria-hidden="true"></a></span>
-<span id="cb9-16"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-16" aria-hidden="true"></a><span class="ot">{-# INLINE isFermat #-}</span></span>
-<span id="cb9-17"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-17" aria-hidden="true"></a><span class="ot">isFermat ::</span> (<span class="dt">Integral</span> a, <span class="dt">Bits</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
-<span id="cb9-18"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-18" aria-hidden="true"></a>isFermat n b <span class="ot">=</span> modExp b (n <span class="op">-</span> <span class="dv">1</span>) n <span class="op">==</span> <span class="dv">1</span></span>
-<span id="cb9-19"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-19" aria-hidden="true"></a></span>
-<span id="cb9-20"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-20" aria-hidden="true"></a><span class="ot">pseudoprimes ::</span> [<span class="dt">Integer</span>]</span>
-<span id="cb9-21"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-21" aria-hidden="true"></a>pseudoprimes <span class="ot">=</span> go [x <span class="op">|</span> x <span class="ot">&lt;-</span> [<span class="dv">2</span><span class="op">..</span>], <span class="fu">odd</span> x] [x <span class="op">|</span> x <span class="ot">&lt;-</span> primes, <span class="fu">odd</span> x]</span>
-<span id="cb9-22"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-22" aria-hidden="true"></a>    <span class="kw">where</span></span>
-<span id="cb9-23"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-23" aria-hidden="true"></a>        tryFermat n t <span class="ot">=</span> <span class="fu">all</span> (isFermat n) <span class="op">$</span> <span class="fu">take</span> t [x <span class="op">|</span> x <span class="ot">&lt;-</span> [<span class="dv">2</span><span class="op">..</span>n<span class="op">-</span><span class="dv">1</span>], <span class="fu">gcd</span> x n <span class="op">==</span> <span class="dv">1</span>]</span>
-<span id="cb9-24"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-24" aria-hidden="true"></a>        go [] _ <span class="ot">=</span> []</span>
-<span id="cb9-25"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-25" aria-hidden="true"></a>        go _ [] <span class="ot">=</span> []</span>
-<span id="cb9-26"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-26" aria-hidden="true"></a>        go (x<span class="op">:</span>xs) (p<span class="op">:</span>ps) </span>
-<span id="cb9-27"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-27" aria-hidden="true"></a>            <span class="op">|</span> x <span class="op">==</span> p <span class="ot">=</span> go xs ps </span>
-<span id="cb9-28"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-28" aria-hidden="true"></a>            <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="kw">if</span> tryFermat x <span class="dv">100</span> <span class="kw">then</span> x <span class="op">:</span> go xs (p<span class="op">:</span>ps) <span class="kw">else</span> go xs (p<span class="op">:</span>ps) <span class="co">-- Testing 100 times</span></span>
-<span id="cb9-29"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-29" aria-hidden="true"></a></span>
-<span id="cb9-30"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-30" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb9-31"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb9-31" aria-hidden="true"></a>main <span class="ot">=</span> <span class="fu">print</span> <span class="op">$</span> <span class="fu">take</span> <span class="dv">200</span> pseudoprimes</span></code></pre></div>
-<p>実行結果.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb10-1" aria-hidden="true"></a>[<span class="dv">561</span>,<span class="dv">1105</span>,<span class="dv">1729</span>,<span class="dv">2465</span>,<span class="dv">2821</span>,<span class="dv">6601</span>,<span class="dv">8911</span>,<span class="dv">10585</span>,<span class="dv">15841</span>,<span class="dv">29341</span>,<span class="dv">41041</span>,<span class="dv">46657</span>,<span class="dv">52633</span>,<span class="dv">62745</span>,<span class="dv">63973</span>,<span class="dv">75361</span>,<span class="dv">101101</span>,<span class="dv">115921</span>,<span class="dv">126217</span>,<span class="dv">162401</span>,<span class="dv">172081</span>,<span class="dv">188461</span>,<span class="dv">252601</span>,<span class="dv">278545</span>,<span class="dv">294409</span>,<span class="dv">314821</span>,<span class="dv">334153</span>,<span class="dv">340561</span>,<span class="dv">399001</span>,<span class="dv">410041</span>,<span class="dv">449065</span>,<span class="dv">488881</span>,<span class="dv">512461</span>,<span class="dv">530881</span>,<span class="dv">552721</span>,<span class="dv">656601</span>,<span class="dv">658801</span>,<span class="dv">670033</span>,<span class="dv">748657</span>,<span class="dv">825265</span>,<span class="dv">838201</span>,<span class="dv">852841</span>,<span class="dv">997633</span>,<span class="dv">1024651</span>,<span class="dv">1033669</span>,<span class="dv">1050985</span>,<span class="dv">1082809</span>,<span class="dv">1152271</span>,<span class="dv">1193221</span>,<span class="dv">1461241</span>,<span class="dv">1569457</span>,<span class="dv">1615681</span>,<span class="dv">1773289</span>,<span class="dv">1857241</span>,<span class="dv">1909001</span>,<span class="dv">2100901</span>,<span class="dv">2113921</span>,<span class="dv">2433601</span>,<span class="dv">2455921</span>,<span class="dv">2508013</span>,<span class="dv">2531845</span>,<span class="dv">2628073</span>,<span class="dv">2704801</span>,<span class="dv">3057601</span>,<span class="dv">3146221</span>,<span class="dv">3224065</span>,<span class="dv">3581761</span>,<span class="dv">3664585</span>,<span class="dv">3828001</span>,<span class="dv">4335241</span>,<span class="dv">4463641</span>,<span class="dv">4767841</span>,<span class="dv">4903921</span>,<span class="dv">4909177</span>,<span class="dv">5031181</span>,<span class="dv">5049001</span>,<span class="dv">5148001</span>,<span class="dv">5310721</span>,<span class="dv">5444489</span>,<span class="dv">5481451</span>,<span class="dv">5632705</span>,<span class="dv">5968873</span>,<span class="dv">6049681</span>,<span class="dv">6054985</span>,<span class="dv">6189121</span>,<span class="dv">6313681</span>,<span class="dv">6733693</span>,<span class="dv">6840001</span>,<span class="dv">6868261</span>,<span class="dv">7207201</span>,<span class="dv">7519441</span>,<span class="dv">7995169</span>,<span class="dv">8134561</span>,<span class="dv">8341201</span>,<span class="dv">8355841</span>,<span class="dv">8719309</span>,<span class="dv">8719921</span>,<span class="dv">8830801</span>,<span class="dv">8927101</span>,<span class="dv">9439201</span>,<span class="dv">9494101</span>,<span class="dv">9582145</span>,<span class="dv">9585541</span>,<span class="dv">9613297</span>,<span class="dv">9890881</span>,<span class="dv">10024561</span>,<span class="dv">10267951</span>,<span class="dv">10402561</span>,<span class="dv">10606681</span>,<span class="dv">10837321</span>,<span class="dv">10877581</span>,<span class="dv">11119105</span>,<span class="dv">11205601</span>,<span class="dv">11921001</span>,<span class="dv">11972017</span>,<span class="dv">12261061</span>,<span class="dv">12262321</span>,<span class="dv">12490201</span>,<span class="dv">12945745</span>,<span class="dv">13187665</span>,<span class="dv">13696033</span>,<span class="dv">13992265</span>,<span class="dv">14469841</span>,<span class="dv">14676481</span>,<span class="dv">14913991</span>,<span class="dv">15247621</span>,<span class="dv">15403285</span>,<span class="dv">15829633</span>,<span class="dv">15888313</span>,<span class="dv">16046641</span>,<span class="dv">16778881</span>,<span class="dv">17098369</span>,<span class="dv">17236801</span>,<span class="dv">17316001</span>,<span class="dv">17586361</span>,<span class="dv">17812081</span>,<span class="dv">18162001</span>,<span class="dv">18307381</span>,<span class="dv">18900973</span>,<span class="dv">19384289</span>,<span class="dv">19683001</span>,<span class="dv">20964961</span>,<span class="dv">21584305</span>,<span class="dv">22665505</span>,<span class="dv">23382529</span>,<span class="dv">25603201</span>,<span class="dv">26280073</span>,<span class="dv">26474581</span>,<span class="dv">26719701</span>,<span class="dv">26921089</span>,<span class="dv">26932081</span>,<span class="dv">27062101</span>,<span class="dv">27336673</span>,<span class="dv">27402481</span>,<span class="dv">28787185</span>,<span class="dv">29020321</span>,<span class="dv">29111881</span>,<span class="dv">31146661</span>,<span class="dv">31405501</span>,<span class="dv">31692805</span>,<span class="dv">32914441</span>,<span class="dv">33302401</span>,<span class="dv">33596641</span>,<span class="dv">34196401</span>,<span class="dv">34657141</span>,<span class="dv">34901461</span>,<span class="dv">35571601</span>,<span class="dv">35703361</span>,<span class="dv">36121345</span>,<span class="dv">36765901</span>,<span class="dv">37167361</span>,<span class="dv">37280881</span>,<span class="dv">37354465</span>,<span class="dv">37964809</span>,<span class="dv">38151361</span>,<span class="dv">38624041</span>,<span class="dv">38637361</span>,<span class="dv">39353665</span>,<span class="dv">40160737</span>,<span class="dv">40280065</span>,<span class="dv">40430401</span>,<span class="dv">40622401</span>,<span class="dv">40917241</span>,<span class="dv">41298985</span>,<span class="dv">41341321</span>,<span class="dv">41471521</span>,<span class="dv">42490801</span>,<span class="dv">43286881</span>,<span class="dv">43331401</span>,<span class="dv">43584481</span>,<span class="dv">43620409</span>,<span class="dv">44238481</span>,<span class="dv">45318561</span>,<span class="dv">45877861</span>,<span class="dv">45890209</span>,<span class="dv">46483633</span>,<span class="dv">47006785</span>,<span class="dv">48321001</span>,<span class="dv">48628801</span>,<span class="dv">49333201</span>]</span></code></pre></div>
-<p>続いて, Miller-Rabin 法について. 前述したように, Miller-Rabin 法は, フェルマーテストの改良である. そもそも, いま判定する <span class="math inline">n</span> は奇数である前提をおいて十分であるから <span class="math inline">n-1</span> は偶数となり, かつ <span class="math inline">(n-1) \div 2</span> の結果は整数とすることができる. したがって <span class="math display">\displaystyle a^{n-1}\equiv 1\pmod{n}\Rightarrow 
-{\underbrace{(a^{(n-1)/2}\bmod n)}_{x}}^2 \equiv 1\pmod{n}\tag{4}</span> がいえる. 例えば, <span class="math inline">(4)</span> の右側の式に着目し, <span class="math inline">n=35</span> とすると, <span class="math inline">x</span> は <span class="math inline">\overline{1},\overline{6},\overline{29},\overline{34}</span> が <span class="math inline">2</span> 乗すると <span class="math inline">\overline{1}</span> となるため, 有りうる. しかし, <span class="math inline">n</span> が奇素数であるとき, その剰余類は <span class="math inline">\pm{\overline{1}}</span> しか有りえないのである. これは, 次の命題の証明によって証明される.</p>
-<div class="m-prop">
-<header class="m-prop-title">
-<p>
-<span id="prop3">命題 3</span>
-</p>
-</header>
-<div class="m-prop-content">
-<p>法 <span class="math inline">n</span> が奇素数であるとき, その剰余において「<span class="math inline">1</span> の自明でない平方根は存在しない. <span class="math inline">\Leftrightarrow\ x</span> は <span class="math inline">\pm{1}</span> しか存在しえない.」.</p>
-</div>
-</div>
-<div class="m-proof">
-<header class="m-proof-title">
-<p>
-命題 3
-</p>
-</header>
-<div class="m-proof-content">
-<p><span class="math inline">n</span> を法とした剰余において <span class="math inline">1\pmod{n}</span> の非自明な平方根を <span class="math inline">x</span> とすると <span class="math display">x^2\equiv 1\pmod{n}=x^2-1\equiv 0\pmod{n}=(x-1)(x+1)\equiv 0\pmod{n}</span> において, <span class="math inline">n</span> は素数であるから <span class="math inline">x-1</span> または <span class="math inline">x+1</span> で割り切れなければならないが, <span class="math inline">x</span> が <span class="math inline">\pm{1}</span> でないとすると, <span class="math inline">x-1</span> も <span class="math inline">x+1</span> も <span class="math inline">n</span> で割り切れず矛盾. <span class="math inline">\therefore</span> 背理により, 題意は示された.</p>
-</div>
-</div>
-<p>Miller-Rabin 法は, この性質を利用して, つまり <span class="math inline">1\pmod{n}</span> の自明でない平方根を求めることで, 合成数を判別する. 先に述べたように <span class="math inline">n-1</span> は偶数であるから, 何度か必ず <span class="math inline">2</span> で割り切ることができる. 割り切る回数を <span class="math inline">s</span> とすると, <span class="math display">n-1 = 2^s \cdot d\ (s\in\mathbb{N}, d\ is\ odd)\tag{5}</span> と表せる. このときの <span class="math inline">d</span> は, <span class="math inline">n-1</span> を繰り返し <span class="math inline">2</span> で割った結果そのものである. フェルマーの小定理を <span class="math inline">(5)</span> と関連づけると, <span class="math display">a^{n-1}\equiv a^{2^s\cdot d}\equiv 1\pmod{n}</span> がいえる. <a href="/roki.log/2018/07/13/elgamalEncryption/#prop3">命題 3</a> より, この平方根は <span class="math inline">\pm{1}\pmod{n}</span> である.</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-Miller-Rabin 素数判定法
-</p>
-</header>
-<div class="m-def-content">
-<p><span class="math inline">^\forall a \in \mathbb{Z}^{\ast}_{n}</span> について <span class="math display">a^d\equiv 1\pmod{n}</span> または <span class="math display">a^{2^r\cdot d}\equiv -1\pmod{n}\ (0\leq r\leq s-1)</span> が成り立つ.</p>
-</div>
-</div>
-<p>これは, 予め <span class="math inline">a^d</span> から始めて次々に <span class="math inline">2</span> 乗して得られる列 <span class="math inline">a^d,\underbrace{\cdots, a^{2^{s-1}\cdot d}}_{s}, a^{2^s\cdot d}=a^{n-1}</span> を想像すると, 考えるに容易い.</p>
-<p>例として, 先に確認できた最小のカーマイケル数である <span class="math inline">561</span> をこのミラーラビン法で判定してみるとする. <span class="math inline">n=561,\ a=2</span> としたとき, <span class="math inline">561-1=2^4\cdot 35</span> であるから, <span class="math inline">2^{35}\equiv 263\pmod{561}</span>, <span class="math inline">2^{2\cdot 35}\equiv 263^2\equiv 166\pmod{561}</span>, <span class="math inline">2^{4\cdot 35}\equiv 166^2\equiv 67\pmod{561}</span>, <span class="math inline">2^{8\cdot 35}\equiv 67^2\equiv 1\pmod{561}</span> より条件を満たさない. よって <span class="math inline">a=2</span> により, <span class="math inline">n=561</span> が合成数であることがわかった.</p>
-<p>いま述べたように, この手続きで <span class="math inline">n</span> が合成数であることがわかったとき, <span class="math inline">a</span> を <i>witness</i> と言い, そうでないとき <span class="math inline">a</span> を <i>strong liar</i>, <span class="math inline">n</span> を <i>strong pseudoprime</i> という<a href="/roki.log/2018/07/13/elgamalEncryption/#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>. すべての合成数には, 多くの <i>witness</i> である <span class="math inline">a</span> が存在することが知られているが, そのような <span class="math inline">a</span> を生成する簡単な方法はまだ知られていない<a href="/roki.log/2018/07/13/elgamalEncryption/#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>ため, この <span class="math inline">a</span> は, いま例で述べたように <span class="math inline">^\forall a\in \mathbb{Z}^{\ast}_{n}</span> または <span class="math inline">^\forall a\in (\mathbb{Z}^{\ast}_{n}\setminus {1 })</span> からランダムに取って, 何度かの試行を行うこととなる. しかし <span class="math inline">n</span> が小さい場合, 特定のいくつかの <i>witness</i> によるテストで十分であることが知られており<a href="/roki.log/2018/07/13/elgamalEncryption/#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>, その場合, すべての <span class="math inline">a&lt;2(\ln n)^2</span> を試みる必要はない.</p>
-<p>以下にミラーラビン法を用いた素数生成の実装例を示す. 今述べたように, 特定のいくつかの <i>witness</i> マジックナンバーを利用することで, 演算の高速化を図っている.</p>
-<p>なおミラーラビン法の試行回数に関してであるが, 下記の実装では, <span class="math inline">t</span> を試行回数, <span class="math inline">|p|</span> を得たい素数 <span class="math inline">p</span> のビット長としたとき, <span class="math inline">|p|\geq 3072</span> で <span class="math inline">t=64</span>, <span class="math inline">3071\geq |p|\geq2048</span> で <span class="math inline">t=56</span>, それ以外を <span class="math inline">t=40</span> とした<a href="/roki.log/2018/07/13/elgamalEncryption/#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a>. ただし, <span class="math inline">n</span> の値がマジックナンバーに当てはまる値であった場合, いま設定した試行回数を無視して, より少ない回数で試行を実行することとしている.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-1" aria-hidden="true"></a><span class="co">-- miller.hs</span></span>
-<span id="cb11-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-2" aria-hidden="true"></a><span class="ot">{-# OPTIONS_GHC -Wall #-}</span></span>
-<span id="cb11-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-3" aria-hidden="true"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span></span>
-<span id="cb11-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-4" aria-hidden="true"></a></span>
-<span id="cb11-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-5" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Tuple.Extra</span> (first, second, dupe)</span>
-<span id="cb11-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-6" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Bool</span> (bool)</span>
-<span id="cb11-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-7" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Data.Bits</span> (<span class="dt">Bits</span>, (.&amp;.), (.|.), shiftR)</span>
-<span id="cb11-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-8" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Control.Monad.Fix</span> (fix)</span>
-<span id="cb11-9"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-9" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">System.Random</span> (<span class="dt">Random</span>, randomRs, newStdGen, randomRIO)</span>
-<span id="cb11-10"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-10" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">System.IO.Unsafe</span> (unsafePerformIO)</span>
-<span id="cb11-11"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-11" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Control.Monad</span> (void)</span>
-<span id="cb11-12"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-12" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">System.Environment</span> (getArgs)</span>
-<span id="cb11-13"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-13" aria-hidden="true"></a></span>
-<span id="cb11-14"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-14" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">BitSize</span> <span class="ot">=</span> <span class="dt">Int</span></span>
-<span id="cb11-15"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-15" aria-hidden="true"></a></span>
-<span id="cb11-16"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-16" aria-hidden="true"></a><span class="ot">{-# INLINE witnesses #-}</span></span>
-<span id="cb11-17"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-17" aria-hidden="true"></a><span class="ot">witnesses ::</span> (<span class="dt">Num</span> a, <span class="dt">Enum</span> a, <span class="dt">Ord</span> a, <span class="dt">Random</span> a) <span class="ot">=&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">IO</span> [a]</span>
-<span id="cb11-18"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-18" aria-hidden="true"></a>witnesses t n </span>
-<span id="cb11-19"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-19" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">2047</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>]</span>
-<span id="cb11-20"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-20" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">1373653</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">3</span>]</span>
-<span id="cb11-21"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-21" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">9080191</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">31</span>, <span class="dv">73</span>]</span>
-<span id="cb11-22"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-22" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">25326001</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>]</span>
-<span id="cb11-23"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-23" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">3215031751</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>]</span>
-<span id="cb11-24"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-24" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">4759123141</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">61</span>]</span>
-<span id="cb11-25"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-25" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">1122004669633</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">13</span>, <span class="dv">23</span>, <span class="dv">1662803</span>]</span>
-<span id="cb11-26"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-26" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">2152302898747</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">11</span>]</span>
-<span id="cb11-27"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-27" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">3474749660383</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">13</span>]</span>
-<span id="cb11-28"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-28" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">341550071728321</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">17</span>]</span>
-<span id="cb11-29"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-29" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">3825123056546413051</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">17</span>, <span class="dv">19</span>, <span class="dv">23</span>]</span>
-<span id="cb11-30"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-30" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">18446744073709551616</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">17</span>, <span class="dv">19</span>, <span class="dv">23</span>, <span class="dv">29</span>, <span class="dv">31</span>, <span class="dv">37</span>]</span>
-<span id="cb11-31"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-31" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">318665857834031151167461</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">17</span>, <span class="dv">19</span>, <span class="dv">23</span>, <span class="dv">29</span>, <span class="dv">31</span>, <span class="dv">37</span>]</span>
-<span id="cb11-32"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-32" aria-hidden="true"></a>    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">3317044064679887385961981</span> <span class="ot">=</span> <span class="fu">return</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">17</span>, <span class="dv">19</span>, <span class="dv">23</span>, <span class="dv">29</span>, <span class="dv">31</span>, <span class="dv">37</span>, <span class="dv">41</span>]</span>
-<span id="cb11-33"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-33" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="fu">take</span> t <span class="op">.</span> randomRs (<span class="dv">2</span>, <span class="fu">pred</span> n) <span class="op">&lt;$&gt;</span> newStdGen</span>
-<span id="cb11-34"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-34" aria-hidden="true"></a></span>
-<span id="cb11-35"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-35" aria-hidden="true"></a><span class="ot">{-# INLINE millerRabin' #-}</span></span>
-<span id="cb11-36"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-36" aria-hidden="true"></a><span class="ot">millerRabin' ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
-<span id="cb11-37"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-37" aria-hidden="true"></a>millerRabin' t n <span class="ot">=</span> unsafePerformIO <span class="op">$</span> millerRabin t n</span>
-<span id="cb11-38"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-38" aria-hidden="true"></a></span>
-<span id="cb11-39"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-39" aria-hidden="true"></a><span class="ot">millerRabin ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Bool</span></span>
-<span id="cb11-40"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-40" aria-hidden="true"></a>millerRabin _ <span class="dv">0</span> <span class="ot">=</span> <span class="fu">return</span> <span class="dt">False</span></span>
-<span id="cb11-41"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-41" aria-hidden="true"></a>millerRabin _ <span class="dv">1</span> <span class="ot">=</span> <span class="fu">return</span> <span class="dt">False</span></span>
-<span id="cb11-42"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-42" aria-hidden="true"></a>millerRabin t n</span>
-<span id="cb11-43"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-43" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">even</span> n <span class="ot">=</span> <span class="fu">return</span> <span class="op">$</span> n <span class="op">==</span> <span class="dv">2</span></span>
-<span id="cb11-44"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-44" aria-hidden="true"></a>    <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="fu">all</span> (\a <span class="ot">-&gt;</span> (<span class="fu">uncurry</span> (<span class="op">||</span>) <span class="op">.</span> first (<span class="op">==</span><span class="dv">1</span>) <span class="op">.</span> second (<span class="op">==</span><span class="fu">pred</span> n) <span class="op">.</span> dupe <span class="op">.</span> <span class="fu">flip</span> (<span class="ot">`modExp`</span> q) n) a <span class="op">||</span> </span>
-<span id="cb11-45"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-45" aria-hidden="true"></a>        <span class="fu">any</span> ((<span class="op">==</span><span class="fu">pred</span> n) <span class="op">.</span> <span class="fu">flip</span> (modExp a) n <span class="op">.</span> (<span class="op">*</span>q) <span class="op">.</span> (<span class="dv">2</span><span class="op">^</span>)) [<span class="dv">0</span><span class="op">..</span><span class="fu">pred</span> k]) <span class="op">&lt;$&gt;</span> witnesses t n</span>
-<span id="cb11-46"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-46" aria-hidden="true"></a>    <span class="kw">where</span> </span>
-<span id="cb11-47"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-47" aria-hidden="true"></a>        (k, q) <span class="ot">=</span> first (<span class="fu">pred</span> <span class="op">.</span> <span class="fu">length</span>) <span class="op">.</span> second (<span class="fu">fst</span> <span class="op">.</span> <span class="fu">last</span>) <span class="op">.</span> dupe <span class="op">$</span> </span>
-<span id="cb11-48"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-48" aria-hidden="true"></a>            <span class="fu">takeWhile</span> ((<span class="op">==</span> <span class="dv">0</span>)<span class="op">.</span> <span class="fu">snd</span>) <span class="op">$</span> <span class="fu">iterate</span> ((<span class="ot">`quotRem`</span> <span class="dv">2</span>) <span class="op">.</span> <span class="fu">fst</span>) (<span class="fu">pred</span> n, <span class="dv">0</span>) </span>
-<span id="cb11-49"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-49" aria-hidden="true"></a></span>
-<span id="cb11-50"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-50" aria-hidden="true"></a><span class="ot">{-# INLINE genRndPrime #-}</span></span>
-<span id="cb11-51"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-51" aria-hidden="true"></a><span class="ot">genRndPrime ::</span> <span class="dt">BitSize</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Integer</span></span>
-<span id="cb11-52"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-52" aria-hidden="true"></a>genRndPrime b <span class="ot">=</span> <span class="kw">let</span> t <span class="op">|</span> b <span class="op">&gt;</span> <span class="dv">3071</span> <span class="ot">=</span> <span class="dv">64</span> <span class="op">|</span> b <span class="op">&gt;</span> <span class="dv">2047</span> <span class="ot">=</span> <span class="dv">56</span> <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="dv">40</span> <span class="kw">in</span></span>
-<span id="cb11-53"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-53" aria-hidden="true"></a>    fix <span class="op">$</span> \loop <span class="ot">-&gt;</span> <span class="fu">uncurry</span> (bool loop) <span class="op">.</span> first <span class="fu">return</span> <span class="op">.</span> second (millerRabinV t) <span class="op">.</span> dupe <span class="op">=&lt;&lt;</span> (<span class="op">.|.</span> <span class="dv">1</span>) <span class="op">&lt;$&gt;</span> randomRIO (<span class="dv">2</span><span class="op">^</span><span class="fu">pred</span> b, <span class="fu">pred</span> <span class="dv">2</span><span class="op">^</span>b)</span>
-<span id="cb11-54"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-54" aria-hidden="true"></a></span>
-<span id="cb11-55"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-55" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
-<span id="cb11-56"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb11-56" aria-hidden="true"></a>main <span class="ot">=</span> void <span class="op">.</span> genRndPrime <span class="op">.</span> <span class="fu">read</span> <span class="op">.</span> <span class="fu">head</span> <span class="op">=&lt;&lt;</span> getArgs <span class="co">-- NOTE: Simplefied implementation</span></span></code></pre></div>
-<p>禁断の<code>unsafePerformIO</code>を使っているが, Haskell によるミラーラビン法の実装をいくつか見たところ, 乱択部分を除いてしまうか, <code>unsafePerformIO</code>でむりやり剥がすかのどちらかであるものが多かったため, 今回は<code>unsafePerformIO</code>を使った. 取り敢えず, <span class="math inline">512</span> ビットの素数(厳密には, ミラーラビン法をパスした整数値)を <span class="math inline">500</span> 個生成して, <span class="math inline">1</span> 個毎の平均タイムを取ってみる(Intel Core i5 2.3 GHz).</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb12-1" aria-hidden="true"></a>$ <span class="ex">ghc</span> -O2 miller.hs</span>
-<span id="cb12-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb12-2" aria-hidden="true"></a>$ <span class="kw">function</span><span class="fu"> test ()</span> <span class="kw">{</span> <span class="va">c=$(($1))</span>; <span class="va">sum=</span>0; <span class="kw">for</span> <span class="kw">((</span>i=0; i&lt;c; i++<span class="kw">))</span>; <span class="kw">do</span> <span class="va">t=</span><span class="kw">`(</span><span class="bu">time</span> <span class="va">$2</span> <span class="va">$3</span><span class="kw">)</span> <span class="op">2&gt;&amp;1</span> <span class="kw">|</span> <span class="fu">cut</span> -d<span class="st">' '</span> -f 3 <span class="kw">|</span> <span class="fu">sed</span> -e <span class="st">'s/s//'</span><span class="kw">`</span>; <span class="va">sum=$(($sum</span> + <span class="va">$t))</span>; <span class="kw">done</span>; <span class="bu">echo</span> <span class="va">$(($sum</span> / <span class="va">$c))</span> <span class="kw">}</span></span>
-<span id="cb12-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb12-3" aria-hidden="true"></a>$ <span class="bu">test</span> 500 ./miller 512</span>
-<span id="cb12-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb12-4" aria-hidden="true"></a><span class="ex">0.15404000000000001</span></span></code></pre></div>
-<p>続いて, <span class="math inline">128, 256, 512, 1024, 2048, 4096</span> ビットの素数(厳密には(略))を出力してみる.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb13-1" aria-hidden="true"></a><span class="ex">Prelude</span><span class="op">&gt;</span> :l miller.hs</span>
-<span id="cb13-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb13-2" aria-hidden="true"></a>[<span class="ex">1</span> of 1] Compiling Main             ( miller.hs, interpreted )</span>
-<span id="cb13-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb13-3" aria-hidden="true"></a><span class="ex">Ok</span>, one module loaded.</span>
-<span id="cb13-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb13-4" aria-hidden="true"></a><span class="ex">*Main</span><span class="op">&gt;</span> :m +Control.Monad</span>
-<span id="cb13-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb13-5" aria-hidden="true"></a><span class="ex">*Main</span> Control.Monad<span class="op">&gt;</span> mapM_ (print <span class="op">&lt;</span>=<span class="op">&lt;</span> genRndPrime) $ <span class="ex">takeWhile</span> (<span class="op">&lt;</span>=4096) $ <span class="ex">iterate</span> (*2) <span class="ex">128</span></span>
-<span id="cb13-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb13-6" aria-hidden="true"></a><span class="ex">30152684759236306360759189014885017501</span></span>
-<span id="cb13-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb13-7" aria-hidden="true"></a><span class="ex">17615060719467184202036409862717012145510462718555435021180440677751843010823</span></span>
-<span id="cb13-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb13-8" aria-hidden="true"></a><span class="ex">4961148527316039571648091952671338492606036840037640470424610573222347642611462698736307409917945445030462370397146417013342380935544024541068881582286519</span></span>
-<span id="cb13-9"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb13-9" aria-hidden="true"></a><span class="ex">25584768656119199916533897521508744971267476837365238305752308490292510217984396186262212951588772839265133033518832638176737141863211711861885101826309901436466476910363387059212888058245199487348290889532831748995252985064885609741672898559944700898752387615008473235044774735893904621136647403330417312059</span></span>
-<span id="cb13-10"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb13-10" aria-hidden="true"></a><span class="ex">9697176354766878597400959392092693913441120648813644414460016213663985294414931715402479614583881054693029546415327047217815927381224240226473707682349775659198547518238881984785480308932024810985466973637700641819036921605772405440708981576721445103440573178324949184257202763509431134454852179958292647936221069441068206326565638462179605127956309699241768323894074914089121556488610751882542364864592334186293707224875665902283108012729170475600277359162025423140429916611481557282284452570764357791923438513047955145544164761084918980627342758315952165604438369806429356467080379549163687769931548537357143263137</span></span>
-<span id="cb13-11"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb13-11" aria-hidden="true"></a><span class="ex">249063954769520791504335518869525636357711675551382844552486591301599804010616669984965046137702990331634027801213287527508276332874010381824423879851102129301619320214358200683875526181170711209609115767952039460200494646156806401006606435356629905145570257996919209012879790948686386135358818589021439012221688336685244502459332857112750109146317838249983592404921237275755397945054535375511514580719834889033600717626042664029019643677615797489694358572078991851764302692237731943089490923440157248660837253585380337652421704176147487644881486339669614376151014612960159779210346160720078183845109588734694671896283469443712214250201417341560450455911188218652929963021457097285664257779489584361468840174197077267520538188995324746759329091599208318255773278559709364894821983283204708493843410191542232134827077779374883928282449194911733594690651507649566828266806932507531936170109029976882137339061468508458205917061060082555112142174457460359680430229131730389715061511723413089333837349054725383074218124443684705492930073805208443422200611436931245986942375223462067885041043866971617179685176389912228173339486617601365377174404775712644963980902603572250337835570653437536036543335033071576503380289418724779934391260111</span></span></code></pre></div>
-<p>というわけで, 任意のビット数の素数(厳(略))が得られるようになった. ところで, これは完全に蛇足なのだが, 同様の実装を C++ で行えば, これより少し早くなるのではないかと思い, Boost.Multiprecision 等を使って, この実装を C++ に移植しようと考えた. ただ, ミラーラビン法で素数を得る機能は, 既に同ライブラリ内で実装済みであったので, 一旦それを用いてタイムを計測して, お茶を濁すこととした.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb14-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-1" aria-hidden="true"></a><span class="co">// miller.cpp</span></span>
-<span id="cb14-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-2" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;boost/multiprecision/cpp_int.hpp&gt;</span></span>
-<span id="cb14-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-3" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;boost/multiprecision/miller_rabin.hpp&gt;</span></span>
-<span id="cb14-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-4" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;boost/random/mersenne_twister.hpp&gt;</span></span>
-<span id="cb14-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-5" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;boost/random/uniform_int_distribution.hpp&gt;</span></span>
-<span id="cb14-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-6" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;boost/random/random_device.hpp&gt;</span></span>
-<span id="cb14-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-7" aria-hidden="true"></a></span>
-<span id="cb14-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-8" aria-hidden="true"></a><span class="kw">constexpr</span> <span class="dt">unsigned</span> <span class="dt">int</span> check_times(<span class="dt">unsigned</span> <span class="dt">int</span> s) <span class="kw">noexcept</span></span>
-<span id="cb14-9"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-9" aria-hidden="true"></a>{</span>
-<span id="cb14-10"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-10" aria-hidden="true"></a>    <span class="cf">return</span> s &gt;= <span class="dv">3072</span> ? <span class="dv">64</span> : s &gt;= <span class="dv">2048</span> ? <span class="dv">56</span> : <span class="dv">40</span>;</span>
-<span id="cb14-11"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-11" aria-hidden="true"></a>}</span>
-<span id="cb14-12"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-12" aria-hidden="true"></a></span>
-<span id="cb14-13"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-13" aria-hidden="true"></a><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="at">const</span> <span class="dt">char</span>** <span class="at">const</span> argv)</span>
-<span id="cb14-14"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-14" aria-hidden="true"></a>{</span>
-<span id="cb14-15"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-15" aria-hidden="true"></a>    <span class="kw">namespace</span> bm = <span class="ex">boost::</span>multiprecision;</span>
-<span id="cb14-16"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-16" aria-hidden="true"></a>    <span class="cf">if</span> (argc != <span class="dv">2</span>) <span class="cf">return</span> EXIT_FAILURE;</span>
-<span id="cb14-17"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-17" aria-hidden="true"></a>    <span class="at">const</span> <span class="dt">unsigned</span> <span class="dt">int</span> val = <span class="ex">boost::</span>lexical_cast&lt;<span class="dt">unsigned</span> <span class="dt">int</span>&gt;(argv[<span class="dv">1</span>]);</span>
-<span id="cb14-18"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-18" aria-hidden="true"></a></span>
-<span id="cb14-19"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-19" aria-hidden="true"></a>    <span class="ex">boost::</span>random<span class="ex">::</span>uniform_int_distribution&lt;bm::cpp_int&gt; dist(bm::pow(bm::cpp_int(<span class="dv">2</span>), val - <span class="dv">1</span>), bm::pow(bm::cpp_int(<span class="dv">2</span>), val));</span>
-<span id="cb14-20"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-20" aria-hidden="true"></a>    <span class="ex">boost::</span>random_device seed;</span>
-<span id="cb14-21"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-21" aria-hidden="true"></a>    <span class="ex">boost::</span>random<span class="ex">::</span>mt19937 mt(seed);</span>
-<span id="cb14-22"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-22" aria-hidden="true"></a>    </span>
-<span id="cb14-23"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-23" aria-hidden="true"></a>    <span class="cf">for</span> (bm::cpp_int candidate = dist(mt); !bm::miller_rabin_test(candidate, check_times(val)); candidate = dist(mt));</span>
-<span id="cb14-24"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb14-24" aria-hidden="true"></a>}</span></code></pre></div>
-<p>若干ではあるが, やはり少しは早くなったようだ.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb15-1" aria-hidden="true"></a>$ <span class="ex">g++-8</span> -std=c++1z -lboost_random miller.cpp -I/usr/local/include -march=native -O3 -Ofast</span>
-<span id="cb15-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb15-2" aria-hidden="true"></a>$ <span class="bu">test</span> 500 ./a.out 512</span>
-<span id="cb15-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb15-3" aria-hidden="true"></a><span class="ex">0.13506000000000004</span></span></code></pre></div>
-<p>さらに早さを求める場合, 実用途として利用でき, かつお手頃なもので良い選択になるものを考えると, やはり libgmp が思い浮かぶ<a href="/roki.log/2018/07/13/elgamalEncryption/#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a>. ただ, 本エントリの内容のメインは素数生成に関してではないので, 一旦ここまでとしておく.</p>
-<h3 id="原始根の生成">原始根の生成</h3>
-<p>次に必要となるのは原始根 <span class="math inline">g</span> であるが, この生成を簡単にするためには, 安全素数という素数を素数生成の段階で生成しておかなければならない<a href="/roki.log/2018/07/13/elgamalEncryption/#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a>. 安全素数は</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-安全素数
-</p>
-</header>
-<div class="m-def-content">
-<p><span class="math inline">q=2p+1\ (p\ is\ prime)</span> があって, このとき素数となる <span class="math inline">q</span></p>
-</div>
-</div>
-<p>をいう<a href="/roki.log/2018/07/13/elgamalEncryption/#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>. また,</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-ソフィー・ジェルマン素数
-</p>
-</header>
-<div class="m-def-content">
-<p>安全素数 <span class="math inline">q=2p+1</span> の <span class="math inline">p=(q-1)\div 2</span></p>
-</div>
-</div>
-<p>をソフィー・ジェルマン素数という. 例えば, <span class="math inline">p=11</span> としたとき <span class="math inline">2\cdot 11+1=23</span> は素数であるから, <span class="math inline">q=23</span> を安全素数, また <span class="math inline">p=11</span> をソフィー・ジェルマン素数という. 素数生成の段階でこの安全素数を要するのは, 原始根 <span class="math inline">g</span> を求める単純な一般式が知られておらず<a href="/roki.log/2018/07/13/elgamalEncryption/#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a>, 安全素数でない素数に対する原始根 <span class="math inline">g</span> の確定的な結果を要する場合, <a href="/roki.log/2018/07/13/elgamalEncryption/#thiscode">先に求めた</a>ように <span class="math inline">g\not\equiv 1,\cdots,g^{p-2}\not\equiv 1\pmod{p}</span> といった判定が必要となるからである. <span class="math inline">q</span> が安全素数であれば, <span class="math inline">q-1=2p</span><a href="/roki.log/2018/07/13/elgamalEncryption/#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a> より <span class="math inline">q-1</span> の素因数は <span class="math inline">2</span> と <span class="math inline">p=(q-1)\div 2</span> しかなく, 圧倒的に計算量を減らすことができる. さて, 安全素数は, <span class="math inline">p</span> と <span class="math inline">q</span> がともに素数であれば良いので, このどちらにもミラーラビン法を実行してしまうのが一番簡単である<a href="/roki.log/2018/07/13/elgamalEncryption/#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb16-1" aria-hidden="true"></a><span class="co">-- (略)</span></span>
-<span id="cb16-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb16-2" aria-hidden="true"></a></span>
-<span id="cb16-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb16-3" aria-hidden="true"></a><span class="ot">{-# INLINE genRndSafePrime #-}</span></span>
-<span id="cb16-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb16-4" aria-hidden="true"></a><span class="ot">genRndSafePrime ::</span> <span class="dt">BitSize</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Integer</span></span>
-<span id="cb16-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb16-5" aria-hidden="true"></a>genRndSafePrime b <span class="ot">=</span> <span class="kw">let</span> t <span class="op">|</span> b <span class="op">&gt;</span> <span class="dv">3071</span> <span class="ot">=</span> <span class="dv">64</span> <span class="op">|</span> b <span class="op">&gt;</span> <span class="dv">2047</span> <span class="ot">=</span> <span class="dv">56</span> <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="dv">40</span> <span class="kw">in</span></span>
-<span id="cb16-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb16-6" aria-hidden="true"></a>    fix <span class="op">$</span> \loop <span class="ot">-&gt;</span> <span class="fu">uncurry</span> (bool loop) <span class="op">.</span> first (<span class="fu">return</span> <span class="op">.</span> <span class="fu">fst</span>) <span class="op">.</span> second <span class="fu">snd</span> <span class="op">.</span> dupe <span class="op">=&lt;&lt;</span> </span>
-<span id="cb16-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb16-7" aria-hidden="true"></a>            second (<span class="fu">uncurry</span> (<span class="op">&amp;&amp;</span>) <span class="op">.</span> first (millerRabin' t <span class="op">.</span> (<span class="fu">flip</span> shiftR <span class="dv">1</span>) <span class="op">.</span> <span class="fu">pred</span>) <span class="op">.</span> second (millerRabin' t) <span class="op">.</span> dupe) <span class="op">.</span></span>
-<span id="cb16-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb16-8" aria-hidden="true"></a>                dupe <span class="op">.</span> (<span class="op">.|.</span> <span class="dv">1</span>) <span class="op">&lt;$&gt;</span> randomRIO (<span class="dv">2</span><span class="op">^</span><span class="fu">pred</span> b, <span class="fu">pred</span> <span class="dv">2</span><span class="op">^</span>b)</span></code></pre></div>
-<p>これで, 任意のビット数の安全素数が得られるようになった. あとは, この安全素数を利用して, <a href="/roki.log/2018/07/13/elgamalEncryption/#primitive_root">原始根の定義, 性質</a>に従い, <span class="math inline">g^{q-1}</span> で初めて <span class="math inline">g^{n}\equiv 1\pmod{q}</span> となる <span class="math inline">g</span> を選べば良いわけであるが, その一連の手順としては, いま安全素数 <span class="math inline">q</span> があって</p>
-<ol type="1">
-<li>任意の <span class="math inline">2\leq g\leq q-2</span> を選ぶ(当然, <span class="math inline">1</span> と <span class="math inline">p-1</span> は<span class="math inline">g^2\equiv 1\pmod{q}</span> となるから).</li>
-<li><span class="math inline">g^{(q-1)/2}\not\equiv 1\pmod{q}</span> を満たすか判定する. これを満たせば <span class="math inline">g</span> は <span class="math inline">q</span> の原始根である. そうでなければ 1 へ戻る.</li>
-</ol>
-<p>というように探索することができる. このとき, 離散対数に対する耐性, すなわちセキュリティの強度に関して, この <span class="math inline">g</span> はとくに関与しないため, 通常小さい原始根から探し出せば良いことになる. すると, 次のようにして, 最小の原始根が得られる.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb17-1" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> <span class="op">:</span>m <span class="op">+</span><span class="dt">Data.Bits</span></span>
-<span id="cb17-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb17-2" aria-hidden="true"></a><span class="dt">Prelude</span> <span class="dt">Data.Bits</span><span class="op">&gt;</span> <span class="op">:</span>l miller</span>
-<span id="cb17-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb17-3" aria-hidden="true"></a>[<span class="dv">1</span> <span class="kw">of</span> <span class="dv">1</span>] <span class="dt">Compiling</span> <span class="dt">Main</span>             ( miller<span class="op">.</span>hs, interpreted )</span>
-<span id="cb17-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb17-4" aria-hidden="true"></a><span class="dt">Ok</span>, one <span class="kw">module</span> loaded<span class="op">.</span></span>
-<span id="cb17-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb17-5" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span> <span class="dt">Data.Bits</span><span class="op">&gt;</span> [x <span class="op">|</span> x <span class="ot">&lt;-</span> [<span class="dv">2</span><span class="op">..</span><span class="dv">100</span>], millerRabin' <span class="dv">40</span> x <span class="op">&amp;&amp;</span> millerRabin' <span class="dv">40</span> (<span class="fu">pred</span> x <span class="ot">`shiftR`</span> <span class="dv">1</span>)]</span>
-<span id="cb17-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb17-6" aria-hidden="true"></a>[<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">23</span>,<span class="dv">47</span>,<span class="dv">59</span>,<span class="dv">83</span>]</span>
-<span id="cb17-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb17-7" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span> <span class="dt">Data.Bits</span><span class="op">&gt;</span> <span class="kw">let</span> rootFromSafePrime p <span class="ot">=</span> <span class="fu">head</span> [g <span class="op">|</span> g <span class="ot">&lt;-</span> [<span class="dv">2</span><span class="op">..</span>p<span class="op">-</span><span class="dv">2</span>], modExp g (<span class="fu">pred</span> p <span class="ot">`shiftR`</span> <span class="dv">1</span>) p <span class="op">/=</span> <span class="dv">1</span>]</span>
-<span id="cb17-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb17-8" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span> <span class="dt">Data.Bits</span><span class="op">&gt;</span> <span class="fu">map</span> rootFromSafePrime  [x <span class="op">|</span> x <span class="ot">&lt;-</span> [<span class="dv">2</span><span class="op">..</span><span class="dv">100</span>], millerRabin' <span class="dv">40</span> x <span class="op">&amp;&amp;</span> millerRabin' <span class="dv">40</span> (<span class="fu">pred</span> x <span class="ot">`</span></span>
-<span id="cb17-9"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb17-9" aria-hidden="true"></a><span class="ot">shiftR`</span> <span class="dv">1</span>)]</span>
-<span id="cb17-10"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb17-10" aria-hidden="true"></a>[<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">2</span>]</span></code></pre></div>
-<h3 id="鍵と暗号文の生成">鍵と暗号文の生成</h3>
-<p>上で述べた手順のまま実装できる.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-1" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">PublicKey</span> <span class="ot">=</span> (<span class="dt">Integer</span>, <span class="dt">Integer</span>, <span class="dt">Integer</span>)</span>
-<span id="cb18-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-2" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">PrivateKey</span> <span class="ot">=</span> <span class="dt">Integer</span></span>
-<span id="cb18-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-3" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">Keys</span> <span class="ot">=</span> (<span class="dt">PublicKey</span>, <span class="dt">PrivateKey</span>)</span>
-<span id="cb18-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-4" aria-hidden="true"></a><span class="kw">type</span> <span class="dt">Cryptogram</span> <span class="ot">=</span> [<span class="dt">Integer</span>]</span>
-<span id="cb18-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-5" aria-hidden="true"></a></span>
-<span id="cb18-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-6" aria-hidden="true"></a><span class="ot">genKeys ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Keys</span></span>
-<span id="cb18-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-7" aria-hidden="true"></a>genKeys p g <span class="ot">=</span> ((y, a) <span class="ot">-&gt;</span> ((p, g, y), a)) <span class="op">.</span> first (<span class="fu">flip</span> (modExp g) p) <span class="op">.</span> dupe <span class="op">&lt;$&gt;</span> randomRIO (<span class="dv">1</span>, <span class="fu">pred</span> p)</span>
-<span id="cb18-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-8" aria-hidden="true"></a> </span>
-<span id="cb18-9"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-9" aria-hidden="true"></a><span class="ot">encode ::</span> <span class="dt">PublicKey</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Cryptogram</span></span>
-<span id="cb18-10"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-10" aria-hidden="true"></a>encode _ [] <span class="ot">=</span> <span class="fu">return</span> []</span>
-<span id="cb18-11"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-11" aria-hidden="true"></a>encode (p, g, y) plain <span class="ot">=</span> <span class="fu">concat</span> <span class="op">&lt;$&gt;</span> <span class="fu">mapM</span> (\c <span class="ot">-&gt;</span> </span>
-<span id="cb18-12"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-12" aria-hidden="true"></a>    <span class="fu">uncurry</span> (<span class="op">:</span>) <span class="op">.</span> first (<span class="fu">flip</span> (modExp g) p) <span class="op">.</span> </span>
-<span id="cb18-13"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-13" aria-hidden="true"></a>        second ((<span class="op">:</span>[]) <span class="op">.</span> <span class="fu">flip</span> (<span class="fu">flip</span> modExp <span class="dv">1</span>) p <span class="op">.</span> (<span class="fu">toInteger</span> (<span class="fu">ord</span> c) <span class="op">*</span>) <span class="op">.</span> <span class="fu">flip</span> (modExp y) p) <span class="op">.</span> </span>
-<span id="cb18-14"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb18-14" aria-hidden="true"></a>            dupe <span class="op">.</span> <span class="fu">toInteger</span> <span class="op">&lt;$&gt;</span> randomRIO (<span class="dv">1</span>,<span class="ot"> maxBound ::</span> <span class="dt">Int</span>)) plain</span></code></pre></div>
-<h3 id="暗号文の復号">暗号文の復号</h3>
-<p>復号に関しても, 上の手順のまま実装するだけであるが, モジュラ逆数を得るために拡張ユークリッドの互除法を使うのでそれについて説明する.</p>
-<p><span class="math inline">GF(p)</span> は体の公理より乗法について可換群となっており, 逆元が存在するはずだから, <span class="math inline">^\exists n\in GF(p)</span> に対する逆元を <span class="math inline">n^{-1}=x\in GF(p)</span> とおける. <span class="math inline">GF(p)</span> の単位元を考えれば, この <span class="math inline">n</span> と <span class="math inline">x</span> の関係は, <span class="math inline">nx\equiv 1\pmod{m}</span> という式で表せる. この式は勿論, 合同の定義からして, <span class="math inline">k</span> をある整数としたとき <span class="math inline">nx-1=mk</span> と等価であることがいえる. これを都合の良い形に移行すると, <span class="math inline">nx-mk=1</span>. いま知りたいのは, 逆数である <span class="math inline">x</span> だ. ここで, 拡張ユークリッドの互除法を使う. 拡張ユークリッドの互除法は,</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-拡張ユークリッドの互除法
-</p>
-</header>
-<div class="m-def-content">
-<p><a href="/roki.log/2018/07/13/elgamalEncryption/#euclidean">ユークリッドの互除法</a>で求まる <span class="math inline">\gcd(a,b)</span> に加え, <span class="math display">
-ax+by=\gcd(a,b)
-</span> (ベズーの等式) が成り立つ <span class="math inline">a,\ b</span> のベズー係数 <span class="math inline">x,\ y</span> をも同時に求める.</p>
-</div>
-</div>
-<p>アルゴリズムである. いまの問題をこの式に当てはめると, <span class="math inline">nx-mk=\gcd(n,m)</span> となる. <a href="/roki.log/2018/07/13/elgamalEncryption/#genencanddec">暗号の生成と解読</a>の内容のうち例として用いた値, <span class="math inline">n=10,\ m=97</span> を入力として, まず一般解を導いてみる. いま <span class="math inline">n,\ m</span> に対して<a href="/roki.log/2018/07/13/elgamalEncryption/#euclidean">ユークリッドの互除法</a>を行うと,</p>
-<p><span class="math display">\begin{aligned}
-97&amp;=&amp;10\cdot 9+7&amp;\Leftrightarrow &amp;7&amp;=&amp;97-10\cdot 9\\
-10&amp;=&amp;7+3&amp;\Leftrightarrow &amp;3&amp;=&amp;10-7\\
-7&amp;=&amp;3\cdot 2+1&amp;\Leftrightarrow &amp;1&amp;=&amp;7-3\cdot 2
-\end{aligned}</span></p>
-<p>より <span class="math display">10x+97(-k)=1</span> と表せる. こうして見るとわかるように, これは単なる <span class="math inline">1</span> 次不定方程式だ. <span class="math inline">1</span> 次不定方程式は, <span class="math inline">\gcd(a,b)=d</span> としたとき <span class="math inline">d=1</span> ならば解がある. また, <span class="math inline">d\gt 1,\ d\mid c</span> でも解がある. なぜならば, <span class="math inline">d=\gcd(a,b)</span> のときは<a href="/roki.log/2018/07/13/elgamalEncryption/#euclidean">ユークリッドの互除法</a>で解が構成できたし, <span class="math inline">d\gt 1,\ d\mid c</span> ならば <span class="math inline">d</span> 倍してやれば良いからだ. 逆に <span class="math inline">d\not\mid c</span> ならば, その <span class="math inline">1</span> 次不定方程式は不能となる. いま述べた例の場合, 解は存在して,</p>
-<p><span class="math display">
-\begin{array}{lclclcl}
-1&amp;=&amp;&amp;=&amp;7-3\cdot 2\\
-1&amp;=&amp;7-\cdot 2&amp;=&amp;7-(10-7)\cdot 2&amp;=&amp;7\cdot3 - 10\cdot 2\\
-1&amp;=&amp;\cdot 3-10\cdot 2&amp;=&amp;(97-10\cdot 9)\cdot 3-10\cdot 2&amp;=&amp;97\cdot 3-10\cdot 29 
-\end{array}
-</span></p>
-<p>よって, 特別解 <span class="math inline">x=-29,\ k=-3</span> が求まった. 次に, この一般解を求める. いま求めた <span class="math inline">x,\ k</span> を代入すると <span class="math inline">10(-29)+97(3)=1</span>. これを元の式から引くと,</p>
-<p><span class="math display">
-\begin{array}{rr}
-&amp; 10x &amp;+ &amp;97(-k) &amp;= 1 \\
--)&amp;10(-29) &amp;+ &amp;97(3) &amp;= 1
-\\hline
-&amp;10(x+29)&amp;+&amp;97(-k-3)&amp;=0
-\end{array}
-</span></p>
-<p>で, 変形すると <span class="math inline">10(x+29)=-97(-k-3)</span> と表せる. ここで, 先のユークリッドの互除法により <span class="math inline">\gcd(10,97)=1</span> であることがわかっているから, <span class="math inline">x+29=97n\ (n\in\mathbb{Z})</span> と表すことができることがわかる. よって, <span class="math inline">x=97n-29,\ k=10n-3</span> である. 実際に <span class="math inline">n=1</span> とすると, <span class="math inline">x=68</span> となり, これは 先に示した復号化におけるモジュラ逆数の演算例, <span class="math inline">q\equiv \dfrac{1}{10}\equiv 68\pmod{97}</span> と整合であることがわかる.</p>
-<p>ここで, いま行った一連の作業を一般化しておく. この計算が <span class="math inline">(s+1)</span> 回で終わったとする.</p>
-<p><span class="math display">
-\begin{aligned}
-&amp;r_1&amp;=&amp;a-bq_1\\
-&amp;r_2&amp;=&amp;b-r_1q_2\\
-&amp;r_3&amp;=&amp;r_1-r_2q_3\\
-&amp;\cdots &amp; &amp; \cdots \\
-&amp;r_i&amp;=&amp;r_{i-2}-r_{i-1}q_i\\
-&amp;\cdots &amp; &amp; \cdots \\
-&amp;r_{s-1}&amp;=&amp;r_{s-3}-r_{s-2}q_{s-1}\\
-&amp;d&amp;=&amp;r_{s-2}-r_{s-1}q_s
-\end{aligned}
-</span></p>
-<p>よって <span class="math inline">r_i=x_ia+y_ib</span> として <span class="math inline">x_s,\ y_s</span> を求めればよいこととなる. まず, <span class="math inline">r_i=a-bq_i</span> から <span class="math inline">x_1=1,\ y_1=-q_1</span> について, \(\) を \(\) に代入し <span class="math display">r_2=b-(a-bq_1)q_2=-aq_2+b(1+q_1q_2)</span> とする. ここで <span class="math inline">x_2=-q_2,\ y_2=1+q_1 q_2</span> を初期条件とする. 一般に <span class="math inline">r_i</span> が <span class="math inline">a,\ b</span> で表せるとしたとき <span class="math inline">r_i=x_i a+y_i b</span> と表せるから <span class="math inline">x_i,\ y_i</span> の漸化式を次のようにおくことができる.</p>
-<p><span class="math display">
-\begin{array}{lcl}
-r_{i-2}&amp;=&amp;x_{i-2}a+y_{i-2}b \\
-r_{i-1}&amp;=&amp;x_{i-1}a+y_{i-1}b \\
-r_i&amp;=&amp;x_i a+y_i b
-\end{array}
-</span></p>
-<p>これらを \(\) に代入すると, <span class="math display">x_i a+y_i b=x_{i-2}a+y_{i-2}b-(x_{i-1}a+y_{i-1}b)q_i</span> 両辺の <span class="math inline">a,\ b</span> の係数を比較すると,</p>
-<p><span class="math display">
-\begin{array}{lcl}
-x_i&amp;=&amp;x_{i-2}-x_{i-1}q_i\ (i\geq 3) \\
-y_{i}&amp;=&amp;y_{i-2} - y_{i-1}q_i
-\end{array}
-</span></p>
-<p>よって, いまのように順に <span class="math inline">x_3,\ x_4,\ \cdots,\ y_3,\ y_4,\cdots</span> と計算していけば <span class="math inline">d</span> の表示式である <span class="math inline">d=xa+yb</span> の <span class="math inline">x</span> と <span class="math inline">y</span> が求まる. <a href="/roki.log/2018/07/13/elgamalEncryption/#euclidean">ユークリッドの互除法</a>の最後では, 必ず <span class="math inline">r_n-1=r_n+q_{n+1} + 0 = r_n</span> となるから, これを停止条件とし, 次のように実装できる.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb19-1" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> <span class="kw">let</span><span class="ot"> gcdExt ::</span> <span class="dt">Integral</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> (a, a, a); gcdExt a <span class="dv">0</span> <span class="ot">=</span> (<span class="dv">1</span>, <span class="dv">0</span>, a); gcdExt a b <span class="ot">=</span> <span class="kw">let</span> (q, r) <span class="ot">=</span> a <span class="ot">`quotRem`</span> b; (s, t, g) <span class="ot">=</span> gcdExt b r <span class="kw">in</span> (t, s <span class="op">-</span> q <span class="op">*</span> t, g)</span>
-<span id="cb19-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb19-2" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> gcdExt <span class="dv">10</span> <span class="dv">97</span></span>
-<span id="cb19-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb19-3" aria-hidden="true"></a>(<span class="op">-</span><span class="dv">29</span>,<span class="dv">3</span>,<span class="dv">1</span>)</span></code></pre></div>
-<p>この実装と同時に, モジュラ逆数の計算関数を次のように実装できる.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb20-1" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> <span class="kw">let</span><span class="ot"> modInv ::</span> <span class="dt">Integral</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a; modInv a m <span class="ot">=</span> <span class="kw">case</span> gcdExt a m <span class="kw">of</span> (x, _, <span class="dv">1</span>) <span class="ot">-&gt;</span> <span class="dt">Just</span> <span class="op">$</span> <span class="kw">if</span> x <span class="op">&lt;</span> <span class="dv">0</span> <span class="kw">then</span> x <span class="op">+</span> m <span class="kw">else</span> x; _ <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span>
-<span id="cb20-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb20-2" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> modInv <span class="dv">10</span> <span class="dv">97</span></span>
-<span id="cb20-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb20-3" aria-hidden="true"></a><span class="dt">Just</span> <span class="dv">68</span></span></code></pre></div>
-<p>あとは上の手順に従って, 次のように復号関数が実装できる.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb21-1" aria-hidden="true"></a><span class="ot">decode ::</span> <span class="dt">Keys</span> <span class="ot">-&gt;</span> <span class="dt">Cryptogram</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">String</span></span>
-<span id="cb21-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb21-2" aria-hidden="true"></a>decode _ [] <span class="ot">=</span> <span class="dt">Just</span> []</span>
-<span id="cb21-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb21-3" aria-hidden="true"></a>decode _ [_] <span class="ot">=</span> <span class="dt">Nothing</span></span>
-<span id="cb21-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb21-4" aria-hidden="true"></a>decode ((p, g, y), a) (x1<span class="op">:</span>x2<span class="op">:</span>xs) <span class="ot">=</span> <span class="kw">case</span> modExp x1 a p <span class="ot">`modInv`</span> p <span class="kw">of</span></span>
-<span id="cb21-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb21-5" aria-hidden="true"></a>     (<span class="dt">Just</span> q) <span class="ot">-&gt;</span> (<span class="op">:</span>) <span class="op">&lt;$&gt;</span> <span class="dt">Just</span> (<span class="fu">chr</span> (<span class="fu">fromIntegral</span> (modExp (x2 <span class="op">*</span> q) <span class="dv">1</span> p))) <span class="op">&lt;*&gt;</span> decode ((p, g, y), a) xs</span>
-<span id="cb21-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb21-6" aria-hidden="true"></a>     <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="dt">Nothing</span></span></code></pre></div>
-<h3 id="実行">実行</h3>
-<p>最後に, ここまでで作ったモジュールをロードして, 暗号化, 復号化を実行してみる.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb22-1" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span> <span class="dt">Lib</span><span class="op">&gt;</span> <span class="op">:</span>m <span class="op">+</span><span class="dt">System.Environment</span></span>
-<span id="cb22-2"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb22-2" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span> <span class="dt">Lib</span> <span class="dt">System.Environment</span><span class="op">&gt;</span> p <span class="ot">&lt;-</span> genRndSafePrime <span class="dv">16</span></span>
-<span id="cb22-3"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb22-3" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span> <span class="dt">Lib</span> <span class="dt">System.Environment</span><span class="op">&gt;</span> (pubkey, prikey) <span class="ot">&lt;-</span> genKeys p <span class="op">$</span> rootFromSafePrime p</span>
-<span id="cb22-4"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb22-4" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span> <span class="dt">Lib</span> <span class="dt">System.Environment</span><span class="op">&gt;</span> <span class="kw">let</span> f <span class="ot">=</span> (<span class="op">=&lt;&lt;</span>) (<span class="fu">print</span> <span class="op">.</span> decode (pubkey, prikey)) <span class="op">.</span> encode pubkey</span>
-<span id="cb22-5"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb22-5" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span> <span class="dt">Lib</span> <span class="dt">System.Environment</span><span class="op">&gt;</span> <span class="fu">mapM_</span> f [<span class="st">&quot;hoge&quot;</span>, <span class="st">&quot;bar&quot;</span>, <span class="st">&quot;foo&quot;</span>, <span class="st">&quot;roki&quot;</span>]</span>
-<span id="cb22-6"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb22-6" aria-hidden="true"></a><span class="dt">Just</span> <span class="st">&quot;hoge&quot;</span></span>
-<span id="cb22-7"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb22-7" aria-hidden="true"></a><span class="dt">Just</span> <span class="st">&quot;bar&quot;</span></span>
-<span id="cb22-8"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb22-8" aria-hidden="true"></a><span class="dt">Just</span> <span class="st">&quot;foo&quot;</span></span>
-<span id="cb22-9"><a href="/roki.log/2018/07/13/elgamalEncryption/#cb22-9" aria-hidden="true"></a><span class="dt">Just</span> <span class="st">&quot;roki&quot;</span></span></code></pre></div>
-<p>うまくいっているようだ. なお, すべての実装やテストコードは,</p>
-<div class="box has-text-centered is-shadowless">
-<p><i class="fab fa-github mr-2"></i> <a href="https://github.com/falgon/ElgamalEncryptionHs" id="impl">falgon/ElgamalEncryptionHs - The rustic implementation of ElGamal encryption encoder and its decoder.</a></p>
-</div>
-<p>にて公開している.</p>
-<h2 id="参考文献">参考文献</h2>
-<ul>
-<li><a href="https://mathforum.org/library/drmath/view/60779.html">“Primitive Elements vs. Generators”</a> 2018 年 7 月 9 日アクセス.</li>
-<li>伊東利哉, 辻井 重男 (1989)「<a href="https://ipsj.ixsq.nii.ac.jp/ej/index.php?active_action=repository_view_main_item_detail&amp;page_id=13&amp;block_id=8&amp;item_id=32713">有限体における原始根の生成アルゴリズム</a>」 2018 年 7 月 9 日アクセス.</li>
-<li>von zur Gathen, Joachim; Shparlinski, Igor (1998), <a class="disabled" id="ref1">“Orders of Gauss periods in finite fields”</a>, Applicable Algebra in Engineering, Communication and Computing</li>
-<li>Robbins, Neville (2006), <a class="disabled" id="ref2">Beginning Number Theory</a>, Jones &amp; Bartlett Learning, ISBN 978-0-7637-3768-9.</li>
-<li>「<a id="ref4" href="https://mathtrain.jp/galoisfield">有限体（ガロア体）の基本的な話</a>」 2018 年 6 月 29 日アクセス.</li>
-<li>「<a id="ref5" href="https://mathtrain.jp/phi">オイラーのファイ関数のイメージと性質</a>」 2018 年 7 月 9 日アクセス.</li>
-<li>Andreas V. Meier (2005), “<a href="https://wwwmayr.in.tum.de/konferenzen/Jass05/courses/1/papers/meier_paper.pdf">The ElGamal Cryptosystem</a>” 2018 年 7 月 9 日アクセス.</li>
-<li>“<a id="ref6" href="https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf">FIPS PUB 186-4 Digital Signature Standard (DSS)”</a> 2018 年 7 月 9 日アクセス.</li>
-<li>“<a id="ref7" href="https://crypto.stackexchange.com/a/79">How can I generate large prime numbers for RSA?</a>” 2018 年 7 月 9 日アクセス.</li>
-<li>“<a id="ref8" href="https://en.wikipedia.org/w/index.php?title=Miller%E2%80%93Rabin_primality_test&oldid=832585246">Miller–Rabin primality test</a>” 2018 年 7 月 9 日アクセス.</li>
-<li>「<a id="ref9" href="https://lupus.is.kochi-u.ac.jp/shiota/misc/field/FiniteField.html">有限体― 塩田研一覚書帳 ―」</a>」2018 年 6 月 27 日アクセス.</li>
-<li>“<a id="ref10" href="http://joye.site88.net/papers/JP06pgen.pdf">Fast Generation of Prime Numbers on Portable Devices: An Update</a>” 2018 年 7 月 13 日アクセス.</li>
-</ul>
-<section class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1" role="doc-endnote"><p>既約多項式を使うと <span class="math inline">p</span> が素数でなくても(<span class="math inline">p</span> が位数の素数のべき乗であれば)構成できるが, 本エントリの主題と大きく逸れてしまうため, とくに触れない.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>言葉の<a href="/roki.log/2018/07/13/elgamalEncryption/#ref4">参照</a>.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>これに関しては, <a href="/roki.log/2018/07/9/arithmeticFunction/">数論的関数の用語と例</a>で説明している.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p><a href="/roki.log/2018/07/13/elgamalEncryption/#ref5">参照</a>.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>エルガマル暗号では素数を扱うこととなるので, 本エントリでは, フェルマーの小定理の一般形であるオイラーの定理(<span class="math inline">a^{\phi(n)}\equiv 1\pmod{n}\ (\gcd(a, n) = 1, a,n \in \mathbb{Z}^{+})</span>)に関しては特に触れていないが, 後に<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/">別のエントリ</a>として取り上げた.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p><a href="/roki.log/2018/07/13/elgamalEncryption/#thiscode">このコード</a>では, 先頭から 100 個の素数 <span class="math inline">p</span> を位数とした <span class="math inline">GF(p)</span> の原始元を求めているが, やはり大きな素数 <span class="math inline">p</span> に対しては, とくに時間がかかる. このような <span class="math inline">a</span> を法とする原始元を計算する単純な一般式は知られていない(参照1: <a href="/roki.log/2018/07/13/elgamalEncryption/#ref1">von zur Gathen &amp; Shparlinski 1998</a>, pp. 15–24: <i>“One of the most important unsolved problems in the theory of finite fields is designing a fast algorithm to construct primitive roots.”</i> 参照2: <a href="/roki.log/2018/07/13/elgamalEncryption/#ref2">Robbins 2006, p. 159</a>: <i>“There is no convenient formula for computing [the least primitive root].”</i>)が, より高速に見つけ出す方法として確率的アルゴリズムがいくつか知られている.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>図は python, matplotlib 等で<a href="https://gist.github.com/falgon/97dc3c1a399422a3ab2818d01b70a14b">生成</a>.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8" role="doc-endnote"><p>しかしながら, <a href="/roki.log/2018/06/08/qft/">量子フーリエ変換を用いた探索</a>は, この離散対数問題に対しても有効的な解決手段である.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9" role="doc-endnote"><p><a href="/roki.log/2018/07/13/elgamalEncryption/#ref7">“How can I generate large prime numbers for RSA?”</a>, <i>“The standard way to generate big prime numbers is to take a preselected random number of the desired length, apply a Fermat test (best with the base 2 as it can be optimized for speed) and then to apply a certain number of Miller-Rabin tests (depending on the length and the allowed error rate like <span class="math inline">2^{−100}</span>) to get a number which is very probably a prime number.”</i><a href="/roki.log/2018/07/13/elgamalEncryption/#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10" role="doc-endnote"><p>この「対偶」は, 全称命題への対偶であることに留意.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11" role="doc-endnote"><p>素朴な実装であることに注意. arithmoi パッケージの<code>isFermatPP</code>を使うことも考えたが(これを使うと <span class="math inline">20</span> 秒ほどで <span class="math inline">200</span> 個の偽素数が得られた), 計算量を度外視すれば, これは単純に実装できるので書いてしまった. ベキ乗剰余の計算は, 取り敢えず繰り返し二乗法にした.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12" role="doc-endnote"><p><a href="/roki.log/2018/07/13/elgamalEncryption/#ref8">Miller–Rabin primality test</a>, (snip) <i>then n is not prime. We call a a witness for the compositeness of n (sometimes misleadingly called a strong witness, although it is a certain proof of this fact). Otherwise a is called a strong liar, and n is a strong probable prime to base a.</i> (snip) <i>Note that Miller-Rabin pseudoprimes are called strong pseudoprimes.</i><a href="/roki.log/2018/07/13/elgamalEncryption/#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn13" role="doc-endnote"><p><a href="/roki.log/2018/07/13/elgamalEncryption/#ref8">Miller-Rabin primality test</a>, (snip) <i>Every odd composite n has many witnesses a, however, no simple way of generating such an a is known. </i><a href="/roki.log/2018/07/13/elgamalEncryption/#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn14" role="doc-endnote"><p><a href="/roki.log/2018/07/13/elgamalEncryption/#ref8">Miller-Rabin primality test</a>, (snip) <i>When the number n to be tested is small, trying all <span class="math inline">a \lt 2(\ln n)^2</span> is not necessary, as much smaller sets of potential witnesses are known to suffice</i><a href="/roki.log/2018/07/13/elgamalEncryption/#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn15" role="doc-endnote"><p>この値は, <a href="/roki.log/2018/07/13/elgamalEncryption/#ref6">FIPS PUB 186-4 DSS</a>/APPENDIX/C.3 の “Minimum number of Miller-Rabin iterations for DSA” を参照. このテーブルに関する裏付けの参考として<a href="https://stackoverflow.com/a/6330138/8345717">この回答</a>を参照.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn16" role="doc-endnote"><p>Haskell のライブラリ, Math.NumberTheory.Primes.Testing の<code>millerRabinV</code>は, 内部で libgmp を呼び出しているようだ.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn17" role="doc-endnote"><p><a href="/roki.log/2018/07/13/elgamalEncryption/#thiscode">このコード</a>では, 先頭から 100 個の素数 <span class="math inline">p</span> を位数とした <span class="math inline">GF(p)</span> の原始元を求めているが, やはり大きな素数 <span class="math inline">p</span> に対しては, とくに時間がかかる. このような <span class="math inline">a</span> を法とする原始元を計算する単純な一般式は知られていない(参照1: <a href="/roki.log/2018/07/13/elgamalEncryption/#ref1">von zur Gathen &amp; Shparlinski 1998</a>, pp. 15–24: <i>“One of the most important unsolved problems in the theory of finite fields is designing a fast algorithm to construct primitive roots.”</i> 参照2: <a href="/roki.log/2018/07/13/elgamalEncryption/#ref2">Robbins 2006, p. 159</a>: <i>“There is no convenient formula for computing [the least primitive root].”</i>)が, より高速に見つけ出す方法として確率的アルゴリズムがいくつか知られている.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn18" role="doc-endnote"><p>より一般的には, <span class="math inline">d</span> 準安全素数というものもあり, その場合素数 <span class="math inline">p</span> に対して <span class="math inline">(p-1)\div 2^d</span> が素数となる.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn19" role="doc-endnote"><p><a href="/roki.log/2018/07/13/elgamalEncryption/#thiscode">このコード</a>では, 先頭から 100 個の素数 <span class="math inline">p</span> を位数とした <span class="math inline">GF(p)</span> の原始元を求めているが, やはり大きな素数 <span class="math inline">p</span> に対しては, とくに時間がかかる. このような <span class="math inline">a</span> を法とする原始元を計算する単純な一般式は知られていない(参照1: <a href="/roki.log/2018/07/13/elgamalEncryption/#ref1">von zur Gathen &amp; Shparlinski 1998</a>, pp. 15–24: <i>“One of the most important unsolved problems in the theory of finite fields is designing a fast algorithm to construct primitive roots.”</i> 参照2: <a href="/roki.log/2018/07/13/elgamalEncryption/#ref2">Robbins 2006, p. 159</a>: <i>“There is no convenient formula for computing [the least primitive root].”</i>)が, より高速に見つけ出す方法として確率的アルゴリズムがいくつか知られている.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn20" role="doc-endnote"><p>この場合, <span class="math inline">2p</span> は準素数といえる.<a href="/roki.log/2018/07/13/elgamalEncryption/#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn21" role="doc-endnote"><p>この方法よりも効率の良い方法として, <a href="/roki.log/2018/07/13/elgamalEncryption/#ref10">参考文献</a>の “4.2 Generating safe and quasi-safe primes” に言及がある. また, 既知の部分群の生成元を探す方法もある. DSA はこの方法を採用しているとのこと: <a href="/roki.log/2018/07/13/elgamalEncryption/#ref6">4 The Digital Signature Algorithm (DSA)</a><a href="/roki.log/2018/07/13/elgamalEncryption/#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>]]></summary>
 </entry>
