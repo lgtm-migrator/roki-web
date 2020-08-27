@@ -3,7 +3,7 @@
     <title>roki.diary</title>
     <link href="https://roki.dev/roki.diary/feed/roki.diary.xml" rel="self" />
     <link href="https://roki.dev/roki.diary" />
-    <id>https://roki.dev/roki.diary</id>
+    <id>https://roki.dev/roki.diary/feed/roki.diary.xml</id>
     <author>
         <name>Roki</name>
         <email>falgon53@yahoo.co.jp</email>
