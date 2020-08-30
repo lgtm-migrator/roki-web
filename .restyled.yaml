@@ -1,0 +1,14 @@
+enabled: true
+restylers:
+  - name: stylish-haskell
+    include:
+      - "**/*.hs"
+pull_requests: true
+statuses:
+  differences: true
+  error: true
+labels:
+  - refactoring
+ignore_labels:
+  - restyled-ignore
+
