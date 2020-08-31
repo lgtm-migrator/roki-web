@@ -3,9 +3,6 @@ name: CI
 on:
   push:
     branches: [develop, master]
-  pull_request:
-    branches: [develop, master]
-    types: [synchronize, opened, reopened, ready_for_review]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -48,8 +45,10 @@ jobs:
         ./site check --internal-links
         xmllint docs/roki.log/sitemap.xml --noout
         xmllint docs/roki.log/feed/roki.log.xml --noout
+        xmllint docs/roki.log/feed/roki.log-rss.xml --noout
         xmllint docs/roki.diary/sitemap.xml --noout
         xmllint docs/roki.diary/feed/roki.diary.xml --noout
+        xmllint docs/roki.diary/feed/roki.diary-rss.xml --noout
         tar cvf docs.tar.xz docs
     - name: Build and validate roki.dev (fast build)
       if: github.ref == 'refs/heads/develop'

@@ -1,55 +1,37 @@
 version: 2.1
+parameters:
+  GITHUB_SHA:
+    type: string
+    default: ""
+
 jobs:
   build:
     docker:
-    - image: haskell:8.8.3
-      environment:
-      - LC_ALL: C.UTF-8
-      - LANGUAGE: ja_JP.UTF-8
-      - LANG: ja_JP.UTF-8
+    - image: circleci/golang:1.14
+    environment:
+      TZ: /usr/share/zoneinfo/Asia/Tokyo
     steps:
-    - run:
-        name: Setup Swap
-        command: |
-          free -m
-          dd if=/dev/zero of=/swapfile bs=1M count=2048
-          chmod 600 /swapfile
-          mkswap /swapfile
-          swapon /swapfile
     - run:
         name: Setup tools
         command: |
-          apt update
-          apt install -y jq curl
-          stack upgrade
-          stack config set system-ghc --global true
-          stack config set install-ghc --global false
-    - checkout
-    - restore_cache:
-        keys:
-        - 'dependencies-{{ checksum "stack.yaml" }}-{{ checksum "roki-web.cabal" }}'
-        - 'dependencies-'
+          go get -v github.com/google/skicka
+          skicka init
+          echo -n "$SKICKA_TOKEN_CACHE_JSON" | base64 --decode > $HOME/.skicka.tokencache.json
+          sed -i -e "s/;clientid=YOUR_GOOGLE_APP_CLIENT_ID/clientid=$GOOGLE_CLIENT_ID/g" $HOME/.skicka.config
+          sed -i -e "s/;clientsecret=YOUR_GOOGLE_APP_SECRET/clientsecret=$GOOGLE_CLIENT_SECRET/g" $HOME/.skicka.config
     - run:
-        name: Setup dependencies
+        name: Set variables
         command: |
-          # Build with -j1 to avoid out of memory errors
-          stack build --compiler=ghc-8.8.3 --no-terminal -j1 Cabal wai-logger
-          stack build --compiler=ghc-8.8.3 --no-terminal --only-dependencies
-    - save_cache:
-        key: 'dependencies-{{ checksum "stack.yaml" }}-{{ checksum "roki-web.cabal" }}'
-        paths:
-        - ~/.stack/
-        - .stack-work/
-    - restore_cache:
-        keys:
-        - 'executable-{{ checksum "app/site/Main.hs" }}'
-        - 'executable-'
-    - run: stack --compiler=ghc-8.8.3 --local-bin-path='.' --no-terminal install --pedantic
-    - save_cache:
-        key: 'executable-{{ checksum "app/site/Main.hs" }}'
-        paths:
-        - ./site
-    - run: ./site build
+          echo 'export FN=<< pipeline.parameters.GITHUB_SHA >>-docs.tar.xz' >> $BASH_ENV
+          echo 'export PATH=$HOME/go/bin:$PATH' >> $BASH_ENV
+          source $HOME/.bashrc
+    - run:
+        name: Fetch artifact from Google Drive
+        command: |
+          skicka -no-browser-auth download -ignore-times "GitHubActions/$FN" docs.tar.xz
+          tar cvf docs.tar.xz
+          skicka -no-browser-auth rm "GitHubActions/$FN"
+    - run: echo "<< pipeline.parameters.GITHUB_SHA >>"
     - store_artifacts: { path: ./docs/ }
     - run: |
         grep -E '^CIRCLE_|^HOME' | jq -c -s -R 'split("\n")
@@ -58,3 +40,8 @@ jobs:
                 | {(.[0]): .[1:] | join("=")})
                 | add'
 
+workflows:
+  version: 2.1
+  workflow:
+    jobs:
+      - build
