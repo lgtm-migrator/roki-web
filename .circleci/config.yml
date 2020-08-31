@@ -9,6 +9,14 @@ jobs:
       - LANG: ja_JP.UTF-8
     steps:
     - run:
+        name: Setup Swap
+        command: |
+          free -m
+          dd if=/dev/zero of=/swapfile bs=1M count=2048
+          chmod 600 /swapfile
+          mkswap /swapfile
+          swapon /swapfile
+    - run:
         name: Setup tools
         command: |
           apt update
