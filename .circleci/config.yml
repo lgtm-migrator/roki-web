@@ -29,7 +29,7 @@ jobs:
         name: Fetch artifact from Google Drive
         command: |
           skicka -no-browser-auth download -ignore-times "GitHubActions/$FN" docs.tar.xz
-          tar cvf docs.tar.xz
+          tar xvf docs.tar.xz
           skicka -no-browser-auth rm "GitHubActions/$FN"
     - run: echo "<< pipeline.parameters.GITHUB_SHA >>"
     - store_artifacts: { path: ./docs/ }
