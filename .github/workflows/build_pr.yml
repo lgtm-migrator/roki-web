@@ -68,11 +68,16 @@ jobs:
          google-client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
          upload-from: ./docs.tar.xz
          upload-to: GitHubActions/${{ steps.myhash.outputs.hash }}-docs.tar.xz
-
     - name: Boot CircleCI
       run: |
-        curl -u ${{ secrets.CIRCLE_API_USER_TOKEN }}: \
+          echo ::set-env name=CIRCLE_RESP::$(curl -s -u ${{ secrets.CIRCLE_API_USER_TOKEN }}: \
             -X POST \
             -H "Content-Type: application/json" \
             -d '{"branch":"${{ steps.myref.outputs.branch }}","parameters":{"GITHUB_SHA":"${{ steps.myhash.outputs.hash }}"}}' \
-            https://circleci.com/api/v2/project/gh/falgon/roki-web/pipeline
+            https://circleci.com/api/v2/project/gh/falgon/roki-web/pipeline)
+    - name: Set CircleCI variables         
+      run: |
+          echo ::set-env name=CIRCLE_JOB_NUM::$(echo "${{ env.CIRCLE_RESP }}" | jq .number)
+          echo ::set-env name=CIRCLE_JOB_ID::$(echo "${{ env.CIRCLE_RESP }}" | jq .id)
+    - name: Out CircleCI URL
+    - run: echo "https://app.circleci.com/pipelines/github/falgon/roki-web/${{ env.CIRCLE_JOB_NUM }}/workflows/${{ env.CIRCLE_JOB_ID }}/jobs/${{ env.CIRCLE_JOB_NUM }}/steps"
