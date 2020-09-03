@@ -32,13 +32,11 @@ jobs:
           tar xvf docs.tar.xz
           skicka -no-browser-auth rm "GitHubActions/$FN"
     - run: echo "<< pipeline.parameters.GITHUB_SHA >>"
-    - store_artifacts: { path: ./docs/ }
+    - store_artifacts: 
+        path: ./docs/
+        destination: .
     - run: |
-        grep -E '^CIRCLE_|^HOME' | jq -c -s -R 'split("\n")
-            | map (split("=")
-                | select (.[0] != null)
-                | {(.[0]): .[1:] | join("=")})
-                | add'
+        grep -E '^CIRCLE_|^HOME' | jq 
 
 workflows:
   version: 2.1
