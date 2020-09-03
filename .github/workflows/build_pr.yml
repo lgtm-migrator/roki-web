@@ -80,4 +80,4 @@ jobs:
           echo ::set-env name=CIRCLE_JOB_NUM::$(echo "${{ env.CIRCLE_RESP }}" | jq .number)
           echo ::set-env name=CIRCLE_JOB_ID::$(echo "${{ env.CIRCLE_RESP }}" | jq .id)
     - name: Out CircleCI URL
-    - run: echo "https://app.circleci.com/pipelines/github/falgon/roki-web/${{ env.CIRCLE_JOB_NUM }}/workflows/${{ env.CIRCLE_JOB_ID }}/jobs/${{ env.CIRCLE_JOB_NUM }}/steps"
+      run: echo "https://app.circleci.com/pipelines/github/falgon/roki-web/${{ env.CIRCLE_JOB_NUM }}/workflows/${{ env.CIRCLE_JOB_ID }}/jobs/${{ env.CIRCLE_JOB_NUM }}/steps"
