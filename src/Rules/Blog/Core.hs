@@ -195,7 +195,7 @@ blogRules isPreview bc faIcons = do
                         <> yearMonthArchiveField "archives" yearlyArchives monthlyArchives year
                         <> siteCtx
                         <> constField "footer-additional-component" (blogFooterAdditional bc)
-                makeItem "" 
+                makeItem ""
                     >>= loadAndApplyTemplate footerPath ctx
                     >>= relativizeUrls
 
