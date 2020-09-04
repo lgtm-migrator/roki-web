@@ -25,7 +25,6 @@ jobs:
         command: |
           echo 'export FN=<< pipeline.parameters.GITHUB_SHA >>-docs.tar.xz' >> $BASH_ENV
           echo 'export PATH=$HOME/go/bin:$PATH' >> $BASH_ENV
-          echo "export BADGE=\"https://circleci.com/gh/falgon/roki-web/tree/$CIRCLE_BRANCH.svg?circle-token=c5f5c7067d0097cfa283aa296f223e730622033b\"" >> $BASH_ENV
           echo "export ARTIFACTS_URL=\"https://$CIRCLE_BUILD_NUM-280922552-gh.circle-artifacts.com/0/index.html\"" >> $BASH_ENV
           source $HOME/.bashrc
     - run:
@@ -48,7 +47,7 @@ jobs:
             pr_comment_url=$(echo $pr_response | jq -r ".[]._links.comments.href")
             curl -X POST \
               -H 'Content-Type:application/json' \
-              -d '{"body":"![circle ci status badge]('"$BADGE"') * URL: <'"$ARTIFACTS_URL"'>"}' \
+              -d '{"body":"* URL: <'"$ARTIFACTS_URL"'>"}' \
               "$pr_comment_url?access_token=$YBGH_TOKEN"
           fi
 
