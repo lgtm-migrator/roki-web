@@ -109,6 +109,7 @@ listPageRules isPreview title faIcons tags bc pgs = paginateRules pgs $ \pn pat 
             >>= appendFooter bc defaultTimeLocale' timeZoneJST
             >>= loadAndApplyTemplate "contents/templates/blog/default.html" blogCtx
             >>= modifyExternalLinkAttr
+            >>= relativizeUrls
             >>= FA.render faIcons
 
 blogRules :: Bool -> BlogConfig Rules -> FA.FontAwesomeIcons -> Rules ()
@@ -136,6 +137,7 @@ blogRules isPreview bc faIcons = do
             >>= appendFooter bc defaultTimeLocale' timeZoneJST
             >>= loadAndApplyTemplate "contents/templates/blog/default.html" postCtx'
             >>= modifyExternalLinkAttr
+            >>= relativizeUrls
             >>= FA.render faIcons
 
     match (blogEntryFilesPattern bc) $ do
@@ -193,7 +195,9 @@ blogRules isPreview bc faIcons = do
                         <> yearMonthArchiveField "archives" yearlyArchives monthlyArchives year
                         <> siteCtx
                         <> constField "footer-additional-component" (blogFooterAdditional bc)
-                makeItem "" >>= loadAndApplyTemplate footerPath ctx
+                makeItem ""
+                    >>= loadAndApplyTemplate footerPath ctx
+                    >>= relativizeUrls
 
     -- Atom Feed
     create [fromFilePath (blogName bc </> "feed" </> blogName bc <> ".xml")] $ do
@@ -222,6 +226,7 @@ blogRules isPreview bc faIcons = do
                 >>= absolutizeUrls
                 >>= appendFooter bc defaultTimeLocale' timeZoneJST
                 >>= modifyExternalLinkAttr
+                >>= relativizeUrls
                 >>= FA.render faIcons
 
     -- Site map

@@ -38,10 +38,10 @@ rules bcs faIcons = do
                     <> blogs
 
             getResourceBody
-                >>= absolutizeUrls
                 >>= applyAsTemplate aBlogCtx
                 >>= loadAndApplyTemplate rootTemplate aBlogCtx
                 >>= modifyExternalLinkAttr
+                >>= relativizeUrls
                 >>= FA.render faIcons
 
     match "CNAME" $ route idRoute >> compile copyFileCompiler
