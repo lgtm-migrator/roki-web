@@ -37,21 +37,19 @@ jobs:
     - store_artifacts:
         path: ./docs/
         destination: .
-    - run: |
+    - run:
         name: Add comment
         command: |
-          pr_response=$(curl --location --request GET "https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls?head=$CIRCLE_PROJECT_USERNAME:$CIRCLE_BRANCH&state=open" \
-            -u $GH_USER:$GH_API)
-          if [ $(echo $pr_response | jq length) -eq 0 ]; then
+          echo "$CIRCLE_BRANCH"
+          pr_response=$(curl -s --location --request GET "https://api.github.com/repos/falgon/roki-web/pulls?head=falgon:$CIRCLE_BRANCH&state=open")
+          if [ -z "$pr_response" ]; then
             echo "No PR found to update"
           else
             pr_comment_url=$(echo $pr_response | jq -r ".[]._links.comments.href")
-            curl --location --request POST "$pr_comment_url" \
-              -u $GH_USER:$GH_API \
-              --header 'Content-Type: application/json' \
-              --data-raw "{
-                \"body\": \"<img src=\"$BADGE\" alt=\"circle ci status badge\" /> * $ARTIFACTS_URL\"
-              }"
+            curl -X POST \
+              -H 'Content-Type:application/json' \
+              -d '{"body":"![circle ci status badge]('"$BADGE"') * URL: <'"$ARTIFACTS_URL"'>"}' \
+              "$pr_comment_url?access_token=$YBGH_TOKEN"
           fi
 
 workflows:

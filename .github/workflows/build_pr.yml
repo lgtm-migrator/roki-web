@@ -9,10 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'falgon/roki-web'
     steps:
-    - name: Set current branch name
-      shell: bash
-      run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-      id: myref
     - name: Set doc hash value
       shell: bash
       run: echo "::set-output name=hash::${GITHUB_SHA}"
@@ -73,7 +69,7 @@ jobs:
           echo ::set-env name=CIRCLE_RESP::$(curl -s -u ${{ secrets.CIRCLE_API_USER_TOKEN }}: \
             -X POST \
             -H "Content-Type: application/json" \
-            -d '{"branch":"${{ steps.myref.outputs.branch }}","parameters":{"GITHUB_SHA":"${{ steps.myhash.outputs.hash }}"}}' \
+            -d '{"branch":"${{ github.event.pull_request.head.ref }}","parameters":{"GITHUB_SHA":"${{ steps.myhash.outputs.hash }}"}}' \
             https://circleci.com/api/v2/project/gh/falgon/roki-web/pipeline)
     - name: Set CircleCI variables
       id: cc
