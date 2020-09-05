@@ -43,7 +43,11 @@ $ stack exec site -- build # release build
 
 ## System overview
 
-![system overview](https://user-images.githubusercontent.com/1241783/90969880-d99b8a00-e538-11ea-8f35-684365e14406.png)
+### Overview of blog posts and website system updates
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/1241783/90969880-d99b8a00-e538-11ea-8f35-684365e14406.png" width="640" alt="system overview" />
+</p>
 
 * [roki-web](https://github.com/falgon/roki-web) (this repository)
 * [roki-web-post](https://github.com/falgon/roki-web-post) (private repository)
@@ -52,6 +56,14 @@ $ stack exec site -- build # release build
 has been very helpful in building this system. 
 Thanks for it.
 
+### Overview of preview function accompanying PR
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/1241783/92309894-3fc9e780-efe4-11ea-88f2-29697c54b156.png" height="450px" alt="pr" />
+</p>
+
+When PR is issued, artifact is built on CircleCI as shown above and it is possible to preview.
+Also, the bot [@kiirotori](https://github.com/kiirotori) will add a comment containing the URL of the preview site and the URL of the circleci JOB log that can be displayed in the artifact.
 
 ## History
 
@@ -80,17 +92,9 @@ and commits to a specific branch in that repository are triggered and pushed to 
 This makes it possible to make open source and keep drafts private, 
 improving and integrating the previously separated management form.
 
-## License
+## License [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffalgon%2Froki-web.svg?type=small)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffalgon%2Froki-web?ref=badge_small) 
 
-* [Bulma](https://bulma.io/): [MIT License](https://github.com/jgthms/bulma/blob/master/LICENSE)
-* [D3.js](https://d3js.org/): [BSD 3-Clause "New" or "Revised" License](https://github.com/d3/d3/blob/master/LICENSE)
-* [FontAwesome Free](https://github.com/FortAwesome/Font-Awesome)
-    * Font Awesome Icons: [SIL Open Font Liscense](https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
-    * Font Awesome Code: [MIT License](https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
-* [KaTeX](https://github.com/Khan/KaTeX): [MIT License](https://github.com/Khan/KaTeX/blob/master/LICENSE.txt)
-* [math.js](https://mathjs.org/): [Apache 2.0](https://github.com/josdejong/mathjs/blob/develop/LICENSE)
-
-Licenses of this project is managed by [FOSSA](https://fossa.com/) (you can see above "license scan" badge and [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffalgon%2Froki-web.svg?type=small)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffalgon%2Froki-web?ref=badge_small) ).
+Licenses of this project is managed by [FOSSA](https://fossa.com/) (you can see above "license scan" badge).
 For more details, you can see [the dependency report of FOSSA](https://app.fossa.com/projects/git%2Bgithub.com%2Ffalgon%2Froki-web?utm_source=share_link).
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffalgon%2Froki-web.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffalgon%2Froki-web?ref=badge_large)
