@@ -19,5 +19,6 @@ updates:
     labels:
       - "dependabot/npm"
       - "dependencies"
+      - "automerge"
     pull-request-branch-name:
       separator: "/"
