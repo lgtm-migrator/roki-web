@@ -287,6 +287,64 @@ push してしまった！等という事故を防ぎやすくなる.<br /><br /
 この回避策に関しては, [create pull request という GitHub Actions のドキュメント](https://github.com/peter-evans/create-pull-request/blob/8f96fd02520b1086ddc0ec0625b6b5814fb0e694/docs/concepts-guidelines.md#triggering-further-workflow-runs)中に記載があるので,
 必要ならば参照すると良いかもしれない.
 
+### PR に対するプレビュー
+
+依存パッケージのバージョン更新や追跡等を Bot に管理させると管理コストを抑えることが出来る.
+このブログも依存パッケージのバージョン更新, 追跡は [Dependabot](https://dependabot.com/)
+を利用することで行っているが,
+こういった PR を自動で発行してくれるような Bot を運用する上では,
+人間はもはやマージボタンをただ押せば良いだけ, という環境を極力整備したいものである.
+しかし, 今回のようなウェブサイトのプロジェクトの場合,
+テスト実行のみではどうしても保守ができない箇所が発生するし,
+マージする前に念の為一度実際にプレビューを見ておきたいといった理由で,
+Dependabot から投げられてきた PR をただそのままマージするといったことが出来ない場合がある.
+手元にプルしてきて毎度確かめればそれは勿論プレビューができるわけだが,
+前述したように, こちらは出来る限りボタンをぽちぽちするだけで完結したい.
+<br />
+そこで, 
+今回は [CirCle CI の Artifacts](https://circleci.com/docs/ja/2.0/artifacts/) を用いて,
+PR (のコミット) 毎にプレビューを閲覧できるようにした.
+CircleCI の Artifacts は (本エントリ執筆時点において) GitHub Actions と異なり,
+Artifacts に対するブラウジングが可能となっており, 
+従って, そこに HTML ファイルを配置すれば, 
+ビルド毎の一時的なウェブサイトが確認できるようになる[^7].
+
+![PR とプレビュー生成の概観](./pr.png "PR とプレビューの概観"){ width=640px }
+
+PR に対するプレビュー生成の概観は上図のようになっている.
+まず GitHub Actions が PR をトリガーに内部でウェブサイトを生成し,
+Google Drive にアップロードする. このとき, アップロードする tarball 
+にはプレフィックスとしてコミットハッシュ値をつけておく.
+その後 GitHub Actions が CircleCI の job を起動する.
+このとき, コミットハッシュ値をパラメータとして付加して起動する.
+CircleCI は与えられたコミットハッシュ値を参考に Google Drive から Artifacts tarball をダウンロード,
+Google Drive から削除し,
+CircleCI 上の Artifacts に展開する.
+そして, 最後にその job のログが見れる URL と展開された Artifacts の index.html の URL 
+を該当 PR にコメントする.<br />
+
+さて, このような仕組みになっているのにはいくつかの理由がある.
+まず第一に, 
+Artifacts としてアップロードするウェブサイトを CircleCI 
+上ではビルドしないようにする必要があったということである.
+[CircleCI は 1 job につきデフォルトで 4GB の RAM が割り当てられる](https://circleci.com/docs/ja/2.0/configuration-reference/#resource_class)が,
+このウェブサイトをビルドする際に使われる Cabal という Hakyll の依存パッケージをビルドする際に,
+メモリリソース不足となってしまい CircleCI 上ではビルドできないのである.
+`-j1` で事前ビルドしたりといった回避策も試行してみたものの, 私の場合では虚しく,
+これらの工夫を施した上でもメモリリソース不足となってしまった.
+
+<blockquote class="twitter-tweet tw-align-center"><p lang="en" dir="ltr">ﾌｧｰ<br>“Process exited with code: ExitFailure (-9) (THIS MAY INDICATE OUT OF MEMORY)” <a href="https://t.co/qHgFGSyCgs">https://t.co/qHgFGSyCgs</a></p>&mdash; Roki (@530506) <a href="https://twitter.com/530506/status/1300768211399446528?ref_src=twsrc%5Etfw">September 1, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+よって, CircleCI 上でのビルドは断念せざるを得なかった, というのと,
+GitHub Actions 上でそもそもビルドを行っており,
+そこでビルドした tarball を利用出来た方が無駄がないという理由により,
+このような構成となった.
+Google Drive にアップロードするのではなく, GitHub Artifacts 上の Artifacts の URL を 
+CircleCI に渡してダウンロードすれば良いのでは？と考えるかもしれないが,
+残念ながら, 本エントリの執筆時点においては, [ワークフローの実行中に Artifacts URL 
+を取得することは不可能](https://github.com/actions/upload-artifact/issues/50#issuecomment-639170787)なので,
+そのような対応はできなかった.
+
 ## 総括
 
 ここまで振り返ってみて, 割とまだまだ拘れる点はあると感じている.
@@ -306,3 +364,4 @@ push してしまった！等という事故を防ぎやすくなる.<br /><br /
 [^4]: 同様の取り組みをされているサイトがいくつかあったため, 大いに参考とさせて頂いた.
 [^5]: これにより, 例えば比較的多くの数式を使っている「[エルガマル暗号](/roki.log/2018/07/13/elgamalEncryption/index.html)」といった記事について, Google PageSpeed Insights で何度か計測した結果, [旧ブログ記事](https://falgon.github.io/roki.log/posts/2018/%207%E6%9C%88/13/elgamalEncryption/)と比較してインタラクティブになるまでの時間が PC で平均 7 倍, モバイルで平均 5 倍高速になった (てきとう調べ)
 [^6]: あくまで設定のための言語であり, チューリング完全ではない. Dhall については, 別途なにか記事を書きたい...
+[^7]: GitHub Actions にブラウジング Artifacts 機能が追加される予定があるかに関して [Support Community](https://github.community/t/browsing-artifacts/16954) にも話題が挙がっている.
