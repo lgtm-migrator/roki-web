@@ -262,6 +262,21 @@ site-system git@github.com:falgon/roki-web.git (push)</code></pre>
 <p>When you use the repository’s GITHUB_TOKEN to perform tasks on behalf of the GitHub Actions app, events triggered by the GITHUB_TOKEN will not create a new workflow run.</p>
 </blockquote>
 <p>この回避策に関しては, <a href="https://github.com/peter-evans/create-pull-request/blob/8f96fd02520b1086ddc0ec0625b6b5814fb0e694/docs/concepts-guidelines.md#triggering-further-workflow-runs" target="_blank" rel="nofollow noopener">create pull request という GitHub Actions のドキュメント</a>中に記載があるので, 必要ならば参照すると良いかもしれない.</p>
+<h3 id="pr-に対するプレビュー">PR に対するプレビュー</h3>
+<p>依存パッケージのバージョン更新や追跡等を Bot に管理させると管理コストを抑えることが出来る. このブログも依存パッケージのバージョン更新, 追跡は <a href="https://dependabot.com/" target="_blank" rel="nofollow noopener">Dependabot</a> を利用することで行っているが, こういった PR を自動で発行してくれるような Bot を運用する上では, 人間はもはやマージボタンをただ押せば良いだけ, という環境を極力整備したいものである. しかし, 今回のようなウェブサイトのプロジェクトの場合, テスト実行のみではどうしても保守ができない箇所が発生するし, マージする前に念の為一度実際にプレビューを見ておきたいといった理由で, Dependabot から投げられてきた PR をただそのままマージするといったことが出来ない場合がある. 手元にプルしてきて毎度確かめればそれは勿論プレビューができるわけだが, 前述したように, こちらは出来る限りボタンをぽちぽちするだけで完結したい. <br /> そこで, 今回は <a href="https://circleci.com/docs/ja/2.0/artifacts/" target="_blank" rel="nofollow noopener">CirCle CI の Artifacts</a> を用いて, PR (のコミット) 毎にプレビューを閲覧できるようにした. CircleCI の Artifacts は (本エントリ執筆時点において) GitHub Actions と異なり, Artifacts に対するブラウジングが可能となっており, 従って, そこに HTML ファイルを配置すれば, ビルド毎の一時的なウェブサイトが確認できるようになる<a href="../../../../../roki.log/2020/08/25/hello-roki-web/#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>.</p>
+<figure>
+<img src="../../../../../roki.log/2020/08/25/hello-roki-web/pr.png" title="PR とプレビューの概観" width="640" alt /><figcaption>PR とプレビュー生成の概観</figcaption>
+</figure>
+<p>PR に対するプレビュー生成の概観は上図のようになっている. まず GitHub Actions が PR をトリガーに内部でウェブサイトを生成し, Google Drive にアップロードする. このとき, アップロードする tarball にはプレフィックスとしてコミットハッシュ値をつけておく. その後 GitHub Actions が CircleCI の job を起動する. このとき, コミットハッシュ値をパラメータとして付加して起動する. CircleCI は与えられたコミットハッシュ値を参考に Google Drive から Artifacts tarball をダウンロード, Google Drive から削除し, CircleCI 上の Artifacts に展開する. そして, 最後にその job のログが見れる URL と展開された Artifacts の index.html の URL を該当 PR にコメントする.<br /></p>
+<p>さて, このような仕組みになっているのにはいくつかの理由がある. まず第一に, Artifacts としてアップロードするウェブサイトを CircleCI 上ではビルドしないようにする必要があったということである. <a href="https://circleci.com/docs/ja/2.0/configuration-reference/#resource_class" target="_blank" rel="nofollow noopener">CircleCI は 1 job につきデフォルトで 4GB の RAM が割り当てられる</a>が, このウェブサイトをビルドする際に使われる Cabal という Hakyll の依存パッケージをビルドする際に, メモリリソース不足となってしまい CircleCI 上ではビルドできないのである. <code>-j1</code> で事前ビルドしたりといった回避策も試行してみたものの, 私の場合では虚しく, これらの工夫を施した上でもメモリリソース不足となってしまった.</p>
+<blockquote class="twitter-tweet tw-align-center">
+<p lang="en" dir="ltr">
+ﾌｧｰ<br>“Process exited with code: ExitFailure (-9) (THIS MAY INDICATE OUT OF MEMORY)” <a href="https://t.co/qHgFGSyCgs" target="_blank" rel="nofollow noopener">https://t.co/qHgFGSyCgs</a>
+</p>
+— Roki (@530506) <a href="https://twitter.com/530506/status/1300768211399446528?ref_src=twsrc%5Etfw" target="_blank" rel="nofollow noopener">September 1, 2020</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>よって, CircleCI 上でのビルドは断念せざるを得なかった, というのと, GitHub Actions 上でそもそもビルドを行っており, そこでビルドした tarball を利用出来た方が無駄がないという理由により, このような構成となった. Google Drive にアップロードするのではなく, GitHub Artifacts 上の Artifacts の URL を CircleCI に渡してダウンロードすれば良いのでは？と考えるかもしれないが, 残念ながら, 本エントリの執筆時点においては, <a href="https://github.com/actions/upload-artifact/issues/50#issuecomment-639170787" target="_blank" rel="nofollow noopener">ワークフローの実行中に Artifacts URL を取得することは不可能</a>なので, そのような対応はできなかった.</p>
 <h2 id="総括">総括</h2>
 <p>ここまで振り返ってみて, 割とまだまだ拘れる点はあると感じている. 例えば, テンプレートの Lucid 化だとか, 現在の実装をもう少しモナドの合成等ですっきり表せないか等である. 一応, このブログ, ウェブページを構築した際に何をやったのかまとめやすいように, 構築するのに行った大体のタスクについて<a href="https://github.com/falgon/roki-web/issues?q=is%3Aissue+label%3Ainit-build+" target="_blank" rel="nofollow noopener">ラベルをつけておいた</a>ので, 気になる場合は見てみても良いかもしれない. そのようなわけで, 今後はこのブログ, ウェブサイトを使って以前と同様何かしら書いていければと思っているので, (お手柔らかに) よろしくお願い致します.</p>
 <section class="footnotes" role="doc-endnotes">
@@ -273,6 +288,7 @@ site-system git@github.com:falgon/roki-web.git (push)</code></pre>
 <li id="fn4" role="doc-endnote"><p>同様の取り組みをされているサイトがいくつかあったため, 大いに参考とさせて頂いた.<a href="../../../../../roki.log/2020/08/25/hello-roki-web/#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5" role="doc-endnote"><p>これにより, 例えば比較的多くの数式を使っている「<a href="../../../../../roki.log/2018/07/13/elgamalEncryption/index.html">エルガマル暗号</a>」といった記事について, Google PageSpeed Insights で何度か計測した結果, <a href="https://falgon.github.io/roki.log/posts/2018/%207%E6%9C%88/13/elgamalEncryption/" target="_blank" rel="nofollow noopener">旧ブログ記事</a>と比較してインタラクティブになるまでの時間が PC で平均 7 倍, モバイルで平均 5 倍高速になった (てきとう調べ)<a href="../../../../../roki.log/2020/08/25/hello-roki-web/#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6" role="doc-endnote"><p>あくまで設定のための言語であり, チューリング完全ではない. Dhall については, 別途なにか記事を書きたい…<a href="../../../../../roki.log/2020/08/25/hello-roki-web/#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>GitHub Actions にブラウジング Artifacts 機能が追加される予定があるかに関して <a href="https://github.community/t/browsing-artifacts/16954" target="_blank" rel="nofollow noopener">Support Community</a> にも話題が挙がっている.<a href="../../../../../roki.log/2020/08/25/hello-roki-web/#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
                 </section>
