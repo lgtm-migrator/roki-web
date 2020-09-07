@@ -313,37 +313,48 @@ Artifacts に対するブラウジングが可能となっており,
 
 PR に対するプレビュー生成の概観は上図のようになっている.
 まず GitHub Actions が PR をトリガーに内部でウェブサイトを生成し,
-Google Drive にアップロードする. このとき, アップロードする tarball 
+Google Drive にアップロードする. ここで, アップロードする tarball 
 にはプレフィックスとしてコミットハッシュ値をつけておく.
 その後 GitHub Actions が CircleCI の job を起動する.
 このとき, コミットハッシュ値をパラメータとして付加して起動する.
-CircleCI は与えられたコミットハッシュ値を参考に Google Drive から Artifacts tarball をダウンロード,
-Google Drive から削除し,
+CircleCI は与えられたコミットハッシュ値を参考に Google Drive から 
+Artifacts tarball をダウンロード, Google Drive から削除し,
 CircleCI 上の Artifacts に展開する.
-そして, 最後にその job のログが見れる URL と展開された Artifacts の index.html の URL 
-を該当 PR にコメントする.<br />
+そして, 最後に Bot がその job のログが見れる URL と展開された 
+Artifacts の index.html の URL を該当 PR にコメントする.<br />
+以上により, 手元でプルしてビルドして...といったプレビュー作業を自分で行うことなく,
+一時的なプレビューサイトを事前に確認することができるようになっている.
+<br />
 
-さて, このような仕組みになっているのにはいくつかの理由がある.
+さて, このようにいくつかのサービスを横断させているのにはそれなりの理由がある.
 まず第一に, 
 Artifacts としてアップロードするウェブサイトを CircleCI 
-上ではビルドしないようにする必要があったということである.
-[CircleCI は 1 job につきデフォルトで 4GB の RAM が割り当てられる](https://circleci.com/docs/ja/2.0/configuration-reference/#resource_class)が,
-このウェブサイトをビルドする際に使われる Cabal という Hakyll の依存パッケージをビルドする際に,
-メモリリソース不足となってしまい CircleCI 上ではビルドできないのである.
+上ではビルドしないように済ませる必要があった, ということ.
+[CircleCI は 1 job につきデフォルトで 4GB の RAM 
+が割り当てられる](https://circleci.com/docs/ja/2.0/configuration-reference/#resource_class)が,
+このウェブサイトをビルドする際に使われる Cabal という Hakyll 
+の依存パッケージをビルドすると CircleCI 上ではどうしてもメモリリソース不足となってしまい,
+ビルドができなかった.
 `-j1` で事前ビルドしたりといった回避策も試行してみたものの, 私の場合では虚しく,
-これらの工夫を施した上でもメモリリソース不足となってしまった.
+メモリリソース不足となってしまった.
 
 <blockquote class="twitter-tweet tw-align-center"><p lang="en" dir="ltr">ﾌｧｰ<br>“Process exited with code: ExitFailure (-9) (THIS MAY INDICATE OUT OF MEMORY)” <a href="https://t.co/qHgFGSyCgs">https://t.co/qHgFGSyCgs</a></p>&mdash; Roki (@530506) <a href="https://twitter.com/530506/status/1300768211399446528?ref_src=twsrc%5Etfw">September 1, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 よって, CircleCI 上でのビルドは断念せざるを得なかった, というのと,
-GitHub Actions 上でそもそもビルドを行っており,
-そこでビルドした tarball を利用出来た方が無駄がないという理由により,
-このような構成となった.
-Google Drive にアップロードするのではなく, GitHub Artifacts 上の Artifacts の URL を 
-CircleCI に渡してダウンロードすれば良いのでは？と考えるかもしれないが,
-残念ながら, 本エントリの執筆時点においては, [ワークフローの実行中に Artifacts URL 
-を取得することは不可能](https://github.com/actions/upload-artifact/issues/50#issuecomment-639170787)なので,
-そのような対応はできなかった.
+GitHub Actions 上でそもそもビルドを行っていたので,
+そこでビルドした tarball をそのまま利用出来た方が無駄がないという面もあり,
+わざわざ CircleCI 上でビルドを行う必然性も特になかったので,
+今回は Artifacts のみを利用することで対応している.
+
+第二に, 
+[ワークフローの実行中に Artifacts URL を取得することが不可能](https://github.com/actions/upload-artifact/issues/50#issuecomment-639170787)であったということ.
+GitHub Actions の Artifacts の URL を 
+CircleCI に渡してダウンロードさせることが出来れば理想的だが, 
+この URL の取得は GitHub Actions の仕様上できないので,
+ワークフローの内部でビルドした成果物を GitHub Actions Artifacts にアップロードするのではなく,
+Google Drive 
+といった外部のストレージサービスへアップロードすることで対応を行わざるを得なかった.
+
 
 ## 総括
 
