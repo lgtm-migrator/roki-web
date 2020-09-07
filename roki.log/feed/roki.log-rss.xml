@@ -111,8 +111,8 @@ site-system git@github.com:falgon/roki-web.git (push)</code></pre>
 <figure>
 <img src="/roki.log/2020/08/25/hello-roki-web/pr.png" title="PR とプレビューの概観" width="640" alt /><figcaption>PR とプレビュー生成の概観</figcaption>
 </figure>
-<p>PR に対するプレビュー生成の概観は上図のようになっている. まず GitHub Actions が PR をトリガーに内部でウェブサイトを生成し, Google Drive にアップロードする. このとき, アップロードする tarball にはプレフィックスとしてコミットハッシュ値をつけておく. その後 GitHub Actions が CircleCI の job を起動する. このとき, コミットハッシュ値をパラメータとして付加して起動する. CircleCI は与えられたコミットハッシュ値を参考に Google Drive から Artifacts tarball をダウンロード, Google Drive から削除し, CircleCI 上の Artifacts に展開する. そして, 最後にその job のログが見れる URL と展開された Artifacts の index.html の URL を該当 PR にコメントする.<br /></p>
-<p>さて, このような仕組みになっているのにはいくつかの理由がある. まず第一に, Artifacts としてアップロードするウェブサイトを CircleCI 上ではビルドしないようにする必要があったということである. <a href="https://circleci.com/docs/ja/2.0/configuration-reference/#resource_class">CircleCI は 1 job につきデフォルトで 4GB の RAM が割り当てられる</a>が, このウェブサイトをビルドする際に使われる Cabal という Hakyll の依存パッケージをビルドする際に, メモリリソース不足となってしまい CircleCI 上ではビルドできないのである. <code>-j1</code> で事前ビルドしたりといった回避策も試行してみたものの, 私の場合では虚しく, これらの工夫を施した上でもメモリリソース不足となってしまった.</p>
+<p>PR に対するプレビュー生成の概観は上図のようになっている. まず GitHub Actions が PR をトリガーに内部でウェブサイトを生成し, Google Drive にアップロードする. ここで, アップロードする tarball にはプレフィックスとしてコミットハッシュ値をつけておく. その後 GitHub Actions が CircleCI の job を起動する. このとき, コミットハッシュ値をパラメータとして付加して起動する. CircleCI は与えられたコミットハッシュ値を参考に Google Drive から Artifacts tarball をダウンロード, Google Drive から削除し, CircleCI 上の Artifacts に展開する. そして, 最後に Bot がその job のログが見れる URL と展開された Artifacts の index.html の URL を該当 PR にコメントする.<br /> 以上により, 手元でプルしてビルドして…といったプレビュー作業を自分で行うことなく, 一時的なプレビューサイトを事前に確認することができるようになっている. <br /></p>
+<p>さて, このようにいくつかのサービスを横断させているのにはそれなりの理由がある. まず第一に, Artifacts としてアップロードするウェブサイトを CircleCI 上ではビルドしないように済ませる必要があった, ということ. <a href="https://circleci.com/docs/ja/2.0/configuration-reference/#resource_class">CircleCI は 1 job につきデフォルトで 4GB の RAM が割り当てられる</a>が, このウェブサイトをビルドする際に使われる Cabal という Hakyll の依存パッケージをビルドすると CircleCI 上ではどうしてもメモリリソース不足となってしまい, ビルドができなかった. <code>-j1</code> で事前ビルドしたりといった回避策も試行してみたものの, 私の場合では虚しく, メモリリソース不足となってしまった.</p>
 <blockquote class="twitter-tweet tw-align-center">
 <p lang="en" dir="ltr">
 ﾌｧｰ<br>“Process exited with code: ExitFailure (-9) (THIS MAY INDICATE OUT OF MEMORY)” <a href="https://t.co/qHgFGSyCgs">https://t.co/qHgFGSyCgs</a>
@@ -120,7 +120,8 @@ site-system git@github.com:falgon/roki-web.git (push)</code></pre>
 — Roki (@530506) <a href="https://twitter.com/530506/status/1300768211399446528?ref_src=twsrc%5Etfw">September 1, 2020</a>
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p>よって, CircleCI 上でのビルドは断念せざるを得なかった, というのと, GitHub Actions 上でそもそもビルドを行っており, そこでビルドした tarball を利用出来た方が無駄がないという理由により, このような構成となった. Google Drive にアップロードするのではなく, GitHub Artifacts 上の Artifacts の URL を CircleCI に渡してダウンロードすれば良いのでは？と考えるかもしれないが, 残念ながら, 本エントリの執筆時点においては, <a href="https://github.com/actions/upload-artifact/issues/50#issuecomment-639170787">ワークフローの実行中に Artifacts URL を取得することは不可能</a>なので, そのような対応はできなかった.</p>
+<p>よって, CircleCI 上でのビルドは断念せざるを得なかった, というのと, GitHub Actions 上でそもそもビルドを行っていたので, そこでビルドした tarball をそのまま利用出来た方が無駄がないという面もあり, わざわざ CircleCI 上でビルドを行う必然性も特になかったので, 今回は Artifacts のみを利用することで対応している.</p>
+<p>第二に, <a href="https://github.com/actions/upload-artifact/issues/50#issuecomment-639170787">ワークフローの実行中に Artifacts URL を取得することが不可能</a>であったということ. GitHub Actions の Artifacts の URL を CircleCI に渡してダウンロードさせることが出来れば理想的だが, この URL の取得は GitHub Actions の仕様上できないので, ワークフローの内部でビルドした成果物を GitHub Actions Artifacts にアップロードするのではなく, Google Drive といった外部のストレージサービスへアップロードすることで対応を行わざるを得なかった.</p>
 <h2 id="総括">総括</h2>
 <p>ここまで振り返ってみて, 割とまだまだ拘れる点はあると感じている. 例えば, テンプレートの Lucid 化だとか, 現在の実装をもう少しモナドの合成等ですっきり表せないか等である. 一応, このブログ, ウェブページを構築した際に何をやったのかまとめやすいように, 構築するのに行った大体のタスクについて<a href="https://github.com/falgon/roki-web/issues?q=is%3Aissue+label%3Ainit-build+">ラベルをつけておいた</a>ので, 気になる場合は見てみても良いかもしれない. そのようなわけで, 今後はこのブログ, ウェブサイトを使って以前と同様何かしら書いていければと思っているので, (お手柔らかに) よろしくお願い致します.</p>
 <section class="footnotes" role="doc-endnotes">
