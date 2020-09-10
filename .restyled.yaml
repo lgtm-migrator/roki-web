@@ -3,6 +3,9 @@ restylers:
   - name: stylish-haskell
     include:
       - "**/*.hs"
+  - name: dhall-format
+    include:
+      - "**/*.dhall"
 pull_requests: true
 statuses:
   differences: true
