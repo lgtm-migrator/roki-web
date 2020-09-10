@@ -1,6 +1,1 @@
-{ 
-    projName : Text,
-    lang : Text,
-    summary : Text,
-    projLink : Text
-} : Type
+{ projName : Text, lang : Text, summary : Text, projLink : Text } : Type
