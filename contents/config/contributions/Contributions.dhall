@@ -58,5 +58,10 @@ in    [ { text = "cpprefjp: Fix typo #388"
         , genre = g.genreToText (g.Genre.Cpp {=})
         , date = { yyyy = 2019, mm = 6, dd = 11 }
         }
+      , { text = "restyled-io/restylers: Add dhall format"
+        , link = "https://github.com/restyled-io/restylers/pull/96"
+        , genre = g.genreToText (g.Genre.Dhall {=})
+        , date = { yyyy = 2020, mm = 9, dd = 11 }
+        }
       ]
     : List ./Type/Contribute.dhall
