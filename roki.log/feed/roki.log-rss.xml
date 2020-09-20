@@ -1529,11 +1529,11 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 二項関係 <span class="math inline">R\subseteq A\times B</span>, また <span class="math inline">x,y\in A\cap B</span> があって, <span class="math inline">\left\lt x,y\right\gt\in R</span> に対し <span class="math inline">\left\lt y,x\right\gt\in R</span> が存在するならば <span class="math inline">x=y</span> のとき, <span class="math inline">R</span> は反対象律を満たすという.
 </div>
 </div>
-<p>例えば, 集合 <span class="math inline">A={a_1,a_2}</span> に対して 二項関係を:</p>
+<p>例えば, 集合 <span class="math inline">A=\{a_1,a_2\}</span> に対して 二項関係を:</p>
 <ul>
-<li><span class="math inline">R={\left\lt a_1,a_1\right\gt,\left\lt a_2,a_2\right\gt}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対象律</a>を満たし) 反対象律を満たす. なお, これは<a href="/roki.log/2019/03/15/Relation/#equiv_relation">同値律</a>を満たす.</li>
-<li><span class="math inline">R={\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対象律</a>を満たさないが) 反対象律を満たす.</li>
-<li><span class="math inline">R={\left\lt a_1,a_2\right\gt,\left\lt a_2,a_1\right\gt}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対象律</a>を満たすが) 反対象律を満たさない.</li>
+<li><span class="math inline">R=\{\left\lt a_1,a_1\right\gt,\left\lt a_2,a_2\right\gt\}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対象律</a>を満たし) 反対象律を満たす. なお, これは<a href="/roki.log/2019/03/15/Relation/#equiv_relation">同値律</a>を満たす.</li>
+<li><span class="math inline">R=\{\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt\}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対象律</a>を満たさないが) 反対象律を満たす.</li>
+<li><span class="math inline">R=\{\left\lt a_1,a_2\right\gt,\left\lt a_2,a_1\right\gt\}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対象律</a>を満たすが) 反対象律を満たさない.</li>
 </ul>
 <p>反対象律の特徴を挙げると:</p>
 <ul>
@@ -1572,15 +1572,15 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 <a href="/roki.log/2019/03/15/Relation/#previous_order">前順序関係</a> <span class="math inline">R</span> が集合 <span class="math inline">A</span> 上で<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対象律</a>を満たすとき, <span class="math inline">R</span> は <span class="math inline">A</span> 上で同値律を満たすという. また:
 <ul>
 <li>
-<span class="math inline">{y\in X\mid xRy}</span> を <span class="math inline">x</span> の同値類といい, <span class="math inline">\left[x\right]_R</span> や <span class="math inline">\left[x\right]</span> と書く. このときの <span class="math inline">x</span> は, 同値類 <span class="math inline">\left[x\right]</span> の代表元という
+<span class="math inline">\{y\in X\mid xRy\}</span> を <span class="math inline">x</span> の同値類といい, <span class="math inline">\left[x\right]_R</span> や <span class="math inline">\left[x\right]</span> と書く. このときの <span class="math inline">x</span> は, 同値類 <span class="math inline">\left[x\right]</span> の代表元という
 </li>
 <li>
-集合 <span class="math inline">A</span> 上の同値関係 <span class="math inline">R</span> の同値類全体から成る集合 <span class="math inline">{[a]\mid a\in A}</span> を商集合といい, <span class="math inline">A/R</span> と書く
+集合 <span class="math inline">A</span> 上の同値関係 <span class="math inline">R</span> の同値類全体から成る集合 <span class="math inline">\{[a]\mid a\in A\}</span> を商集合といい, <span class="math inline">A/R</span> と書く
 </li>
 </ul>
 </div>
 </div>
-<p>まず自明な例でいえば, <span class="math inline">=</span> は, 空でない任意の集合上で同値関係にあるといえる. ほかに, 例えば, 整数の集合 <span class="math inline">\mathbb{Z}</span> について <span class="math inline">R</span> を整数 <span class="math inline">p\in\mathbb{Z}</span> を法とする合同関係 <span class="math inline">\equiv_p</span> とおくと, <span class="math inline">R</span> は <span class="math inline">\mathbb{Z}</span> 上の同値関係となる. <span class="math display">R=\equiv_p={\left\lt m,n\right\gt\mid m,n\in\mathbb{Z}, m {\rm と}\ n\ {\rm は}\ p\ {\rm で割ったときの余りが等しい}}\subseteq\mathbb{Z}^2</span> 一つ一つ確認してみると</p>
+<p>まず自明な例でいえば, <span class="math inline">=</span> は, 空でない任意の集合上で同値関係にあるといえる. ほかに, 例えば, 整数の集合 <span class="math inline">\mathbb{Z}</span> について <span class="math inline">R</span> を整数 <span class="math inline">p\in\mathbb{Z}</span> を法とする合同関係 <span class="math inline">\equiv_p</span> とおくと, <span class="math inline">R</span> は <span class="math inline">\mathbb{Z}</span> 上の同値関係となる. <span class="math display">R=\equiv_p=\{\left\lt m,n\right\gt\mid m,n\in\mathbb{Z}, m {\rm と}\ n\ {\rm は}\ p\ {\rm で割ったときの余りが等しい}\}\subseteq\mathbb{Z}^2</span> 一つ一つ確認してみると</p>
 <ul>
 <li>反射律: 任意の <span class="math inline">m\in\mathbb{Z}</span> に対して <span class="math inline">m-m=0\cdot p</span> なので <span class="math inline">m\equiv_p m</span></li>
 <li>推移律: 任意の <span class="math inline">m,n,k\in\mathbb{Z}</span> に対して <span class="math inline">m\equiv_p n</span> かつ <span class="math inline">n\equiv_p k</span> と仮定すると, ある <span class="math inline">d,d'\in\mathbb{Z}</span> に対して <span class="math inline">m-n=d\cdot p</span> かつ <span class="math inline">n-k=d'\cdot p</span> で, このとき <span class="math inline">m-k=(m-n)+(n-k)=(d+d')\cdot p</span> である. <span class="math inline">d+d'\in\mathbb{Z}</span> なので, <span class="math inline">m\equiv_p k</span></li>
@@ -1646,10 +1646,10 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 <span class="math inline">^\exists x\in X\ {\rm s.t.}\ x\gtrsim a</span> なる <span class="math inline">x</span> が存在するならば <span class="math inline">A</span> は下に有界であるといい, <span class="math inline">x</span> を <span class="math inline">A</span> の下界という.
 </li>
 <li>
-<span class="math inline">A</span> の上界全体の集合 <span class="math inline">B={x\in X | a\lesssim x}</span> の最小要素 <span class="math inline">\min B</span> を <span class="math inline">A</span> の上限, または最小上界といい, <span class="math inline">\sup A</span> と書く.
+<span class="math inline">A</span> の上界全体の集合 <span class="math inline">B=\{x\in X | a\lesssim x\}</span> の最小要素 <span class="math inline">\min B</span> を <span class="math inline">A</span> の上限, または最小上界といい, <span class="math inline">\sup A</span> と書く.
 </li>
 <li>
-<span class="math inline">A</span> の下界全体の集合 <span class="math inline">B={x\in X | x\lesssim a}</span> の最大要素 <span class="math inline">\max B</span> を <span class="math inline">A</span> の下限, または最大下限といい, <span class="math inline">\inf A</span> と書く.
+<span class="math inline">A</span> の下界全体の集合 <span class="math inline">B=\{x\in X | x\lesssim a\}</span> の最大要素 <span class="math inline">\max B</span> を <span class="math inline">A</span> の下限, または最大下限といい, <span class="math inline">\inf A</span> と書く.
 </li>
 </ul>
 </div>
@@ -1665,11 +1665,11 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 <p>集合 <span class="math inline">A\not=\emptyset</span> と<a href="/roki.log/2019/03/15/Relation/#previous_order">前順序関係</a> <span class="math inline">R</span> との組 <span class="math inline">(A,R)</span> に対し, <span class="math inline">A</span> の任意の有限部分集合 <span class="math inline">X\subseteq A</span> の上界 <span class="math inline">\sup X\in A</span> が存在するとき, <span class="math inline">A</span> を有向 (directed) 集合という.</p>
 </div>
 </div>
-<p>有向集合は, <a href="/roki.log/2019/03/15/Relation/#antisymmetric_relation">反対象律</a>を要請されていないので, 必ずしも<a href="/roki.log/2019/03/15/Relation/#ordered_relation">半順序</a>集合とはならないことに注意. 例えば, 集合 <span class="math inline">A={a_1,a_2,a_3}</span> と関係 <span class="math inline">R={\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt,\left\lt a_1,a_3\right\gt, \left\lt a_2,a_2\right\gt,\left\lt a_3,a_3\right\gt,\left\lt a_3,a_1\right\gt,\left\lt a_3,a_2\right\gt}</span> の組は, 半順序でない有向集合である (<span class="math inline">\left\lt a_1,a_3\right\gt,\left\lt a_3,a_1\right\gt\in R</span> だが, <span class="math inline">a_1=a_3</span> は要請していない).</p>
+<p>有向集合は, <a href="/roki.log/2019/03/15/Relation/#antisymmetric_relation">反対象律</a>を要請されていないので, 必ずしも<a href="/roki.log/2019/03/15/Relation/#ordered_relation">半順序</a>集合とはならないことに注意. 例えば, 集合 <span class="math inline">A=\{a_1,a_2,a_3\}</span> と関係 <span class="math inline">R=\{\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt,\left\lt a_1,a_3\right\gt, \left\lt a_2,a_2\right\gt,\left\lt a_3,a_3\right\gt,\left\lt a_3,a_1\right\gt,\left\lt a_3,a_2\right\gt\}</span> の組は, 半順序でない有向集合である (<span class="math inline">\left\lt a_1,a_3\right\gt,\left\lt a_3,a_1\right\gt\in R</span> だが, <span class="math inline">a_1=a_3</span> は要請していない).</p>
 <figure style="text-align:center;" id="directed_but_not_poset_fig">
 <img src="/roki.log/2019/03/15/Relation/directed_but_not_poset.svg" />
 <figcaption>
-図 1: 集合 <span class="math inline">A={a_1,a_2,a_3}</span> と関係 <span class="math inline">R={\left\lt a_1,a_1\right\gt, \left\lt a_1,a_2\right\gt,\left\lt a_1,a_3\right\gt, \left\lt a_2,a_2\right\gt,\left\lt a_3,a_3\right\gt, \left\lt a_3,a_1\right\gt,\left\lt a_3,a_2\right\gt}</span> の有向グラフによる図示
+図 1: 集合 <span class="math inline">A=\{a_1,a_2,a_3\}</span> と関係 <span class="math inline">R=\{\left\lt a_1,a_1\right\gt, \left\lt a_1,a_2\right\gt,\left\lt a_1,a_3\right\gt, \left\lt a_2,a_2\right\gt,\left\lt a_3,a_3\right\gt, \left\lt a_3,a_1\right\gt,\left\lt a_3,a_2\right\gt\}</span> の有向グラフによる図示
 </figcaption>
 </figure>
 <div class="m-def">
@@ -1686,7 +1686,7 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 <h2 id="ハッセ図">ハッセ図</h2>
 <p>主に半順序集合の図示の方法としてよく使われるハッセ図について, 以下にいくつかの例を示す.</p>
 <p>まずは, 入門書でよく見る例題に習い, 自然数全体の集合 <span class="math inline">\mathbb{N}</span> の任意の要素 <span class="math inline">m,n\in\mathbb{N}</span> について, <span class="math inline">m</span> が <span class="math inline">n</span> を割り切ることを <span class="math inline">m\mid n</span> と書くとき<a href="/roki.log/2019/03/15/Relation/#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>, 整除関係 <span class="math inline">\mid</span> は <span class="math inline">\mathbb{N}</span> 上の半順序であることに関して考察しよう.</p>
-<p>さて, このような一つの有限半順序集合上の関係は, <a href="/roki.log/2019/03/15/Relation/#directed_but_not_poset_fig">図 1</a> と同様にして, 以下のように有向グラフにより表現できる. いま, 集合 <span class="math inline">X={n\mid n\in\mathbb{N}, 1\leq n\leq 10}</span> に対する整除関係による順序を <span class="math inline">\ll</span> で考えると, <span class="math inline">x\mid y</span> なら <span class="math inline">y</span> は必ず <span class="math inline">x</span> の後に存在する (<span class="math inline">x\lesssim y</span>) ので, 次のような有向非巡回グラフが書ける<a href="/roki.log/2019/03/15/Relation/#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>.</p>
+<p>さて, このような一つの有限半順序集合上の関係は, <a href="/roki.log/2019/03/15/Relation/#directed_but_not_poset_fig">図 1</a> と同様にして, 以下のように有向グラフにより表現できる. いま, 集合 <span class="math inline">X=\{n\mid n\in\mathbb{N}, 1\leq n\leq 10\}</span> に対する整除関係による順序を <span class="math inline">\ll</span> で考えると, <span class="math inline">x\mid y</span> なら <span class="math inline">y</span> は必ず <span class="math inline">x</span> の後に存在する (<span class="math inline">x\lesssim y</span>) ので, 次のような有向非巡回グラフが書ける<a href="/roki.log/2019/03/15/Relation/#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>.</p>
 <figure style="text-align:center;">
 <img src="/roki.log/2019/03/15/Relation/graph.svg" />
 <figcaption>
@@ -1742,7 +1742,7 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 <div class="m-def">
 <header class="m-def-title">
 <p>
-<span id="cpo_def">備半順序 (complete partial order) 集合</span>
+<span id="cpo_def">完備半順序 (complete partial order) 集合</span>
 </p>
 </header>
 <div class="m-def-content">
