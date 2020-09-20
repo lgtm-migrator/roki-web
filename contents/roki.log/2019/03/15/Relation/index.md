@@ -142,14 +142,14 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
   </div>
 </div>
 
-例えば, 集合 \\(A={a_1,a_2}\\) に対して
+例えば, 集合 \\(A=\{a_1,a_2\}\\) に対して
 二項関係を:
 
-* \\(R={\left\lt a_1,a_1\right\gt,\left\lt a_2,a_2\right\gt}\\) とおくと, \\(R\\) は \\(A\\) 上で ([対象律](#symmetric_relation)を満たし) 反対象律を満たす.
+* \\(R=\{\left\lt a_1,a_1\right\gt,\left\lt a_2,a_2\right\gt\}\\) とおくと, \\(R\\) は \\(A\\) 上で ([対象律](#symmetric_relation)を満たし) 反対象律を満たす.
 なお, これは[同値律](#equiv_relation)を満たす.
-* \\(R={\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt}\\) とおくと,
+* \\(R=\{\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt\}\\) とおくと,
 \\(R\\) は \\(A\\) 上で ([対象律](#symmetric_relation)を満たさないが) 反対象律を満たす.
-* \\(R={\left\lt a_1,a_2\right\gt,\left\lt a_2,a_1\right\gt}\\) とおくと,
+* \\(R=\{\left\lt a_1,a_2\right\gt,\left\lt a_2,a_1\right\gt\}\\) とおくと,
 \\(R\\) は \\(A\\) 上で ([対象律](#symmetric_relation)を満たすが) 反対象律を満たさない.
 
 反対象律の特徴を挙げると:
@@ -192,9 +192,9 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
   \\(R\\) は \\(A\\) 上で同値律を満たすという.
   また:
   <ul>
-  <li>\\({y\in X\mid xRy}\\) を \\(x\\) の同値類といい, \\(\left[x\right]_R\\) や \\(\left[x\right]\\) と書く.
+  <li>\\(\{y\in X\mid xRy\}\\) を \\(x\\) の同値類といい, \\(\left[x\right]_R\\) や \\(\left[x\right]\\) と書く.
   このときの \\(x\\) は, 同値類 \\(\left[x\right]\\) の代表元という</li>
-  <li>集合 \\(A\\) 上の同値関係 \\(R\\) の同値類全体から成る集合 \\({[a]\mid a\in A}\\) を商集合といい, 
+  <li>集合 \\(A\\) 上の同値関係 \\(R\\) の同値類全体から成る集合 \\(\{[a]\mid a\in A\}\\) を商集合といい, 
   \\(A/R\\) と書く</li>
   </ul>
 </div>
@@ -202,7 +202,7 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 
 まず自明な例でいえば, $=$ は, 空でない任意の集合上で同値関係にあるといえる.
 ほかに, 例えば, 整数の集合 \\(\mathbb{Z}\\) について \\(R\\) を整数 \\(p\in\mathbb{Z}\\) を法とする合同関係 \\(\equiv_p\\) とおくと, \\(R\\) は \\(\mathbb{Z}\\) 上の同値関係となる.
-\\[R=\equiv_p={\left\lt m,n\right\gt\mid m,n\in\mathbb{Z}, m {\rm と}\ n\ {\rm は}\ p\ {\rm で割ったときの余りが等しい}}\subseteq\mathbb{Z}^2\\]
+\\[R=\equiv_p=\{\left\lt m,n\right\gt\mid m,n\in\mathbb{Z}, m {\rm と}\ n\ {\rm は}\ p\ {\rm で割ったときの余りが等しい}\}\subseteq\mathbb{Z}^2\\]
 一つ一つ確認してみると
 
 * 反射律: 任意の \\(m\in\mathbb{Z}\\) に対して \\(m-m=0\cdot p\\) なので \\(m\equiv_p m\\)
@@ -294,9 +294,11 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 \\(x\\) を \\(A\\) の上界という.</li>
 <li>\\(^\exists x\in X\ {\rm s.t.}\ x\gtrsim a\\) なる \\(x\\) が存在するならば \\(A\\) は下に有界であるといい, 
 \\(x\\) を \\(A\\) の下界という.</li>
-<li>\\(A\\) の上界全体の集合 \\(B={x\in X | a\lesssim x}\\) の最小要素 \\(\min B\\) を \\(A\\) の上限, 
+<li>\\(A\\) の上界全体の集合 \\(B=\{x\in X | a\lesssim x\}\\) の最小要素 \\(\min B\\) を 
+\\(A\\) の上限, 
 または最小上界といい, \\(\sup A\\) と書く.</li>
-<li>\\(A\\) の下界全体の集合 \\(B={x\in X | x\lesssim a}\\) の最大要素 \\(\max B\\) を \\(A\\) の下限, 
+<li>\\(A\\) の下界全体の集合 \\(B=\{x\in X | x\lesssim a\}\\) の最大要素 \\(\max B\\) を 
+\\(A\\) の下限, 
 または最大下限といい, \\(\inf A\\) と書く.</li>
 </ul>
   </div>
@@ -318,19 +320,19 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 
 有向集合は, [反対象律](#antisymmetric_relation)を要請されていないので,
 必ずしも[半順序](#ordered_relation)集合とはならないことに注意.
-例えば, 集合 \\(A={a_1,a_2,a_3}\\) と関係 
-\\(R={\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt,\left\lt a_1,a_3\right\gt,
-\left\lt a_2,a_2\right\gt,\left\lt a_3,a_3\right\gt,\left\lt a_3,a_1\right\gt,\left\lt a_3,a_2\right\gt}\\)
+例えば, 集合 \\(A=\{a_1,a_2,a_3\}\\) と関係 
+\\(R=\{\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt,\left\lt a_1,a_3\right\gt,
+\left\lt a_2,a_2\right\gt,\left\lt a_3,a_3\right\gt,\left\lt a_3,a_1\right\gt,\left\lt a_3,a_2\right\gt\}\\)
 の組は, 半順序でない有向集合である
 (\\(\left\lt a_1,a_3\right\gt,\left\lt a_3,a_1\right\gt\in R\\) だが, \\(a_1=a_3\\) は要請していない).
 
 <figure style="text-align:center;" id="directed_but_not_poset_fig">
 <img src="directed_but_not_poset.svg" />
-<figcaption>図 1:  集合 \\(A={a_1,a_2,a_3}\\) と関係 
-\\(R={\left\lt a_1,a_1\right\gt,
+<figcaption>図 1:  集合 \\(A=\{a_1,a_2,a_3\}\\) と関係 
+\\(R=\{\left\lt a_1,a_1\right\gt,
 \left\lt a_1,a_2\right\gt,\left\lt a_1,a_3\right\gt,
 \left\lt a_2,a_2\right\gt,\left\lt a_3,a_3\right\gt,
-\left\lt a_3,a_1\right\gt,\left\lt a_3,a_2\right\gt}\\) の有向グラフによる図示</figcaption>
+\left\lt a_3,a_1\right\gt,\left\lt a_3,a_2\right\gt\}\\) の有向グラフによる図示</figcaption>
 </figure>
 
 <div class="m-def">
@@ -362,7 +364,8 @@ x\mid y{\rm\ かつ}\ y\mid z{\rm\ ならば}\ x\mid z
 
 さて, このような一つの有限半順序集合上の関係は, [図 1](#directed_but_not_poset_fig)
 と同様にして, 以下のように有向グラフにより表現できる.
-いま, 集合 \\(X={n\mid n\in\mathbb{N}, 1\leq n\leq 10}\\) に対する整除関係による順序を \\(\ll\\) で考えると,
+いま, 集合 \\(X=\{n\mid n\in\mathbb{N}, 1\leq n\leq 10\}\\) 
+に対する整除関係による順序を \\(\ll\\) で考えると,
 \\(x\mid y\\) なら \\(y\\) は必ず \\(x\\) の後に存在する (\\(x\lesssim y\\)) ので, 次のような有向非巡回グラフが書ける[^8].
 
 <figure style="text-align:center;"><img src="graph.svg" />
@@ -432,7 +435,7 @@ dcpo 集合である
 そうではなく, あくまで有向部分集合として構成可能な部分集合のうちという意味合いである).
 
 <div class="m-def">
-<header class="m-def-title"><p><span id="cpo_def">備半順序 (complete partial order) 集合</span></p></header>
+<header class="m-def-title"><p><span id="cpo_def">完備半順序 (complete partial order) 集合</span></p></header>
 <div class="m-def-content">
 次の 2 つの条件を満たす半順序集合 \\(A\\) を完備半順序集合 cpo (complete partial order) という.
 <ol>
