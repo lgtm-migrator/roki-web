@@ -10,7 +10,7 @@ import           Config.Blog
 import           Config.Contributions
 import           Config.RegexUtils    (intercalateDir)
 import           Contexts             (siteCtx)
-import           Utils                (absolutizeUrls, modifyExternalLinkAttr)
+import           Utils                (modifyExternalLinkAttr)
 import qualified Vendor.FontAwesome   as FA
 
 mkBlogCtx :: String -> BlogConfig m -> Compiler (Context String)
