@@ -12,7 +12,7 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.30",
         "@fortawesome/free-brands-svg-icons": "^5.14.0",
         "@fortawesome/free-solid-svg-icons": "^5.14.0",
-        "bulma": "^0.9.0",
+        "bulma": "^0.9.1",
         "katex": "^0.12.0",
         "psi": "git+https://github.com/GoogleChromeLabs/psi.git#master",
         "svgo": "^1.3.2"
