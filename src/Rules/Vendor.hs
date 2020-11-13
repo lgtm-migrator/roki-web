@@ -33,8 +33,8 @@ rules isPreview = do
         route $ gsubRoute "node_modules/d3/dist/" (const "vendor/d3/")
         compile copyFileCompiler
 
-    match (fromGlob $ intercalateDir ["node_modules", "mathjs", "dist", "math.min.js"]) $ do
-        route $ gsubRoute "node_modules/mathjs/dist/" (const "vendor/mathjs/")
+    match (fromGlob $ intercalateDir ["node_modules", "mathjs", "lib", "browser", "math.js"]) $ do
+        route $ gsubRoute "node_modules/mathjs/lib/browser/" (const "vendor/mathjs/")
         compile copyFileCompiler
 
     if not isPreview then return () else do
