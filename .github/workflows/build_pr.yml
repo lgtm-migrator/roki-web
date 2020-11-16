@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, master]
+    types: [synchronize, opened, reopened, ready_for_review]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.repository == 'falgon/roki-web'
+    steps:
+    - name: Set doc hash value
+      shell: bash
+      run: echo "::set-output name=hash::${GITHUB_SHA}"
+      id: myhash
+    - name: Check variables
+      run: |
+        echo "${{ steps.myref.outputs.branch }}"
+        echo "${{ steps.myhash.outputs.hash }}"
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - uses: actions/setup-haskell@v1.1.2
+      with:
+        ghc-version: '8.8.3'
+        enable-stack: latest
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14'
+    - name: Cache
+      uses: actions/cache@v2
+      id: stack-cache
+      with:
+        path: ~/.stack
+        key: stack-v2-${{ runner.os }}-${{ hashFiles('stack.yaml') }}
+    - name: Setup Tools
+      run: |
+        sudo apt-get install -y libxml2-utils
+        xmllint --version
+    - name: Setup Stack
+      if: steps.stack-cache.outputs.cache-hit != 'true'
+      run: |
+        stack config set system-ghc --global true
+        stack config set install-ghc --global false
+    - name: Install dependencies and build the roki.dev generator
+      run: |
+        stack --local-bin-path . install --flag hakyll:-previewServer --flag hakyll:-watchServer
+        ./site --version
+        npm ci
+    - name: Build and validate roki.dev
+      run: |
+        ./site build
+        ./site check --internal-links
+        xmllint docs/roki.log/sitemap.xml --noout
+        xmllint docs/roki.log/feed/roki.log.xml --noout
+        xmllint docs/roki.diary/sitemap.xml --noout
+        xmllint docs/roki.diary/feed/roki.diary.xml --noout
+        tar cvf docs.tar.xz docs
+    - name: Upload to Google Drive
+      uses: satackey/action-google-drive@v1
+      with:
+         skicka-tokencache-json: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
+         google-client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
+         google-client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+         upload-from: ./docs.tar.xz
+         upload-to: GitHubActions/${{ steps.myhash.outputs.hash }}-docs.tar.xz
+    - name: Boot CircleCI
+      run: |
+          echo ::set-env name=CIRCLE_RESP::$(curl -s -u ${{ secrets.CIRCLE_API_USER_TOKEN }}: \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"branch":"${{ github.event.pull_request.head.ref }}","parameters":{"GITHUB_SHA":"${{ steps.myhash.outputs.hash }}"}}' \
+            https://circleci.com/api/v2/project/gh/falgon/roki-web/pipeline)
+    - name: Set CircleCI variables
+      id: cc
+      run: |
+          echo "::set-output name=CIRCLE_JOB_NUM::$(echo '${{ env.CIRCLE_RESP }}' | jq .number)"
+          echo "::set-output name=CIRCLE_JOB_ID::$(echo '${{ env.CIRCLE_RESP }}' | jq .id)"
+    - name: Out CircleCI URL
+      run: echo "https://app.circleci.com/pipelines/github/falgon/roki-web/${{ steps.cc.outputs.CIRCLE_JOB_NUM }}/workflows/${{ steps.cc.outputs.CIRCLE_JOB_ID }}/jobs/${{ steps.cc.outputs.CIRCLE_JOB_NUM }}/steps"
