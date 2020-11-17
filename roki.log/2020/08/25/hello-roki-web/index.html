@@ -282,7 +282,7 @@ site-system git@github.com:falgon/roki-web.git (push)</code></pre>
 <p>ここまで振り返ってみて, 割とまだまだ拘れる点はあると感じている. 例えば, テンプレートの Lucid 化だとか, 現在の実装をもう少しモナドの合成等ですっきり表せないか等である. 一応, このブログ, ウェブページを構築した際に何をやったのかまとめやすいように, 構築するのに行った大体のタスクについて<a href="https://github.com/falgon/roki-web/issues?q=is%3Aissue+label%3Ainit-build+" target="_blank" rel="nofollow noopener">ラベルをつけておいた</a>ので, 気になる場合は見てみても良いかもしれない. そのようなわけで, 今後はこのブログ, ウェブサイトを使って以前と同様何かしら書いていければと思っているので, (お手柔らかに) よろしくお願い致します.</p>
 <h2 id="後日談-追記">後日談 (追記)</h2>
 <ol type="1">
-<li>利用している CI/CD, Bot は様々なものを使わせて頂いているが, そのうちの 1 つとして, フォーマッタ等でコードスタイルを判定, 整形して PR を投げてくれる <a href="https://restyled.io/" target="_blank" rel="nofollow noopener">restyled.io</a> という Bot が挙げられる. 見てみたところ, Dhall は対応していなかったので, 今回は <a href="https://github.com/restyled-io/restylers/pull/96" target="_blank" rel="nofollow noopener">PR を投げて Dhall の対応を追加してみた</a>. エディタの保存時に自動でフォーマッタを動くようにしていればそもそも不要ではあるが, たまにそのような機能を切ったりすることがあり, ついそのまま push してしまうなんということがあるので, そういった際にこの Bot があると一手間減らすことができる</li>
+<li>利用している CI/CD, Bot は様々なものを使わせて頂いているが, そのうちの 1 つとして, フォーマッタ等でコードスタイルを判定, 整形して PR を投げてくれる <a href="https://restyled.io/" target="_blank" rel="nofollow noopener">restyled.io</a> という Bot が挙げられる. 見てみたところ, Dhall は対応していなかったので, 今回は <a href="https://github.com/restyled-io/restylers/pull/96" target="_blank" rel="nofollow noopener">PR を投げて Dhall の対応を追加してみた</a>. エディタの保存時に自動でフォーマッタを動くようにしていればそもそも不要ではあるが, たまにそのような機能を切ったりすることがあり, ついそのまま push してしまうなんということがあるので, そういった際, この Bot があると, 一手間作業を減らすことができる</li>
 <li><a href="https://www.klab.com/jp/blog/tech/2020/0924-Hakyll.html" target="_blank" rel="nofollow noopener">KLablog</a> にてこちらの内容を紹介する記事を執筆し, 公開頂きました</li>
 </ol>
 <section class="footnotes" role="doc-endnotes">
