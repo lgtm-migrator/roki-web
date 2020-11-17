@@ -49,3 +49,12 @@ executables:
         - -O2
         dependencies:
         - roki-web
+    spa:
+        source-dirs: app
+        main:        spa/Main.hs
+        ghc-options:
+        - -threaded
+        - -Wall
+        - -O2
+        dependencies:
+        - roki-web
