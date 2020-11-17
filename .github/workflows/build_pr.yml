@@ -6,7 +6,7 @@ on:
     types: [synchronize, opened, reopened, ready_for_review]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.repository == 'falgon/roki-web'
     steps:
     - name: Set doc hash value
@@ -20,7 +20,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: true
-    - uses: actions/setup-haskell@v1.1.2
+    - uses: actions/setup-haskell@v1.1.3
       with:
         ghc-version: '8.8.3'
         enable-stack: latest
@@ -66,15 +66,15 @@ jobs:
          upload-to: GitHubActions/${{ steps.myhash.outputs.hash }}-docs.tar.xz
     - name: Boot CircleCI
       run: |
-          echo ::set-env name=CIRCLE_RESP::$(curl -s -u ${{ secrets.CIRCLE_API_USER_TOKEN }}: \
+          echo CIRCLE_RESP=$(curl -s -u ${{ secrets.CIRCLE_API_USER_TOKEN }}: \
             -X POST \
             -H "Content-Type: application/json" \
             -d '{"branch":"${{ github.event.pull_request.head.ref }}","parameters":{"GITHUB_SHA":"${{ steps.myhash.outputs.hash }}"}}' \
-            https://circleci.com/api/v2/project/gh/falgon/roki-web/pipeline)
+            https://circleci.com/api/v2/project/gh/falgon/roki-web/pipeline) >> $GITHUB_ENV
     - name: Set CircleCI variables
       id: cc
       run: |
-          echo "::set-output name=CIRCLE_JOB_NUM::$(echo '${{ env.CIRCLE_RESP }}' | jq .number)"
-          echo "::set-output name=CIRCLE_JOB_ID::$(echo '${{ env.CIRCLE_RESP }}' | jq .id)"
+          echo "CIRCLE_JOB_NUM=$(echo '${{ env.CIRCLE_RESP }}' | jq .number)" >> $GITHUB_ENV
+          echo "CIRCLE_JOB_ID=$(echo '${{ env.CIRCLE_RESP }}' | jq .id)" >> $GITHUB_ENV
     - name: Out CircleCI URL
       run: echo "https://app.circleci.com/pipelines/github/falgon/roki-web/${{ steps.cc.outputs.CIRCLE_JOB_NUM }}/workflows/${{ steps.cc.outputs.CIRCLE_JOB_ID }}/jobs/${{ steps.cc.outputs.CIRCLE_JOB_NUM }}/steps"
