@@ -77,4 +77,4 @@ jobs:
           echo "CIRCLE_JOB_NUM=$(echo '${{ env.CIRCLE_RESP }}' | jq .number)" >> $GITHUB_ENV
           echo "CIRCLE_JOB_ID=$(echo '${{ env.CIRCLE_RESP }}' | jq .id)" >> $GITHUB_ENV
     - name: Out CircleCI URL
-      run: echo "https://app.circleci.com/pipelines/github/falgon/roki-web/${{ steps.cc.outputs.CIRCLE_JOB_NUM }}/workflows/${{ steps.cc.outputs.CIRCLE_JOB_ID }}/jobs/${{ steps.cc.outputs.CIRCLE_JOB_NUM }}/steps"
+      run: echo "https://app.circleci.com/pipelines/github/falgon/roki-web/${{ env.CIRCLE_JOB_NUM }}/workflows/${{ env.CIRCLE_JOB_ID }}/jobs/${{ env.CIRCLE_JOB_NUM }}/steps"
