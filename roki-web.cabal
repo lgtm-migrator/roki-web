@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: dc9c1aa1e5a5d6b4b709ffcb45bd81d595826760b40ff1436f8188ee69fda053
+-- hash: 8650e9506b4738cf239453bd314610894bf502b44862e362361a1094d2f82564
 
 name:           roki-web
 version:        0.1.0.0
@@ -151,5 +151,6 @@ executable spa
     , tagsoup
     , text
     , time
+    , transformers
     , unordered-containers
   default-language: Haskell2010

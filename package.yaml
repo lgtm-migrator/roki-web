@@ -58,3 +58,4 @@ executables:
         - -O2
         dependencies:
         - roki-web
+        - transformers
