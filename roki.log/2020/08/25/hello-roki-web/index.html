@@ -169,7 +169,7 @@
                     <p><a href="https://falgon.github.io/roki/" target="_blank" rel="nofollow noopener">旧個人ページ</a>及び, <a href="https://falgon.github.io/roki.log/" target="_blank" rel="nofollow noopener">旧ブログ</a>を本ウェブサイト (<a href="../../../../../">roki.dev</a>), 本ブログ (<a href="../../../../../roki.log">roki.dev/roki.log</a>, <a href="../../../../../roki.diary">roki.dev/roki.diary</a>) に移行した. 以下では, 移行した経緯や技術的概要, 本サイトおよびブログの方針について (ゆるく) 紹介したい.</p>
 <!--more-->
 <h2 id="移行に至った経緯">移行に至った経緯</h2>
-<p>移行前の<a href="https://falgon.github.io/roki.log/" target="_blank" rel="nofollow noopener">旧ブログ</a><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>の構成では, static site generator である <a href="https://github.com/getpelican/pelican" target="_blank" rel="nofollow noopener">pelican</a> を使っていた. 以下に, それを使ってそこそこの期間の運用をした上で, 実状, 感想を挙げる.</p>
+<p>移行前の<a href="https://falgon.github.io/roki.log/" target="_blank" rel="nofollow noopener">旧ブログ</a><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>の構成では, static site generator である <a href="https://github.com/getpelican/pelican" target="_blank" rel="nofollow noopener">pelican</a> を使っていた. 以下に, それを使ってそこそこの期間の運用をした上での実状, 感想を挙げる.</p>
 <ul>
 <li><a href="http://www.pelicanthemes.com/" target="_blank" rel="nofollow noopener">テンプレート</a>や<a href="https://github.com/getpelican/pelican-plugins" target="_blank" rel="nofollow noopener">プラグイン</a>が充実しており, 設定も非常に少ない記述から簡潔に行えるようになっていて, 主観的な感想として pelican は使い勝手の良いツールであった. 自分の場合は, <a href="https://github.com/gunchu/nikhil-theme" target="_blank" rel="nofollow noopener">nikhil-theme</a> を元に<a href="https://github.com/falgon/nikhil-theme" target="_blank" rel="nofollow noopener">拡張して</a>利用しており, いくつかの機能の追加実装や bug fix, 依存関係の更新作業などを行っていた</li>
 <li>記事の執筆は Markdown で行い, D3.js や emscripten を導入していたので, 記事内で簡単なシミュレータや計算の視覚化などでヌルヌル動かしたり, 遊んだりできるようにしていた</li>
@@ -280,11 +280,50 @@ site-system git@github.com:falgon/roki-web.git (push)</code></pre>
 <p>第二に, <a href="https://github.com/actions/upload-artifact/issues/50#issuecomment-639170787" target="_blank" rel="nofollow noopener">ワークフローの実行中に Artifacts URL を取得することが不可能</a>であったということ. GitHub Actions の Artifacts の URL を CircleCI に渡してダウンロードさせることが出来れば理想的だが, この URL の取得は GitHub Actions の仕様上できないので, ワークフローの内部でビルドした成果物を GitHub Actions Artifacts にアップロードするのではなく, Google Drive といった外部のストレージサービスへアップロードすることで対応を行わざるを得なかった.</p>
 <h2 id="総括">総括</h2>
 <p>ここまで振り返ってみて, 割とまだまだ拘れる点はあると感じている. 例えば, テンプレートの Lucid 化だとか, 現在の実装をもう少しモナドの合成等ですっきり表せないか等である. 一応, このブログ, ウェブページを構築した際に何をやったのかまとめやすいように, 構築するのに行った大体のタスクについて<a href="https://github.com/falgon/roki-web/issues?q=is%3Aissue+label%3Ainit-build+" target="_blank" rel="nofollow noopener">ラベルをつけておいた</a>ので, 気になる場合は見てみても良いかもしれない. そのようなわけで, 今後はこのブログ, ウェブサイトを使って以前と同様何かしら書いていければと思っているので, (お手柔らかに) よろしくお願い致します.</p>
-<h2 id="後日談-追記">後日談 (追記)</h2>
+<h2 id="追記-1">追記 1</h2>
 <ol type="1">
 <li>利用している CI/CD, Bot は様々なものを使わせて頂いているが, そのうちの 1 つとして, フォーマッタ等でコードスタイルを判定, 整形して PR を投げてくれる <a href="https://restyled.io/" target="_blank" rel="nofollow noopener">restyled.io</a> という Bot が挙げられる. 見てみたところ, Dhall は対応していなかったので, 今回は <a href="https://github.com/restyled-io/restylers/pull/96" target="_blank" rel="nofollow noopener">PR を投げて Dhall の対応を追加してみた</a>. エディタの保存時に自動でフォーマッタを動くようにしていればそもそも不要ではあるが, たまにそのような機能を切ったりすることがあり, ついそのまま push してしまうなんということがあるので, そういった際にこの Bot があると, 一手間作業を減らすことができる</li>
 <li><a href="https://www.klab.com/jp/blog/tech/2020/0924-Hakyll.html" target="_blank" rel="nofollow noopener">KLablog</a> にてこちらの内容を紹介する記事を執筆し, 公開頂きました</li>
 </ol>
+<h2 id="追記-2-20201119">追記 2 (2020/11/19)</h2>
+<p>GitHub Actions の <code>cron</code> を利用することで, 簡単な予約投稿機能を実現した. 理想としては, GitHub Actions 上で <code>at</code> コマンドのようなものが使えれば最適であったが, 残念ながらそのようなものはないので, 予約投稿したい内容の差分が含まれたブランチを用意しておき, 該当時刻の cron とデプロイ処理が記述された GitHub Actions の yaml ファイルをプッシュするという少し強引な方法で実現した. ただ, この yaml ファイルを一々手書きしていては堪えるので, (Hakyll のテンプレート機能を使って) 入力から自動生成する簡単なツールを作ることで対応した.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-1" aria-hidden="true"></a>$ <span class="ex">stack</span> exec spa -- --help</span>
+<span id="cb5-2"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-2" aria-hidden="true"></a><span class="ex">Usage</span>: spa [--version] COMMAND [-d<span class="kw">|</span><span class="ex">--date</span> date] [-b<span class="kw">|</span><span class="ex">--branch-name</span> ARG] [-y]</span>
+<span id="cb5-3"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-3" aria-hidden="true"></a>  <span class="ex">The</span> roki-web Scheduling Post Action manager 0.1.0.0</span>
+<span id="cb5-4"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-4" aria-hidden="true"></a></span>
+<span id="cb5-5"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-5" aria-hidden="true"></a><span class="ex">Available</span> options:</span>
+<span id="cb5-6"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-6" aria-hidden="true"></a>  <span class="ex">-h</span>,--help                Show this help text</span>
+<span id="cb5-7"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-7" aria-hidden="true"></a>  <span class="ex">--version</span>                Show spa version information</span>
+<span id="cb5-8"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-8" aria-hidden="true"></a>  <span class="ex">-d</span>,--date date           Date to schedule (mm-dd-%H:%M)</span>
+<span id="cb5-9"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-9" aria-hidden="true"></a>  <span class="ex">-b</span>,--branch-name ARG     The name of the branch you plan to deploy</span>
+<span id="cb5-10"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-10" aria-hidden="true"></a>  <span class="ex">-y</span>                       Generate a file without checking the branch name and</span>
+<span id="cb5-11"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-11" aria-hidden="true"></a>                           <span class="ex">repository</span> name</span>
+<span id="cb5-12"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-12" aria-hidden="true"></a></span>
+<span id="cb5-13"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-13" aria-hidden="true"></a><span class="ex">Available</span> commands:</span>
+<span id="cb5-14"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-14" aria-hidden="true"></a>  <span class="ex">cexpr</span>                    show crontab expression</span>
+<span id="cb5-15"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-15" aria-hidden="true"></a>  <span class="ex">yaml</span>                     generate GitHub Actions yaml from template</span>
+<span id="cb5-16"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb5-16" aria-hidden="true"></a>  <span class="ex">clean</span>                    clean up and remove cache</span></code></pre></div>
+<p>以下のように生成できる.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-1" aria-hidden="true"></a>$ <span class="ex">stack</span> exec spa -- yaml -d <span class="va">$(</span><span class="fu">date</span> <span class="st">&quot;+%m-%d-%R&quot;</span><span class="va">)</span> -b my-awesome-scheduled-post # 現在時刻で生成 (つまり来年に実行される)</span>
+<span id="cb6-2"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-2" aria-hidden="true"></a><span class="ex">current</span> branch name is: draft</span>
+<span id="cb6-3"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-3" aria-hidden="true"></a><span class="ex">Are</span> you sure you want to continue connecting? (y/N)<span class="ex">y</span></span>
+<span id="cb6-4"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-4" aria-hidden="true"></a><span class="ex">Initialising...</span></span>
+<span id="cb6-5"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-5" aria-hidden="true"></a>  <span class="ex">Creating</span> store...</span>
+<span id="cb6-6"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-6" aria-hidden="true"></a>  <span class="ex">Creating</span> provider...</span>
+<span id="cb6-7"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-7" aria-hidden="true"></a>  <span class="ex">Running</span> rules...</span>
+<span id="cb6-8"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-8" aria-hidden="true"></a><span class="ex">Checking</span> for out-of-date items</span>
+<span id="cb6-9"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-9" aria-hidden="true"></a><span class="ex">Compiling</span></span>
+<span id="cb6-10"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-10" aria-hidden="true"></a>  <span class="ex">updated</span> tools/scheduled_post/template.yml</span>
+<span id="cb6-11"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-11" aria-hidden="true"></a>  <span class="ex">updated</span> my-awesome-scheduled-post.yml</span>
+<span id="cb6-12"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb6-12" aria-hidden="true"></a><span class="ex">Success</span></span></code></pre></div>
+<p>後は, この yaml ファイルを roki-web-post のメインブランチ内の <code>.github/workflows/</code> 配下に置けばよい. GitHub Actions における cron のタイムゾーンは UTC なので, <code>cexpr</code> という JST での時刻入力を POSIX cron 形式の UTC 時刻で出力するコマンドを念の為用意している.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb7-1" aria-hidden="true"></a>$ <span class="ex">stack</span> exec spa -- cexpr -d <span class="va">$(</span><span class="fu">date</span> <span class="st">&quot;+%m-%d-%R&quot;</span><span class="va">)</span></span>
+<span id="cb7-2"><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#cb7-2" aria-hidden="true"></a><span class="ex">00</span> 15 11 09 *</span></code></pre></div>
+<p>予約投稿の実施後には, 上記で生成した yaml ファイルがメインブランチ内に残ることとなり, これをそのままにしておくと, 一年後にまた実行されてしまう. そこでそのファイルの削除忘れが起きないよう, 予約投稿が完了次第, メインブランチ内の該当 yaml ファイルを削除する PR が自動的に発行されるようにしている.</p>
+<figure>
+<img src="../../../../../roki.log/2020/08/25/hello-roki-web/auto-delete.png" width="640" alt /><figcaption>予約投稿完了後に自動発行される PR</figcaption>
+</figure>
+<p>ここで, PR のマージを忘れてしまうと先に述べたのと同じことになってしまうのだが, かといって, 事前に確認もなく draft ブランチへ変更を加えたくもなかった. 今回は, これらの兼ね合いを考慮した上で, そこそこ納得のいく落とし所がつけられたのではないかと思っている.</p>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
