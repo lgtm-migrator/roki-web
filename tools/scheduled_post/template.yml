@@ -1,4 +1,4 @@
-name: Scheduling post $date$
+name: Scheduling post $date$ (UTC)
 on:
   schedule:
     - cron: '$cron-expr$'
