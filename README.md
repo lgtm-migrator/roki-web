@@ -63,7 +63,6 @@ Available commands:
 $ stack exec spa -- cexpr -d $(date "+%m-%d-%R") # from current time
 00 15 11 09 *
 $ stack exec spa -- yaml -d $(date "+%m-%d-%R") -b my-awesome-scheduled-post # from current time
->>>>>>> 3b7ef0eaed74a500590c1adb31bf1c689bbc3e8d
 current branch name is: draft
 are you sure you want to continue connecting? (y/N)y
 Initialising...
