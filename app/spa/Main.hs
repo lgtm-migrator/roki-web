@@ -84,7 +84,7 @@ execYaml' H.Clean _ = lift $ execHakyllFromCmd H.Clean $ return ()
 execYaml' _ _ = mzero
 
 execYaml :: H.Command -> Opts -> IO ()
-execYaml hcmd opts = maybe (putStrLnErrWithExit "must be specified date and branch") return =<< runMaybeT (execYaml' hcmd opts)
+execYaml hcmd = runMaybeT . execYaml' hcmd >=> maybe (putStrLnErrWithExit "must be specified date and branch") return
 
 cronExprCmd :: OA.Mod OA.CommandFields Command
 cronExprCmd = OA.command "cexpr" $
