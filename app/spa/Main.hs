@@ -27,7 +27,7 @@ putStrLnErrWithExit = hPutStrLn stderr >=> const exitFailure
 
 parseJSTTime :: String -> Maybe UTCTime
 parseJSTTime = fmap (zonedTimeToUTC . flip ZonedTime timeZoneJST) .
-    parseTimeM True defaultTimeLocale "%F-%R"
+    parseTimeM True defaultTimeLocale "%m-%d-%R"
 
 cronize :: UTCTime -> String
 cronize = formatTime defaultTimeLocale "%M %H %d %m *"
@@ -105,7 +105,7 @@ schedulingDate = optional $ OA.strOption $ mconcat [
     OA.metavar "date"
   , OA.short 'd'
   , OA.long "date"
-  , OA.help "Date to schedule (yyyy-mm-dd-%H:%M)"
+  , OA.help "Date to schedule (mm-dd-%H:%M)"
   ]
 
 branchName :: OA.Parser (Maybe String)
