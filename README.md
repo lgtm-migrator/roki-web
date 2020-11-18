@@ -64,7 +64,7 @@ $ stack exec spa -- cexpr -d $(date "+%m-%d-%R") # from current time
 00 15 11 09 *
 $ stack exec spa -- yaml -d $(date "+%m-%d-%R") -b my-awesome-scheduled-post # from current time
 current branch name is: draft
-are you sure you want to continue connecting? (y/N)y
+Are you sure you want to continue connecting? (y/N)y
 Initialising...
   Creating store...
   Creating provider...
@@ -74,47 +74,6 @@ Compiling
   updated tools/scheduled_post/template.yml
   updated my-awesome-scheduled-post.yml
 Success
-$ cat .github/workflows/scheduled_post/my-awesome-scheduled-post.yml
-name: Scheduling post 09/11 15:00 (UTC)
-on:
-  schedule:
-    - cron: '00 15 11 09 *'
-env:
-  CONTENTS_DIR: contents
-  PUBLISH_DIR: publish
-  SITE_SYSTEM_REPO: roki-web
-  SITE_SYSTEM_DEPLOY_POST_BRANCH: master
-
-jobs:
-  post:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: my-awesome-scheduled-post
-      - name: my-awesome-scheduled-post -> release
-        uses: devmasx/merge-branch@v1.3.1
-        with:
-          type: now
-          from_branch: my-awesome-scheduled-post
-          target_branch: release
-          github_token: ${{ github.token }}
-      - name: Setup deploy dir
-        run: |
-            mkdir -p "${{ env.PUBLISH_DIR }}/${{ env.CONTENTS_DIR }}"
-            mv "${{ env.CONTENTS_DIR }}/roki.log" "${{ env.PUBLISH_DIR }}/${{ env.CONTENTS_DIR }}/"
-            mv "${{ env.CONTENTS_DIR }}/roki.diary" "${{ env.PUBLISH_DIR }}/${{ env.CONTENTS_DIR }}/"
-      - name: Deploy to system repository
-        uses: peaceiris/actions-gh-pages@v3.7.3
-        with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_TO_SYSTEM_KEY }}
-          publish_dir: ${{ env.PUBLISH_DIR }}
-          publish_branch: ${{ env.SITE_SYSTEM_DEPLOY_POST_BRANCH }}
-          external_repository: "${{ github.actor }}/${{ env.SITE_SYSTEM_REPO }}"
-          keep_files: true
-          enable_jekyll: true
-          exclude_assets: ''
 ```
 
 ## System overview

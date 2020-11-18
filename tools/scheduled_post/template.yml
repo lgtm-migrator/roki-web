@@ -7,11 +7,14 @@ env:
   PUBLISH_DIR: publish
   SITE_SYSTEM_REPO: roki-web
   SITE_SYSTEM_DEPLOY_POST_BRANCH: master
+  SITE_POST_MAIN_BRANCH: draft
 
 jobs:
   post:
     runs-on: ubuntu-20.04
     steps:
+      - name: Start time
+        run: date
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -38,3 +41,30 @@ jobs:
           keep_files: true
           enable_jekyll: true
           exclude_assets: ''
+      - name: Checkout draft
+        uses: actions/checkout@v2
+        with:
+          ref: $${{ env.SITE_POST_MAIN_BRANCH }}
+      - name: Create clean commits
+        run: rm .github/workflows/$branch-name$.yml
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v3.5.0
+        with:
+          token: $${{ secrets.ACTIONS_PAT }}
+          commit-message: "delete the completed workflow file"
+          committer: Github <noreply@github.com>
+          author: $${{ github.actor }} <$${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          branch: cleanup-workflow-$branch-name$
+          delete-branch: true
+          title: "Delete the completed workflow file"
+          body: |
+            Delete the completed workflow file
+            - Delete .github/workflows/$branch-name$.yml
+            - This PR was auto generated
+          labels: spa-completed-pr
+          assignees: falgon
+          reviewers: falgon
+          draft: false
+      - name: End time
+        run: date
