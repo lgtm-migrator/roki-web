@@ -16,7 +16,7 @@ tags: Haskell
 
 移行前の[旧ブログ](https://falgon.github.io/roki.log/)[^1]の構成では, static site generator
 である [pelican](https://github.com/getpelican/pelican) を使っていた.
-以下に, それを使ってそこそこの期間の運用をした上で, 実状, 感想を挙げる.
+以下に, それを使ってそこそこの期間の運用をした上での実状, 感想を挙げる.
 
 * [テンプレート](http://www.pelicanthemes.com/)や[プラグイン](https://github.com/getpelican/pelican-plugins)が充実しており, 設定も非常に少ない記述から簡潔に行えるようになっていて, 主観的な感想として pelican は使い勝手の良いツールであった. 自分の場合は, [nikhil-theme](https://github.com/gunchu/nikhil-theme) を元に[拡張して](https://github.com/falgon/nikhil-theme)利用しており,
 いくつかの機能の追加実装や bug fix, 依存関係の更新作業などを行っていた
@@ -366,7 +366,7 @@ Google Drive
 そのようなわけで, 今後はこのブログ, ウェブサイトを使って以前と同様何かしら書いていければと思っているので,
 (お手柔らかに) よろしくお願い致します.
 
-## 後日談 (追記)
+## 追記 1
 
 1. 利用している CI/CD, Bot は様々なものを使わせて頂いているが,
 そのうちの 1 つとして, フォーマッタ等でコードスタイルを判定, 整形して PR を投げてくれる 
@@ -378,6 +378,73 @@ Google Drive
 ついそのまま push してしまうなんということがあるので, 
 そういった際にこの Bot があると, 一手間作業を減らすことができる
 2. [KLablog](https://www.klab.com/jp/blog/tech/2020/0924-Hakyll.html) にてこちらの内容を紹介する記事を執筆し, 公開頂きました
+
+## 追記 2 (2020/11/19)
+
+GitHub Actions の `cron` を利用することで, 簡単な予約投稿機能を実現した.
+理想としては, GitHub Actions 上で `at` コマンドのようなものが使えれば最適であったが, 
+残念ながらそのようなものはないので,
+予約投稿したい内容の差分が含まれたブランチを用意しておき,
+該当時刻の cron とデプロイ処理が記述された GitHub Actions の yaml ファイルをプッシュするという少し強引な方法で実現した.
+ただ, この yaml ファイルを一々手書きしていては堪えるので,
+(Hakyll のテンプレート機能を使って) 入力から自動生成する簡単なツールを作ることで対応した.
+
+```sh
+$ stack exec spa -- --help
+Usage: spa [--version] COMMAND [-d|--date date] [-b|--branch-name ARG] [-y]
+  The roki-web Scheduling Post Action manager 0.1.0.0
+
+Available options:
+  -h,--help                Show this help text
+  --version                Show spa version information
+  -d,--date date           Date to schedule (mm-dd-%H:%M)
+  -b,--branch-name ARG     The name of the branch you plan to deploy
+  -y                       Generate a file without checking the branch name and
+                           repository name
+
+Available commands:
+  cexpr                    show crontab expression
+  yaml                     generate GitHub Actions yaml from template
+  clean                    clean up and remove cache
+```
+
+以下のように生成できる.
+
+```sh
+$ stack exec spa -- yaml -d $(date "+%m-%d-%R") -b my-awesome-scheduled-post # 現在時刻で生成 (つまり来年に実行される)
+current branch name is: draft
+Are you sure you want to continue connecting? (y/N)y
+Initialising...
+  Creating store...
+  Creating provider...
+  Running rules...
+Checking for out-of-date items
+Compiling
+  updated tools/scheduled_post/template.yml
+  updated my-awesome-scheduled-post.yml
+Success
+```
+
+後は, この yaml ファイルを roki-web-post のメインブランチ内の `.github/workflows/` 配下に置けばよい.
+GitHub Actions における cron のタイムゾーンは UTC なので,
+`cexpr` という JST での時刻入力を POSIX cron 形式の UTC 時刻で出力するコマンドを念の為用意している.
+
+```bash
+$ stack exec spa -- cexpr -d $(date "+%m-%d-%R")
+00 15 11 09 *
+```
+
+予約投稿の実施後には, 上記で生成した yaml ファイルがメインブランチ内に残ることとなり,
+これをそのままにしておくと, 一年後にまた実行されてしまう.
+そこでそのファイルの削除忘れが起きないよう, 予約投稿が完了次第, メインブランチ内の該当 yaml ファイルを削除する PR 
+が自動的に発行されるようにしている.
+
+![予約投稿完了後に自動発行される PR](./auto-delete.png){ width=640px }
+
+ここで, PR のマージを忘れてしまうと先に述べたのと同じことになってしまうのだが,
+かといって, 事前に確認もなく draft ブランチへ変更を加えたくもなかった.
+今回は, これらの兼ね合いを考慮した上で, 
+そこそこ納得のいく落とし所がつけられたのではないかと思っている.
 
 [^1]: それよりも前は 2016 年に[はてなブログ (Roki のチラ裏)](https://roki.hateblo.jp/) で技術系の記事を書いていた.
 さらにそれよりも前はアメーバブログで技術系の記事を書いていたが, 
