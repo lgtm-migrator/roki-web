@@ -4,20 +4,21 @@ module Main (main) where
 import           Config              (hakyllConfig)
 import           Config.Site         (timeZoneJST)
 import           Control.Applicative (optional)
-import           Control.Monad       ((>=>))
+import           Control.Monad       (unless, (>=>))
+import           Control.Monad.Extra (unlessM)
 import           Data.String         (fromString)
 import           Data.Time           (UTCTime (..), ZonedTime (..),
                                       defaultTimeLocale, parseTimeM,
                                       zonedTimeToUTC)
 import           Data.Time.Format    (formatTime)
-import           Data.Tuple.Extra    (dupe, first)
+import           Data.Tuple.Extra    (dupe, first, second)
 import           Data.Version        (showVersion)
-import           Development.GitRev  (gitHash)
+import           Development.GitRev  (gitBranch, gitHash)
 import qualified Hakyll              as H
 import qualified Options.Applicative as OA
 import qualified Paths_roki_web      as P
-import           System.Exit         (exitFailure)
-import           System.IO           (hPutStrLn, stderr)
+import           System.Exit         (exitFailure, exitSuccess)
+import           System.IO           (hFlush, hPutStrLn, stderr, stdout)
 
 putStrLnErrWithExit :: String -> IO ()
 putStrLnErrWithExit = hPutStrLn stderr >=> const exitFailure
@@ -34,15 +35,16 @@ humanize = formatTime defaultTimeLocale "%m/%d %H:%M"
 
 hakyllConfig' :: H.Configuration
 hakyllConfig' = hakyllConfig {
-    H.destinationDirectory = "scheduled_actions"
+    H.destinationDirectory = ".github/workflows/scheduled_post"
   , H.storeDirectory = ".scheduled_actions_cache"
   , H.tmpDirectory = ".scheduled_actions_cache/tmp"
   }
 
 data Opts = Opts
-    { optSchedulingDate :: Maybe String
-    , optCmd            :: Command
+    { optCmd            :: Command
+    , optSchedulingDate :: Maybe String
     , optBranchName     :: Maybe String
+    , optIsForceYes     :: Bool
     }
 
 data Command = CmdCronExpr { work :: Opts -> IO () }
@@ -53,8 +55,8 @@ showCexpr :: Opts -> IO ()
 showCexpr opts = maybe (putStrLnErrWithExit "must be specified a valid date string") putStrLn $
     cronize <$> (parseJSTTime =<< optSchedulingDate opts)
 
-genYaml :: H.Command -> Opts -> IO ()
-genYaml hcmd opts = H.hakyllWithArgs hakyllConfig' (H.Options False hcmd) $ let utc = parseJSTTime =<< optSchedulingDate opts in
+genYaml' :: H.Command -> Opts -> IO ()
+genYaml' hcmd opts = H.hakyllWithArgs hakyllConfig' (H.Options False hcmd) $ let utc = parseJSTTime =<< optSchedulingDate opts in
     case (cronize <$> utc, humanize <$> utc, optBranchName opts) of
         (Just cExpr, Just date, Just bName) -> do
             H.create [H.fromFilePath $ bName <> ".yml"] $ do
@@ -66,6 +68,15 @@ genYaml hcmd opts = H.hakyllWithArgs hakyllConfig' (H.Options False hcmd) $ let 
                     >>= H.loadAndApplyTemplate (H.fromFilePath "tools/scheduled_post/template.yml") ctx
             H.match (fromString $ "tools/scheduled_post/**") $ H.compile H.templateBodyCompiler
         _ -> return ()
+
+genYaml :: H.Command -> Opts -> IO ()
+genYaml H.Build opts = do
+    unless (optIsForceYes opts) $ do
+        putStrLn $ "current branch name is: " <> $(gitBranch)
+        putStr "are you sure you want to continue connecting? (y/N):" >> hFlush stdout
+        unlessM (uncurry (||) . first (=='y') . second (=='Y') . dupe <$> getChar) $ putStrLn "Canceled" >> exitSuccess
+    genYaml' H.Build opts
+genYaml hcmd opts = genYaml' hcmd opts
 
 cronExprCmd :: OA.Mod OA.CommandFields Command
 cronExprCmd = OA.command "cexpr" $
@@ -96,11 +107,18 @@ branchName = optional $ OA.strOption $ mconcat [
   , OA.help "The name of the branch you plan to deploy"
   ]
 
+forceYes :: OA.Parser Bool
+forceYes = OA.switch $ mconcat [
+    OA.short 'y'
+  , OA.help "Generate a file without checking the branch name and repository name"
+  ]
+
 programOptions :: OA.Parser Opts
 programOptions = Opts
-    <$> schedulingDate
-    <*> OA.hsubparser (cronExprCmd <> genYamlCmd <> cleanCmd)
+    <$> OA.hsubparser (cronExprCmd <> genYamlCmd <> cleanCmd)
+    <*> schedulingDate
     <*> branchName
+    <*> forceYes
 
 versionOption :: OA.Parser (a -> a)
 versionOption = OA.infoOption vopt $ mconcat [
