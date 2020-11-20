@@ -234,11 +234,11 @@ site-system git@github.com:falgon/roki-web.git (push)</code></pre>
 <p>例えば, 標準出力に <code>hello world</code> を出力する C ソースコードのコンパイルは, 次のように実行できる.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="/roki.log/2020/03/17/SelfMadeCCompiler/#cb2-1" aria-hidden="true"></a>$ <span class="bu">echo</span> <span class="st">'int printf(); int main() { printf(&quot;hello world!\n&quot;); }'</span> <span class="kw">|</span> <span class="ex">stack</span> exec htcc -- /dev/stdin <span class="kw">|</span> <span class="fu">gcc</span> -xassembler -no-pie -o out -  </span></code></pre></div>
 <p>htcc には, 内部で構築した構文木をベクタ画像として視覚化し, 出力する機能を実装してある<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. 次の表は, 実行されるコマンドと出力されるベクタ画像の対応を示したものである.</p>
-<div class="table-responsive">
-<table class="table table-bordered table-hover">
+<div class="table-responsive" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
+<table class="table table-bordered table-hover is-fullwidth">
 <thead>
 <tr>
-<th style="text-align: center;">
+<th style="text-align: center; width:50%;">
 コマンド
 </th>
 <th style="text-align: center;">
@@ -252,20 +252,24 @@ htcc の構築した構文木のベクタ画像出力例
 <tbody>
 <tr>
 <td>
-<pre>$ echo 'int main() { return 1 * 2 + 4; }' |\
-    stack exec htcc -- /dev/stdin\
-        --visualize-ast\
-        --img-resolution 640x480\
+<div class="sourceCode">
+<pre class="sourceCode bash"><code class="sourceCode bash">
+$ echo 'int main() { return 1 * 2 + 4; }' | \
+    stack exec htcc -- /dev/stdin           \
+        --visualize-ast                     \
+        --img-resolution 640x480            \
         --out calc.svg
-</pre>
+</code></pre>
+</div>
 </td>
 <td>
-<img width="250px" class="img-responsive" src="https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/example_ast/calc.png" alt="ast_graph">
+<img class="img-responsive" src="https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/example_ast/calc.png" alt="ast_graph">
 </td>
 </tr>
 <tr>
 <td>
-<pre>$ echo 'int printf();
+<div class="sourceCode">
+<pre class="sourceCode bash"><code class="sourceCode bash">$ echo 'int printf();
 void fizzbuzz(int n) { 
     for (int i = 1; i &lt; n; ++i) { 
         if (!(i % 15)) printf("fizzbuzz\n"); 
@@ -274,21 +278,21 @@ void fizzbuzz(int n) {
         else printf("%d\n", i); 
     } 
 } 
-int main() { fizzbuzz(50); }' |\
-    stack exec htcc -- /dev/stdin\
-        --visualize-ast\
-        --img-resolution 1280x720\
+int main() { fizzbuzz(50); }' |     \
+    stack exec htcc -- /dev/stdin   \
+        --visualize-ast             \
+        --img-resolution 1280x720   \
         --out fizzbuzz.svg
-</pre>
+</code></pre>
+</div>
 </td>
 <td>
-<img width="250px" class="img-responsive" src="https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/example_ast/fizzbuzz.png" alt="ast_graph">
+<img class="img-responsive" src="https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/example_ast/fizzbuzz.png" alt="ast_graph">
 </td>
 </tr>
 </tbody>
 </table>
 </div>
-<h2 id="開発様相">開発様相</h2>
 <p>コンパイラの開発には, 『<a href="https://www.sigbus.info/compilerbook">低レイヤを知りたい人のためのCコンパイラ作成入門</a>』を参考とさせて頂いており, この内容から習うようにして, インクリメンタルなテスト駆動開発の手段をとることとした. 今回は, 動機に示された理由により, とくに Haskell での実装を進めたかったため, セルフホストコンパイラの開発という目的には一致していなかったが, 同文書は, 具体的な開発順序や手段の詳細に関する, 多くの知見を与えてくださった. 同書の他に, コンパイラの構成には <a href="https://github.com/falgon/htcc/tree/230137475bf08265db9bd31ea65e2d867b1207fc#references">References</a>-4 を参考とした. 言語仕様は同書同様 N1570 に従い, ABI 等の仕様確認には <a href="https://github.com/falgon/htcc/tree/230137475bf08265db9bd31ea65e2d867b1207fc#references">References</a>-1 を用いた. また, より理論的な参考としては,</p>
 <ul>
 <li>Benjamin C. Pierce. (2002). <em>Types and Programming Languages</em>. The MIT Press</li>
