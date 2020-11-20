@@ -108,25 +108,29 @@ htcc には, 内部で構築した構文木をベクタ画像として視覚化�
 出力する機能を実装してある[^4].
 次の表は, 実行されるコマンドと出力されるベクタ画像の対応を示したものである.
 
-<div class="table-responsive">
-<table class="table table-bordered table-hover">
-<thead><tr><th style="text-align: center;">コマンド</th><th style="text-align: center;">出力画像</th></tr></thead>
+<div class="table-responsive" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
+<table class="table table-bordered table-hover is-fullwidth">
+<thead><tr><th style="text-align: center; width:50%;">コマンド</th><th style="text-align: center;">出力画像</th></tr></thead>
 <caption id="karnaugh1" style="caption-side: bottom">htcc の構築した構文木のベクタ画像出力例</caption>
 <tbody>
 <tr>
 <td>
-<pre>$ echo 'int main() { return 1 * 2 + 4; }' |\
-    stack exec htcc -- /dev/stdin\
-        --visualize-ast\
-        --img-resolution 640x480\
+<div class="sourceCode">
+<pre class="sourceCode bash"><code class="sourceCode bash">
+$ echo 'int main() { return 1 * 2 + 4; }' | \
+    stack exec htcc -- /dev/stdin           \
+        --visualize-ast                     \
+        --img-resolution 640x480            \
         --out calc.svg
-</pre>
+</code></pre>
+</div>
 </td>
-<td><img width="250px" class="img-responsive" src="https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/example_ast/calc.png" alt="ast_graph"></td>
+<td><img class="img-responsive" src="https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/example_ast/calc.png" alt="ast_graph"></td>
 </tr>
 <tr>
 <td>
-<pre>$ echo 'int printf();
+<div class="sourceCode">
+<pre class="sourceCode bash"><code class="sourceCode bash">$ echo 'int printf();
 void fizzbuzz(int n) { 
     for (int i = 1; i &lt; n; ++i) { 
         if (!(i % 15)) printf("fizzbuzz\n"); 
@@ -135,20 +139,19 @@ void fizzbuzz(int n) {
         else printf("%d\n", i); 
     } 
 } 
-int main() { fizzbuzz(50); }' |\
-    stack exec htcc -- /dev/stdin\
-        --visualize-ast\
-        --img-resolution 1280x720\
+int main() { fizzbuzz(50); }' |     \
+    stack exec htcc -- /dev/stdin   \
+        --visualize-ast             \
+        --img-resolution 1280x720   \
         --out fizzbuzz.svg
-</pre>
+</code></pre>
+</div>
 </td>
-<td><img width="250px" class="img-responsive" src="https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/example_ast/fizzbuzz.png" alt="ast_graph"></td>
+<td><img class="img-responsive" src="https://raw.githubusercontent.com/falgon/htcc/230137475bf08265db9bd31ea65e2d867b1207fc/assets/example_ast/fizzbuzz.png" alt="ast_graph"></td>
 </tr>
 </tbody>
 </table>
 </div>
-
-## 開発様相
 
 コンパイラの開発には, 
 『[低レイヤを知りたい人のためのCコンパイラ作成入門](https://www.sigbus.info/compilerbook)』を参考とさせて頂いており, 
