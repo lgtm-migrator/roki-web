@@ -234,7 +234,7 @@ site-system git@github.com:falgon/roki-web.git (push)</code></pre>
 <p>例えば, 標準出力に <code>hello world</code> を出力する C ソースコードのコンパイルは, 次のように実行できる.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="/roki.log/2020/03/17/SelfMadeCCompiler/#cb2-1" aria-hidden="true"></a>$ <span class="bu">echo</span> <span class="st">'int printf(); int main() { printf(&quot;hello world!\n&quot;); }'</span> <span class="kw">|</span> <span class="ex">stack</span> exec htcc -- /dev/stdin <span class="kw">|</span> <span class="fu">gcc</span> -xassembler -no-pie -o out -  </span></code></pre></div>
 <p>htcc には, 内部で構築した構文木をベクタ画像として視覚化し, 出力する機能を実装してある<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. 次の表は, 実行されるコマンドと出力されるベクタ画像の対応を示したものである.</p>
-<div class="table-responsive" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
+<div class="table-responsive">
 <table class="table table-bordered table-hover is-fullwidth">
 <thead>
 <tr>
@@ -1218,6 +1218,7 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 \underbrace{x_1\land x'_4}_{m_{2,3,14,15}}\lor\underbrace{x_2\land x_4}_{m_{5,6,9,10}}\lor\underbrace{x_2\land x_3}_{m_{9,10,13,14}}\lor\underbrace{x_1\land x_3}_{m_{10,11,14,15}}\lor
 \underbrace{x_1\land x_2}_{m_{2,6,10,14}}</span></p>
 <p>しかしこれはまだ冗長である. この主項から必須項を調べる. 縦軸に主項, 横軸に最小項を並べ, 最小項を包含する主項のセルに印 <span class="math inline">\bigcirc</span> を, 包含する最小項が 1 つしかない主項のセルに印 <span class="math inline">\circledcirc</span> をつける. これを主項表という.</p>
+<div class="table-responsive">
 <table>
 <caption>主項表 1</caption>
 <thead>
@@ -1295,6 +1296,7 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 </tr>
 </tbody>
 </table>
+</div>
 <p>従って, 必須項は <span class="math inline">\circledcirc</span> のつく <span class="math inline">m_{4,5},m_{9,10,13,14},m_{10,11,14,15}</span> である. あとはそれらを書き出し, 残りの主項で最小項を全て含む最も簡単な組み合わせを探すこととなる(ここで現れる必須項が全ての最小項を包含するとは限らない). ここで, もし <span class="math inline">\circledcirc</span> が 1 つも含まれない最小項があれば, すなわち必須項にすべての最小項が含まれていなければ, 最も簡単となりかつ, 全ての最小項を含むブール式となるよう適当な主項を選択する. 今回の場合では, 必須項のみで全ての最小項を包含することができている(印を青の表示としておいた)から <span class="math inline">m_{4,5},m_{9,10,13,14},m_{10,11,14,15}</span> の和, すなわち <span class="math display">x'_1\land x'_3\land x_4\lor x_2\land x_3\lor x_1\land x_3</span> が式 <span class="math inline">(4)</span> の最簡形である. 先に示したカルノー図による簡単化で得られたブール式と同等の結果が得られたことがわかる. なお, クワイン・マクラスキー法は NP 完全である<a href="/roki.log/2019/05/8/BooleanAlgebra/#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>ため, 使用範囲が限られる.</p>
 <h3 id="ペトリック法">ペトリック法</h3>
 <p>先のクワイン・マクラスキー法の最後では, 「最も簡単となりかつ, 全ての最小項を含むブール式となるよう適当な主項を選択」することによって最簡形を得るとのことであったが, この部分をペトリック法で置き換えることにより, 機械的に最簡形のブール式を決定することができる. ここでも, <span class="math inline">(4)</span> を例に方法を示すこととする. クワイン・マクラスキー法の手順のうち 3 まで実行したものとし, <a href="/roki.log/2019/05/8/BooleanAlgebra/#prime_implicant_table1">主項表 1</a> が得られたとしよう. まず<a href="/roki.log/2019/05/8/BooleanAlgebra/#prime_implicant_table1">主項表 1</a> の列を見て, 印のある主項らで和を取り, それらの積をとった次の式を得る.</p>

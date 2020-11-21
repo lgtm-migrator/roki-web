@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
         <meta content="Roki" name="author" />
         
         <meta content="本エントリ投稿の 2, 3 ヶ月前に Haskell でスクラッチから x86-64 向けの C コンパイラを作った.本エントリは, その記録である.&lt;!--more--&gt;## 動機/背景動機としては, 私は 2020 年度の新卒として,とある会社に技術者として入社することとなっており," name="description" />
@@ -220,7 +220,7 @@
 <p>例えば, 標準出力に <code>hello world</code> を出力する C ソースコードのコンパイルは, 次のように実行できる.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="../../../../../roki.log/2020/03/17/SelfMadeCCompiler/#cb2-1" aria-hidden="true"></a>$ <span class="bu">echo</span> <span class="st">&#39;int printf(); int main() { printf(&quot;hello world!\n&quot;); }&#39;</span> <span class="kw">|</span> <span class="ex">stack</span> exec htcc -- /dev/stdin <span class="kw">|</span> <span class="fu">gcc</span> -xassembler -no-pie -o out -  </span></code></pre></div>
 <p>htcc には, 内部で構築した構文木をベクタ画像として視覚化し, 出力する機能を実装してある<a href="../../../../../roki.log/2020/03/17/SelfMadeCCompiler/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. 次の表は, 実行されるコマンドと出力されるベクタ画像の対応を示したものである.</p>
-<div class="table-responsive" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
+<div class="table-responsive">
 <table class="table table-bordered table-hover is-fullwidth">
 <thead>
 <tr>
