@@ -108,7 +108,7 @@ htcc には, 内部で構築した構文木をベクタ画像として視覚化�
 出力する機能を実装してある[^4].
 次の表は, 実行されるコマンドと出力されるベクタ画像の対応を示したものである.
 
-<div class="table-responsive" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
+<div class="table-responsive">
 <table class="table table-bordered table-hover is-fullwidth">
 <thead><tr><th style="text-align: center; width:50%;">コマンド</th><th style="text-align: center;">出力画像</th></tr></thead>
 <caption id="karnaugh1" style="caption-side: bottom">htcc の構築した構文木のベクタ画像出力例</caption>
