@@ -1,0 +1,61 @@
+version: '3.7'
+services:
+  build:
+    image: roki/roki-web-env:1.0.0
+    container_name: roki-web-build
+    tty: true
+    volumes:
+      - "../contents:/home/rw-c/bin/contents"
+    ports:
+      - "8888:8888"
+    working_dir: /home/rw-c/bin
+    build:
+      context: ../
+      dockerfile: ./docker/contents/Dockerfile
+    command: /bin/bash -c './site build --preview'
+  preview:
+    image: roki/roki-web-env:1.0.0
+    container_name: roki-web-preview
+    tty: true
+    volumes:
+      - "../contents:/home/rw-c/bin/contents"
+    ports:
+      - "8888:8888"
+    working_dir: /home/rw-c/bin
+    build:
+      context: ../
+      dockerfile: ./docker/contents/Dockerfile
+    command: /bin/bash -c './site watch --preview'
+  spa:
+    image: roki/roki-web-env:1.0.0
+    container_name: roki-web-spa
+    tty: true
+    volumes:
+      - "../contents:/home/rw-c/bin/contents"
+      - "../.github:/home/rw-c/bin/.github"
+    working_dir: /home/rw-c/bin
+    build:
+      context: ../
+      dockerfile: ./docker/contents/Dockerfile
+    command: /bin/bash -c './spa yaml -d ${DATE:-""} -b ${BRANCH_NAME:-""} -y'
+  clean:
+    image: roki/roki-web-env:1.0.0
+    container_name: roki-web-clean
+    tty: true
+    working_dir: /home/rw-c/bin
+    build:
+      context: ../
+      dockerfile: ./docker/contents/Dockerfile
+    command: /bin/bash -c './site clean'
+  dev:
+    image: roki/roki-web-dev:1.0.0
+    container_name: roki-web-dev
+    tty: true
+    volumes:
+      - "../:/home/rw-dev/src"
+    ports:
+      - "8888:8888"
+    working_dir: /home/rw-dev/src
+    build:
+      context: ../
+      dockerfile: ./docker/dev/Dockerfile
