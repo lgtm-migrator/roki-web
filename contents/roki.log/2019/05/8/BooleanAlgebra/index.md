@@ -9,7 +9,6 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 結論からいえば, 両者の違いは歴史的な背景ぐらいであり, 殆どの場合は同等の理論であるということができる[^1].
 ブール代数はその応用として論理回路の構築に直接役立つことから, 計算機科学, とくにハードウェアの分野において重宝される代数系の 1 つである.
 
-<!--more-->
 
 ## ブール代数の公理とその定理
 
@@ -57,6 +56,8 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 [有界律](#bounded), [吸収律](#absorption), [結合律](#associative), [対合律](#involution), 
 [ド・モルガンの法則](#de_morgan), [シャノンの展開定理](#chanon_theorem)が導出可能である. 
 以下 \\(x,y,z\in B\\) とする.
+
+<!--more-->
 
 <div class="m-thm">
 <header class="m-thm-title"><p>補元の一意性</p></header>

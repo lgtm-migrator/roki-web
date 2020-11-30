@@ -10,8 +10,6 @@ tags: Haskell
 本ブログ ([roki.dev/roki.log](/roki.log), [roki.dev/roki.diary](/roki.diary)) に移行した.
 以下では, 移行した経緯や技術的概要, 本サイトおよびブログの方針について (ゆるく) 紹介したい.
 
-<!--more-->
-
 ## 移行に至った経緯
 
 移行前の[旧ブログ](https://falgon.github.io/roki.log/)[^1]の構成では, static site generator
@@ -49,6 +47,7 @@ Typescript + React を使って[構築していた](https://github.com/falgon/ro
 そこまで DOM 操作をするわけでもないプロフィールページにこれらの技術を用いたのはオーバースペックだったし,
 bundle.js の重さからしてもあまり理にかなっていなかったように思う.
 
+<!--more-->
 
 ## 新個人サイトとブログ
 
