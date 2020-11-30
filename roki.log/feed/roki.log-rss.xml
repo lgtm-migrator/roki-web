@@ -11,7 +11,6 @@
     <title>個人ページ, ブログを移行した</title>
     <link>https://roki.dev/roki.log/2020/08/25/hello-roki-web/index.html</link>
     <description><![CDATA[<p><a href="https://falgon.github.io/roki/">旧個人ページ</a>及び, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>を本ウェブサイト (<a href="/">roki.dev</a>), 本ブログ (<a href="/roki.log">roki.dev/roki.log</a>, <a href="/roki.diary">roki.dev/roki.diary</a>) に移行した. 以下では, 移行した経緯や技術的概要, 本サイトおよびブログの方針について (ゆるく) 紹介したい.</p>
-<!--more-->
 <h2 id="移行に至った経緯">移行に至った経緯</h2>
 <p>移行前の<a href="https://falgon.github.io/roki.log/">旧ブログ</a><a href="/roki.log/2020/08/25/hello-roki-web/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>の構成では, static site generator である <a href="https://github.com/getpelican/pelican">pelican</a> を使っていた. 以下に, それを使ってそこそこの期間の運用をした上での実状, 感想を挙げる.</p>
 <ul>
@@ -33,6 +32,7 @@
 </ul>
 <p>無論, 元のブログでも修正, 更新, 機能追加でこれらをすべて満たそうとすることはできるが, もうそこまでするならいっそのことリニューアルしてしまったほうが…<span class="emoji" data-emoji="thinking">🤔</span>となってしまった.<br /></p>
 <p>ブログの他にも, 個人 (プロフィール) サイトを公開しており, それにおいては Typescript + React を使って<a href="https://github.com/falgon/roki">構築していた</a><a href="/roki.log/2020/08/25/hello-roki-web/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. こちらは特に何か変わったこともしていないので, 特筆すべきトピックもないのだが, そこまで DOM 操作をするわけでもないプロフィールページにこれらの技術を用いたのはオーバースペックだったし, bundle.js の重さからしてもあまり理にかなっていなかったように思う.</p>
+<!--more-->
 <h2 id="新個人サイトとブログ">新個人サイトとブログ</h2>
 <p>そのようなわけで, 上記のようなモチベーションがあり, 本個人サイトとブログを新設したわけだが, 今回新設したことによって, これらの不満足な点についてすべて解消ができたと考えている. それを果たすことのできた要因や特徴について, いくつか挙げていければと思う.</p>
 <h3 id="hakyll-について">Hakyll について</h3>
@@ -188,9 +188,9 @@ site-system git@github.com:falgon/roki-web.git (push)</code></pre>
     <title>Haskell で C コンパイラを作ってみた</title>
     <link>https://roki.dev/roki.log/2020/03/17/SelfMadeCCompiler/index.html</link>
     <description><![CDATA[<p>本エントリ投稿の 2, 3 ヶ月前に Haskell でスクラッチから x86-64 向けの C コンパイラを作った. 本エントリは, その記録である.</p>
-<!--more-->
 <h2 id="動機背景">動機/背景</h2>
-<p>動機としては, 私は 2020 年度の新卒として, とある会社に技術者として入社することとなっており, コンパイラの自作は, 社会人になる前に, 前々から一度はやっておきたいと思っていた事柄の一つであったこと, また関数プログラミングとの関係性について探求したかったこと, さらに, 一部には, 関数プログラミングはコンパイラ開発を容易にする<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>という認識があるが, 数学的構造の実用化の一つとも言える関数プログラミングに関する考察においては, 圏論的な理由付けによりその有用性を言うことができるはずであろうという, 私の中での何となくの予想が本当であるのかどうか, 確認したかったことから, 実際に Haskell で C コンパイラを作るに至った. なお, 圏論の話題は再度別のエントリとしてまとめ, その後, さらに別のエントリにそれと関連付いた話題としてまとめようと考えているため, 本エントリでは特に立ち入らず, あくまでも, Haskell で C コンパイラを作ってみたという単なる取り組みへの記録程度に止める.</p>
+<p>コンパイラの自作は, 社会人になる前に, 前々から一度はやっておきたいと思っていた事柄の一つであったこと, また関数プログラミングとの関係性について探求したかったこと, さらに, 一部には, 関数プログラミングはコンパイラ開発を容易にする<a href="/roki.log/2020/03/17/SelfMadeCCompiler/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>という認識があるが, 数学的構造の実用化の一つとも言える関数プログラミングに関する考察においては, 圏論的な理由付けによりその有用性を言うことができるはずであろうという, 私の中での何となくの予想が本当であるのかどうか, 確認したかったことから, 実際に Haskell で C コンパイラを作るに至った. なお, 圏論の話題は再度別のエントリとしてまとめ, その後, さらに別のエントリにそれと関連付いた話題としてまとめようと考えているため, 本エントリでは特に立ち入らず, あくまでも, Haskell で C コンパイラを作ってみたという単なる取り組みへの記録程度に止める.</p>
+<!--more-->
 <h2 id="成果">成果</h2>
 <p>プロジェクトは, 次のリポジトリにて管理している.</p>
 <div class="has-text-centered mb-2">
@@ -320,7 +320,6 @@ int main() { fizzbuzz(50); }' |     \
     <title>ブール代数</title>
     <link>https://roki.dev/roki.log/2019/05/8/BooleanAlgebra/index.html</link>
     <description><![CDATA[<p>ブール代数は古典論理における命題論理と密接に関連している. 結論からいえば, 両者の違いは歴史的な背景ぐらいであり, 殆どの場合は同等の理論であるということができる<a href="/roki.log/2019/05/8/BooleanAlgebra/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. ブール代数はその応用として論理回路の構築に直接役立つことから, 計算機科学, とくにハードウェアの分野において重宝される代数系の 1 つである.</p>
-<!--more-->
 <h2 id="ブール代数の公理とその定理">ブール代数の公理とその定理</h2>
 <p>次に示すのはブール代数の公理系である. 公理系に関する詳細は証明理論 (TODO) の冒頭を参照のこと.</p>
 <div class="m-def">
@@ -352,6 +351,7 @@ int main() { fizzbuzz(50); }' |     \
 </div>
 </div>
 <p>これらの公理から<a href="/roki.log/2019/05/8/BooleanAlgebra/#complement_unique">補元の一意性</a>, <a href="/roki.log/2019/05/8/BooleanAlgebra/#idempotence">べき等律</a>, <a href="/roki.log/2019/05/8/BooleanAlgebra/#bounded">有界律</a>, <a href="/roki.log/2019/05/8/BooleanAlgebra/#absorption">吸収律</a>, <a href="/roki.log/2019/05/8/BooleanAlgebra/#associative">結合律</a>, <a href="/roki.log/2019/05/8/BooleanAlgebra/#involution">対合律</a>, <a href="/roki.log/2019/05/8/BooleanAlgebra/#de_morgan">ド・モルガンの法則</a>, <a href="/roki.log/2019/05/8/BooleanAlgebra/#chanon_theorem">シャノンの展開定理</a>が導出可能である. 以下 <span class="math inline">x,y,z\in B</span> とする.</p>
+<!--more-->
 <div class="m-thm">
 <header class="m-thm-title">
 <p>

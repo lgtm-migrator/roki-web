@@ -168,6 +168,27 @@
                 <section class="content mt-5">
                     
                         <p><a href="https://falgon.github.io/roki/" target="_blank" rel="nofollow noopener">旧個人ページ</a>及び, <a href="https://falgon.github.io/roki.log/" target="_blank" rel="nofollow noopener">旧ブログ</a>を本ウェブサイト (<a href="../../../">roki.dev</a>), 本ブログ (<a href="../../../roki.log">roki.dev/roki.log</a>, <a href="../../../roki.diary">roki.dev/roki.diary</a>) に移行した. 以下では, 移行した経緯や技術的概要, 本サイトおよびブログの方針について (ゆるく) 紹介したい.</p>
+<h2 id="移行に至った経緯">移行に至った経緯</h2>
+<p>移行前の<a href="https://falgon.github.io/roki.log/" target="_blank" rel="nofollow noopener">旧ブログ</a><a href="../../../roki.log/2020/08/25/hello-roki-web/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>の構成では, static site generator である <a href="https://github.com/getpelican/pelican" target="_blank" rel="nofollow noopener">pelican</a> を使っていた. 以下に, それを使ってそこそこの期間の運用をした上での実状, 感想を挙げる.</p>
+<ul>
+<li><a href="http://www.pelicanthemes.com/" target="_blank" rel="nofollow noopener">テンプレート</a>や<a href="https://github.com/getpelican/pelican-plugins" target="_blank" rel="nofollow noopener">プラグイン</a>が充実しており, 設定も非常に少ない記述から簡潔に行えるようになっていて, 主観的な感想として pelican は使い勝手の良いツールであった. 自分の場合は, <a href="https://github.com/gunchu/nikhil-theme" target="_blank" rel="nofollow noopener">nikhil-theme</a> を元に<a href="https://github.com/falgon/nikhil-theme" target="_blank" rel="nofollow noopener">拡張して</a>利用しており, いくつかの機能の追加実装や bug fix, 依存関係の更新作業などを行っていた</li>
+<li>記事の執筆は Markdown で行い, D3.js や emscripten を導入していたので, 記事内で簡単なシミュレータや計算の視覚化などでヌルヌル動かしたり, 遊んだりできるようにしていた</li>
+<li>執筆時には MathJax が意図通り描画できているか等で瞬時にプレビューを見たかったため, 記事内の更新に合わせて記事のリビルド, ブラウザの自動リロードがされる<a href="https://gist.github.com/falgon/5d3fe6838e7f6cb4090823df417680e5" target="_blank" rel="nofollow noopener">スクリプト</a>を作り, それを実用していたのでブログ記事執筆時のストレスもそこまではなかった</li>
+<li>全体のブログ記事管理の仕組みとして, draft から release ブランチに merge &amp; push すると, <a href="https://bitbucket.org/r0ki/roki.log/addon/pipelines/home#!/results/288" target="_blank" rel="nofollow noopener">Bitbucket Pipelines が走り</a><a href="../../../roki.log/2020/08/25/hello-roki-web/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, ブログのビルドと GitHub pages へのデプロイが実行されるようにしていたので, 管理コストや記事公開のための作業も少なく, その点は快適であった</li>
+<li><a href="https://falgon.github.io/roki.log/posts/2018/%203%E6%9C%88/22/my_first_post/" target="_blank" rel="nofollow noopener">その他の細かい作業</a> (旧ブログ記事) を行うことで“色々とそれなりに”便利にしていた</li>
+</ul>
+<p>…とこれまでを振り返ると, あまり不満はなかったのではないかというような気がしてくるが, 全く不満がなかったかというとやはりそうではない.</p>
+<ul>
+<li>元テンプレートの Bootstrap のバージョンが低い</li>
+<li>MathJax が重い</li>
+<li>テンプレートが膨大</li>
+<li>標準 (プラグイン) の検索機能が日本語に未対応</li>
+<li>リンクのバリデーション機能がない</li>
+<li>無料 GitHub アカウントでもプライベートリポジトリが使えるようになり, Bitbucket と GitHub 間を横断させる必然性がなくなった (GitHub Actions も使えるようになったことで, ブログ管理のすべてを GitHub のみで一元管理できる)</li>
+<li>記事や記事内で使うスクリプトを校生するもの (textlint の linter 等) と, ブログそのもの (Jinja2 テンプレート, ビルド, デプロイ, ライブプレビュー, プラグイン管理…) は全くの別物なので, これらの管理を分離したい</li>
+</ul>
+<p>無論, 元のブログでも修正, 更新, 機能追加でこれらをすべて満たそうとすることはできるが, もうそこまでするならいっそのことリニューアルしてしまったほうが…<span class="emoji" data-emoji="thinking">🤔</span>となってしまった.<br /></p>
+<p>ブログの他にも, 個人 (プロフィール) サイトを公開しており, それにおいては Typescript + React を使って<a href="https://github.com/falgon/roki" target="_blank" rel="nofollow noopener">構築していた</a><a href="../../../roki.log/2020/08/25/hello-roki-web/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. こちらは特に何か変わったこともしていないので, 特筆すべきトピックもないのだが, そこまで DOM 操作をするわけでもないプロフィールページにこれらの技術を用いたのはオーバースペックだったし, bundle.js の重さからしてもあまり理にかなっていなかったように思う.</p>
 <a href="../../../roki.log/2020/08/25/hello-roki-web/index.html">Read More...</a>
                     
                 </section>

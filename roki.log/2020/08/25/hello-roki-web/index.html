@@ -167,7 +167,6 @@
                 <section class="mt-5 content">
                     
                     <p><a href="https://falgon.github.io/roki/" target="_blank" rel="nofollow noopener">旧個人ページ</a>及び, <a href="https://falgon.github.io/roki.log/" target="_blank" rel="nofollow noopener">旧ブログ</a>を本ウェブサイト (<a href="../../../../../">roki.dev</a>), 本ブログ (<a href="../../../../../roki.log">roki.dev/roki.log</a>, <a href="../../../../../roki.diary">roki.dev/roki.diary</a>) に移行した. 以下では, 移行した経緯や技術的概要, 本サイトおよびブログの方針について (ゆるく) 紹介したい.</p>
-<!--more-->
 <h2 id="移行に至った経緯">移行に至った経緯</h2>
 <p>移行前の<a href="https://falgon.github.io/roki.log/" target="_blank" rel="nofollow noopener">旧ブログ</a><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>の構成では, static site generator である <a href="https://github.com/getpelican/pelican" target="_blank" rel="nofollow noopener">pelican</a> を使っていた. 以下に, それを使ってそこそこの期間の運用をした上での実状, 感想を挙げる.</p>
 <ul>
@@ -189,6 +188,7 @@
 </ul>
 <p>無論, 元のブログでも修正, 更新, 機能追加でこれらをすべて満たそうとすることはできるが, もうそこまでするならいっそのことリニューアルしてしまったほうが…<span class="emoji" data-emoji="thinking">🤔</span>となってしまった.<br /></p>
 <p>ブログの他にも, 個人 (プロフィール) サイトを公開しており, それにおいては Typescript + React を使って<a href="https://github.com/falgon/roki" target="_blank" rel="nofollow noopener">構築していた</a><a href="../../../../../roki.log/2020/08/25/hello-roki-web/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. こちらは特に何か変わったこともしていないので, 特筆すべきトピックもないのだが, そこまで DOM 操作をするわけでもないプロフィールページにこれらの技術を用いたのはオーバースペックだったし, bundle.js の重さからしてもあまり理にかなっていなかったように思う.</p>
+<!--more-->
 <h2 id="新個人サイトとブログ">新個人サイトとブログ</h2>
 <p>そのようなわけで, 上記のようなモチベーションがあり, 本個人サイトとブログを新設したわけだが, 今回新設したことによって, これらの不満足な点についてすべて解消ができたと考えている. それを果たすことのできた要因や特徴について, いくつか挙げていければと思う.</p>
 <h3 id="hakyll-について">Hakyll について</h3>
