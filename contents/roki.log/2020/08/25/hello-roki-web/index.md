@@ -12,7 +12,8 @@ tags: Haskell
 
 ## 移行に至った経緯
 
-移行前の[旧ブログ](https://falgon.github.io/roki.log/)[^1]の構成では, static site generator
+移行前の[旧ブログ](https://falgon.github.io/roki.log/)[^1]の構成では,
+static site generator
 である [pelican](https://github.com/getpelican/pelican) を使っていた.
 以下に, それを使ってそこそこの期間の運用をした上での実状, 感想を挙げる.
 
