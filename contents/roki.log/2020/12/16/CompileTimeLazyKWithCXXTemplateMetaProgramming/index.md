@@ -14,15 +14,14 @@ Advent Calendar 用に敬体を使用します
 
 ## はじめに
 
-この記事の公開時点から残り半月もしないうちに 2020
-年も終わろうとしています.
-2021 年の 2 月頃[^1]には, プログラミング言語 C++
-の次期バージョン ISO/IEC 14882:2020, 通称 C++20 が発行され,
-それに伴い,
-いくつかの新しい言語機能や標準ライブラリが追加される予定です.
+この記事の公開日の 1 日前[^1]に, プログラミング言語 C++
+の新バージョン ISO/IEC 14882:2020, 
+通称 C++20 が国際標準として公開されました.
+これにより,
+いくつかの新しい言語機能や標準ライブラリが追加されます.
 その中でも, とくにコンセプトという言語機能は, 
 テンプレートメタプログラミングが話題として盛んであった時代[^2]から待望されていた言語機能のうちの 1 つなのではないでしょうか.
-このコンセプトという機能によって, 
+この標準化によって, 
 C++17 までで行う必要のあった多くの型制約のためのテンプレートメタプログラミングは,
 よりそれ専用の言語機能であるコンセプトを使う形に置き換えられるであろうと思われます.
 そのようなわけで, 
@@ -669,7 +668,7 @@ $$
 <li>"De Bruijn index - Wikipedia", <https://en.wikipedia.org/wiki/De_Bruijn_index></li>
 </ol>
 
-[^1]: [ISO/IEC PRF 14882](https://www.iso.org/standard/79358.html), Publication date より
+[^1]: [ISO/IEC PRF 14882](https://www.iso.org/standard/79358.html), Publication date より. 実は, 本記事の公開の 2 日程前までは, ISO/IEC のページの Publication date に 2021-2 と記載されていました. しかし, [いつの間にか Publication date が 2020-12 になっており, 国際標準規格として公開されていた](https://twitter.com/530506/status/133887800769232896)ので, 急遽一部の内容について微調整しています
 [^2]: 参考文献 1 はかつて C++ にテンプレートメタプログラミングを世に広めた文献のうちの 1 つでしょう. そのうちの Foreword の一部を引用: <blockquote>Some of the techniques herein are admittedly tricky to grasp, especially the template metaprogramming in Chapter 3. Once you've mastered that, however, you'll have a solid foundation for the edifice of generic componentry, which almost builds itself in the ensuing chapters. In fact, I would argue that the metaprogramming material of Chapter 3 alone is worth the book's price</blockquote>第 3 章のメタプログラミングに関する内容だけでも, この本は価格に見合うだけの価値があると述べられていますが, 初めてこの本を読んだときは, 全くそのままそのように感じたことを覚えています...
 [^3]: 本来 \\(\lambda\\) 式の de Bruijn index 化の手続きはもちろんこのようなラフな定義ではなく, 厳密に名無し項を得るための手順を形式的に定めることができますが, Lazy K 処理系を実装するということに当たっては, 入力の関数は (\\(\mathrm{S},\mathrm{K},\mathrm{I}\\) を名無し項として定義すれば) 全てはじめから de Bruijn index 化されていることもあり, 今回はあまり重要でないため, この時点では特に触れていません. 念の為, 詳細については末尾に付録として記載することとしました.
 [^4]: 何故ならば, それらが最も束縛子から近いためです. de Bruijn index の定義から考慮すると当然の帰結ではありますが, より形式的なインデックスの割り当て方に関する詳細は付録を参照してください
