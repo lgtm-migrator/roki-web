@@ -6,8 +6,398 @@
         <link>https://roki.dev/roki.log</link>
         <description><![CDATA[Roki tech blog]]></description>
         <atom:link href="https://roki.dev/roki.log/feed/roki.log-rss.xml" rel="self" type="application/rss+xml" />
-        <lastBuildDate>Tue, 25 Aug 2020 20:45:32 UT</lastBuildDate>
+        <lastBuildDate>Wed, 16 Dec 2020 00:00:00 UT</lastBuildDate>
         <item>
+    <title>C++ テンプレートメタプログラミングによるコンパイル時 Lazy K インタプリタ</title>
+    <link>https://roki.dev/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/index.html</link>
+    <description><![CDATA[<p>※1. この記事は「<a href="https://qiita.com/advent-calendar/2020/klab">KLab Engineer Advent Calendar 2020</a>」の 16 日目にエントリしています<br> ※2. 普段のこのブログの文体は常体ですが, 本記事においては Advent Calendar 用に敬体を使用します</p>
+<figure>
+<img src="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/11721476176_991181199b_w.jpg" alt /><figcaption>Yellow duck Christmas ornament - <a href="https://www.flickr.com/photos/39908901@N06/">m01229</a>, <a href="https://creativecommons.org/licenses/by/2.0/">Attribution 2.0 Generic (CC BY 2.0)</a></figcaption>
+</figure>
+<h2 id="はじめに">はじめに</h2>
+<p>この記事の公開時点から残り半月もしないうちに 2020 年も終わろうとしています. 2021 年の 2 月頃<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>には, プログラミング言語 C++ の次期バージョン ISO/IEC 14882:2020, 通称 C++20 が発行され, それに伴い, いくつかの新しい言語機能や標準ライブラリが追加される予定です. その中でも, とくにコンセプトという言語機能は, テンプレートメタプログラミングが話題として盛んであった時代<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>から待望されていた言語機能のうちの 1 つなのではないでしょうか. このコンセプトという機能によって, C++17 までで行う必要のあった多くの型制約のためのテンプレートメタプログラミングは, よりそれ専用の言語機能であるコンセプトを使う形に置き換えられるであろうと思われます. そのようなわけで, 今後徐々に出番を失っていくであろうテンプレートメタプログラミングを将来懐かしめるよう (?), テンプレートメタプログラミングによってコンパイル時に Lazy K ソースコードをパースして評価するインタプリタのようなものを書いてみました. 本記事では, これに関する実装と理論について紹介します. (型無し <span class="math inline">\lambda</span> 計算について既知のものとします)</p>
+<!--more-->
+<h2 id="lazy-k-とは">Lazy K とは</h2>
+<p>そもそも Lazy K がどのような言語であるかについては, 既にインターネット上に数多くの説明がありますので, ここでは簡潔に取り上げることとします (<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#ref-7">参考文献 7</a>). この説明には <span class="math inline">\lambda</span> 式が使われますので, 先に本記事で扱われる <span class="math inline">\lambda</span> 式の定義を以下の BN 式で与えることとします.</p>
+<div class="m-def">
+<header class="m-def-title">
+<p>
+<span class="math inline">\lambda</span> 式
+</p>
+</header>
+<div class="m-def-content">
+<p><span class="math display">\begin{array}{ccc}
+\langle\text{変数}\rangle&amp;::=&amp;v_n\\
+\langle\lambda\text{式}\rangle&amp;::=&amp;\langle\text{変数}\rangle\mid\left(\langle\lambda\text{式}\rangle\langle\lambda\text{式}\rangle\right)\mid\left(\lambda\langle\text{変数}\rangle .\langle\lambda\text{式}\rangle\right)
+\end{array}</span></p>
+</div>
+</div>
+<p>ここで, 以下の略記法について許可するものとします. 任意の <span class="math inline">\lambda</span> 式 <span class="math inline">M_n</span> について</p>
+<p><span class="math display">\begin{array}{ccc}
+M_1M_2M_3\cdots M_n&amp;:=&amp;\left(\left(\cdots\left(\left(M_1M_2\right)M_3\right)\cdots\right)M_n\right)\\
+\lambda v_1v_2\cdots v_n.M&amp;:=&amp;\lambda v_1.\left(\lambda v_2.\left(\cdots\left(\lambda v_n.M\right)\cdots\right)\right)
+\end{array}</span></p>
+<p>Lazy K は入力として自然数のリストを受け取り, 以下に定義される <span class="math inline">\lambda</span> 式 <span class="math inline">\mathrm{S},\mathrm{K},\mathrm{I}</span> の組み合わせ/計算によって自然数のリストを返すプログラム言語のことです.</p>
+<p><span class="math display">\begin{array}{lcl}
+\mathrm{S}&amp;:=&amp;\lambda v_1v_2v_3.(v_1v_3)(v_2v_3)\\
+\mathrm{K}&amp;:=&amp;\lambda v_1v_2.v_1\\
+\mathrm{I}&amp;:=&amp;\lambda v_1.v_1
+\end{array}</span></p>
+<p>上記の通り Lazy K のソースコードは 1 つの <span class="math inline">\lambda</span> 式そのものです. “通常の” <span class="math inline">\lambda</span> 計算では束縛変数を使って <span class="math inline">\lambda</span> 抽象を定義するのに対し, 上記に定義された <span class="math inline">\mathrm{S},\mathrm{K},\mathrm{I}</span> のみによって束縛変数を使わずに <span class="math inline">\lambda</span> 抽象と同等の仕組みを実現する, コンビネータ理論という体系があります. Lazy K はこのコンビネータ理論の計算機構を使って記述するチューリング完全な参照透過性を持つ関数型言語です. このコンビネータ理論が <span class="math inline">\lambda</span> 抽象と同等の仕組みを実現できることに関する証明についてここでは省略しますが, その方法の 1 つとしては, 例えばコンビネータ理論が扱う式の構造に関する帰納法によるもので可能であることがわかっています.</p>
+<h2 id="lazy-k-の処理系の設計">Lazy K の処理系の設計</h2>
+<p>Lazy K のプログラムを実行するときの大まかな処理の内容は, 以下のような流れになります.</p>
+<ol type="1">
+<li>入力文字列 <span class="math inline">V</span> をチャーチ数のリスト <span class="math inline">V'</span> に変換する</li>
+<li>ソースコードを <span class="math inline">\lambda</span> 式 <span class="math inline">E</span> として解釈する</li>
+<li><span class="math inline">EV'</span> から得られる新たな <span class="math inline">\lambda</span> 式 <span class="math inline">E'</span> を得る</li>
+<li><span class="math inline">E'</span> をチャーチ数のリストと見なし, 文字列に変換, 出力する</li>
+</ol>
+<p>今回行った実装では, この一連の流れを C++ テンプレートのインスタンス化によって行うために, まず <span class="math inline">\lambda</span> 計算を抽象構文木として扱うためのノードについて, 以下のように定義しています.</p>
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/combinators.hpp?slice=7:31" type="text/javascript"></script>
+<p><span class="math inline">\lambda</span> 式の計算体系には <span class="math inline">\alpha</span> 変換と呼ばれる変換規則が定められていますが, 入力されたソースコードから成る変数の名前 (すなわち文字) に対して この <span class="math inline">\alpha</span> 変換の処理を愚直に行っていくのは少々大変そうです. そこで, これを避けるために, <span class="math inline">\lambda</span> 式内の変数を自然数 (変数が自然数のある位置から何番目の <span class="math inline">\lambda</span> によって束縛されているか, どれだけ離れているか) で表現するようにします. これを <span class="math inline">\lambda</span> 式の de Bruijn index 化といい, それによって表される項を名無し項, もしくは de Bruijn index 項といいます<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. 以下は, 先に定義した <span class="math inline">\mathrm{S},\mathrm{K},\mathrm{I}</span> による例です. プログラムでの扱いを容易にするため, <span class="math inline">0</span> からのカウントによって表記しています.</p>
+<p><span class="math display">\begin{array}{lcl}
+\mathrm{S}&amp;\xrightarrow{\text{de Bruijn index}}&amp;\lambda\lambda\lambda2\ 0(1\ 0) \\
+\mathrm{K}&amp;\xrightarrow{\text{de Bruijn index}}&amp;\lambda\lambda 1 \\
+\mathrm{I}&amp;\xrightarrow{\text{de Bruijn index}}&amp;\lambda 0
+\end{array}</span></p>
+<p>これらは, それぞれ先に定義した型を用いて下記のように定義しています.</p>
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/combinators.hpp?slice=32:38" type="text/javascript"></script>
+<p>続いて, 名無し項の <span class="math inline">\beta</span> 簡約について考えてみます. 例えば <span class="math inline">\left(\lambda\lambda 3\ 1\left(\lambda 0\ 2\right)\right)M</span> の <span class="math inline">\beta</span> 簡約について, 置換対象を <span class="math inline">\Box_n</span> として表記すると, <span class="math inline">\left(\lambda\lambda 3\Box_1\left(\lambda 0\Box_2\right)\right)M</span> になります. de Bruijn index の性質上, <span class="math inline">M</span> の内部の自由変数の index は, 置換対象からの <span class="math inline">\lambda</span> 式のネスト分追加されていなければなりません. いま, <span class="math inline">M=\left(\lambda 4\ 0\right)</span> としたとき, <span class="math inline">\Box_1</span> への置換結果は, <span class="math inline">\Box_1</span> の束縛位置から 1 つの <span class="math inline">\lambda</span> 式の下にあるため <span class="math inline">\left(\lambda 5\ 0\right)</span>, <span class="math inline">\Box_2</span> への置換結果は, <span class="math inline">\Box_2</span> の束縛位置から 2 つの <span class="math inline">\lambda</span> 式の下にあるため <span class="math inline">\left(\lambda 6\ 0\right)</span> となります (先に index のカウントを <span class="math inline">0</span> から始めるようにしたため, 置換対象の変数の index を <span class="math inline">n</span> としたとき, 置き換える側の <span class="math inline">\lambda</span> 式内のすべての自由変数の index へ単に <span class="math inline">n</span> を加えれば良くなっています).</p>
+<p>また, <span class="math inline">M</span> への置き換えによって <span class="math inline">\lambda</span> のネストが一段なくなるので, 適用される <span class="math inline">\lambda</span> 式の自由変数はデクリメントされなければなりません. よって <span class="math inline">\lambda 2\Box_1\left(\lambda 0\Box_2\right)</span> という形になり, 結果として以下を得ます.</p>
+<p><span class="math display">
+\left(\lambda\lambda 3\ 1\left(\lambda 0\ 2\right)\right)\left(\lambda 4\ 0\right)\to_\beta
+\lambda 2\left(\lambda 5\ 0\right)\left(\lambda 0\left(\lambda 6\ 0\right)\right)
+</span></p>
+<p>以上で行った自由変数のインデックスに対する操作をシフトといいます. 上記では, <span class="math inline">\lambda</span> 式を視覚的に捉えることで <span class="math inline">\beta</span> 簡約しましたが (プログラムでの扱いを容易とするため) これをより形式的に定義することを考えます. これには, まず項の内部のどの変数が自由変数であるかを識別する必要がありますが, 束縛変数は常に項の最小のインデックスを構成する<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>ので, この性質を利用することとします.</p>
+<p>いま, 自由変数が持つ可能性のある最小のインデックスを <span class="math inline">c</span> とし, シフトを以下の関数によって定義します (<span class="math inline">c</span> はしばしばカットオフといわれます).</p>
+<div class="m-def">
+<header class="m-def-title">
+<p>
+シフト関数
+</p>
+</header>
+<div class="m-def-content">
+<p><span class="math display">\begin{array}{lcl}
+\uparrow^d_c(i)&amp;=&amp;\begin{cases}i&amp;\left(i\lt c\right)\\ i+d&amp;\left(\text{otherwise}\right)\end{cases}\\
+\uparrow^d_c(\lambda t)&amp;=&amp;\lambda \uparrow^d_{c+1}(t)\\
+\uparrow^d_c(t_1\ t_2)&amp;=&amp;\uparrow^d_c(t_1)\uparrow^d_c(t_2)
+\end{array}</span> ここで <span class="math display">\uparrow^d(t):=\uparrow^d_0(t)</span></p>
+</div>
+</div>
+<p><span class="math inline">c</span> によって, 束縛子による深さをカウントアップしていますが, 任意の項 <span class="math inline">t</span> の内部における任意の識別子 <span class="math inline">i</span> について, de Bruijn index の定義から <span class="math inline">i\lt c</span> となるものは束縛されていると分かります. よって, それ以外のものは自由変数なので, (<span class="math inline">d</span> を加えることで) インデックスを操作します. シフトが定義できたので, 項 <span class="math inline">i</span> の識別子 <span class="math inline">j</span> の項 <span class="math inline">t</span> への置換 <span class="math inline">\left[j\mapsto t\right]i</span> を以下のように定義できます.</p>
+<div class="m-def">
+<header class="m-def-title">
+<p>
+置換
+</p>
+</header>
+<div class="m-def-content">
+<p><span class="math display">\begin{array}{lcl}
+\left[j\mapsto t\right]i&amp;=&amp;\begin{cases}t&amp;\left(i=j\right)\\ i&amp;\left(\text{otherwise}\right)\end{cases}\\
+\left[j\mapsto t\right]\lambda t'&amp;=&amp;\lambda\left[j+1\mapsto\uparrow^1(t)\right]t'\\
+\left[j\mapsto t\right]t_1\ t_2&amp;=&amp;\left[j\mapsto t\right]t_1\ \left[j\mapsto t\right]t_2
+\end{array}</span></p>
+</div>
+</div>
+<p>束縛子を通る度に元の置き換え対象はその内側で 1 つシフトされているはずで, また, 置かれる項は, それが置かれる項の束縛子の個数分シフトされていなければなりません. これらの手続きをしつつ, それが置き換える対象そのものであったときに置き換えます. 以上の定義を使って, 以下に名無し項の <span class="math inline">\beta</span> 簡約を定義します.</p>
+<div class="m-def">
+<header class="m-def-title">
+<p>
+名無し項の <span class="math inline">\beta</span> 簡約
+</p>
+</header>
+<div class="m-def-content">
+<p><span class="math display">(\lambda t_1)t_2 =\uparrow^{-1}\left(\left[0\mapsto\uparrow^1(t_2)\right]t_1\right)</span></p>
+</div>
+</div>
+<p><span class="math inline">t_1</span> に対して置換する前に, 置換される <span class="math inline">t_2</span> は <span class="math inline">t_1</span> の内部にくる関係上, <span class="math inline">\lambda</span> のネストが 1 つ増加されるため, 1 を加えるシフトを行う必要があります (<span class="math inline">t_1</span> は <span class="math inline">t_2</span> よりもより大きな文脈で定義されているため, とも言えます). また, 先に直感的に <span class="math inline">\beta</span> 簡約をした際にも考慮したように, 置換によって <span class="math inline">\lambda</span> のネストがなくなりますので, その分の負のシフトをします. 例えば, 先に直感的に求めた <span class="math inline">\left(\lambda\lambda 3\ 1\left(\lambda 0\ 2\right)\right)\left(\lambda 4\ 0\right)</span> の <span class="math inline">\beta</span> 簡約は以下のように計算できます.</p>
+<p><span class="math display">\begin{array}{lcl}
+\left(\lambda\lambda 3\ 1\left(\lambda 0\ 2\right)\right)\left(\lambda 4\ 0\right)&amp;\to_\beta&amp;\uparrow^{-1}\left(\left[0\mapsto\uparrow^1\left(\lambda 4\ 0\right)\right]\lambda 3\ 1\left(\lambda 0\ 2\right)\right)\\
+&amp;=&amp;\uparrow^{-1}\left(\left[0\mapsto(\lambda 5\ 0)\right]\lambda 3\ 1\left(\lambda 0\ 2\right)\right)\\
+&amp;=&amp;\uparrow^{-1}\left(\lambda\left[1\mapsto\left(\lambda 6\ 0\right)\right]3\ 1\left(\lambda 0\ 2\right)\right)\\
+&amp;=&amp;\uparrow^{-1}\left(\lambda\left[1\mapsto\left(\lambda 6\ 0\right)\right]3\ \left[1\mapsto\left(\lambda 6\ 0\right)\right]1\ \left(\lambda 0\ 2\right)\right)\\
+&amp;=&amp;\uparrow^{-1}\left(\lambda 3\left(\left[1\mapsto\left(\lambda 6\ 0\right)\right]1\ \left[1\mapsto\left(\lambda 6\ 0\right)\right]\left(\lambda 0\ 2\right)\right)\right)\\
+&amp;=&amp;\uparrow^{-1}\left(\lambda 3\left(\lambda 6\ 0\right)\left(\lambda\left[2\mapsto\left(\lambda 7\ 0\right)\right]0\ 2\right)\right)\\
+&amp;=&amp;\uparrow^{-1}\left(\lambda 3\left(\lambda 6\ 0\right)\left(\lambda\left[2\mapsto\left(\lambda 7\ 0\right)\right]0\ \left[2\mapsto\left(\lambda 7\ 0\right)\right]2\right)\right)\\
+&amp;=&amp;\uparrow^{-1}\left(\lambda 3\left(\lambda 6\ 0\right)\left(\lambda 0\ \left(\lambda 7\ 0\right)\right)\right)\\
+&amp;=&amp;\lambda 2\left(\lambda 5\ 0\right)\left(\lambda 0\left(\lambda 6\ 0\right)\right)
+\end{array}</span></p>
+<p>以上が, 名無し項の <span class="math inline">\beta</span> 簡約に関する形式的な定義となります. また, 今回の処理系全体の実装としては, 以下のようになっています.</p>
+<div style="max-height: 400px; overflow-y: scroll;">
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/evaluate.hpp" type="text/javascript"></script>
+</div>
+<h2 id="パーサコンビネータ">パーサコンビネータ</h2>
+<p>ここからは, パーサの実装の話題に移ります. 構文解析の有名な手法の 1 つとしては, モナディックなパーサコンビネータをつくるといったことが挙げられます. 単純なパーサコンビネータの最低限必要な機能を考えると, 未処理の入力文字列の状態と, その入力文字列に対する異常性を管理できればよいでしょう. このように考えると, 状態モナド変換子と Either モナドを合成することでうまく扱えそうです. これに従い, 今回の実装では <code>state_transformer</code> と <code>either</code> を実装し, それらの合成をラップする形で必要最低限のパーサーコンビネータを作っています (mpl-lazyk/mlk/text/parsec.hpp). mpl-lazyk/tests/text/parsec.cpp は, この実装に対するユニットテストですが, その使用例として見ることもできるので, そのような意図で下記に掲載します.</p>
+<div id="tabs" class="tabs is-toggle is-boxed is-centered mb-0">
+<ul>
+<li class="is-active" data-tab="1">
+<a> <span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span> <span>mpl-lazyk/mlk/text/parsec.hpp</span> </a>
+</li>
+<li data-tab="2">
+<a> <span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span> <span>mpl-lazyk/tests/text/parsec.cpp</span> </a>
+</li>
+</ul>
+</div>
+<div id="tab-content" class="mb-3" style="max-height: 400px; overflow-y: scroll;">
+<div class="is-active acontent" data-content="1">
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/mlk/text/parsec.hpp" type="text/javascript"></script>
+</div>
+<div class="acontent" data-content="2">
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/tests/text/parsec.cpp" type="text/javascript"></script>
+</div>
+</div>
+<script type="text/javascript" src="/js/uniq_tab.js"></script>
+<p><code>state_transformer</code> と <code>either</code> の合成はモナドなので, スコープ解決演算子 <code>::</code> でメソッドチェインのように記述できます. 2 つのアクションを順番に実行し, 最初のアクションで生成された値を 2 番目のアクションに渡す <code>bind</code>, <code>bind</code> と同様ですが, 最初のアクションの値を捨てる <code>dbind</code>, モナドの型に値を包む <code>eta</code> を基本として, その他パーサを容易に記述するための“便利な型”をいくつか定義しています. ここで, <code>bind</code>, <code>dbind</code>, <code>eta</code> 以外のそれら“便利な型”は, 最初のアクションの値を捨てるという動作で統一しています. つまり, 以下のテストで示されるように, <code>::dbind&lt;便利な型&gt;</code> と <code>::便利な型</code> は等価な関係にあります.</p>
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/tests/text/parsec.cpp?slice=466:503" type="text/javascript"></script>
+<p>なお, 実装における各命名については, Haskell や圏論にインスパイアされた形式をとっています (例えば, <code>eta</code> は圏論の <span class="math inline">\eta</span> など).</p>
+<h2 id="c-テンプレートと遅延評価">C++ テンプレートと遅延評価</h2>
+<p>C++ テンプレートはチューリング完全な純粋関数型言語<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>であり, うまくテンプレートのインスタンス化のタイミングを制御することで, いわゆる遅延評価的な評価戦略によって計算させることができます. 例を 1 つ挙げましょう. 説明の便宜上, まず以下のようなモノを定義します.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb1-1" aria-hidden="true"></a><span class="kw">template</span> &lt;<span class="kw">class</span> T&gt;</span>
+<span id="cb1-2"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb1-2" aria-hidden="true"></a><span class="kw">struct</span> <span class="dt">def_type</span> : <span class="bu">std::</span>enable_if&lt;<span class="kw">true</span>, T&gt; {};</span>
+<span id="cb1-3"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb1-3" aria-hidden="true"></a></span>
+<span id="cb1-4"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb1-4" aria-hidden="true"></a><span class="kw">struct</span> left;</span>
+<span id="cb1-5"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb1-5" aria-hidden="true"></a><span class="kw">struct</span> right;</span>
+<span id="cb1-6"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb1-6" aria-hidden="true"></a><span class="kw">struct</span> nothing;</span></code></pre></div>
+<p>ここで, あるコンパイル時定数 <code>value</code> が参照可能な 2 つのメタ関数についての論理和, すなわち左辺が真のときに <code>left</code>, 右辺が真のときに <code>right</code>, どちらも真でないときに <code>nothing</code> を返す 2 項メタ関数 <code>lor</code> を考えます. インスタンス化のタイミングに関して何の考慮もしていない実装は, 例えば, 以下のようなものが挙げられるでしょう.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-1" aria-hidden="true"></a><span class="kw">template</span> &lt;<span class="kw">class</span> Lhs, <span class="kw">class</span> Rhs&gt;</span>
+<span id="cb2-2"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-2" aria-hidden="true"></a><span class="kw">struct</span> lor</span>
+<span id="cb2-3"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-3" aria-hidden="true"></a>    : <span class="bu">std::</span>conditional&lt;</span>
+<span id="cb2-4"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-4" aria-hidden="true"></a>        Lhs::value,</span>
+<span id="cb2-5"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-5" aria-hidden="true"></a>        left,</span>
+<span id="cb2-6"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-6" aria-hidden="true"></a>        <span class="bu">std::</span>conditional_t&lt;</span>
+<span id="cb2-7"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-7" aria-hidden="true"></a>            Rhs::value,</span>
+<span id="cb2-8"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-8" aria-hidden="true"></a>            right,</span>
+<span id="cb2-9"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-9" aria-hidden="true"></a>            nothing</span>
+<span id="cb2-10"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-10" aria-hidden="true"></a>        &gt;</span>
+<span id="cb2-11"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-11" aria-hidden="true"></a>    &gt; {};</span>
+<span id="cb2-12"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-12" aria-hidden="true"></a></span>
+<span id="cb2-13"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-13" aria-hidden="true"></a><span class="kw">template</span> &lt;<span class="kw">class</span> Lhs, <span class="kw">class</span> Rhs&gt;</span>
+<span id="cb2-14"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb2-14" aria-hidden="true"></a><span class="kw">using</span> <span class="dt">lor_t</span> = <span class="kw">typename</span> lor&lt;Lhs, Rhs&gt;::type;</span></code></pre></div>
+<p>これでも問題はなさそうです. 実際, 以下のようにテストしてみると, うまくいっているように見えます.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb3-1" aria-hidden="true"></a><span class="kw">static_assert</span>(</span>
+<span id="cb3-2"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb3-2" aria-hidden="true"></a>    <span class="bu">std::</span>conjunction_v&lt;</span>
+<span id="cb3-3"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb3-3" aria-hidden="true"></a>        <span class="bu">std::</span>is_same&lt;<span class="dt">lor_t</span>&lt;<span class="bu">std::</span>true_type, <span class="bu">std::</span>true_type&gt;, left&gt;,      <span class="co">// OK</span></span>
+<span id="cb3-4"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb3-4" aria-hidden="true"></a>        <span class="bu">std::</span>is_same&lt;<span class="dt">lor_t</span>&lt;<span class="bu">std::</span>false_type, <span class="bu">std::</span>true_type&gt;, right&gt;,    <span class="co">// OK</span></span>
+<span id="cb3-5"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb3-5" aria-hidden="true"></a>        <span class="bu">std::</span>is_same&lt;<span class="dt">lor_t</span>&lt;<span class="bu">std::</span>false_type, <span class="bu">std::</span>false_type&gt;, nothing&gt;  <span class="co">// OK</span></span>
+<span id="cb3-6"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb3-6" aria-hidden="true"></a>    &gt;</span>
+<span id="cb3-7"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb3-7" aria-hidden="true"></a>);</span></code></pre></div>
+<p>では, ここで, このメタ関数 <code>lor</code> に与える引数を以下のように変更するとどうなるでしょうか.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb4-1" aria-hidden="true"></a><span class="kw">struct</span> X;</span>
+<span id="cb4-2"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb4-2" aria-hidden="true"></a><span class="kw">static_assert</span>(<span class="bu">std::</span>is_same_v&lt;<span class="dt">lor_t</span>&lt;<span class="bu">std::</span>true_type, X&gt;, left&gt;); <span class="co">// NG</span></span></code></pre></div>
+<p>残念ながら, これはコンパイルに失敗します. <code>X</code> が定義されていないからです. 不完全なクラス方に関する言及, N4659 § 17.7.1:</p>
+<blockquote>
+<p>If a class template has been declared, but not defined, at the point of instantiation, the instantiation yields an incomplete class type ([basic.types]).</p>
+</blockquote>
+<p>直感的には, 左辺が真である時点でもう右辺の評価をする必要はないので, <code>X</code> がどうであろうと, ここでは <code>left</code> が返ってきてほしいところですが, <code>std::conditional</code> では, 普通のプログラミング言語で行われるような論理演算に関する short circuit 的な評価は行われません. 与えられた引数はすべて積極評価されます. この問題は, 左辺の状態に関わらず右辺の <code>::type</code> を参照してしまうこと, すなわち, 右辺のクラス型の完全性がプログラムのセマンティックスに影響を与えるよう, 実装してしまっていることに起因します. クラス型の完全性に関する言及, N4659 § 17.7.1:</p>
+<blockquote>
+<p>Unless a class template specialization has been explicitly instantiated or explicitly specialized, the class template specialization is implicitly instantiated when the specialization is referenced in a context that requires a completely-defined object type or when the completeness of the class type affects the semantics of the program.</p>
+</blockquote>
+<p>したがって, それを回避するために, テンプレートの特殊化, SFINAE を利用して, 段階的にインスタンス化を実行させるようにします<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-1" aria-hidden="true"></a><span class="kw">template</span> &lt;<span class="kw">class</span> Lhs, <span class="kw">class</span> Rhs&gt;</span>
+<span id="cb5-2"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-2" aria-hidden="true"></a><span class="kw">class</span> lor {</span>
+<span id="cb5-3"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-3" aria-hidden="true"></a>    <span class="kw">template</span> &lt;<span class="kw">class</span>, <span class="kw">class</span> = <span class="dt">void</span>&gt;</span>
+<span id="cb5-4"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-4" aria-hidden="true"></a>    <span class="kw">struct</span> lor_base2 : <span class="dt">def_type</span>&lt;nothing&gt; {};</span>
+<span id="cb5-5"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-5" aria-hidden="true"></a>    <span class="kw">template</span> &lt;<span class="kw">class</span> R&gt;</span>
+<span id="cb5-6"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-6" aria-hidden="true"></a>    <span class="kw">struct</span> lor_base2&lt;R, <span class="bu">std::</span>enable_if_t&lt;R::value&gt;&gt; : <span class="dt">def_type</span>&lt;right&gt; {};</span>
+<span id="cb5-7"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-7" aria-hidden="true"></a></span>
+<span id="cb5-8"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-8" aria-hidden="true"></a>    <span class="kw">template</span> &lt;<span class="kw">class</span>, <span class="kw">class</span> R, <span class="kw">class</span> = <span class="dt">void</span>&gt;</span>
+<span id="cb5-9"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-9" aria-hidden="true"></a>    <span class="kw">struct</span> lor_base1 : lor_base2&lt;R&gt; {};</span>
+<span id="cb5-10"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-10" aria-hidden="true"></a>    <span class="kw">template</span> &lt;<span class="kw">class</span> L, <span class="kw">class</span> R&gt;</span>
+<span id="cb5-11"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-11" aria-hidden="true"></a>    <span class="kw">struct</span> lor_base1&lt;L, R, <span class="bu">std::</span>enable_if_t&lt;L::value&gt;&gt; : <span class="dt">def_type</span>&lt;left&gt; {};</span>
+<span id="cb5-12"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-12" aria-hidden="true"></a><span class="kw">public</span>:</span>
+<span id="cb5-13"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-13" aria-hidden="true"></a>    <span class="kw">typedef</span> <span class="kw">typename</span> lor_base1&lt;Lhs, Rhs&gt;::type type;</span>
+<span id="cb5-14"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-14" aria-hidden="true"></a>};</span>
+<span id="cb5-15"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-15" aria-hidden="true"></a></span>
+<span id="cb5-16"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-16" aria-hidden="true"></a><span class="kw">template</span> &lt;<span class="kw">class</span> Lhs, <span class="kw">class</span> Rhs&gt;</span>
+<span id="cb5-17"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-17" aria-hidden="true"></a><span class="kw">using</span> <span class="dt">lor_t</span> = <span class="kw">typename</span> lor&lt;Lhs, Rhs&gt;::type;</span>
+<span id="cb5-18"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-18" aria-hidden="true"></a></span>
+<span id="cb5-19"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-19" aria-hidden="true"></a><span class="kw">struct</span> X;</span>
+<span id="cb5-20"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-20" aria-hidden="true"></a><span class="kw">static_assert</span>(</span>
+<span id="cb5-21"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-21" aria-hidden="true"></a>    <span class="bu">std::</span>conjunction_v&lt;</span>
+<span id="cb5-22"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-22" aria-hidden="true"></a>        <span class="bu">std::</span>is_same&lt;<span class="dt">lor_t</span>&lt;<span class="bu">std::</span>true_type, X&gt;, left&gt;,       <span class="co">// OK</span></span>
+<span id="cb5-23"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-23" aria-hidden="true"></a>        <span class="bu">std::</span>is_same&lt;<span class="dt">lor_t</span>&lt;<span class="bu">std::</span>false_type, X&gt;, nothing&gt;,   <span class="co">// OK</span></span>
+<span id="cb5-24"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-24" aria-hidden="true"></a>        <span class="bu">std::</span>is_same&lt;<span class="dt">lor_t</span>&lt;X, <span class="bu">std::</span>true_type&gt;, right&gt;,      <span class="co">// OK</span></span>
+<span id="cb5-25"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-25" aria-hidden="true"></a>        <span class="bu">std::</span>is_same&lt;<span class="dt">lor_t</span>&lt;X, <span class="bu">std::</span>false_type&gt;, nothing&gt;,   <span class="co">// OK</span></span>
+<span id="cb5-26"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-26" aria-hidden="true"></a>        <span class="bu">std::</span>is_same&lt;<span class="dt">lor_t</span>&lt;X, X&gt;, nothing&gt;                  <span class="co">// OK</span></span>
+<span id="cb5-27"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-27" aria-hidden="true"></a>    &gt;</span>
+<span id="cb5-28"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb5-28" aria-hidden="true"></a>);</span></code></pre></div>
+<p>ここで上記の実装は, 以下のようなより一般的な遅延評価版 <code>conditional</code> メタ関数を用意してやることで, 全体として少し直感的な実装にできます.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-1" aria-hidden="true"></a><span class="kw">template</span> &lt;<span class="kw">class</span> B, <span class="kw">class</span> L, <span class="kw">class</span> R&gt;</span>
+<span id="cb6-2"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-2" aria-hidden="true"></a><span class="kw">class</span> conditional {</span>
+<span id="cb6-3"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-3" aria-hidden="true"></a>    <span class="kw">template</span> &lt;<span class="kw">class</span>, <span class="kw">class</span>, <span class="kw">class</span> RR, <span class="kw">class</span> = <span class="dt">void</span>&gt;</span>
+<span id="cb6-4"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-4" aria-hidden="true"></a>    <span class="kw">struct</span> conditional_base : <span class="dt">def_type</span>&lt;RR&gt; {};   </span>
+<span id="cb6-5"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-5" aria-hidden="true"></a>    <span class="kw">template</span> &lt;<span class="kw">class</span> BB, <span class="kw">class</span> LL, <span class="kw">class</span> RR&gt;</span>
+<span id="cb6-6"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-6" aria-hidden="true"></a>    <span class="kw">struct</span> conditional_base&lt;BB, LL, RR, <span class="bu">std::</span>enable_if_t&lt;BB::value&gt;&gt; : <span class="dt">def_type</span>&lt;LL&gt; {};</span>
+<span id="cb6-7"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-7" aria-hidden="true"></a><span class="kw">public</span>:</span>
+<span id="cb6-8"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-8" aria-hidden="true"></a>    <span class="kw">typedef</span> <span class="kw">typename</span> conditional_base&lt;B, L, R&gt;::type type;</span>
+<span id="cb6-9"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-9" aria-hidden="true"></a>};</span>
+<span id="cb6-10"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-10" aria-hidden="true"></a></span>
+<span id="cb6-11"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-11" aria-hidden="true"></a><span class="kw">template</span> &lt;<span class="kw">class</span> B, <span class="kw">class</span> L, <span class="kw">class</span> R&gt;</span>
+<span id="cb6-12"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-12" aria-hidden="true"></a><span class="kw">using</span> <span class="dt">conditional_t</span> = <span class="kw">typename</span> conditional&lt;B, L, R&gt;::type;</span>
+<span id="cb6-13"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-13" aria-hidden="true"></a></span>
+<span id="cb6-14"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-14" aria-hidden="true"></a><span class="kw">template</span> &lt;<span class="kw">class</span> Lhs, <span class="kw">class</span> Rhs&gt;</span>
+<span id="cb6-15"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-15" aria-hidden="true"></a><span class="kw">struct</span> lor</span>
+<span id="cb6-16"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-16" aria-hidden="true"></a>    : conditional&lt;</span>
+<span id="cb6-17"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-17" aria-hidden="true"></a>        Lhs,</span>
+<span id="cb6-18"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-18" aria-hidden="true"></a>        left,</span>
+<span id="cb6-19"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-19" aria-hidden="true"></a>        <span class="dt">conditional_t</span>&lt;</span>
+<span id="cb6-20"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-20" aria-hidden="true"></a>            Rhs,</span>
+<span id="cb6-21"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-21" aria-hidden="true"></a>            right,</span>
+<span id="cb6-22"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-22" aria-hidden="true"></a>            nothing</span>
+<span id="cb6-23"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-23" aria-hidden="true"></a>        &gt;</span>
+<span id="cb6-24"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-24" aria-hidden="true"></a>    &gt; {};</span>
+<span id="cb6-25"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-25" aria-hidden="true"></a></span>
+<span id="cb6-26"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-26" aria-hidden="true"></a><span class="kw">template</span> &lt;<span class="kw">class</span> Lhs, <span class="kw">class</span> Rhs&gt;</span>
+<span id="cb6-27"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-27" aria-hidden="true"></a><span class="kw">using</span> <span class="dt">lor_t</span> = <span class="kw">typename</span> lor&lt;Lhs, Rhs&gt;::type;</span></code></pre></div>
+<p>これが, 冒頭で述べた, 「うまくテンプレートのインスタンス化のタイミングを制御すること」の一例であり, このような工夫によってインスタンス化を遅らせることが可能である事実は, 今回作ったような, パーサコンビネータによるパーサの実装に関して, 重要な意味がありました. 例えば, 以下は今回実装したパーサの一部ですが, <code>pTerm</code> の定義には <code>pCb</code> が, <code>pCb</code> の定義には <code>pTerm</code> が含まれており, これらはいわゆる相互再帰の形となっています.</p>
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/parse.hpp?slice=40:72" type="text/javascript"></script>
+<p>これらは, パーサコンビネータを「うまくテンプレートのインスタンス化のタイミングを制御すること」で遅延評価するように実装しており, それがもし不可能であったならば, 今回のような方法での実装は恐らくかなわなかったでしょう.</p>
+<h2 id="成果物">成果物</h2>
+<p>実装は下記リポジトリにて公開しています.</p>
+<div class="has-text-centered mb-2">
+<p><i class="fab fa-github fa-fw"></i> <a href="https://github.com/falgon/mpl-lazyk">falgon/mpl-lazyk - Compile-time Lazy K interpreter with C++17 template metaprogramming </a></p>
+</div>
+<p>実行例は以下のとおりです.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb7-1" aria-hidden="true"></a>$ <span class="bu">cd</span> app</span>
+<span id="cb7-2"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb7-2" aria-hidden="true"></a>$ <span class="fu">make</span> LAZYK_CODE=<span class="st">'&quot;(SKK)I&quot;'</span> INPUT=<span class="st">'&quot;Hello, world!&quot;'</span></span>
+<span id="cb7-3"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb7-3" aria-hidden="true"></a><span class="ex">Hello</span>, world!</span>
+<span id="cb7-4"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb7-4" aria-hidden="true"></a>$ <span class="va">INPUT=</span><span class="st">&quot;Que Sera, Sera&quot;</span> <span class="va">LAZYK_CODE=</span><span class="st">&quot;(SKK)I&quot;</span> <span class="ex">docker-compose</span> -f ./docker/docker-compose.yml run lazyk # または</span>
+<span id="cb7-5"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb7-5" aria-hidden="true"></a><span class="ex">Que</span> Sera, Sera</span></code></pre></div>
+<p>実は, Lazy K にはコンビネータ記法, Unlambda 記法, Iota 記法, Jot 記法の 4 つの記法があり, これらの記法を 1 つ以上使って書くことができます (つまり, これらの記法を同時に混ぜて使うことができます). 今回の実装では, その全ての記法に対応してい<del>るつもりです</del>ます. 例えば, 以下は Iota 記法による恒等関数の実装です.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb8-1" aria-hidden="true"></a>$ <span class="va">INPUT=</span><span class="st">&quot;Que Sera, Sera&quot;</span> <span class="va">LAZYK_CODE=</span><span class="st">&quot;****i*i*i*ii*ii*ii11111110001111111110000011111111100000&quot;</span> <span class="ex">docker-compose</span> -f docker/docker-compose.yml run lazyk # Iota 記法</span>
+<span id="cb8-2"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb8-2" aria-hidden="true"></a><span class="ex">Que</span> Sera, Sera</span></code></pre></div>
+<p>もちろん, この mpl-lazyk の動作としては, Lazy K のソースコードを読み込み, 構文解析によって構文木をつくり, それを基に評価して Ascii characters のリストを構築するという部分まで全てコンパイル時に行われます. 実行時に行われているのは, 標準出力へ文字列を出力することのみです.<br> なお, テストは以下のように実行できます.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb9-1" aria-hidden="true"></a>$ <span class="bu">cd</span> tests <span class="kw">&amp;&amp;</span> <span class="fu">make</span></span>
+<span id="cb9-2"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb9-2" aria-hidden="true"></a>$ <span class="ex">docker-compose</span> -f ./docker/docker-compose.yml run test # または</span></code></pre></div>
+なお, 上記で述べたように, 「Lazy K のソースコードを読み込み, 構文解析によって構文木をつくり, それを基に評価して Ascii characters のリストを構築するという部分まで全てコンパイル時に行われる」 ので, 残念ながら, 実行不可能な Lazy K プログラムが必然的に存在します. 例えば, 無限ループを含む Lazy K プログラムなどがそれです. 通常の Lazy K インタプリタでは構築されたリストを遅延評価するか, もしくはそれをシミュレートする方法によって, 随時的に文字を出力できますが, コンパイル時に本処理を行っている以上, それは不可能です. 無論, プログラムの停止性問題により, 無限ループを含む Lazy K プログラムが入力されたときに, 何かをするということはできません. また, C++ テンプレートはチューリング完全であるものの再起深度に限度があるので, その回数を上回るような Lazy K プログラムも必然的に実行できません. N4659 §17.7.1:
+<blockquote>
+There is an implementation-defined quantity that specifies the limit on the total depth of recursive instantiations ([implimits]), which could involve more than one template. The result of an infinite recursion in instantiation is undefined.
+</blockquote>
+<p>例えば, 以下はエラトステネスのふるいによって素数を出力し続ける Lazy K プログラムを入力として与えていますが, 再帰深度の限界に到達しています.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb10-1" aria-hidden="true"></a>$ <span class="fu">make</span> LAZYK_CODE=<span class="st">'&quot;K(SII(S(K(S(S(K(SII(S(S(KS)(S(K(S(KS)))(S(K(S(S(KS)(SS(S(S(KS)K))(KK)))))(S(S(KS)(S(KK)(S(KS)(S(S(KS)(S(KK)(S(KS)(S(S(KS)(S(KK)(SII)))(K(SI(KK)))))))(K(S(K(S(S(KS)(S(K(SI))(S(KK)(S(K(S(S(KS)K)(S(S(KS)K)I)(S(SII)I(S(S(KS)K)I)(S(S(KS)K)))))(SI(K(KI)))))))))(S(KK)K)))))))(K(S(KK)(S(SI(K(S(S(S(S(SSK(SI(K(KI))))(K(S(S(KS)K)I(S(S(KS)K)(S(S(KS)K)I))(S(K(S(SI(K(KI)))))K)(KK))))(KK))(S(S(KS)(S(K(SI))(S(KK)(S(K(S(S(KS)K)))(SI(KK))))))(K(K(KI)))))(S(S(KS)(S(K(SI))(SS(SI)(KK))))(S(KK)(S(K(S(S(KS)K)))(SI(K(KI)))))))))(K(K(KI))))))))))(K(KI)))))(SI(KK)))))(S(K(S(K(S(K(S(SI(K(S(K(S(S(KS)K)I))(S(SII)I(S(S(KS)K)I)))))))K))))(S(S(KS)(S(KK)(SII)))(K(SI(K(KI)))))))(SII(S(K(S(S(KS)(S(K(S(S(SI(KK))(KI))))(SS(S(S(KS)(S(KK)(S(KS)(S(K(SI))K)))))(KK))))))(S(S(KS)(S(K(S(KS)))(S(K(S(KK)))(S(S(KS)(S(KK)(SII)))(K(S(S(KS)K)))))))(K(S(S(KS)(S(K(S(S(SI(KK))(KI))))(S(KK)(S(K(SII(S(K(S(S(KS)(S(K(S(K(S(S(KS)(S(KK)(S(KS)(S(K(SI))K))))(KK)))))(S(S(KS)(S(KK)(S(K(SI(KK)))(SI(KK)))))(K(SI(KK))))))))(S(S(KS)(S(K(S(KS)))(S(K(S(KK)))(S(S(KS)(S(KK)(SII)))(K(SI(K(KI))))))))(K(K(SI(K(KI)))))))))(S(K(SII))(S(K(S(K(SI(K(KI))))))(S(S(KS)(S(KK)(SI(K(S(K(S(SI(K(KI)))))K)))))(K(S(K(S(SI(KK))))(S(KK)(SII)))))))))))(K(SI(K(KI))))))))(S(S(KS)K)I)(SII(S(K(S(K(S(SI(K(KI)))))K))(SII)))))&quot;'</span> INPUT=<span class="st">'&quot;&quot;'</span></span>
+<span id="cb10-2"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb10-2" aria-hidden="true"></a></span>
+<span id="cb10-3"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb10-3" aria-hidden="true"></a><span class="ex">fatal</span> error: template instantiation depth exceeds maximum of 900 (use -ftemplate-depth= to increase the maximum)</span>
+<span id="cb10-4"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb10-4" aria-hidden="true"></a>     <span class="ex">typedef</span> typename exec_impl<span class="op">&lt;</span>F<span class="op">&gt;</span>::type type<span class="kw">;</span></span>
+<span id="cb10-5"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb10-5" aria-hidden="true"></a>                                         ^<span class="ex">~~~</span></span>
+<span id="cb10-6"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb10-6" aria-hidden="true"></a><span class="ex">compilation</span> terminated.</span></code></pre></div>
+<p>なお, N4659 Annex B によると, この深度の最小推奨値は 1024 であるとされていますが, 依然としてこれはガイドラインに過ぎず, implementation-defined です.</p>
+<blockquote>
+Recursively nested template instantiations, including substitution during template argument deduction ([temp.deduct]) [1024].
+</blockquote>
+<p>また, 今回の実行環境である GCC 7.5.0 のデフォルトでは, 上記のエラーメッセージの通り 900 です. <code>-ftemplate-depth</code> でこの値は変更できるのですが, あまりにも大きい数値に設定すると, 現実的な時間内でコンパイルが終了しなくなってしまうこともあります. これに関しては, もう少し深度を抑えるための工夫や別の実装方法への変更が必要になるでしょう.</p>
+<h2 id="おわり">おわり</h2>
+<p>ほとんどの場合 (恐らく, きっと), テンプレートメタプログラミングを行うことの主な目的は, 型に対して制約を与えることでしょう. 冒頭で述べましたとおり, C++20 以降において, これはコンセプトという言語機能によって置き換えることができるはずです (これには諸説あり, 一部願望が入り混じっています). また, テンプレートメタプログラミングをしていると, 下図のような爆発的なエラーメッセージ<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>と格闘することになる可能性もあります<span class="emoji" data-emoji="innocent">😇</span></p>
+<figure>
+<img src="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/ce.png" width="500" alt /><figcaption>爆発するコンパイルエラーメッセージ</figcaption>
+</figure>
+<p>したがって, 無駄な混乱を避けるためにも, テンプレートメタプログラミングは<strong>本当に必要でない限りするべきではありません</strong><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>. <a href="http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-templates">C++ Core Guidelines</a> には以下のような記載があります.</p>
+<blockquote>
+Metaprogramming rule summary:
+<ul>
+<li>
+T.120: Use template metaprogramming only when you really need to
+</li>
+<li>
+T.121: Use template metaprogramming primarily to emulate concepts
+</li>
+<li>
+T.122: Use templates (usually template aliases) to compute types at compile time
+</li>
+<li>
+T.123: Use constexpr functions to compute values at compile time
+</li>
+<li>
+T.124: Prefer to use standard-library TMP facilities
+</li>
+<li>
+T.125: If you need to go beyond the standard-library TMP facilities, use an existing library
+</li>
+</blockquote>
+<p>とは言え, C++ テンプレートがチューリング完全であることは (一部の界隈で) 有名であり, また手続き型言語のプリミティブ, EsoLang としても有名である brainf**k のテンプレートメタプログラミングによるコンパイル時インタプリタの実装は既にインターネット上にあるので, 今回実装したようなテンプレートメタプログラミングによる Lazy K の処理系についても既に存在するだろう…と考えていました. しかし, 私の観測範囲内 (Google, GitHub 検索) では見つけることができませんでしたね…<span class="emoji" data-emoji="thinking">🤔</span></p>
+<h2 id="付録-lambda-式の-de-bruijn-index-化">付録: <span class="math inline">\lambda</span> 式の de Bruijn index 化</h2>
+<p>先に挙げた例では, 変数が自然数のある位置から何番目の <span class="math inline">\lambda</span> によって束縛されているか, と直感的に考えることで上記の名無し項を得ることができていましたが, これをもっと形式的に求めることを考えます. その考察にあたって, 名付け文脈といわれる仕組みを導入することとします. この仕組みを導入することの動機としては, 例えば <span class="math inline">\lambda w.yw</span> を名無し項として表現することを考えたとき, <span class="math inline">w</span> についての扱い方は陽に分かりますが, <span class="math inline">y</span> については束縛子が見つからないため, 何の数を割り振れば適切か断定のしようがなく, 名無し項を得ることができないというものが挙げられます. この解決策としては, あらかじめ (名前付け文脈といわれる) 自由変数から自然数への写像を定義し, 自由変数に対して自然数を選択する必要が生じた際, 一貫してそれへ従うようにするというものが考えられます. 例として, 名付け文脈 <span class="math inline">\Gamma</span> を以下のように定義できます.</p>
+<p><span class="math display">\begin{array}{ccc}
+\Gamma&amp;=&amp;x\mapsto 4\\
+&amp;&amp;y\mapsto 3\\
+&amp;&amp;z\mapsto 2\\
+&amp;&amp;a\mapsto 1\\
+&amp;&amp;b\mapsto 0
+\end{array}</span></p>
+<p>上記の通り, インデックスは <span class="math inline">\Gamma</span> に出現する順序で決まります. したがって, より簡潔に <span class="math inline">\Gamma</span> を列 <span class="math inline">\Gamma=xyzab</span> として記述して, 各自由変数名との対応である<a href="/roki.log/2019/03/15/Relation">二項関係</a> <span class="math inline">\left\{\langle x,4\rangle,\langle y,3\rangle,\langle z,2\rangle,\langle a,1\rangle,\langle b, 0\rangle\right\}</span> を表すこととします. また, これをより一般化し, 変数名の順序付けられた可算集合 <span class="math inline">\mathcal{V}</span> から取った変数名 <span class="math inline">x_0,\cdots,x_n\in\mathcal{V}</span> に対して, 名付け文脈 <span class="math inline">\Gamma=x_n,x_{n-1},\cdots,x_1,x_0</span> により, 各自由変数名との対応である二項関係 <span class="math inline">\left\{\langle x_n,n\rangle,\langle x_{n-1},n-1\rangle,\cdots,\langle x_1, 1\rangle,\langle x_0,0\rangle\right\}</span> を表すこととします. さらに <span class="math inline">\mathrm{dom}(\Gamma)</span> と書いて <span class="math inline">\Gamma</span> で扱われる変数名の集合を意味するとします.</p>
+<figure>
+<img src="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/tree1.png" alt /><figcaption>名付け文脈を持つ <span class="math inline">\lambda w.yw</span> の抽象構文木</figcaption>
+</figure>
+<p>上図を参考に名無し項の取得を考えると, 各文脈における名付け文脈 <span class="math inline">\Gamma</span> の定義により, <span class="math inline">y\mapsto 4, w\mapsto 0</span> なので <span class="math inline">\lambda w.yw\Leftrightarrow \lambda 4\ 0</span> ということが分かります. つまり, 単に各変数のノードを名付け文脈 <span class="math inline">\lambda</span> の最小のインデックスとして置き換え, その名付け文脈 <span class="math inline">\lambda</span> を参照すればよいということなので, 以下のように, 名付け文脈を持つ <span class="math inline">\lambda</span> 項の下で名無し項への変換関数が定義できます. いま, 任意の列 <span class="math inline">A=\left\{a_n\right\}_{n\in\mathbb{N}}</span> に対し <span class="math inline">A_{-1}:=A_{n}</span> としたとき</p>
+<p><span class="math display">
+\begin{array}{lcl}
+dB_\Gamma(x)&amp;=&amp;\left\{y\in\Gamma\mid x=y\text{ の名前}\right\}_{-1}\\
+dB_\Gamma(\lambda x.t)&amp;=&amp;\lambda dB_{\Gamma,x}(t)\\
+dB_\Gamma(t_1\ t_2)&amp;=&amp;dB_\Gamma(t_1)dB_\Gamma(t_2)
+\end{array}
+</span></p>
+<p>同時に, この逆関数についても以下のように定義できます.</p>
+<p><span class="math display">
+\begin{array}{lcll}
+bD_\Gamma(i)&amp;=&amp;\Gamma_i\text{ の名前}\\
+bD_\Gamma(\lambda t)&amp;=&amp;\lambda x.bD_{\Gamma,x}(t)&amp;\left(\text{ここで, }x=(\mathcal{V}\setminus\text{dom}(\Gamma))_0\right)\\
+bD_\Gamma(t_1\ t_2)&amp;=&amp;bD_\Gamma(t_1)bD_\Gamma(t_2)
+\end{array}
+</span></p>
+<p>ここで当然, <span class="math inline">dB_\Gamma(bD_\Gamma(t))=t</span> また束縛変数名の付け替えによる相違を構文レベルで同一視する<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>と, <span class="math inline">bD_\Gamma(dB_\Gamma(M))=M</span> です.</p>
+<figure>
+<img src="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/tree2.png" alt /><figcaption>名付け文脈を持つ <span class="math inline">\left(\lambda xy.ax\left(\lambda u.ux\right)\right)\left(\lambda x.yx\right)</span> の抽象構文木</figcaption>
+</figure>
+<p>例えば, 先に扱った <span class="math inline">\left(\lambda\lambda 3\ 1\left(\lambda 0\ 2\right)\right)\left(\lambda 4\ 0\right)</span> についても, この名付け文脈 <span class="math inline">\Gamma</span> に従った名無し項 <span class="math inline">dB_\Gamma(\left(\lambda xy.ax\left(\lambda u.ux\right)\right)\left(\lambda x.yx\right))</span> が利用されていることがわかります.</p>
+<h2 id="参考文献">参考文献</h2>
+<ol>
+<li>
+Andrei Alexandrescu (2001) “Modern C++ Design: Generic Programming and Design Patterns Applied”, Addison-Wesley Professional, ISBN: 978-0201704310
+</li>
+<li>
+Benjamin C. Pierce (2002) “Types and Programming Languages”, The MIT Press, ISBN: 978-0262162098
+</li>
+<li id="ref-3">
+de Bruijn, Nicolaas Govert (1972) “Lambda Calculus Notation with Nameless Dummies: A Tool for Automatic Formula Manipulation, with Application to the Church-Rosser Theorem”
+</li>
+<li>
+ISO/IEC 14882:2017, N4659 Working Draft, Standard for Programming Language C++
+</li>
+<li>
+ISO/IEC TS 19568:2017, N4617 C++ Extensions for Library Fundamentals, Version 2
+</li>
+<li id="ref-6">
+Todd L. Veldhuizen (2003) “C++ Template are Turing Complete”, <a href="https://rtraba.files.wordpress.com/2015/05/cppturing.pdf" class="uri">https://rtraba.files.wordpress.com/2015/05/cppturing.pdf</a>
+</li>
+<li id="ref-7">
+“The Lazy K Programming Language”, <a href="https://tromp.github.io/cl/lazy-k.html" class="uri">https://tromp.github.io/cl/lazy-k.html</a>
+</li>
+<li>
+“De Bruijn index - Wikipedia”, <a href="https://en.wikipedia.org/wiki/De_Bruijn_index" class="uri">https://en.wikipedia.org/wiki/De_Bruijn_index</a>
+</li>
+</ol>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p><a href="https://www.iso.org/standard/79358.html">ISO/IEC PRF 14882</a>, Publication date より<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote">参考文献 1 はかつて C++ にテンプレートメタプログラミングを世に広めた文献のうちの 1 つでしょう. そのうちの Foreword の一部を引用:
+<blockquote>
+Some of the techniques herein are admittedly tricky to grasp, especially the template metaprogramming in Chapter 3. Once you’ve mastered that, however, you’ll have a solid foundation for the edifice of generic componentry, which almost builds itself in the ensuing chapters. In fact, I would argue that the metaprogramming material of Chapter 3 alone is worth the book’s price
+</blockquote>
+<p>第 3 章のメタプログラミングに関する内容だけでも, この本は価格に見合うだけの価値があると述べられていますが, 初めてこの本を読んだときは, 全くそのままそのように感じたことを覚えています…<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>本来 <span class="math inline">\lambda</span> 式の de Bruijn index 化の手続きはもちろんこのようなラフな定義ではなく, 厳密に名無し項を得るための手順を形式的に定めることができますが, Lazy K 処理系を実装するということに当たっては, 入力の関数は (<span class="math inline">\mathrm{S},\mathrm{K},\mathrm{I}</span> を名無し項として定義すれば) 全てはじめから de Bruijn index 化されていることもあり, 今回はあまり重要でないため, この時点では特に触れていません. 念の為, 詳細については末尾に付録として記載することとしました.<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>何故ならば, それらが最も束縛子から近いためです. de Bruijn index の定義から考慮すると当然の帰結ではありますが, より形式的なインデックスの割り当て方に関する詳細は付録を参照してください<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>チューリング完全性については<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#ref-6">参考文献 6</a> を参照してください<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>C++17 標準規格を厳密に考慮した上でこの実装について考えてみると, 実は, 部分特殊化における SFINAE について C++17 標準規格では言及されていないので, この実装に対する正式な標準のサポートがあるとはいえません. これは, <a href="https://wg21.cmeerw.net/cwg/issue2054">CWG Issue 2054</a> として報告されている内容です. しかし, 今回実装の Lazy K インタプリタの内部では, マクロによって使用可否を検出した上で library fundamentals TS v2 の機能の一部を使っています. library fundamentals TS v2 には, 例えば <code>is_detected</code>, <code>detected_t</code>, <code>detected_or</code> (N4617 § 3.3.1) が含まれていますが, この実装では部分特殊化における SFINAE が用いられるので, 必然的に, library fundamentals TS v2 が有効な環境においては, 部分特殊化における SFINAE について有効でなければならないということとなります. これは, 先に述べたマクロによってプリプロセス時に判別することが出来ているので, 今回の実装においては, この問題について特に重要視していません<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>そういえば, この記事の執筆時から 5〜6 年程前には, <a href="https://tgceec.tumblr.com/">Grand C++ Error Explosion Competition</a> という C++ のコンパイルエラーの長さを競うコンテストが開催されることもありました<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>これは少なくとも <a href="https://github.com/isocpp/CppCoreGuidelines/commit/947cf3affcdfc392a316a32f73cdea7383ae55bd#diff-10589f52a46524ed019833fb39740530034f84871ad0c5e547f56e3f7b465c7aR8778">2015 年の時点から言われています</a>.<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9" role="doc-endnote"><p>因みに, このような <span class="math inline">\alpha</span> 変換を陽に扱わないとした断りは de Bruijn index を発明したオランダの数学者 Nicolaas Govert de Bruijn による書物 (<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/ref-3">参考文献 3</a>) においても使われています<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>]]></description>
+    <pubDate>Wed, 16 Dec 2020 00:00:00 UT</pubDate>
+    <guid>https://roki.dev/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/index.html</guid>
+    <dc:creator>Roki</dc:creator>
+</item>
+<item>
     <title>個人ページ, ブログを移行した</title>
     <link>https://roki.dev/roki.log/2020/08/25/hello-roki-web/index.html</link>
     <description><![CDATA[<p><a href="https://falgon.github.io/roki/">旧個人ページ</a>及び, <a href="https://falgon.github.io/roki.log/">旧ブログ</a>を本ウェブサイト (<a href="/">roki.dev</a>), 本ブログ (<a href="/roki.log">roki.dev/roki.log</a>, <a href="/roki.diary">roki.dev/roki.diary</a>) に移行した. 以下では, 移行した経緯や技術的概要, 本サイトおよびブログの方針について (ゆるく) 紹介したい.</p>
@@ -5320,61 +5710,6 @@ P(C\mid B) &amp;=&amp; \dfrac{P(B\mid C)P(C)}{P(B)}&amp;=&amp;\dfrac{1\cdot \dfr
 </section>]]></description>
     <pubDate>Mon, 23 Jul 2018 06:05:00 UT</pubDate>
     <guid>https://roki.dev/roki.log/2018/07/23/ec2failover/index.html</guid>
-    <dc:creator>Roki</dc:creator>
-</item>
-<item>
-    <title>Connector/C++ で MySQL を操作</title>
-    <link>https://roki.dev/roki.log/2018/07/20/cppdemysql/index.html</link>
-    <description><![CDATA[<p>学校の関係で MySQL を触る機会が増えてきたので, MySQL の C++ 向けライブラリを一度触っておこうという忘備録.</p>
-<div id="tabs" class="tabs is-toggle is-boxed is-centered mb-0">
-<ul>
-<li class="is-active" data-tab="1">
-<a> <span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span> <span>sql_executor.hpp</span> </a>
-</li>
-<li data-tab="2">
-<a> <span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span> <span>main.cpp</span> </a>
-</li>
-<li data-tab="3">
-<a> <span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span> <span>Makefile</span> </a>
-</li>
-<li data-tab="4">
-<a> <span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span> <span>docker-compose.yml</span> </a>
-</li>
-</ul>
-</div>
-<div id="tab-content" style="max-height: 400px; overflow-y: scroll;">
-<div class="is-active acontent" data-content="1">
-<script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=sql_executor.hpp" type="text/javascript"></script>
-</div>
-<div class="acontent" data-content="2">
-<script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=main.cpp" type="text/javascript"></script>
-</div>
-<div class="acontent" data-content="3">
-<script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=Makefile" type="text/javascript"></script>
-</div>
-<div class="acontent" data-content="4">
-<script src="https://gist.github.com/falgon/2ade37d9ceb914f2c0dbd16c6271d98a.js?file=docker-compose.yml" type="text/javascript"></script>
-</div>
-</div>
-<script type="text/javascript" src="/js/uniq_tab.js"></script>
-<p>これを実行すると, 次のように, 実在しそうでしなさそうな, 妙に怪しい雰囲気<a href="/roki.log/2018/07/20/cppdemysql/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>の一覧が出力される. <!--more--></p>
-<pre><code>|顧客番号| C001 |氏名| 青山 花子        |郵便番号| 958-3626     |住所| 大分県横浜市瀬谷区台場12丁目23番18号 勝どきコーポ435     |電話番号| 090-3537-6380
-|顧客番号| C002 |氏名| 廣川 翔太        |郵便番号| 297-3630     |住所| 群馬県西多摩郡奥多摩町平須賀14丁目5番2号 コーポ台東850   |電話番号| 88-1940-6921
-|顧客番号| C003 |氏名| 田辺 浩  |郵便番号| 596-4390     |住所| 大分県いすみ市虎ノ門虎ノ門ヒルズ森タワー31丁目11番1号    |電話番号| 080-4923-6200
-|顧客番号| C004 |氏名| 井上 知実        |郵便番号| 903-5859     |住所| 岩手県北区箪笥町7丁目6番2号 高田馬場クレスト753  |電話番号| 090-1267-5646
-|顧客番号| C005 |氏名| 浜田 明美        |郵便番号| 644-0375     |住所| 北海道武蔵野市蟇沼41丁目6番4号 パレス南赤田445   |電話番号| 090-3897-3724</code></pre>
-<p>見てのとおり, docker-compose を使って MySQL コンテナを立てて, そこに要求を投げる. 内容は, データベースを新たに作成してテーブル, 値を追加して, 追加項目を全て<code>SELECT</code>するだけ<a href="/roki.log/2018/07/20/cppdemysql/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. C++ には RAII があるので, コード中でもそうなのだが<code>SET AUTOCOMMIT = 0</code>,<code>START TRANSACTION</code>のあとに, <code>COMMIT</code>をし忘れるなんてことを防げるのが良い. 一応 SQL 文が格納されている Range かイテレータを渡せば順次実行, 単一の SQL を渡せばもちろんそれを実行するようにしている. 実際に必要に迫られているわけではないのでなんとも言えないが, 現時点では, それなりに気持ちよく書ける程度にラッピングできたような気がする<a href="/roki.log/2018/07/20/cppdemysql/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. 1 点この Connector/C++ に対する不満を申し上げるとすれば, C++11 までにしか未だ対応していない点だろう.</p>
-<p>しかし久しぶりに C++ 書いた. なんだろうこの実家感は.</p>
-<section class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1" role="doc-endnote"><p>この個人情報と思わしきリストは, コード内のコメントにも書いたが, 偽の個人情報をランダムに生成する Python 製の<a href="https://github.com/joke2k/faker">ライブラリ</a>で自動生成したものである. 同ライブラリは日本語だけでなく, 様々な国の様式に沿ったそれらしき文字列を提供してくれるので, <code>hoge</code>や<code>foo</code>等に飽きたら, これを使えば良いのではないのだろうか :p<a href="/roki.log/2018/07/20/cppdemysql/#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>なお, このインクルードしている Srook というものは, 私の自作ライブラリです. このブログに移行してくる前のブログでは, よく取り扱っていました.<a href="/roki.log/2018/07/20/cppdemysql/#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p><code>playing::cppconn</code>とかいうふざけた名前空間だが.<a href="/roki.log/2018/07/20/cppdemysql/#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>]]></description>
-    <pubDate>Fri, 20 Jul 2018 00:31:00 UT</pubDate>
-    <guid>https://roki.dev/roki.log/2018/07/20/cppdemysql/index.html</guid>
     <dc:creator>Roki</dc:creator>
 </item>
 
