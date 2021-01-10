@@ -344,7 +344,7 @@ static_assert(std::is_same_v<lor_t<std::true_type, X>, left>); // NG
 
 残念ながら, これはコンパイルに失敗します.
 `X` が定義されていないからです.
-不完全なクラス方に関する言及, N4659 § 17.7.1:
+不完全なクラス型に関する言及, N4659 § 17.7.1:
 
 > If a class template has been declared, but not defined, 
 > at the point of instantiation, the instantiation yields an incomplete class type ([basic.types]).
@@ -576,6 +576,10 @@ Metaprogramming rule summary:
 しかし,
 私の観測範囲内 (Google, GitHub 検索)
 では見つけることができませんでしたね...:thinking:
+<br><br>
+※追記: 後日, 何かリアクションがもらえればと思いつき,
+この話題について
+[Reddit の r/cpp に投下 (Reddit デビュー) してみた](https://www.reddit.com/r/cpp/comments/kt72dz/lazy_k_interpreter_in_c_template_metaprogramming/).
 
 ## 付録: \\(\lambda\\) 式の de Bruijn index 化
 
