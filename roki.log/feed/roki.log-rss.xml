@@ -184,7 +184,7 @@ M_1M_2M_3\cdots M_n&amp;:=&amp;\left(\left(\cdots\left(\left(M_1M_2\right)M_3\ri
 <p>では, ここで, このメタ関数 <code>lor</code> に与える引数を以下のように変更するとどうなるでしょうか.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb4-1" aria-hidden="true"></a><span class="kw">struct</span> X;</span>
 <span id="cb4-2"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb4-2" aria-hidden="true"></a><span class="kw">static_assert</span>(<span class="bu">std::</span>is_same_v&lt;<span class="dt">lor_t</span>&lt;<span class="bu">std::</span>true_type, X&gt;, left&gt;); <span class="co">// NG</span></span></code></pre></div>
-<p>残念ながら, これはコンパイルに失敗します. <code>X</code> が定義されていないからです. 不完全なクラス方に関する言及, N4659 § 17.7.1:</p>
+<p>残念ながら, これはコンパイルに失敗します. <code>X</code> が定義されていないからです. 不完全なクラス型に関する言及, N4659 § 17.7.1:</p>
 <blockquote>
 <p>If a class template has been declared, but not defined, at the point of instantiation, the instantiation yields an incomplete class type ([basic.types]).</p>
 </blockquote>
@@ -313,7 +313,7 @@ T.124: Prefer to use standard-library TMP facilities
 T.125: If you need to go beyond the standard-library TMP facilities, use an existing library
 </li>
 </blockquote>
-<p>とは言え, C++ テンプレートがチューリング完全であることは (一部の界隈で) 有名であり, また手続き型言語のプリミティブ, EsoLang としても有名である brainf**k のテンプレートメタプログラミングによるコンパイル時インタプリタの実装は既にインターネット上にあるので, 今回実装したようなテンプレートメタプログラミングによる Lazy K の処理系についても既に存在するだろう…と考えていました. しかし, 私の観測範囲内 (Google, GitHub 検索) では見つけることができませんでしたね…<span class="emoji" data-emoji="thinking">🤔</span></p>
+<p>とは言え, C++ テンプレートがチューリング完全であることは (一部の界隈で) 有名であり, また手続き型言語のプリミティブ, EsoLang としても有名である brainf**k のテンプレートメタプログラミングによるコンパイル時インタプリタの実装は既にインターネット上にあるので, 今回実装したようなテンプレートメタプログラミングによる Lazy K の処理系についても既に存在するだろう…と考えていました. しかし, 私の観測範囲内 (Google, GitHub 検索) では見つけることができませんでしたね…<span class="emoji" data-emoji="thinking">🤔</span> <br><br> ※追記: 後日, 何かリアクションがもらえればと思いつき, この話題について <a href="https://www.reddit.com/r/cpp/comments/kt72dz/lazy_k_interpreter_in_c_template_metaprogramming/">Reddit の r/cpp に投下 (Reddit デビュー) してみた</a>.</p>
 <h2 id="付録-lambda-式の-de-bruijn-index-化">付録: <span class="math inline">\lambda</span> 式の de Bruijn index 化</h2>
 <p>先に挙げた例では, 変数が自然数のある位置から何番目の <span class="math inline">\lambda</span> によって束縛されているか, と直感的に考えることで上記の名無し項を得ることができていましたが, これをもっと形式的に求めることを考えます. その考察にあたって, 名付け文脈といわれる仕組みを導入することとします. この仕組みを導入することの動機としては, 例えば <span class="math inline">\lambda w.yw</span> を名無し項として表現することを考えたとき, <span class="math inline">w</span> についての扱い方は陽に分かりますが, <span class="math inline">y</span> については束縛子が見つからないため, 何の数を割り振れば適切か断定のしようがなく, 名無し項を得ることができないというものが挙げられます. この解決策としては, あらかじめ (名前付け文脈といわれる) 自由変数から自然数への写像を定義し, 自由変数に対して自然数を選択する必要が生じた際, 一貫してそれへ従うようにするというものが考えられます. 例として, 名付け文脈 <span class="math inline">\Gamma</span> を以下のように定義できます.</p>
 <p><span class="math display">\begin{array}{ccc}
