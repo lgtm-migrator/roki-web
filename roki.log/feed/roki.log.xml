@@ -318,7 +318,7 @@ T.124: Prefer to use standard-library TMP facilities
 T.125: If you need to go beyond the standard-library TMP facilities, use an existing library
 </li>
 </blockquote>
-<p>とは言え, C++ テンプレートがチューリング完全であることは (一部の界隈で) 有名であり, また手続き型言語のプリミティブ, EsoLang としても有名である brainf**k のテンプレートメタプログラミングによるコンパイル時インタプリタの実装は既にインターネット上にあるので, 今回実装したようなテンプレートメタプログラミングによる Lazy K の処理系についても既に存在するだろう…と考えていました. しかし, 私の観測範囲内 (Google, GitHub 検索) では見つけることができませんでしたね…<span class="emoji" data-emoji="thinking">🤔</span> <br><br> ※追記: 後日, 何かリアクションがもらえればと思いつき, この話題について <a href="https://www.reddit.com/r/cpp/comments/kt72dz/lazy_k_interpreter_in_c_template_metaprogramming/">Reddit の r/cpp に投下 (Reddit デビュー) してみた</a>.</p>
+<p>とは言え, C++ テンプレートがチューリング完全であることは (一部の界隈で) 有名であり, また手続き型言語のプリミティブ, EsoLang としても有名である brainf**k のテンプレートメタプログラミングによるコンパイル時インタプリタの実装は既にインターネット上にあるので, 今回実装したようなテンプレートメタプログラミングによる Lazy K の処理系についても既に存在するだろう…と考えていました. しかし, 私の観測範囲内 (Google, GitHub 検索) では見つけることができませんでしたね…<span class="emoji" data-emoji="thinking">🤔</span></p>
 <h2 id="付録-lambda-式の-de-bruijn-index-化">付録: <span class="math inline">\lambda</span> 式の de Bruijn index 化</h2>
 <p>先に挙げた例では, 変数が自然数のある位置から何番目の <span class="math inline">\lambda</span> によって束縛されているか, と直感的に考えることで上記の名無し項を得ることができていましたが, これをもっと形式的に求めることを考えます. その考察にあたって, 名付け文脈といわれる仕組みを導入することとします. この仕組みを導入することの動機としては, 例えば <span class="math inline">\lambda w.yw</span> を名無し項として表現することを考えたとき, <span class="math inline">w</span> についての扱い方は陽に分かりますが, <span class="math inline">y</span> については束縛子が見つからないため, 何の数を割り振れば適切か断定のしようがなく, 名無し項を得ることができないというものが挙げられます. この解決策としては, あらかじめ (名前付け文脈といわれる) 自由変数から自然数への写像を定義し, 自由変数に対して自然数を選択する必要が生じた際, 一貫してそれへ従うようにするというものが考えられます. 例として, 名付け文脈 <span class="math inline">\Gamma</span> を以下のように定義できます.</p>
 <p><span class="math display">\begin{array}{ccc}
@@ -353,6 +353,21 @@ bD_\Gamma(t_1\ t_2)&amp;=&amp;bD_\Gamma(t_1)bD_\Gamma(t_2)
 <img src="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/tree2.png" alt /><figcaption>名付け文脈を持つ <span class="math inline">\left(\lambda xy.ax\left(\lambda u.ux\right)\right)\left(\lambda x.yx\right)</span> の抽象構文木</figcaption>
 </figure>
 <p>例えば, 先に扱った <span class="math inline">\left(\lambda\lambda 3\ 1\left(\lambda 0\ 2\right)\right)\left(\lambda 4\ 0\right)</span> についても, この名付け文脈 <span class="math inline">\Gamma</span> に従った名無し項 <span class="math inline">dB_\Gamma(\left(\lambda xy.ax\left(\lambda u.ux\right)\right)\left(\lambda x.yx\right))</span> が利用されていることがわかります.</p>
+<h2 id="後日談">後日談</h2>
+<p>後日, 何かリアクションがもらえればと思いつき, この話題について <a href="https://www.reddit.com/r/cpp/comments/kt72dz/lazy_k_interpreter_in_c_template_metaprogramming/">Reddit の r/cpp に投下 (Reddit デビュー) してみた</a>.</p>
+<p>また, 本記事について KLab Engineer Advent Calendar 2020 Recap Day1 にて Recap の発表をさせて頂いた.</p>
+<blockquote class="twitter-tweet" data-align="center">
+<p lang="ja" dir="ltr">
+しゃべります<a href="https://t.co/XO6ajK4CFy">https://t.co/XO6ajK4CFy</a>
+</p>
+— Roki (@530506) <a href="https://twitter.com/530506/status/1342403203459997696?ref_src=twsrc%5Etfw">December 25, 2020</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>当日は Zoom を利用してのウェビナーという形で発表させて頂いたのだが, その後 YouTube に当日の発表動画がアーカイブとして公開されたので, 以下に掲載する.</p>
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OTYsKSZNbZc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</div>
 <h2 id="参考文献">参考文献</h2>
 <ol>
 <li>
