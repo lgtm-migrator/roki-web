@@ -576,10 +576,6 @@ Metaprogramming rule summary:
 しかし,
 私の観測範囲内 (Google, GitHub 検索)
 では見つけることができませんでしたね...:thinking:
-<br><br>
-※追記: 後日, 何かリアクションがもらえればと思いつき,
-この話題について
-[Reddit の r/cpp に投下 (Reddit デビュー) してみた](https://www.reddit.com/r/cpp/comments/kt72dz/lazy_k_interpreter_in_c_template_metaprogramming/).
 
 ## 付録: \\(\lambda\\) 式の de Bruijn index 化
 
@@ -658,6 +654,24 @@ $$
 \\(dB_\Gamma(\left(\lambda xy.ax\left(\lambda u.ux\right)\right)\left(\lambda x.yx\right))\\)
 が利用されていることがわかります.
 
+## 後日談
+
+後日, 何かリアクションがもらえればと思いつき,
+この話題について
+[Reddit の r/cpp に投下 (Reddit デビュー) してみた](https://www.reddit.com/r/cpp/comments/kt72dz/lazy_k_interpreter_in_c_template_metaprogramming/).
+
+また, 本記事について
+KLab Engineer Advent Calendar 2020 Recap Day1
+にて Recap の発表をさせて頂いた.
+
+<blockquote class="twitter-tweet" data-align="center"><p lang="ja" dir="ltr">しゃべります<a href="https://t.co/XO6ajK4CFy">https://t.co/XO6ajK4CFy</a></p>&mdash; Roki (@530506) <a href="https://twitter.com/530506/status/1342403203459997696?ref_src=twsrc%5Etfw">December 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+当日は Zoom を利用してのウェビナーという形で発表させて頂いたのだが,
+その後 YouTube に当日の発表動画がアーカイブとして公開されたので, 以下に掲載する.
+
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OTYsKSZNbZc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 ## 参考文献
 
