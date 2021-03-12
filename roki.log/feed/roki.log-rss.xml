@@ -350,7 +350,7 @@ bD_\Gamma(t_1\ t_2)&amp;=&amp;bD_\Gamma(t_1)bD_\Gamma(t_2)
 <p>例えば, 先に扱った <span class="math inline">\left(\lambda\lambda 3\ 1\left(\lambda 0\ 2\right)\right)\left(\lambda 4\ 0\right)</span> についても, この名付け文脈 <span class="math inline">\Gamma</span> に従った名無し項 <span class="math inline">dB_\Gamma(\left(\lambda xy.ax\left(\lambda u.ux\right)\right)\left(\lambda x.yx\right))</span> が利用されていることがわかります.</p>
 <h2 id="後日談">後日談</h2>
 <p>後日, 何かリアクションがもらえればと思いつき, この話題について <a href="https://www.reddit.com/r/cpp/comments/kt72dz/lazy_k_interpreter_in_c_template_metaprogramming/">Reddit の r/cpp に投下 (Reddit デビュー) してみた</a>.</p>
-<p>また, 別件として, 本記事について KLab Engineer Advent Calendar 2020 Recap Day1 にて発表をさせて頂いた.</p>
+<p>また, 別件として, 本記事について KLab Engineer Advent Calendar 2020 Recap Day1 にて発表をさせて頂いた (<a href="https://www.klab.com/jp/blog/tech/2021/kfm-202101.html">関連記事</a>).</p>
 <blockquote class="mt-3 mb-3 twitter-tweet" data-align="center">
 <p lang="ja" dir="ltr">
 しゃべります<a href="https://t.co/XO6ajK4CFy">https://t.co/XO6ajK4CFy</a>
