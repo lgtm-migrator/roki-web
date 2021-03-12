@@ -662,7 +662,7 @@ $$
 
 また, 別件として, 本記事について
 KLab Engineer Advent Calendar 2020 Recap Day1
-にて発表をさせて頂いた.
+にて発表をさせて頂いた ([関連記事](https://www.klab.com/jp/blog/tech/2021/kfm-202101.html)).
 
 <blockquote class="mt-3 mb-3 twitter-tweet" data-align="center"><p lang="ja" dir="ltr">しゃべります<a href="https://t.co/XO6ajK4CFy">https://t.co/XO6ajK4CFy</a></p>&mdash; Roki (@530506) <a href="https://twitter.com/530506/status/1342403203459997696?ref_src=twsrc%5Etfw">December 25, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
