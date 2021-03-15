@@ -30,39 +30,41 @@ data Opts = Opts
     { optPreviewFlag   :: !Bool
     , optVerbose       :: !Bool
     , optInternalLinks :: !Bool
-    , optCmd           :: !Command
+    , optHost          :: String
+    , optPort          :: !Int
+    , optCmd           :: Configuration -> Command
     }
 
 {-# INLINE buildCmd #-}
-buildCmd :: OA.Mod OA.CommandFields Command
-buildCmd = OA.command "build" $ OA.info (pure Build) $ OA.progDesc "Generate the site"
+buildCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
+buildCmd = OA.command "build" $ OA.info (pure $ const Build) $ OA.progDesc "Generate the site"
 
 {-# INLINE checkCmd #-}
-checkCmd :: OA.Mod OA.CommandFields Command
-checkCmd = OA.command "check" $ OA.info (pure $ Check False) $ OA.progDesc "Validate the site output"
+checkCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
+checkCmd = OA.command "check" $ OA.info (pure $ const $ Check False) $ OA.progDesc "Validate the site output"
 
 {-# INLINE cleanCmd #-}
-cleanCmd :: OA.Mod OA.CommandFields Command
-cleanCmd = OA.command "clean" $ OA.info (pure Clean) $ OA.progDesc "Clean up and remove cache"
+cleanCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
+cleanCmd = OA.command "clean" $ OA.info (pure $ const Clean) $ OA.progDesc "Clean up and remove cache"
 
 {-# INLINE deployCmd #-}
-deployCmd :: OA.Mod OA.CommandFields Command
-deployCmd = OA.command "deploy" $ OA.info (pure Deploy) $ OA.progDesc $ "Upload/deploy " <> siteName
+deployCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
+deployCmd = OA.command "deploy" $ OA.info (pure $ const Deploy) $ OA.progDesc $ "Upload/deploy " <> siteName
 
 {-# INLINE rebuildCmd #-}
-rebuildCmd :: OA.Mod OA.CommandFields Command
-rebuildCmd = OA.command "rebuild" $ OA.info (pure Rebuild) $ OA.progDesc "Clean and build again"
+rebuildCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
+rebuildCmd = OA.command "rebuild" $ OA.info (pure $ const Rebuild) $ OA.progDesc "Clean and build again"
 
 {-# INLINE serverCmd #-}
-serverCmd :: Configuration -> OA.Mod OA.CommandFields Command
-serverCmd conf = OA.command "server" $
-    OA.info (pure $ Server (previewHost conf) (previewPort conf)) $
+serverCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
+serverCmd = OA.command "server" $
+    OA.info (pure $ \conf -> Server (previewHost conf) (previewPort conf)) $
         OA.progDesc "Start a preview server"
 
 {-# INLINE watchCmd #-}
-watchCmd :: Configuration -> OA.Mod OA.CommandFields Command
-watchCmd conf = OA.command "watch" $
-    OA.info (pure $ Watch (previewHost conf) (previewPort conf) False) $
+watchCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
+watchCmd = OA.command "watch" $
+    OA.info (pure $ \conf -> Watch (previewHost conf) (previewPort conf) False) $
         OA.progDesc "Autocompile on changes and start a preview server"
 
 preview :: OA.Parser Bool
@@ -84,18 +86,40 @@ internalLinks = OA.switch $ mconcat [
   , OA.help "Check internal links only"
   ]
 
-programOptions :: Configuration -> OA.Parser Opts
-programOptions conf = Opts
+hostName :: OA.Parser String
+hostName = OA.option OA.str $ mconcat [
+    OA.long "host"
+  , OA.short 'h'
+  , OA.value "127.0.0.1"
+  , OA.help "Host name"
+  , OA.metavar "<host name>"
+  ]
+
+portNum :: OA.Parser Int
+portNum = OA.option OA.auto $ mconcat [
+    OA.long "port"
+  , OA.short 'p'
+  , OA.value 8888
+  , OA.help "Port number"
+  , OA.metavar "<port number (0-65535)>"
+  ]
+
+programOptions :: OA.Parser Opts
+programOptions = Opts
     <$> preview
     <*> verbose
     <*> internalLinks
-    <*> OA.hsubparser (buildCmd
-        <> checkCmd
-        <> cleanCmd
-        <> deployCmd
-        <> rebuildCmd
-        <> serverCmd conf
-        <> watchCmd conf)
+    <*> hostName
+    <*> portNum
+    <*> OA.hsubparser (mconcat [
+        buildCmd
+      , checkCmd
+      , cleanCmd
+      , deployCmd
+      , rebuildCmd
+      , serverCmd
+      , watchCmd
+      ])
 
 versionOption :: OA.Parser (a -> a)
 versionOption = OA.infoOption vopt $ mconcat [OA.long "version", OA.help "Show version"]
@@ -107,8 +131,8 @@ versionOption = OA.infoOption vopt $ mconcat [OA.long "version", OA.help "Show v
           , $(gitHash)
           ]
 
-optsParser :: Configuration -> OA.ParserInfo Opts
-optsParser conf = OA.info (OA.helper <*> versionOption <*> programOptions conf) $ mconcat [
+optsParser :: OA.ParserInfo Opts
+optsParser = OA.info (OA.helper <*> versionOption <*> programOptions) $ mconcat [
     OA.fullDesc
   , OA.progDesc $ concat [
         "The static site roki.dev compiler version "
@@ -168,18 +192,22 @@ diaryConf = B.BlogConfig {
 
 main :: IO ()
 main = do
-    opts <- OA.execParser $ optsParser hakyllConfig
-    hakyllWithArgs hakyllConfig (Options (optVerbose opts) $ mapIL (optInternalLinks opts) (optCmd opts)) $ do
+    opts <- OA.execParser optsParser
+    let conf = hakyllConfig {
+        previewHost = optHost opts
+      , previewPort = optPort opts
+      }
+        writer = if optPreviewFlag opts then writerPreviewOptions else writerOptions
+        blogConfs = [
+            techBlogConf { B.blogWriterOptions = writer }
+          , diaryConf { B.blogWriterOptions = writer }
+          ]
+
+    hakyllWithArgs conf (Options (optVerbose opts) $ mapIL (optInternalLinks opts) $ optCmd opts $ conf) $ do
         Media.rules >> Vendor.rules (optPreviewFlag opts) >> Style.rules >> Js.rules
         faIcons <- fold <$> preprocess FA.loadFontAwesome
-
-        let writer = if optPreviewFlag opts then writerPreviewOptions else writerOptions
-            tc = techBlogConf { B.blogWriterOptions = writer }
-            dc = diaryConf { B.blogWriterOptions = writer }
-
-        B.blogRules (optPreviewFlag opts) tc faIcons
-        B.blogRules (optPreviewFlag opts) dc faIcons
-        IP.rules [tc, dc] faIcons
+        mapM_ (flip (B.blogRules (optPreviewFlag opts)) faIcons) blogConfs
+        IP.rules blogConfs faIcons
 
         match (fromString $ intercalateDir ["contents", "templates", "**"]) $
             compile templateBodyCompiler
