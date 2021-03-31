@@ -25,7 +25,7 @@ services:
     build:
       context: ../
       dockerfile: ./docker/contents/Dockerfile
-    command: /bin/bash -c './site watch --preview'
+    command: /bin/bash -c './site watch --preview --port 8888 --host 0.0.0.0'
   spa:
     image: roki/roki-web-env:1.0.0
     container_name: roki-web-spa
