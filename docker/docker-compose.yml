@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   build:
-    image: roki/roki-web-env:1.0.0
+    image: $ROKI_WEB_ENV_IMAGE_NAME:$ROKI_WEB_ENV_IMAGE_TAG
     container_name: roki-web-build
     tty: true
     volumes:
@@ -14,7 +14,7 @@ services:
       dockerfile: ./docker/contents/Dockerfile
     command: /bin/bash -c './site build --preview'
   preview:
-    image: roki/roki-web-env:1.0.0
+    image: $ROKI_WEB_ENV_IMAGE_NAME:$ROKI_WEB_ENV_IMAGE_TAG
     container_name: roki-web-preview
     tty: true
     volumes:
@@ -27,7 +27,7 @@ services:
       dockerfile: ./docker/contents/Dockerfile
     command: /bin/bash -c './site watch --preview --port 8888 --host 0.0.0.0'
   spa:
-    image: roki/roki-web-env:1.0.0
+    image: $ROKI_WEB_ENV_IMAGE_NAME:$ROKI_WEB_ENV_IMAGE_TAG
     container_name: roki-web-spa
     tty: true
     volumes:
@@ -39,7 +39,7 @@ services:
       dockerfile: ./docker/contents/Dockerfile
     command: /bin/bash -c './spa yaml -d ${DATE:-""} -b ${BRANCH_NAME:-""} -y'
   clean:
-    image: roki/roki-web-env:1.0.0
+    image: $ROKI_WEB_ENV_IMAGE_NAME:$ROKI_WEB_ENV_IMAGE_TAG
     container_name: roki-web-clean
     tty: true
     working_dir: /home/rw-c/bin
@@ -48,7 +48,7 @@ services:
       dockerfile: ./docker/contents/Dockerfile
     command: /bin/bash -c './site clean'
   dev:
-    image: roki/roki-web-dev:1.0.0
+    image: $ROKI_WEB_DEV_IMAGE_NAME:$ROKI_WEB_DEV_IMAGE_TAG
     container_name: roki-web-dev
     tty: true
     volumes:
