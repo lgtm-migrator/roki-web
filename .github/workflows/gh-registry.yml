@@ -14,8 +14,8 @@ jobs:
           submodules: true
       - name: Setup environment variables
         run: |
-          echo "IMAGE_NAME=$(cat ./docker.env | grep ROKI_WEB_ENV_IMAGE_NAME | cut -f2 -d=)" >> $GITHUB_ENV
-          echo "IMAGE_TAG=$(cat ./docker.env | grep ROKI_WEB_ENV_IMAGE_TAG | cut -f2 -d=)" >> $GITHUB_ENV
+          echo "IMAGE_NAME=$(cat ./docker/.env | grep ROKI_WEB_ENV_IMAGE_NAME | cut -f2 -d=)" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$(cat ./docker/.env | grep ROKI_WEB_ENV_IMAGE_TAG | cut -f2 -d=)" >> $GITHUB_ENV
       - name: Login GitHub Registry
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u owner --password-stdin
       - name: Build Image
