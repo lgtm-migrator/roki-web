@@ -27,7 +27,7 @@ jobs:
       - name: Login GitHub Registry
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u owner --password-stdin
       - name: Build Image
-        run: ROKI_WEB_ENV_IMAGE_TAG=$IMAGE_TAG pushd ./docker && docker-compose build preview --no-cache --parallel; popd
+        run: ROKI_WEB_ENV_IMAGE_TAG=$IMAGE_TAG pushd ./docker && docker-compose build --no-cache --parallel preview; popd
       - name: Push to GitHub Package Registry
         shell: bash
         run: |
