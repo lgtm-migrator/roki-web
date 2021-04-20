@@ -16,19 +16,21 @@ jobs:
           submodules: true
       - name: Setup environment variables
         run: |
-          echo "IMAGE_NAME=$(cat ./docker/.env | grep ROKI_WEB_ENV_IMAGE_NAME | cut -f2 -d=)" >> $GITHUB_ENV
+          IMAGE_NAME=$(cat ./docker/.env | grep ROKI_WEB_ENV_IMAGE_NAME | cut -f2 -d=)
+          IMAGE_ID=$(echo $IMAGE_NAME | tr '[A-Z]' '[a-z]')
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
+          echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           [[ "${{ github.ref }}" = "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-          echo "IMAGE_TAG=$(test $VERSION = master && echo latest || echo $VERSION)" >> $GITHUB_ENV
+          IMAGE_TAG=$(test $VERSION = master && echo latest || echo $VERSION)
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          echo "GH_REGISTRY=docker.pkg.github.com/${{ github.repository }}/$IMAGE_ID:$IMAGE_TAG" >> $GITHUB_ENV
       - name: Login GitHub Registry
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u owner --password-stdin
       - name: Build Image
-        run: |
-          IMAGE_ID=$(echo $IMAGE_NAME | tr '[A-Z]' '[a-z]')
-          echo "GH_REGISTRY=docker.pkg.github.com/${{ github.repository }}/$IMAGE_ID:$IMAGE_TAG" >> $GITHUB_ENV
-          ROKI_WEB_ENV_IMAGE_TAG=$IMAGE_TAG pushd ./docker && docker-compose build preview; popd
+        run: ROKI_WEB_ENV_IMAGE_TAG=$IMAGE_TAG pushd ./docker && docker-compose build preview; popd
       - name: Push to GitHub Package Registry
         shell: bash
         run: |
-          docker tag $IMAGE_NAME $GH_REGISTRY
+          docker tag $IMAGE_ID $GH_REGISTRY
           docker push $GH_REGISTRY
