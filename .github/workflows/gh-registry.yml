@@ -1,0 +1,21 @@
+name: Build Dockerfile and Push GitHub Package Registry
+on:
+  push:
+    branches: [master]
+env:
+  DOCKER_BUILDKIT: 1
+jobs:
+  build-and-push:
+    runs-on: ubuntu-20.04
+    if: github.repository == 'falgon/roki-web'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Login GitHub Registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u owner --password-stdin
+      - name: Build Image
+        run: pushd ./docker && docker-compose build preview; popd
+      - name: Push to GitHub Package Registry
+        shell: bash
+        run: docker push docker.pkg.github.com/${{ github.repository }}/$(cat ./docker/.env | grep ROKI_WEB_ENV_IMAGE_NAME | cut -f2 -d=):$(cat ./docker/.env | grep ROKI_WEB_ENV_IMAGE_TAG | cut -f2 -d=)

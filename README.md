@@ -80,16 +80,16 @@ $ mv .github/workflows/scheduled/my-awesome-scheduled-post.yaml .github/workflow
 Update blog posts using docker container
 
 ```sh
-$ docker-compose -f docker/docker-compose.yml run preview # start a preview server
-$ docker-compose -f docker/docker-compose.yml run build # build blog posts
-$ docker-compose -f docker/docker-compose.yml run clean # clean the generated docs
-$ DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" docker-compose -f docker/docker-compose.yml run spa # run spa
+$ pushd ./docker && docker-compose run preview; popd # start a preview server
+$ pushd ./docker && docker-compose run build; popd # build blog posts
+$ pushd ./docker && docker-compose run clean; popd # clean the generated docs
+$ DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker && docker-compose run spa; popd # run spa
 ```
 
 Develop/build inside docker container
 
 ```sh
-$ docker-compose -f docker/docker-compose.yml up -d dev
+$ pushd ./docker && docker-compose up -d dev && popd
 $ docker exec -it roki-web-dev bash
 ```
 
