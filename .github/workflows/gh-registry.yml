@@ -21,14 +21,13 @@ jobs:
           [[ "${{ github.ref }}" = "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
           echo "IMAGE_TAG=$(test $VERSION = master && echo latest || echo $VERSION)" >> $GITHUB_ENV
       - name: Login GitHub Registry
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u owner --password-stdin
-      - name: Build Image
-        run: |
+        run: | 
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u owner --password-stdin
           IMAGE_ID=$(echo $IMAGE_NAME | tr '[A-Z]' '[a-z]')
           echo "GH_REGISTRY=docker.pkg.github.com/${{ github.repository }}/$IMAGE_ID:$IMAGE_TAG" >> $GITHUB_ENV
-          ROKI_WEB_ENV_IMAGE_TAG=$IMAGE_TAG pushd ./docker && docker-compose build preview; popd
       - name: Push to GitHub Package Registry
         shell: bash
         run: |
+          docker build -t $GH_REGISTRY --file ./docker/contents/Dockerfile .
           docker tag $IMAGE_NAME $GH_REGISTRY
           docker push $GH_REGISTRY
