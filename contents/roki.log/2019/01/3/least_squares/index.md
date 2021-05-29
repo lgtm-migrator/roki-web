@@ -318,7 +318,7 @@ n & \displaystyle\sum^{n}_{i=1}x_i & \cdots & \displaystyle\sum^{n}_{i=1}x^m_i \
 ここまでは, 回帰直線の考え方に沿って近似曲線/直線を得た訳であるが, 
 そもそも, \\((x_i,y_i)\\) の組があって線形方程式 \\(y\\) の \\(x\\) 
 に関する関数における"適当な"係数が"直接"求まるような行列があれば良いのではないだろうか. 
-つまり \\(m\\) を方程式の個数, \\(n'=n+1\\) を未知数の個数とし, \\(X\boldsymbol{a}=\boldsymbol{y}\ \ {\rm where}\ X\in\mathbb{R}^{m\times n'}, \boldsymbol{a}\in\mathbb{R}^{n'\times 1}, \boldsymbol{y}\in\mathbb{R}^{m\times 1}\\)[^5] としたとき
+つまり \\(m\\) を方程式の個数, \\(n'=n+1\\) を未知数の個数とし, \\(X{\boldsymbol a}={\boldsymbol y}\ \ {\rm where}\ X\in\mathbb{R}^{m\times n'}, {\boldsymbol a}\in\mathbb{R}^{n'\times 1}, {\boldsymbol y}\in\mathbb{R}^{m\times 1}\\)[^5] としたとき
 
 \\[
 \begin{aligned}
@@ -365,14 +365,14 @@ a_n
 を解いて, それが求まれば良いのではないか, 
 ということである(\\(n+1\\) と \\(m\\) は必ずしも等しくないことに注意[^3]). このときに考えられるパターンは, 次のとおりである:
 
-1. \\(n'=m\\) かつそのランク \\({\rm rank}(X)\\) が \\(n'=m\\)(フルランク)ならば, \\(X\\) は正則である. 従って, \\(X^{-1}X\boldsymbol{a}=X^{-1}\boldsymbol{y}\\) として解が求まる. 
-2. \\(n'\lt m\\) かつそのランクが \\(n'\\)(列フルランク)ならば, すべての方程式を満たすような解が存在しないことがいえる.  これは, すべての方程式をそれぞれ直線と捉えたときに, それらすべての交点となる一点が存在しないことをイメージするとわかりやすい. 要するに, \\(\boldsymbol{a}\\) に対する \\(X\\) と \\(\boldsymbol{y}\\) の制約が相互的に成立しないのである. ここで \\({\rm rank}(X)\lt n'\\)(ランク落ち)ならば, 方程式のどこかに重複がある. 
-3. \\(m\lt n'\\) かつそのランクが \\(m\\)(行フルランク)ならば, 解が一意とならないことがいえる. これも, 方程式を直線に捉えると, \\(\boldsymbol{a}\\) に対する制約が足りないことで, 方程式で構成される直線上のすべてが解となりうることから納得できる. ここで \\({\rm rank}(X)\lt m\\)(ランク落ち)ならば, 方程式のどこかに重複がある. 
+1. \\(n'=m\\) かつそのランク \\({\rm rank}(X)\\) が \\(n'=m\\)(フルランク)ならば, \\(X\\) は正則である. 従って, \\(X^{-1}X{\boldsymbol a}=X^{-1}{\boldsymbol y}\\) として解が求まる. 
+2. \\(n'\lt m\\) かつそのランクが \\(n'\\)(列フルランク)ならば, すべての方程式を満たすような解が存在しないことがいえる.  これは, すべての方程式をそれぞれ直線と捉えたときに, それらすべての交点となる一点が存在しないことをイメージするとわかりやすい. 要するに, \\({\boldsymbol a}\\) に対する \\(X\\) と \\({\boldsymbol y}\\) の制約が相互的に成立しないのである. ここで \\({\rm rank}(X)\lt n'\\)(ランク落ち)ならば, 方程式のどこかに重複がある. 
+3. \\(m\lt n'\\) かつそのランクが \\(m\\)(行フルランク)ならば, 解が一意とならないことがいえる. これも, 方程式を直線に捉えると, \\({\boldsymbol a}\\) に対する制約が足りないことで, 方程式で構成される直線上のすべてが解となりうることから納得できる. ここで \\({\rm rank}(X)\lt m\\)(ランク落ち)ならば, 方程式のどこかに重複がある. 
 
 いま 2 つの重複がある場合を考えることができたが, 重複を除けば, いま述べたうちのどれかに帰着させることができる.
 重複の場合を直線で捉えると, それぞれの方程式が \\(x, y\\) の関係に関して全く異なる解を示しているということなので, それぞれの直線は平行の関係にあることとなる.
 
-まとめると, つまり \\(X\boldsymbol{a}=\boldsymbol{y}\\) というように表される線形方程式には, 以上の 3 つのパターン(重複について考えれば 4 パターン)があることがわかる.
+まとめると, つまり \\(X{\boldsymbol a}={\boldsymbol y}\\) というように表される線形方程式には, 以上の 3 つのパターン(重複について考えれば 4 パターン)があることがわかる.
 これらのすべてのパターンに対して"適当であるような"解を与える逆行列を考えれば, どのような方程式にも"適当であるような"解を与えることができる.
 このように, 正則でない行列に対する擬似的な逆行列の定義を一般逆行列という.
 
@@ -413,8 +413,8 @@ Moore-Penrose 一般逆行列(MP 逆行列)といい,
 <div class="m-def">
 <header class="m-def-title"><p><span id="LeastSquaresGeneralizedInverse">最小二乗形一般逆行列</span></p></header>
 <div class="m-def-content">
-  正規方程式 \\[\boldsymbol{a}=X^-\boldsymbol{y}\\] の解 
-  \\(\boldsymbol{a}\\) を二乗誤差最小の値で定める
+  正規方程式 \\[{\boldsymbol a}=X^-{\boldsymbol y}\\] の解 
+  \\({\boldsymbol a}\\) を二乗誤差最小の値で定める
   <a href="#GeneralizedInverse">一般逆行列</a> 
   \\[^\exists X^-\in\mathbb{R}^{m\times n'}\ {\rm s.t.}\ m\gt n'\land(X X^-)^T = X X^-\\] 
   は \\(X\\) の最小二乗形一般逆行列である.
@@ -425,38 +425,38 @@ Moore-Penrose 一般逆行列(MP 逆行列)といい,
 以下, 最小二乗形一般逆行列の定式を求めるが, 上で既に述べた内容と本質的には全く変わらない. 
 ここで, 少し扱いやすくするために, \\(n\\) 次多項式を \\(f_n(x)=a_0x^0_i+a_1x^1_i+\cdots+a_nx^n_i=\sum^{n}_{j=0}a_jx^j_i\\),
 \\((5)\\) の \\(x_i^j\\) についての行列を \\(X\\) とする. そしてその \\(i\\) 行目を 1 つの縦ベクトルとしたものを 
-\\(\boldsymbol{x_i}\\) (\\({\rm e.g.}\ \ \boldsymbol{x_1}=(x_1^0, x_1^1, \cdots, x_1^n )^T\\)) とし,
+\\({\boldsymbol x_i}\\) (\\({\rm e.g.}\ \ {\boldsymbol x_1}=(x_1^0, x_1^1, \cdots, x_1^n )^T\\)) とし,
 \\((4)\\) の式を
 
-\\[\epsilon=\sum_{i=1}^{m}(y_i-f_n(\boldsymbol{x_i}))^2\tag{10}\\]
+\\[\epsilon=\sum_{i=1}^{m}(y_i-f_n({\boldsymbol x_i}))^2\tag{10}\\]
 
 というように表す(これは \\((4)\\) と全く同じことを書いただけである)とする.
-\\(f(\boldsymbol{x_i})=\boldsymbol{x_i}^T\boldsymbol{a}\\) だから
+\\(f({\boldsymbol x_i})={\boldsymbol x_i}^T{\boldsymbol a}\\) だから
 
-\\[=\sum_{i=1}^{m}(y_i-\boldsymbol{x_i}^T\boldsymbol{a})^2\\]
+\\[=\sum_{i=1}^{m}(y_i-{\boldsymbol x_i}^T{\boldsymbol a})^2\\]
 
-\\((\boldsymbol{x_1}^T,\boldsymbol{x_2}^T,\cdots,\boldsymbol{x_m}^T)^T=X\\) なので
+\\(({\boldsymbol x_1}^T,{\boldsymbol x_2}^T,\cdots,{\boldsymbol x_m}^T)^T=X\\) なので
 
-\\[=(\boldsymbol{y}-X\boldsymbol{a})^T(\boldsymbol{y}-X\boldsymbol{a})\\]
+\\[=({\boldsymbol y}-X{\boldsymbol a})^T({\boldsymbol y}-X{\boldsymbol a})\\]
 
 ここで, 先にやった, 偏微分を考えることで下に凸な二次関数となることを利用し, その値を \\(0\\) とした上でそれらすべての連立方程式を求め, 最小値を得たことを思いだし,
-この式を \\(\boldsymbol{a}\\) で微分する(すべての \\(\boldsymbol{a_i}\\) で偏微分する, すなわち勾配を求める)と
+この式を \\({\boldsymbol a}\\) で微分する(すべての \\({\boldsymbol a_i}\\) で偏微分する, すなわち勾配を求める)と
 
-\\[\nabla\epsilon(\boldsymbol{a})=2X^T X\boldsymbol{a}-2X^T\boldsymbol{y}=-2X^T(\boldsymbol{y}-X\boldsymbol{a})\\]
+\\[\nabla\epsilon({\boldsymbol a})=2X^T X{\boldsymbol a}-2X^T{\boldsymbol y}=-2X^T({\boldsymbol y}-X{\boldsymbol a})\\]
 
-\\(\nabla\epsilon(\boldsymbol{a})=0\\) とおくと, 
+\\(\nabla\epsilon({\boldsymbol a})=0\\) とおくと, 
 
-\\[X^T X\boldsymbol{a}=X^T\boldsymbol{y}\\]
+\\[X^T X{\boldsymbol a}=X^T{\boldsymbol y}\\]
 
 と正規方程式が求まった.
-ここで, \\(n'=m-1\\) のとき \\(X\\) はヴァンデルモンド行列[^3]となり, \\(\boldsymbol{x_1}, \cdots, \boldsymbol{x_m}\\) が相異なるとき \\(X\\) は正則となる.
+ここで, \\(n'=m-1\\) のとき \\(X\\) はヴァンデルモンド行列[^3]となり, \\({\boldsymbol x_1}, \cdots, {\boldsymbol x_m}\\) が相異なるとき \\(X\\) は正則となる.
 従って, 正規方程式の解は
 
-\\[\boldsymbol{a}=(X^T X)^{-1}X^T \boldsymbol{y}={X}^{-1}\boldsymbol{y}\\]
+\\[{\boldsymbol a}=(X^T X)^{-1}X^T {\boldsymbol y}={X}^{-1}{\boldsymbol y}\\]
 
 とかける. \\(n'\lt m-1\\) ならば行列 \\(X^T X\\) が正則なので, 正規方程式の解は
 
-\\[\boldsymbol{a}=(X^T X)^{-1}X^T\boldsymbol{y}\tag{11}\\]
+\\[{\boldsymbol a}=(X^T X)^{-1}X^T{\boldsymbol y}\tag{11}\\]
 
 とかける. 
 このとき \\(m\lt n\\) ならば, \\(X^T X\\) が非正則となってしまうから, 最小二乗形一般逆行列は構成できない. この結果から, 時間計算量は多項式時間 \\(\mathrm{O}(n^3)\\) であることがわかる. 
@@ -467,15 +467,15 @@ Moore-Penrose 一般逆行列(MP 逆行列)といい,
 次に, ケース 3 の場合を考える. この場合, 最小ノルム形一般逆行列を用いる.
 ケース 3 は様々な値が解になりうるということであったが, 
 最小ノルム形一般逆行列は, いまそれを \\(X^-\\) としたとき,
-\\(\boldsymbol{a}=X^-\boldsymbol{y}\\) の解 \\(\boldsymbol{a}\\) を
-その \\(L^2\\) ノルム \\(\mid\mid \boldsymbol{a}\mid\mid_2\\)
+\\({\boldsymbol a}=X^-{\boldsymbol y}\\) の解 \\({\boldsymbol a}\\) を
+その \\(L^2\\) ノルム \\(\mid\mid {\boldsymbol a}\mid\mid_2\\)
 が最小となるように定める.
 
 <div class="m-def">
 <header class="m-def-title"><p><span id="MinimumNormGeneralizedInverse">最小ノルム形一般逆行列</span></p></header>
 <div class="m-def-content">
-  正規方程式 \\[\boldsymbol{a}=X^-\boldsymbol{y}\\] の解 
-  \\(\boldsymbol{a}\\) をその \\(L^2\\) ノルム \\(\mid\mid \boldsymbol{a}\mid\mid_2\\)
+  正規方程式 \\[{\boldsymbol a}=X^-{\boldsymbol y}\\] の解 
+  \\({\boldsymbol a}\\) をその \\(L^2\\) ノルム \\(\mid\mid {\boldsymbol a}\mid\mid_2\\)
   が最小となる値で定める<a href="#GeneralizedInverse">一般逆行列</a> 
   \\[^\exists X^-\in\mathbb{R}^{m\times n'}\ {\rm s.t.}\ m\lt n'\land(X^- X)^T = X^- X\\]
   は \\(X\\) の最小ノルム形一般逆行列である.
@@ -484,21 +484,21 @@ Moore-Penrose 一般逆行列(MP 逆行列)といい,
 
 つまり, 解くべきは次に示す制約付き最適化問題/条件付き極小値問題である.
 
-\\[\min_{\boldsymbol{a}}\mid\mid\boldsymbol{a}\mid\mid^2_2\ {\rm s.t.}\ \boldsymbol{y}=X\boldsymbol{a}\\]
+\\[\min_{{\boldsymbol a}}\mid\mid{\boldsymbol a}\mid\mid^2_2\ {\rm s.t.}\ {\boldsymbol y}=X{\boldsymbol a}\\]
 
 条件付き極値の問題はラグランジュの未定乗数法で解ける.
 この証明は中々大変なので, 本エントリでは公理として認めた上で用いることとする(TODO).
 従って, ラグランジアンを次のように定義する.
 
-\\[\mathcal{L}(\boldsymbol{a}, \boldsymbol{\lambda}):=\mid\mid\boldsymbol{a}\mid\mid^2_2+\boldsymbol{\lambda}^T(\boldsymbol{y}-X\boldsymbol{a})\\]
+\\[\mathcal{L}({\boldsymbol a}, {\boldsymbol \lambda}):=\mid\mid{\boldsymbol a}\mid\mid^2_2+{\boldsymbol \lambda}^T({\boldsymbol y}-X{\boldsymbol a})\\]
 
 ラグランジュの未定乗数法に従い, それぞれの偏導関数から求めて
 
 \\[
 \begin{aligned}
 \begin{cases}
-\frac{\partial}{\partial\boldsymbol{a}}\mathcal{L}(\boldsymbol{a})&=&2\boldsymbol{a}-X^T\boldsymbol{\lambda}&=&0 \\
-\frac{\partial}{\partial\boldsymbol{\lambda}}\mathcal{L}(\boldsymbol{a})&=&\boldsymbol{y}-X\boldsymbol{a}&=&0
+\frac{\partial}{\partial{\boldsymbol a}}\mathcal{L}({\boldsymbol a})&=&2{\boldsymbol a}-X^T{\boldsymbol \lambda}&=&0 \\
+\frac{\partial}{\partial{\boldsymbol \lambda}}\mathcal{L}({\boldsymbol a})&=&{\boldsymbol y}-X{\boldsymbol a}&=&0
 \end{cases}
 \end{aligned}
 \\]
@@ -508,17 +508,17 @@ Moore-Penrose 一般逆行列(MP 逆行列)といい,
 \\[
 \begin{aligned}
 \begin{cases}
-\boldsymbol{a}&=&\frac{1}{2}X^T\lambda \\
-\boldsymbol{y}&=&X\boldsymbol{a}
-\end{cases}\leftrightarrow\boldsymbol{y}=\frac{1}{2}X X^T\lambda
+{\boldsymbol a}&=&\frac{1}{2}X^T\lambda \\
+{\boldsymbol y}&=&X{\boldsymbol a}
+\end{cases}\leftrightarrow{\boldsymbol y}=\frac{1}{2}X X^T\lambda
 \end{aligned}
 \\]
 
 \\(m\lt n'\\) ならば \\(X X^T\\) は正則なので
 
-\\[\lambda=2(X X^T)^{-1}\boldsymbol{y}\leftrightarrow \boldsymbol{a}=X^T(X X^T)^{-1}\boldsymbol{y}\\]
+\\[\lambda=2(X X^T)^{-1}{\boldsymbol y}\leftrightarrow {\boldsymbol a}=X^T(X X^T)^{-1}{\boldsymbol y}\\]
 
-$X\boldsymbol{a}=X\left\{X^T(X X^T)^{-1}\boldsymbol{y}\right\}=(X X^T)(X X^T)^{-1}\boldsymbol{y}=\boldsymbol{y}$ よりこの正規方程式の解が一般逆行列として成立していることが確認できる.
+$X{\boldsymbol a}=X\left\{X^T(X X^T)^{-1}{\boldsymbol y}\right\}=(X X^T)(X X^T)^{-1}{\boldsymbol y}={\boldsymbol y}$ よりこの正規方程式の解が一般逆行列として成立していることが確認できる.
 
 ### 制限つき最小二乗法
 
@@ -544,15 +544,15 @@ X = U\Sigma V^T \\ {\rm where}\ \Sigma=\left(\begin{array}{ccccc}\lambda_1&\cdot
 
 \\[
 \begin{aligned}
-\displaystyle\sum^{r}_{i=1}\lambda_i\boldsymbol{u_i}\boldsymbol{v_i}^T\ {\rm where}
+\displaystyle\sum^{r}_{i=1}\lambda_i{\boldsymbol u_i}{\boldsymbol v_i}^T\ {\rm where}
 \ \begin{array}{cc}
-(\boldsymbol{u_1},\cdots,\boldsymbol{u_m})^T
+({\boldsymbol u_1},\cdots,{\boldsymbol u_m})^T
 &=&\left(\begin{array}{ccc}
 u_{11}&\cdots&u_{1m} \\
 \vdots&\ddots&\vdots\\ 
 u_{m1}&\cdots&u_{mm}
 \end{array}\right)&=&U \\
-(\boldsymbol{v_1},\cdots,\boldsymbol{v_{n'}})^T
+({\boldsymbol v_1},\cdots,{\boldsymbol v_{n'}})^T
 &=&\left(\begin{array}{ccc}
 v_{11}&\cdots&v_{1n'} \\
 \vdots&\ddots&\vdots\\
@@ -562,8 +562,8 @@ v_{n'1}&\cdots&v_{n'n'}
 \end{aligned}
 \\]
 
-と同値であり, 一般に \\(\lambda_i\\) を特異値, \\(\boldsymbol{u_i}\\) を左特異ベクトル
-\\(\boldsymbol{v_i}\\) を右特異ベクトルという.
+と同値であり, 一般に \\(\lambda_i\\) を特異値, \\({\boldsymbol u_i}\\) を左特異ベクトル
+\\({\boldsymbol v_i}\\) を右特異ベクトルという.
 
 **TODO: 詳解を追記**
 
@@ -638,7 +638,7 @@ v_{n'1}&\cdots&v_{n'n'}
 この手法は, ノルムに対して, 次のように平滑化パラメータ \\(\lambda \geq 0\\) 
 を作用させることで正則化の強度を設定することができる. 
 
-\\[\epsilon(\boldsymbol{a})_\lambda=\sum^m_{i=1}(y_i-f_n(\boldsymbol{x}_i))^2+\underbrace{\lambda R(\boldsymbol{a})}_{\rm 正則化項}\\]
+\\[\epsilon({\boldsymbol a})_\lambda=\sum^m_{i=1}(y_i-f_n({\boldsymbol x}_i))^2+\underbrace{\lambda R({\boldsymbol a})}_{\rm 正則化項}\\]
 
 このような最適化を正則化法という.
 こうすると, モデルの変動が大きくなるにつれて正則化項も大きくなり, それが最小化問題へのペナルティとなって, 結果的に滑らかな曲線の推定に繋がる.
@@ -646,37 +646,37 @@ v_{n'1}&\cdots&v_{n'n'}
 
 またパラメータ \\(\lambda\\) を標本数で割った形式が取られることもある.
 
-\\[\epsilon(\boldsymbol{a})_\lambda=\sum^m_{i=1}(y_i-f_n(\boldsymbol{x}_i))^2+\underbrace{\frac{\lambda}{m} R(\boldsymbol{a})}_{\rm 正則化項}\\]
+\\[\epsilon({\boldsymbol a})_\lambda=\sum^m_{i=1}(y_i-f_n({\boldsymbol x}_i))^2+\underbrace{\frac{\lambda}{m} R({\boldsymbol a})}_{\rm 正則化項}\\]
 
 両者の違いは正則化項の影響度である. 先に, 推定する係数に対して標本数が少ないようなときにオーバーフィッティングはよく起こると述べたが, ならば当然, 標本数が十分である場合には正則化項は必要ない. パラメータ \\(\lambda\\) を標本数で割ってやれば, 標本数の増加に従って正則化項の影響度を抑制できる. どちらを用いるかはその時々で選択の余地があるだろう.
 
 例えば, \\(\lambda\\) を標本数に依らず直接作用させる形式で 
-\\(R(\boldsymbol{v})\\) を \\(L^2\\) ノルムとする[^9]と,
+\\(R({\boldsymbol v})\\) を \\(L^2\\) ノルムとする[^9]と,
 
 \\[
 \begin{aligned}
-\epsilon(\boldsymbol{a})_\lambda&=&\sum^m_{i=1}(y_i-f_n(\boldsymbol{x}_i))^2+\lambda\sum_{j=0}^{n}a^2_j \\
-&=&(\boldsymbol{y}-X\boldsymbol{a})^T(\boldsymbol{y}-X\boldsymbol{a})+\lambda\boldsymbol{a}^T\boldsymbol{a}
+\epsilon({\boldsymbol a})_\lambda&=&\sum^m_{i=1}(y_i-f_n({\boldsymbol x}_i))^2+\lambda\sum_{j=0}^{n}a^2_j \\
+&=&({\boldsymbol y}-X{\boldsymbol a})^T({\boldsymbol y}-X{\boldsymbol a})+\lambda{\boldsymbol a}^T{\boldsymbol a}
 \end{aligned}
 \\]
 
-先と同様に \\(\nabla\epsilon(\boldsymbol{a})_\lambda=0\\) とおいて,
+先と同様に \\(\nabla\epsilon({\boldsymbol a})_\lambda=0\\) とおいて,
 
 \\[
 \begin{aligned}
-\nabla\epsilon(\boldsymbol{a})_\lambda&=&-2X^T(\boldsymbol{y}-X\boldsymbol{a})+2\lambda\boldsymbol{a} \\
-&=&2(\lambda I+X^T X)\boldsymbol{a}-2X^T\boldsymbol{y}\\ &=&0
+\nabla\epsilon({\boldsymbol a})_\lambda&=&-2X^T({\boldsymbol y}-X{\boldsymbol a})+2\lambda{\boldsymbol a} \\
+&=&2(\lambda I+X^T X){\boldsymbol a}-2X^T{\boldsymbol y}\\ &=&0
 \end{aligned}
 \\]
 
 従ってこの正規方程式の解は,
 
-\\[\boldsymbol{a}=(\lambda I+X^T X)^{-1}X^T\boldsymbol{y}\\]
+\\[{\boldsymbol a}=(\lambda I+X^T X)^{-1}X^T{\boldsymbol y}\\]
 
-となる. \\(\boldsymbol{a}\\) を求めるに際する時間計算量について加味すると,
+となる. \\({\boldsymbol a}\\) を求めるに際する時間計算量について加味すると,
 逆行列を計算するよりも LU 分解を行った方が良いので,
 
-\\[(\lambda I+X^T X)\boldsymbol{a}=X^T\boldsymbol{y}\\]
+\\[(\lambda I+X^T X){\boldsymbol a}=X^T{\boldsymbol y}\\]
 
 としておく. この正規方程式を用いて, 平滑化パラメータ \\(\lambda=0.1,1,10\\) を適用しプロットすると,
 
@@ -696,10 +696,10 @@ v_{n'1}&\cdots&v_{n'n'}
 データセット \\(\bf x\\) に対し, 真の値 \\(t_i\\) を
 $D=\left\{({\bf x_1},t_1), ({\bf x_2},t_2),\cdots,({\bf x_m},t_m)\right\} {\rm where}\ t_i=g+u_i\ (\because\ \ {\text (ii) より})$ 
 とし, 回帰分析によって得られるモデル
-\\(\hat{f}_n({\bf y_i})=f_n(\boldsymbol{x'_i})\ {\rm where}\ \boldsymbol{x'_i}=({\bf y_i^0},{\bf y_i^1},\cdots,{\bf y_i^n})^T (\because \ {\text (10) より})\\)
+\\(\hat{f}_n({\bf y_i})=f_n({\boldsymbol x'_i})\ {\rm where}\ {\boldsymbol x'_i}=({\bf y_i^0},{\bf y_i^1},\cdots,{\bf y_i^n})^T (\because \ {\text (10) より})\\)
 との差を次のように定義する.
 
-\\[L(t_i, \hat{f}_n(\boldsymbol{{\bf x_i}})):=(t_i-\hat{f}_n(\boldsymbol{{\bf x_i}}))^2\\]
+\\[L(t_i, \hat{f}_n({\boldsymbol {\bf x_i}})):=(t_i-\hat{f}_n({\boldsymbol {\bf x_i}}))^2\\]
 
 この \\(L\\) は損失関数といわれる. 
 ここで, \\(\bf x_i\\) と \\(t_i\\) が得られる同時確率を考慮すると, 損失の期待値は
@@ -941,22 +941,22 @@ True
 ![lenear equations](outliers.png "lenear equations"){ width=600px }
 
 これを防ぐ方法はいくつか存在する.
-以下, 説明のために改めて, \\(p\\) 個の独立変数を有する多重線形回帰モデルを \\[\boldsymbol{y}=X'\boldsymbol{\beta}+\boldsymbol{u}\\] とする.
-ここで \\(\boldsymbol{\beta}=\boldsymbol{a}\\) で \\(X'\\) は説明変数の行 \\(\boldsymbol{x'_i}=(x'_{i1}, x'_{i2},\cdots,x'_{ip})^T\\) 
+以下, 説明のために改めて, \\(p\\) 個の独立変数を有する多重線形回帰モデルを \\[{\boldsymbol y}=X'{\boldsymbol \beta}+{\boldsymbol u}\\] とする.
+ここで \\({\boldsymbol \beta}={\boldsymbol a}\\) で \\(X'\\) は説明変数の行 \\({\boldsymbol x'_i}=(x'_{i1}, x'_{i2},\cdots,x'_{ip})^T\\) 
 を有するフルランク行列 \\(X'\in\mathbb{R}^{m\times p}\\) であり, 
-\\(\boldsymbol{u}\\) は [i.i.d](/roki.log/2018/10/28/probabilityTerms/#iid) かつ
-\\(\mathrm{N}(0,\sigma^2)\\) に従う確率誤差のベクトル \\(\boldsymbol{u}=(u_1,u_2,\cdots,u_m)^T\in\mathbb{R}^{m\times 1}\\) とする.
+\\({\boldsymbol u}\\) は [i.i.d](/roki.log/2018/10/28/probabilityTerms/#iid) かつ
+\\(\mathrm{N}(0,\sigma^2)\\) に従う確率誤差のベクトル \\({\boldsymbol u}=(u_1,u_2,\cdots,u_m)^T\in\mathbb{R}^{m\times 1}\\) とする.
 なおこの定義に従うと, (Ordinary least squares より)通常の最小二乗法は次の式で定義できる.
 
 \\[
 \begin{aligned}
-\mathrm{OLS}(X',\boldsymbol{y})&:=&\mathrm{arg}\min_\boldsymbol{\boldsymbol{\beta}}\sum^m_{i=1}r(\boldsymbol{\beta})^2_i \tag{14} \\
+\mathrm{OLS}(X',{\boldsymbol y})&:=&\mathrm{arg}\min_{\boldsymbol {\boldsymbol \beta}}\sum^m_{i=1}r({\boldsymbol \beta})^2_i \tag{14} \\
 &=&(11)
 \end{aligned}
 \\]
 
-ここで \\(r(\boldsymbol{\beta})_i\\) は \\(r(\boldsymbol{\beta})_i=y_i-\boldsymbol{x}_i\boldsymbol{\beta}\\) である(\\((4)\\) の偏差の部分).
-以下, パラメータのベクトル \\(\boldsymbol{\beta}\\) を明示的に示す必要がないときには \\(r(\boldsymbol{\beta})_i\\) を \\(r_i\\) と示すこととする.
+ここで \\(r({\boldsymbol \beta})_i\\) は \\(r({\boldsymbol \beta})_i=y_i-{\boldsymbol x}_i{\boldsymbol \beta}\\) である(\\((4)\\) の偏差の部分).
+以下, パラメータのベクトル \\({\boldsymbol \beta}\\) を明示的に示す必要がないときには \\(r({\boldsymbol \beta})_i\\) を \\(r_i\\) と示すこととする.
 
 ### 最小刈込み二乗法
 
@@ -964,12 +964,12 @@ True
 
 \\[
 \begin{aligned}
-\mathrm{LTS}(X,\boldsymbol{y},k)&:=&\mathrm{arg}\min_\boldsymbol{\beta}\sum^k_{i=1}r(\boldsymbol{\beta})^2_{(i)} \\
-&&{\rm s.t.\ } r(\boldsymbol{\beta})^2_{(1)}\leq r(\boldsymbol{\beta})^2_{(2)}\leq\cdots\leq r(\boldsymbol{\beta})^2_{(m)}
+\mathrm{LTS}(X,{\boldsymbol y},k)&:=&\mathrm{arg}\min_{\boldsymbol \beta}\sum^k_{i=1}r({\boldsymbol \beta})^2_{(i)} \\
+&&{\rm s.t.\ } r({\boldsymbol \beta})^2_{(1)}\leq r({\boldsymbol \beta})^2_{(2)}\leq\cdots\leq r({\boldsymbol \beta})^2_{(m)}
 \end{aligned}
 \\]
 
-ここで \\(r(\boldsymbol{\beta})_{(i)}\\) は \\(i\\) 番目に小さい残差を示す.
+ここで \\(r({\boldsymbol \beta})_{(i)}\\) は \\(i\\) 番目に小さい残差を示す.
 要するに, \\(m\\) 個の偏差の二乗を昇順で並べ, 
 適当なパラメータ \\(k\ (k\leq m)\\) に対して \\(\sum^k_{i=1}(r^2)_{i:m}\\) を最小化する回帰係数を求めることをいう.
 当然, \\(k=m\\) とすると, 通常の最小二乗法と同じ結果となるが, \\(k\lt m\\) で設定することで \\(m-k\\) 個の大きな偏差をもつデータを無視できる. 

@@ -76,8 +76,8 @@ $$
 $$
 
 これを理解しておくと後述する LU 分解の理解に容易くなる. ここで, この時間計算量について, 一般の \\(n\\) 次線形連立方程式
-\\(X\boldsymbol{a}=\boldsymbol{y}\ {\rm where}\ X\in\mathbb{R}^{n\times n}, 
-\boldsymbol{a}\in\mathbb{R}^{n\times 1}, \boldsymbol{y}\in\mathbb{R}^{n\times 1}\\) 
+\\(X{\boldsymbol a}={\boldsymbol y}\ {\rm where}\ X\in\mathbb{R}^{n\times n}, 
+{\boldsymbol a}\in\mathbb{R}^{n\times 1}, {\boldsymbol y}\in\mathbb{R}^{n\times 1}\\) 
 を用いて考えるする.
 
 $$\left(\begin{array}{ccccc}
@@ -464,11 +464,11 @@ $$
 式 \\((1)\\) は次の式と同値である.
 
 $$
-A^{(0)}\left(\begin{array}{c}x \\ y\end{array}\right)=\boldsymbol{v}
-\ {\rm where}\ A^{(0)}=\left(\begin{array}{cc}1 & 2 \\ 3 & 4\end{array}\right),\boldsymbol{v}=\left(\begin{array}{c}3\\ 5\end{array}\right)
+A^{(0)}\left(\begin{array}{c}x \\ y\end{array}\right)={\boldsymbol v}
+\ {\rm where}\ A^{(0)}=\left(\begin{array}{cc}1 & 2 \\ 3 & 4\end{array}\right),{\boldsymbol v}=\left(\begin{array}{c}3\\ 5\end{array}\right)
 $$
 
-\\({A^{(0)}}^{-1}\boldsymbol{v}\\) とすれば \\((x,y)^T\\) は求まるが, 逆行列の計算はガウスの消去法により \\(\frac{1}{3}O(n^3)\\) の時間計算量がかかる.
+\\({A^{(0)}}^{-1}{\boldsymbol v}\\) とすれば \\((x,y)^T\\) は求まるが, 逆行列の計算はガウスの消去法により \\(\frac{1}{3}O(n^3)\\) の時間計算量がかかる.
 一定の条件下でそれよりも高速に求める方法を考えることとする.
 いま \\(A^{(0)}\\) を徐に上三角行列にすることを考えると, ガウスの消去法の前進消去より
 
@@ -482,23 +482,23 @@ $$
 従って
 
 $$
-{L^{(1)}}^{-1}A^{(1)}\left(\begin{array}{c}x \\ y\end{array}\right)=\boldsymbol{v}
+{L^{(1)}}^{-1}A^{(1)}\left(\begin{array}{c}x \\ y\end{array}\right)={\boldsymbol v}
 $$
 
-ここで, \\(\boldsymbol{b}=A^{(1)}(x,y)^T\\) とおくと, 上の式は \\({L^{(1)}}^{-1}\boldsymbol{b}=\boldsymbol{v}\\) と同値であり,
-この式を用いて \\(\boldsymbol{b}\\) について解くことができる. 
+ここで, \\({\boldsymbol b}=A^{(1)}(x,y)^T\\) とおくと, 上の式は \\({L^{(1)}}^{-1}{\boldsymbol b}={\boldsymbol v}\\) と同値であり,
+この式を用いて \\({\boldsymbol b}\\) について解くことができる. 
 まずこの時間計算量を考えるとする.
 \\(L^{(1)}\\) は元々前進消去のための行列であり, それは必ず下三角行列である.
 正則な下三角行列の逆行列は下三角行列であり(証明略), いま \\(L^{(1)}\\) が正則であるとする(これが特異となるような場合には後述する PLU 分解が有効)と,
 その計算は前進代入(上記後退代入の下三角行列バージョンと考えればよい)を実行すればよいので, 時間計算量は \\(\frac{1}{2}O(n^2)\ \because\\) となる.
 
-その後に \\(A^{(1)}(x,y)^T=\boldsymbol{b}\\) を \\((x,y)^T\\) について解くわけであるが,
+その後に \\(A^{(1)}(x,y)^T={\boldsymbol b}\\) を \\((x,y)^T\\) について解くわけであるが,
 \\(A^{(1)}\\) は上三角行列であるので, その計算にはガウスの消去法の後退代入を実行すれば良く, 従ってその時間計算量は 
 \\(\frac{1}{2}O(n^2)\ \because\\) である.
 
 よって, この一連の操作における時間計算量は \\(\frac{1}{3}O(n^3)\\) であり, 部分ピボットつきガウスの消去法を実行した場合と変わらない.
 
-しかし, \\(L U\\) を流用できる(つまり, 共通の \\(A^{(0)}\\) に対し異なる右辺ベクトル \\(\boldsymbol{v}\\) から成る連立方程式を解く)とすればどうだろう.
+しかし, \\(L U\\) を流用できる(つまり, 共通の \\(A^{(0)}\\) に対し異なる右辺ベクトル \\({\boldsymbol v}\\) から成る連立方程式を解く)とすればどうだろう.
 この場合, やらなければならない計算は前進代入および後退代入のみなので,
 全体の時間計算量は \\(\frac{1}{2}O(n^2)\\) となり, 先よりも高速に解を得ることができる.
 
@@ -561,8 +561,8 @@ $$
 
 より $$L=(L^{(2)}L^{(1)})^{-1}=\left(\begin{array}{ccc} 1 & 0 & 0 \\ 2 & 1 & 0 \\ -1 & -1 & 1 \end{array}\right),U=A^{(2)}$$
 実際には, すべてを減算で考えることで, \\((L^{(2)}L^{(1)})^{-1}\\) の計算は楽に済む(つまり
-$A^{0}=(\boldsymbol{a_1}^T,\boldsymbol{a_2}^T,\boldsymbol{a_3}^T)^T$ としたとき
-\\(\underline{2}\boldsymbol{a_1}-\boldsymbol{a_2}, \underline{-1}\boldsymbol{a_1}-\boldsymbol{a_3}, \underline{-1}\boldsymbol{a_2}-\boldsymbol{a_3}\\) より \\(L\\) が導けるということ).
+$A^{0}=({\boldsymbol a_1}^T,{\boldsymbol a_2}^T,{\boldsymbol a_3}^T)^T$ としたとき
+\\(\underline{2}{\boldsymbol a_1}-{\boldsymbol a_2}, \underline{-1}{\boldsymbol a_1}-{\boldsymbol a_3}, \underline{-1}{\boldsymbol a_2}-{\boldsymbol a_3}\\) より \\(L\\) が導けるということ).
 
 この導出過程を見ればなんとなく LU 分解が一意となることは直感的にも納得できるが, 一応証明を与えておく.
 
@@ -601,7 +601,7 @@ A=\left(\begin{array}{ccc}
 しかし, これも部分ピボット選択付きガウスの消去法と同様に, 絶対値最大の値がピボットとなるように行を予め入れ替えておけば,
 計算が続行できる.
 そのような手続きのある LU 分解は PLU 分解といわれ, 置換行列 \\(P\in\mathbb{R}^{m\times n}\\) をつかって, \\(A=P L U\\) とする.
-以下 \\(A\\) をつかって導出してみることとする. \\(\boldsymbol{a_1}^T\\) と \\(\boldsymbol{a_2}^T\\) を入れ替えれば良いので,
+以下 \\(A\\) をつかって導出してみることとする. \\({\boldsymbol a_1}^T\\) と \\({\boldsymbol a_2}^T\\) を入れ替えれば良いので,
 
 \\[
 \begin{aligned}
@@ -665,11 +665,11 @@ A&=&P L U\\
 \end{aligned}
 \\]
 
-ここで \\(\boldsymbol{a}\in\mathbb{R}^{n\times 1},\boldsymbol{v}\in\mathbb{R}^{n\times 1}\\) に対して
-\\(P L U \boldsymbol{a}=\boldsymbol{v}\\) というように, PLU 分解を用いて連立方程式解くことを考えると,
-\\(L\underbrace{(U\boldsymbol{a})}_{\boldsymbol{b}}=P^{-1}\boldsymbol{v}\\) だから先と同様にまず前進代入によって
-\\(\boldsymbol{b}\\) を求め(このときの \\(P^{-1}\boldsymbol{v}\\) は \\(P^{-1}=P^{(1)}\\) であり, また置換行列であるので, その計算は単に \\(\boldsymbol{v}\\) を並び替えるだけである),
-\\(U\boldsymbol{a}=\boldsymbol{b}\\) を \\(\boldsymbol{a}\\) について後退代入によって求めればよい.
+ここで \\({\boldsymbol a}\in\mathbb{R}^{n\times 1},{\boldsymbol v}\in\mathbb{R}^{n\times 1}\\) に対して
+\\(P L U {\boldsymbol a}={\boldsymbol v}\\) というように, PLU 分解を用いて連立方程式解くことを考えると,
+\\(L\underbrace{(U{\boldsymbol a})}_{{\boldsymbol b}}=P^{-1}{\boldsymbol v}\\) だから先と同様にまず前進代入によって
+\\({\boldsymbol b}\\) を求め(このときの \\(P^{-1}{\boldsymbol v}\\) は \\(P^{-1}=P^{(1)}\\) であり, また置換行列であるので, その計算は単に \\({\boldsymbol v}\\) を並び替えるだけである),
+\\(U{\boldsymbol a}={\boldsymbol b}\\) を \\({\boldsymbol a}\\) について後退代入によって求めればよい.
 
 さて, 数学的な言葉では, 以上のように書き下すことで十分であるが,
 これをプログラムで組むことを考えると, 様々な工夫やアプローチが考えられる.
@@ -739,10 +739,10 @@ Just (array (0,3) [(0,1.666666666666667),(1,0.8666666666666667),(2,-0.8),(3,1.2)
 
 ところで, LU 分解をしておくと逆行列も簡単に求めることがすぐに示せる.
 逆行列とはそもそも \\(A A^{-1} =I\\) であり, 
-\\(A^{-1}=(\boldsymbol{a^{-1}_1},\boldsymbol{a^{-1}_2},\cdots,\boldsymbol{a^{-1}}_m), I=(\boldsymbol{I_1},\boldsymbol{I_2},\cdots,\boldsymbol{I_m})\\) 
-とすると行列の積の定義より \\(A \boldsymbol{a^{-1}_i}=\boldsymbol{I_i}\ {\rm where\ } i\in\mathbb{Z}^{+}, 1\leq i\leq m\\) だから, 
-\\(A=L U\\) と分解して \\(1\\) から \\(m\\) までのすべての \\(\boldsymbol{a^{-1}}_i\\) を得てそれらをそのまま 1 つの行列とすればよい.
-当然ながら, 構成される方程式のうち変わる部分は \\(\boldsymbol{a^{-1}}_i\\) と \\(I_i\\) の部分だけなので, LU 分解は一度行うだけで済む.
+\\(A^{-1}=({\boldsymbol a^{-1}_1},{\boldsymbol a^{-1}_2},\cdots,{\boldsymbol a^{-1}}_m), I=({\boldsymbol I_1},{\boldsymbol I_2},\cdots,{\boldsymbol I_m})\\) 
+とすると行列の積の定義より \\(A {\boldsymbol a^{-1}_i}={\boldsymbol I_i}\ {\rm where\ } i\in\mathbb{Z}^{+}, 1\leq i\leq m\\) だから, 
+\\(A=L U\\) と分解して \\(1\\) から \\(m\\) までのすべての \\({\boldsymbol a^{-1}}_i\\) を得てそれらをそのまま 1 つの行列とすればよい.
+当然ながら, 構成される方程式のうち変わる部分は \\({\boldsymbol a^{-1}}_i\\) と \\(I_i\\) の部分だけなので, LU 分解は一度行うだけで済む.
 プログラムでの実行例. 
 <em onclick="obj=document.getElementById('open_inverse').style; obj.display=(obj.display=='none')?'block':'none';">
 <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a>
@@ -759,16 +759,16 @@ Just
 {       (-1) % 1        1 % 1   (-1) % 1        }
 ```
 
-ただし, 逆行列の計算には今述べたようにすべての \\(\boldsymbol{I^{-1}}_i\\) に関して代入操作を行わなければならないので,
-\\(A\boldsymbol{x}=\boldsymbol{v}\\) といった方程式を解く目的で逆行列 \\(A^{-1}\\) を求めることはただの愚行である.
+ただし, 逆行列の計算には今述べたようにすべての \\({\boldsymbol I^{-1}}_i\\) に関して代入操作を行わなければならないので,
+\\(A{\boldsymbol x}={\boldsymbol v}\\) といった方程式を解く目的で逆行列 \\(A^{-1}\\) を求めることはただの愚行である.
 
 また, LU 分解は行列式の計算も簡単にする. 
 \\(A= L U\\) ならば積の行列式は行列式の積(証明略)なので \\(\left|A\right|=\left|L U\right|=\left|L\right|\left|U\right|\\) であるが,
 上および下三角行列の行列式は対角成分の積(証明略)であるので \\(\left|L\right|=1\\) である.
-よって \\(\left|A\right|=\prod_{i=1}^{n}\boldsymbol{u}_{ii}\\) である.
+よって \\(\left|A\right|=\prod_{i=1}^{n}{\boldsymbol u}_{ii}\\) である.
 置換行列 \\(P\\) を考慮すれば, いま \\(S\\) を LU 分解の過程で行の入れ替えを行った回数としたとき,
-\\(\left|A\right|=\left|P\right|\left|L\right|\left|U\right|=(-1)^S \prod_{i=1}^{n}\boldsymbol{u}_{ii}\\) となる.
-また, 後述する Crout 法では \\(U\\) のすべての対角成分を $1$ とするので, その場合 \\(\left|A\right| = (-1)^S \prod_{i=1}^{n}\boldsymbol{l}_{ii}\\) となる.
+\\(\left|A\right|=\left|P\right|\left|L\right|\left|U\right|=(-1)^S \prod_{i=1}^{n}{\boldsymbol u}_{ii}\\) となる.
+また, 後述する Crout 法では \\(U\\) のすべての対角成分を $1$ とするので, その場合 \\(\left|A\right| = (-1)^S \prod_{i=1}^{n}{\boldsymbol l}_{ii}\\) となる.
 <em onclick="obj=document.getElementById('open_det').style; obj.display=(obj.display=='none')?'block':'none';">
 <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a>
 </em>
