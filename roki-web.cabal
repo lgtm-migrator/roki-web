@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f3b2b646ae2f5c8f3117513ef89230ce20a469b095976e054ce05983e93aec5c
+-- hash: f2b72aa8fdcfdca218a13dcd95e343c45dae7063e25873812bc6ee570a6ac758
 
 name:           roki-web
-version:        0.1.1.0
+version:        1.0.0.0
 category:       Web
 homepage:       https://github.com/roki/roki-web#readme
 bug-reports:    https://github.com/roki/roki-web/issues

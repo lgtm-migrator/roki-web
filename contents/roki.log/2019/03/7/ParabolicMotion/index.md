@@ -9,51 +9,51 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 
 ## 等加速度運動をする物体の位置関数の導出
 
-時刻 \\(t=0\\) における物体の位置を $\boldsymbol{x_0}$, 速度を \\(\boldsymbol{v_0}\\)
-とし, 加速度を考慮しない等速運動の三次元空間上の一点に対する位置関数 \\(\boldsymbol{x}(t)\\) を
-\\[\boldsymbol{x}(t)=\boldsymbol{x_0}+\boldsymbol{v_0}t\\] とおく.
-このとき, 時間 \\(t_1\\) から \\(t_2\\) への変化量 \\(\boldsymbol{x}(t_2)-\boldsymbol{x}(t_1)\\) を \\(\Delta t=t_2-t_1\\) で割れば,
+時刻 \\(t=0\\) における物体の位置を ${\boldsymbol x_0}$, 速度を \\({\boldsymbol v_0}\\)
+とし, 加速度を考慮しない等速運動の三次元空間上の一点に対する位置関数 \\({\boldsymbol x}(t)\\) を
+\\[{\boldsymbol x}(t)={\boldsymbol x_0}+{\boldsymbol v_0}t\\] とおく.
+このとき, 時間 \\(t_1\\) から \\(t_2\\) への変化量 \\({\boldsymbol x}(t_2)-{\boldsymbol x}(t_1)\\) を \\(\Delta t=t_2-t_1\\) で割れば,
 時間経過に対する物体の位置の対比が得られる.
-これは正しく速度のことであるが, これは時間 \\(t_1\\) に位置 \\(\boldsymbol{x}(t_1)\\), 時間 \\(t_2\\) に位置 \\(\boldsymbol{x}(t_2)\\)
+これは正しく速度のことであるが, これは時間 \\(t_1\\) に位置 \\({\boldsymbol x}(t_1)\\), 時間 \\(t_2\\) に位置 \\({\boldsymbol x}(t_2)\\)
 にあった物体の平均速度である. 
 いま時間 \\(t\\) における物体の瞬間速度を知りたいとすると, \\(\Delta t\\) が微小量となるように極限(\\(t_2\to t_1\Leftrightarrow \Delta t\to 0\\))を取れば良い.<!--more-->
-従って, 物体の瞬間速度の関数 \\(\boldsymbol{v}(t)\\) を \\(\boldsymbol{x}(t)\\) の導関数 
+従って, 物体の瞬間速度の関数 \\({\boldsymbol v}(t)\\) を \\({\boldsymbol x}(t)\\) の導関数 
 
-\\[\boldsymbol{v}(t)=\dot{\boldsymbol{x}}(t)=\frac{d\boldsymbol{x}(t)}{dt}\\]
+\\[{\boldsymbol v}(t)=\dot{{\boldsymbol x}}(t)=\frac{d{\boldsymbol x}(t)}{dt}\\]
 
 でおけることがわかる.
 しばしば力学においては, 上のように原始関数の上部に点を記述し, 時間の微分を表現する.
-なお, いまは速度を一定としているので \\(\boldsymbol{v}(t)=\boldsymbol{v_0}\\) である.
+なお, いまは速度を一定としているので \\({\boldsymbol v}(t)={\boldsymbol v_0}\\) である.
 
 ここで, 物体の運動が加速することを加味するために, 加速度を導入する.
 加速度とは, 平均の速度とその所用時間の対比のことであり, 
-すなわち \\(\frac{\boldsymbol{v}(t_2)-\boldsymbol{v}(t_1)}{\Delta t}\\) である.
+すなわち \\(\frac{{\boldsymbol v}(t_2)-{\boldsymbol v}(t_1)}{\Delta t}\\) である.
 先と同様, \\(\Delta t\to 0\\) としていけば, その瞬間の加速度を得ることができるから, 
-瞬間加速度の関数 \\(\boldsymbol{a}(t)\\) は
+瞬間加速度の関数 \\({\boldsymbol a}(t)\\) は
 
-\\[\boldsymbol{a}(t)=\dot{\boldsymbol{v}}(t)=\ddot{\boldsymbol{x}}(t)=\frac{d^2\boldsymbol{x}(t)}{dt^2}\\] 
+\\[{\boldsymbol a}(t)=\dot{{\boldsymbol v}}(t)=\ddot{{\boldsymbol x}}(t)=\frac{d^2{\boldsymbol x}(t)}{dt^2}\\] 
 
 であり, 結果として 2 次導関数でおかれる.
-従って, 一定の加速度 \\(\boldsymbol{a}(t)=\boldsymbol{a_0}\\) を受けている物体の瞬間速度関数は
-\\(\boldsymbol{w}(t)=\boldsymbol{v_0}+\boldsymbol{a_0}t\\) となるから, 
-時刻 \\(t_1\\) から \\(t_2\\) 間の移動距離は \\(d=\int^{t_2}_{t_1}\boldsymbol{w}(t)dt\\) 
+従って, 一定の加速度 \\({\boldsymbol a}(t)={\boldsymbol a_0}\\) を受けている物体の瞬間速度関数は
+\\({\boldsymbol w}(t)={\boldsymbol v_0}+{\boldsymbol a_0}t\\) となるから, 
+時刻 \\(t_1\\) から \\(t_2\\) 間の移動距離は \\(d=\int^{t_2}_{t_1}{\boldsymbol w}(t)dt\\) 
 であり, 経過時刻 \\(t\\) に対する物体の移動距離は同様にして 
-\\[d=\int^t_0\boldsymbol{w}(t)dt=\boldsymbol{v_0}t+\frac{\boldsymbol{a_0}t^2}{2}\\]
-となる. よって初期位置 \\(x_0\\) を加えることで等加速度運動をする物体の位置関数 \\(\boldsymbol{y}(t)\\) が
-\\[\boldsymbol{y}(t)=\boldsymbol{x_0}+\boldsymbol{v_0}t+\frac{\boldsymbol{a_0}t^2}{2}\tag{1}\\] と定められる.
+\\[d=\int^t_0{\boldsymbol w}(t)dt={\boldsymbol v_0}t+\frac{{\boldsymbol a_0}t^2}{2}\\]
+となる. よって初期位置 \\(x_0\\) を加えることで等加速度運動をする物体の位置関数 \\({\boldsymbol y}(t)\\) が
+\\[{\boldsymbol y}(t)={\boldsymbol x_0}+{\boldsymbol v_0}t+\frac{{\boldsymbol a_0}t^2}{2}\tag{1}\\] と定められる.
 
 ## 重力を踏まえた運動
 
 重力のみの影響を受ける物体の運動について考える.
-三次元空間上の上方向を \\(z\\) 軸としたとき, 下向きの重力加速度ベクトルは \\(\boldsymbol{g}=(0,0,-g)^T\\) である.
-これは, 地球上において \\(g=9.80665{\rm m/s}^2\\) と知られているから, 地球上の質量 \\(m\\) の物体は下向きに \\(m\boldsymbol{g}\\)
+三次元空間上の上方向を \\(z\\) 軸としたとき, 下向きの重力加速度ベクトルは \\({\boldsymbol g}=(0,0,-g)^T\\) である.
+これは, 地球上において \\(g=9.80665{\rm m/s}^2\\) と知られているから, 地球上の質量 \\(m\\) の物体は下向きに \\(m{\boldsymbol g}\\)
 の力を受けていることとなる.
 
-いま時刻 \\(t=0\\) における初期位置を \\(\boldsymbol{x_0}=(x_0,y_0,z_0)^T\\),
-初速度を \\(\boldsymbol{v_0}=(v_x,v_y,v_z)^T\\) としたとき, 物体 \\(P\\) の位置は \\((1)\\) より
-\\[\boldsymbol{x}(t)=\boldsymbol{x_0}+\boldsymbol{v_0}t+\frac{\boldsymbol{g}t^2}{2}\tag{2}\\]
-である. また, 初速度 \\(\boldsymbol{v_0}\\) の各成分は, \\(x\\) 方向に発射速度 \\(v\\) で発射されるとしたとき,
-三角関数を思い出せば, \\(\boldsymbol{v_0}=(v\cos\theta,0,v\sin\theta)^T\\) であることがいえる.
+いま時刻 \\(t=0\\) における初期位置を \\({\boldsymbol x_0}=(x_0,y_0,z_0)^T\\),
+初速度を \\({\boldsymbol v_0}=(v_x,v_y,v_z)^T\\) としたとき, 物体 \\(P\\) の位置は \\((1)\\) より
+\\[{\boldsymbol x}(t)={\boldsymbol x_0}+{\boldsymbol v_0}t+\frac{{\boldsymbol g}t^2}{2}\tag{2}\\]
+である. また, 初速度 \\({\boldsymbol v_0}\\) の各成分は, \\(x\\) 方向に発射速度 \\(v\\) で発射されるとしたとき,
+三角関数を思い出せば, \\({\boldsymbol v_0}=(v\cos\theta,0,v\sin\theta)^T\\) であることがいえる.
 
 ### 到達高度に達するとき, 到達高度
 
