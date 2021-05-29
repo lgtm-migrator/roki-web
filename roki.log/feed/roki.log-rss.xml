@@ -2350,15 +2350,15 @@ x&amp;=&amp;x\lor 0\\
     <link>https://roki.dev/roki.log/2019/03/7/ParabolicMotion/index.html</link>
     <description><![CDATA[<p>放物運動に関する復習と再現.</p>
 <h2 id="等加速度運動をする物体の位置関数の導出">等加速度運動をする物体の位置関数の導出</h2>
-<p>時刻 <span class="math inline">t=0</span> における物体の位置を <span class="math inline">\boldsymbol{x_0}</span>, 速度を <span class="math inline">\boldsymbol{v_0}</span> とし, 加速度を考慮しない等速運動の三次元空間上の一点に対する位置関数 <span class="math inline">\boldsymbol{x}(t)</span> を <span class="math display">\boldsymbol{x}(t)=\boldsymbol{x_0}+\boldsymbol{v_0}t</span> とおく. このとき, 時間 <span class="math inline">t_1</span> から <span class="math inline">t_2</span> への変化量 <span class="math inline">\boldsymbol{x}(t_2)-\boldsymbol{x}(t_1)</span> を <span class="math inline">\Delta t=t_2-t_1</span> で割れば, 時間経過に対する物体の位置の対比が得られる. これは正しく速度のことであるが, これは時間 <span class="math inline">t_1</span> に位置 <span class="math inline">\boldsymbol{x}(t_1)</span>, 時間 <span class="math inline">t_2</span> に位置 <span class="math inline">\boldsymbol{x}(t_2)</span> にあった物体の平均速度である. いま時間 <span class="math inline">t</span> における物体の瞬間速度を知りたいとすると, <span class="math inline">\Delta t</span> が微小量となるように極限(<span class="math inline">t_2\to t_1\Leftrightarrow \Delta t\to 0</span>)を取れば良い.<!--more--> 従って, 物体の瞬間速度の関数 <span class="math inline">\boldsymbol{v}(t)</span> を <span class="math inline">\boldsymbol{x}(t)</span> の導関数</p>
-<p><span class="math display">\boldsymbol{v}(t)=\dot{\boldsymbol{x}}(t)=\frac{d\boldsymbol{x}(t)}{dt}</span></p>
-<p>でおけることがわかる. しばしば力学においては, 上のように原始関数の上部に点を記述し, 時間の微分を表現する. なお, いまは速度を一定としているので <span class="math inline">\boldsymbol{v}(t)=\boldsymbol{v_0}</span> である.</p>
-<p>ここで, 物体の運動が加速することを加味するために, 加速度を導入する. 加速度とは, 平均の速度とその所用時間の対比のことであり, すなわち <span class="math inline">\frac{\boldsymbol{v}(t_2)-\boldsymbol{v}(t_1)}{\Delta t}</span> である. 先と同様, <span class="math inline">\Delta t\to 0</span> としていけば, その瞬間の加速度を得ることができるから, 瞬間加速度の関数 <span class="math inline">\boldsymbol{a}(t)</span> は</p>
-<p><span class="math display">\boldsymbol{a}(t)=\dot{\boldsymbol{v}}(t)=\ddot{\boldsymbol{x}}(t)=\frac{d^2\boldsymbol{x}(t)}{dt^2}</span></p>
-<p>であり, 結果として 2 次導関数でおかれる. 従って, 一定の加速度 <span class="math inline">\boldsymbol{a}(t)=\boldsymbol{a_0}</span> を受けている物体の瞬間速度関数は <span class="math inline">\boldsymbol{w}(t)=\boldsymbol{v_0}+\boldsymbol{a_0}t</span> となるから, 時刻 <span class="math inline">t_1</span> から <span class="math inline">t_2</span> 間の移動距離は <span class="math inline">d=\int^{t_2}_{t_1}\boldsymbol{w}(t)dt</span> であり, 経過時刻 <span class="math inline">t</span> に対する物体の移動距離は同様にして <span class="math display">d=\int^t_0\boldsymbol{w}(t)dt=\boldsymbol{v_0}t+\frac{\boldsymbol{a_0}t^2}{2}</span> となる. よって初期位置 <span class="math inline">x_0</span> を加えることで等加速度運動をする物体の位置関数 <span class="math inline">\boldsymbol{y}(t)</span> が <span class="math display">\boldsymbol{y}(t)=\boldsymbol{x_0}+\boldsymbol{v_0}t+\frac{\boldsymbol{a_0}t^2}{2}\tag{1}</span> と定められる.</p>
+<p>時刻 <span class="math inline">t=0</span> における物体の位置を <span class="math inline">{\boldsymbol x_0}</span>, 速度を <span class="math inline">{\boldsymbol v_0}</span> とし, 加速度を考慮しない等速運動の三次元空間上の一点に対する位置関数 <span class="math inline">{\boldsymbol x}(t)</span> を <span class="math display">{\boldsymbol x}(t)={\boldsymbol x_0}+{\boldsymbol v_0}t</span> とおく. このとき, 時間 <span class="math inline">t_1</span> から <span class="math inline">t_2</span> への変化量 <span class="math inline">{\boldsymbol x}(t_2)-{\boldsymbol x}(t_1)</span> を <span class="math inline">\Delta t=t_2-t_1</span> で割れば, 時間経過に対する物体の位置の対比が得られる. これは正しく速度のことであるが, これは時間 <span class="math inline">t_1</span> に位置 <span class="math inline">{\boldsymbol x}(t_1)</span>, 時間 <span class="math inline">t_2</span> に位置 <span class="math inline">{\boldsymbol x}(t_2)</span> にあった物体の平均速度である. いま時間 <span class="math inline">t</span> における物体の瞬間速度を知りたいとすると, <span class="math inline">\Delta t</span> が微小量となるように極限(<span class="math inline">t_2\to t_1\Leftrightarrow \Delta t\to 0</span>)を取れば良い.<!--more--> 従って, 物体の瞬間速度の関数 <span class="math inline">{\boldsymbol v}(t)</span> を <span class="math inline">{\boldsymbol x}(t)</span> の導関数</p>
+<p><span class="math display">{\boldsymbol v}(t)=\dot{{\boldsymbol x}}(t)=\frac{d{\boldsymbol x}(t)}{dt}</span></p>
+<p>でおけることがわかる. しばしば力学においては, 上のように原始関数の上部に点を記述し, 時間の微分を表現する. なお, いまは速度を一定としているので <span class="math inline">{\boldsymbol v}(t)={\boldsymbol v_0}</span> である.</p>
+<p>ここで, 物体の運動が加速することを加味するために, 加速度を導入する. 加速度とは, 平均の速度とその所用時間の対比のことであり, すなわち <span class="math inline">\frac{{\boldsymbol v}(t_2)-{\boldsymbol v}(t_1)}{\Delta t}</span> である. 先と同様, <span class="math inline">\Delta t\to 0</span> としていけば, その瞬間の加速度を得ることができるから, 瞬間加速度の関数 <span class="math inline">{\boldsymbol a}(t)</span> は</p>
+<p><span class="math display">{\boldsymbol a}(t)=\dot{{\boldsymbol v}}(t)=\ddot{{\boldsymbol x}}(t)=\frac{d^2{\boldsymbol x}(t)}{dt^2}</span></p>
+<p>であり, 結果として 2 次導関数でおかれる. 従って, 一定の加速度 <span class="math inline">{\boldsymbol a}(t)={\boldsymbol a_0}</span> を受けている物体の瞬間速度関数は <span class="math inline">{\boldsymbol w}(t)={\boldsymbol v_0}+{\boldsymbol a_0}t</span> となるから, 時刻 <span class="math inline">t_1</span> から <span class="math inline">t_2</span> 間の移動距離は <span class="math inline">d=\int^{t_2}_{t_1}{\boldsymbol w}(t)dt</span> であり, 経過時刻 <span class="math inline">t</span> に対する物体の移動距離は同様にして <span class="math display">d=\int^t_0{\boldsymbol w}(t)dt={\boldsymbol v_0}t+\frac{{\boldsymbol a_0}t^2}{2}</span> となる. よって初期位置 <span class="math inline">x_0</span> を加えることで等加速度運動をする物体の位置関数 <span class="math inline">{\boldsymbol y}(t)</span> が <span class="math display">{\boldsymbol y}(t)={\boldsymbol x_0}+{\boldsymbol v_0}t+\frac{{\boldsymbol a_0}t^2}{2}\tag{1}</span> と定められる.</p>
 <h2 id="重力を踏まえた運動">重力を踏まえた運動</h2>
-<p>重力のみの影響を受ける物体の運動について考える. 三次元空間上の上方向を <span class="math inline">z</span> 軸としたとき, 下向きの重力加速度ベクトルは <span class="math inline">\boldsymbol{g}=(0,0,-g)^T</span> である. これは, 地球上において <span class="math inline">g=9.80665{\rm m/s}^2</span> と知られているから, 地球上の質量 <span class="math inline">m</span> の物体は下向きに <span class="math inline">m\boldsymbol{g}</span> の力を受けていることとなる.</p>
-<p>いま時刻 <span class="math inline">t=0</span> における初期位置を <span class="math inline">\boldsymbol{x_0}=(x_0,y_0,z_0)^T</span>, 初速度を <span class="math inline">\boldsymbol{v_0}=(v_x,v_y,v_z)^T</span> としたとき, 物体 <span class="math inline">P</span> の位置は <span class="math inline">(1)</span> より <span class="math display">\boldsymbol{x}(t)=\boldsymbol{x_0}+\boldsymbol{v_0}t+\frac{\boldsymbol{g}t^2}{2}\tag{2}</span> である. また, 初速度 <span class="math inline">\boldsymbol{v_0}</span> の各成分は, <span class="math inline">x</span> 方向に発射速度 <span class="math inline">v</span> で発射されるとしたとき, 三角関数を思い出せば, <span class="math inline">\boldsymbol{v_0}=(v\cos\theta,0,v\sin\theta)^T</span> であることがいえる.</p>
+<p>重力のみの影響を受ける物体の運動について考える. 三次元空間上の上方向を <span class="math inline">z</span> 軸としたとき, 下向きの重力加速度ベクトルは <span class="math inline">{\boldsymbol g}=(0,0,-g)^T</span> である. これは, 地球上において <span class="math inline">g=9.80665{\rm m/s}^2</span> と知られているから, 地球上の質量 <span class="math inline">m</span> の物体は下向きに <span class="math inline">m{\boldsymbol g}</span> の力を受けていることとなる.</p>
+<p>いま時刻 <span class="math inline">t=0</span> における初期位置を <span class="math inline">{\boldsymbol x_0}=(x_0,y_0,z_0)^T</span>, 初速度を <span class="math inline">{\boldsymbol v_0}=(v_x,v_y,v_z)^T</span> としたとき, 物体 <span class="math inline">P</span> の位置は <span class="math inline">(1)</span> より <span class="math display">{\boldsymbol x}(t)={\boldsymbol x_0}+{\boldsymbol v_0}t+\frac{{\boldsymbol g}t^2}{2}\tag{2}</span> である. また, 初速度 <span class="math inline">{\boldsymbol v_0}</span> の各成分は, <span class="math inline">x</span> 方向に発射速度 <span class="math inline">v</span> で発射されるとしたとき, 三角関数を思い出せば, <span class="math inline">{\boldsymbol v_0}=(v\cos\theta,0,v\sin\theta)^T</span> であることがいえる.</p>
 <h3 id="到達高度に達するとき-到達高度">到達高度に達するとき, 到達高度</h3>
 <p>いま物体 <span class="math inline">P</span> が到達高度に達するときと, その高度について考える. 到達高度に達するときとは, 垂直方向の速度が <span class="math inline">0</span> であるときなので, 物体 <span class="math inline">P</span> の時刻 <span class="math inline">t</span> における <span class="math inline">z</span> 成分を <span class="math inline">(2)</span> より <span class="math display">z(t)=z_0+v_zt-\frac{gt^2}{2}\tag{3}</span> とおくと, 次のように微分方程式で表現できる.</p>
 <p><span class="math display">\dot{z}(t)=v_z-gt=0\Leftrightarrow t=\frac{v_z}{g}\tag{4}</span></p>
@@ -2621,7 +2621,7 @@ n &amp; \displaystyle\sum^{n}_{i=1}x_i &amp; \cdots &amp; \displaystyle\sum^{n}_
 <p><span class="math display">y_i=a_0+\sum^m_{j=1}a_jf_j(x_i^1,x_i^2,\cdots,x_i^n)+u_i,\ i=1,\cdots,m\tag{ii}</span></p>
 <p>ここで, <span class="math inline">f_j</span> は独立変数 <span class="math inline">x_{i}^k</span> のスカラー関数, <span class="math inline">u_i</span> は <span class="math inline">i</span> 番目のノイズ項(確率変数)である. 線形最小二乗法は, 単にすべてのデータ値に対する偏差の二乗和を最小化する. すなわち, データに関わらず全ての値が同じように扱われる. これは, すべてのノイズ項 <span class="math inline">u_i</span> の確率分布が同一であると仮定することと同値であり, 従って, すべての <span class="math inline">u_i</span> は無相関かつ <a href="/roki.log/2018/10/28/probabilityTerms/#iid">i.i.d</a> で <span class="math inline">\mathrm{N}(0,\sigma^2)</span> (標準正規分布) に従うことを前提としているといえる<a href="/roki.log/2019/01/3/least_squares/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
 <h2 id="一般逆行列">一般逆行列</h2>
-<p>ここまでは, 回帰直線の考え方に沿って近似曲線/直線を得た訳であるが, そもそも, <span class="math inline">(x_i,y_i)</span> の組があって線形方程式 <span class="math inline">y</span> の <span class="math inline">x</span> に関する関数における“適当な”係数が“直接”求まるような行列があれば良いのではないだろうか. つまり <span class="math inline">m</span> を方程式の個数, <span class="math inline">n'=n+1</span> を未知数の個数とし, <span class="math inline">X\boldsymbol{a}=\boldsymbol{y}\ \ {\rm where}\ X\in\mathbb{R}^{m\times n'}, \boldsymbol{a}\in\mathbb{R}^{n'\times 1}, \boldsymbol{y}\in\mathbb{R}^{m\times 1}</span><a href="/roki.log/2019/01/3/least_squares/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> としたとき</p>
+<p>ここまでは, 回帰直線の考え方に沿って近似曲線/直線を得た訳であるが, そもそも, <span class="math inline">(x_i,y_i)</span> の組があって線形方程式 <span class="math inline">y</span> の <span class="math inline">x</span> に関する関数における“適当な”係数が“直接”求まるような行列があれば良いのではないだろうか. つまり <span class="math inline">m</span> を方程式の個数, <span class="math inline">n'=n+1</span> を未知数の個数とし, <span class="math inline">X{\boldsymbol a}={\boldsymbol y}\ \ {\rm where}\ X\in\mathbb{R}^{m\times n'}, {\boldsymbol a}\in\mathbb{R}^{n'\times 1}, {\boldsymbol y}\in\mathbb{R}^{m\times 1}</span><a href="/roki.log/2019/01/3/least_squares/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> としたとき</p>
 <p><span class="math display">
 \begin{aligned}
 \left(\begin{array}{c}
@@ -2665,12 +2665,12 @@ a_n
 </span></p>
 <p>を解いて, それが求まれば良いのではないか, ということである(<span class="math inline">n+1</span> と <span class="math inline">m</span> は必ずしも等しくないことに注意<a href="/roki.log/2019/01/3/least_squares/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>). このときに考えられるパターンは, 次のとおりである:</p>
 <ol type="1">
-<li><span class="math inline">n'=m</span> かつそのランク <span class="math inline">{\rm rank}(X)</span> が <span class="math inline">n'=m</span>(フルランク)ならば, <span class="math inline">X</span> は正則である. 従って, <span class="math inline">X^{-1}X\boldsymbol{a}=X^{-1}\boldsymbol{y}</span> として解が求まる.</li>
-<li><span class="math inline">n'\lt m</span> かつそのランクが <span class="math inline">n'</span>(列フルランク)ならば, すべての方程式を満たすような解が存在しないことがいえる. これは, すべての方程式をそれぞれ直線と捉えたときに, それらすべての交点となる一点が存在しないことをイメージするとわかりやすい. 要するに, <span class="math inline">\boldsymbol{a}</span> に対する <span class="math inline">X</span> と <span class="math inline">\boldsymbol{y}</span> の制約が相互的に成立しないのである. ここで <span class="math inline">{\rm rank}(X)\lt n'</span>(ランク落ち)ならば, 方程式のどこかに重複がある.</li>
-<li><span class="math inline">m\lt n'</span> かつそのランクが <span class="math inline">m</span>(行フルランク)ならば, 解が一意とならないことがいえる. これも, 方程式を直線に捉えると, <span class="math inline">\boldsymbol{a}</span> に対する制約が足りないことで, 方程式で構成される直線上のすべてが解となりうることから納得できる. ここで <span class="math inline">{\rm rank}(X)\lt m</span>(ランク落ち)ならば, 方程式のどこかに重複がある.</li>
+<li><span class="math inline">n'=m</span> かつそのランク <span class="math inline">{\rm rank}(X)</span> が <span class="math inline">n'=m</span>(フルランク)ならば, <span class="math inline">X</span> は正則である. 従って, <span class="math inline">X^{-1}X{\boldsymbol a}=X^{-1}{\boldsymbol y}</span> として解が求まる.</li>
+<li><span class="math inline">n'\lt m</span> かつそのランクが <span class="math inline">n'</span>(列フルランク)ならば, すべての方程式を満たすような解が存在しないことがいえる. これは, すべての方程式をそれぞれ直線と捉えたときに, それらすべての交点となる一点が存在しないことをイメージするとわかりやすい. 要するに, <span class="math inline">{\boldsymbol a}</span> に対する <span class="math inline">X</span> と <span class="math inline">{\boldsymbol y}</span> の制約が相互的に成立しないのである. ここで <span class="math inline">{\rm rank}(X)\lt n'</span>(ランク落ち)ならば, 方程式のどこかに重複がある.</li>
+<li><span class="math inline">m\lt n'</span> かつそのランクが <span class="math inline">m</span>(行フルランク)ならば, 解が一意とならないことがいえる. これも, 方程式を直線に捉えると, <span class="math inline">{\boldsymbol a}</span> に対する制約が足りないことで, 方程式で構成される直線上のすべてが解となりうることから納得できる. ここで <span class="math inline">{\rm rank}(X)\lt m</span>(ランク落ち)ならば, 方程式のどこかに重複がある.</li>
 </ol>
 <p>いま 2 つの重複がある場合を考えることができたが, 重複を除けば, いま述べたうちのどれかに帰着させることができる. 重複の場合を直線で捉えると, それぞれの方程式が <span class="math inline">x, y</span> の関係に関して全く異なる解を示しているということなので, それぞれの直線は平行の関係にあることとなる.</p>
-<p>まとめると, つまり <span class="math inline">X\boldsymbol{a}=\boldsymbol{y}</span> というように表される線形方程式には, 以上の 3 つのパターン(重複について考えれば 4 パターン)があることがわかる. これらのすべてのパターンに対して“適当であるような”解を与える逆行列を考えれば, どのような方程式にも“適当であるような”解を与えることができる. このように, 正則でない行列に対する擬似的な逆行列の定義を一般逆行列という.</p>
+<p>まとめると, つまり <span class="math inline">X{\boldsymbol a}={\boldsymbol y}</span> というように表される線形方程式には, 以上の 3 つのパターン(重複について考えれば 4 パターン)があることがわかる. これらのすべてのパターンに対して“適当であるような”解を与える逆行列を考えれば, どのような方程式にも“適当であるような”解を与えることができる. このように, 正則でない行列に対する擬似的な逆行列の定義を一般逆行列という.</p>
 <div class="m-def">
 <header class="m-def-title">
 <p>
@@ -2701,26 +2701,26 @@ a_n
 </p>
 </header>
 <div class="m-def-content">
-正規方程式 <span class="math display">\boldsymbol{a}=X^-\boldsymbol{y}</span> の解 <span class="math inline">\boldsymbol{a}</span> を二乗誤差最小の値で定める <a href="/roki.log/2019/01/3/least_squares/#GeneralizedInverse">一般逆行列</a> <span class="math display">^\exists X^-\in\mathbb{R}^{m\times n'}\ {\rm s.t.}\ m\gt n'\land(X X^-)^T = X X^-</span> は <span class="math inline">X</span> の最小二乗形一般逆行列である.
+正規方程式 <span class="math display">{\boldsymbol a}=X^-{\boldsymbol y}</span> の解 <span class="math inline">{\boldsymbol a}</span> を二乗誤差最小の値で定める <a href="/roki.log/2019/01/3/least_squares/#GeneralizedInverse">一般逆行列</a> <span class="math display">^\exists X^-\in\mathbb{R}^{m\times n'}\ {\rm s.t.}\ m\gt n'\land(X X^-)^T = X X^-</span> は <span class="math inline">X</span> の最小二乗形一般逆行列である.
 </div>
 </div>
-<p>以下, 最小二乗形一般逆行列の定式を求めるが, 上で既に述べた内容と本質的には全く変わらない. ここで, 少し扱いやすくするために, <span class="math inline">n</span> 次多項式を <span class="math inline">f_n(x)=a_0x^0_i+a_1x^1_i+\cdots+a_nx^n_i=\sum^{n}_{j=0}a_jx^j_i</span>, <span class="math inline">(5)</span> の <span class="math inline">x_i^j</span> についての行列を <span class="math inline">X</span> とする. そしてその <span class="math inline">i</span> 行目を 1 つの縦ベクトルとしたものを <span class="math inline">\boldsymbol{x_i}</span> (<span class="math inline">{\rm e.g.}\ \ \boldsymbol{x_1}=(x_1^0, x_1^1, \cdots, x_1^n )^T</span>) とし, <span class="math inline">(4)</span> の式を</p>
-<p><span class="math display">\epsilon=\sum_{i=1}^{m}(y_i-f_n(\boldsymbol{x_i}))^2\tag{10}</span></p>
-<p>というように表す(これは <span class="math inline">(4)</span> と全く同じことを書いただけである)とする. <span class="math inline">f(\boldsymbol{x_i})=\boldsymbol{x_i}^T\boldsymbol{a}</span> だから</p>
-<p><span class="math display">=\sum_{i=1}^{m}(y_i-\boldsymbol{x_i}^T\boldsymbol{a})^2</span></p>
-<p><span class="math inline">(\boldsymbol{x_1}^T,\boldsymbol{x_2}^T,\cdots,\boldsymbol{x_m}^T)^T=X</span> なので</p>
-<p><span class="math display">=(\boldsymbol{y}-X\boldsymbol{a})^T(\boldsymbol{y}-X\boldsymbol{a})</span></p>
-<p>ここで, 先にやった, 偏微分を考えることで下に凸な二次関数となることを利用し, その値を <span class="math inline">0</span> とした上でそれらすべての連立方程式を求め, 最小値を得たことを思いだし, この式を <span class="math inline">\boldsymbol{a}</span> で微分する(すべての <span class="math inline">\boldsymbol{a_i}</span> で偏微分する, すなわち勾配を求める)と</p>
-<p><span class="math display">\nabla\epsilon(\boldsymbol{a})=2X^T X\boldsymbol{a}-2X^T\boldsymbol{y}=-2X^T(\boldsymbol{y}-X\boldsymbol{a})</span></p>
-<p><span class="math inline">\nabla\epsilon(\boldsymbol{a})=0</span> とおくと,</p>
-<p><span class="math display">X^T X\boldsymbol{a}=X^T\boldsymbol{y}</span></p>
-<p>と正規方程式が求まった. ここで, <span class="math inline">n'=m-1</span> のとき <span class="math inline">X</span> はヴァンデルモンド行列<a href="/roki.log/2019/01/3/least_squares/#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>となり, <span class="math inline">\boldsymbol{x_1}, \cdots, \boldsymbol{x_m}</span> が相異なるとき <span class="math inline">X</span> は正則となる. 従って, 正規方程式の解は</p>
-<p><span class="math display">\boldsymbol{a}=(X^T X)^{-1}X^T \boldsymbol{y}={X}^{-1}\boldsymbol{y}</span></p>
+<p>以下, 最小二乗形一般逆行列の定式を求めるが, 上で既に述べた内容と本質的には全く変わらない. ここで, 少し扱いやすくするために, <span class="math inline">n</span> 次多項式を <span class="math inline">f_n(x)=a_0x^0_i+a_1x^1_i+\cdots+a_nx^n_i=\sum^{n}_{j=0}a_jx^j_i</span>, <span class="math inline">(5)</span> の <span class="math inline">x_i^j</span> についての行列を <span class="math inline">X</span> とする. そしてその <span class="math inline">i</span> 行目を 1 つの縦ベクトルとしたものを <span class="math inline">{\boldsymbol x_i}</span> (<span class="math inline">{\rm e.g.}\ \ {\boldsymbol x_1}=(x_1^0, x_1^1, \cdots, x_1^n )^T</span>) とし, <span class="math inline">(4)</span> の式を</p>
+<p><span class="math display">\epsilon=\sum_{i=1}^{m}(y_i-f_n({\boldsymbol x_i}))^2\tag{10}</span></p>
+<p>というように表す(これは <span class="math inline">(4)</span> と全く同じことを書いただけである)とする. <span class="math inline">f({\boldsymbol x_i})={\boldsymbol x_i}^T{\boldsymbol a}</span> だから</p>
+<p><span class="math display">=\sum_{i=1}^{m}(y_i-{\boldsymbol x_i}^T{\boldsymbol a})^2</span></p>
+<p><span class="math inline">({\boldsymbol x_1}^T,{\boldsymbol x_2}^T,\cdots,{\boldsymbol x_m}^T)^T=X</span> なので</p>
+<p><span class="math display">=({\boldsymbol y}-X{\boldsymbol a})^T({\boldsymbol y}-X{\boldsymbol a})</span></p>
+<p>ここで, 先にやった, 偏微分を考えることで下に凸な二次関数となることを利用し, その値を <span class="math inline">0</span> とした上でそれらすべての連立方程式を求め, 最小値を得たことを思いだし, この式を <span class="math inline">{\boldsymbol a}</span> で微分する(すべての <span class="math inline">{\boldsymbol a_i}</span> で偏微分する, すなわち勾配を求める)と</p>
+<p><span class="math display">\nabla\epsilon({\boldsymbol a})=2X^T X{\boldsymbol a}-2X^T{\boldsymbol y}=-2X^T({\boldsymbol y}-X{\boldsymbol a})</span></p>
+<p><span class="math inline">\nabla\epsilon({\boldsymbol a})=0</span> とおくと,</p>
+<p><span class="math display">X^T X{\boldsymbol a}=X^T{\boldsymbol y}</span></p>
+<p>と正規方程式が求まった. ここで, <span class="math inline">n'=m-1</span> のとき <span class="math inline">X</span> はヴァンデルモンド行列<a href="/roki.log/2019/01/3/least_squares/#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>となり, <span class="math inline">{\boldsymbol x_1}, \cdots, {\boldsymbol x_m}</span> が相異なるとき <span class="math inline">X</span> は正則となる. 従って, 正規方程式の解は</p>
+<p><span class="math display">{\boldsymbol a}=(X^T X)^{-1}X^T {\boldsymbol y}={X}^{-1}{\boldsymbol y}</span></p>
 <p>とかける. <span class="math inline">n'\lt m-1</span> ならば行列 <span class="math inline">X^T X</span> が正則なので, 正規方程式の解は</p>
-<p><span class="math display">\boldsymbol{a}=(X^T X)^{-1}X^T\boldsymbol{y}\tag{11}</span></p>
+<p><span class="math display">{\boldsymbol a}=(X^T X)^{-1}X^T{\boldsymbol y}\tag{11}</span></p>
 <p>とかける. このとき <span class="math inline">m\lt n</span> ならば, <span class="math inline">X^T X</span> が非正則となってしまうから, 最小二乗形一般逆行列は構成できない. この結果から, 時間計算量は多項式時間 <span class="math inline">\mathrm{O}(n^3)</span> であることがわかる. また, 最小二乗形一般逆行列は, <a href="/roki.log/2019/01/3/least_squares/#MPPseudoInverse">MP 逆行列</a>であることが導出できる<a href="/roki.log/2019/01/3/least_squares/#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>.</p>
 <h3 id="最小ノルム形一般逆行列">最小ノルム形一般逆行列</h3>
-<p>次に, ケース 3 の場合を考える. この場合, 最小ノルム形一般逆行列を用いる. ケース 3 は様々な値が解になりうるということであったが, 最小ノルム形一般逆行列は, いまそれを <span class="math inline">X^-</span> としたとき, <span class="math inline">\boldsymbol{a}=X^-\boldsymbol{y}</span> の解 <span class="math inline">\boldsymbol{a}</span> を その <span class="math inline">L^2</span> ノルム <span class="math inline">\mid\mid \boldsymbol{a}\mid\mid_2</span> が最小となるように定める.</p>
+<p>次に, ケース 3 の場合を考える. この場合, 最小ノルム形一般逆行列を用いる. ケース 3 は様々な値が解になりうるということであったが, 最小ノルム形一般逆行列は, いまそれを <span class="math inline">X^-</span> としたとき, <span class="math inline">{\boldsymbol a}=X^-{\boldsymbol y}</span> の解 <span class="math inline">{\boldsymbol a}</span> を その <span class="math inline">L^2</span> ノルム <span class="math inline">\mid\mid {\boldsymbol a}\mid\mid_2</span> が最小となるように定める.</p>
 <div class="m-def">
 <header class="m-def-title">
 <p>
@@ -2728,19 +2728,19 @@ a_n
 </p>
 </header>
 <div class="m-def-content">
-正規方程式 <span class="math display">\boldsymbol{a}=X^-\boldsymbol{y}</span> の解 <span class="math inline">\boldsymbol{a}</span> をその <span class="math inline">L^2</span> ノルム <span class="math inline">\mid\mid \boldsymbol{a}\mid\mid_2</span> が最小となる値で定める<a href="/roki.log/2019/01/3/least_squares/#GeneralizedInverse">一般逆行列</a> <span class="math display">^\exists X^-\in\mathbb{R}^{m\times n'}\ {\rm s.t.}\ m\lt n'\land(X^- X)^T = X^- X</span> は <span class="math inline">X</span> の最小ノルム形一般逆行列である.
+正規方程式 <span class="math display">{\boldsymbol a}=X^-{\boldsymbol y}</span> の解 <span class="math inline">{\boldsymbol a}</span> をその <span class="math inline">L^2</span> ノルム <span class="math inline">\mid\mid {\boldsymbol a}\mid\mid_2</span> が最小となる値で定める<a href="/roki.log/2019/01/3/least_squares/#GeneralizedInverse">一般逆行列</a> <span class="math display">^\exists X^-\in\mathbb{R}^{m\times n'}\ {\rm s.t.}\ m\lt n'\land(X^- X)^T = X^- X</span> は <span class="math inline">X</span> の最小ノルム形一般逆行列である.
 </div>
 </div>
 <p>つまり, 解くべきは次に示す制約付き最適化問題/条件付き極小値問題である.</p>
-<p><span class="math display">\min_{\boldsymbol{a}}\mid\mid\boldsymbol{a}\mid\mid^2_2\ {\rm s.t.}\ \boldsymbol{y}=X\boldsymbol{a}</span></p>
+<p><span class="math display">\min_{{\boldsymbol a}}\mid\mid{\boldsymbol a}\mid\mid^2_2\ {\rm s.t.}\ {\boldsymbol y}=X{\boldsymbol a}</span></p>
 <p>条件付き極値の問題はラグランジュの未定乗数法で解ける. この証明は中々大変なので, 本エントリでは公理として認めた上で用いることとする(TODO). 従って, ラグランジアンを次のように定義する.</p>
-<p><span class="math display">\mathcal{L}(\boldsymbol{a}, \boldsymbol{\lambda}):=\mid\mid\boldsymbol{a}\mid\mid^2_2+\boldsymbol{\lambda}^T(\boldsymbol{y}-X\boldsymbol{a})</span></p>
+<p><span class="math display">\mathcal{L}({\boldsymbol a}, {\boldsymbol \lambda}):=\mid\mid{\boldsymbol a}\mid\mid^2_2+{\boldsymbol \lambda}^T({\boldsymbol y}-X{\boldsymbol a})</span></p>
 <p>ラグランジュの未定乗数法に従い, それぞれの偏導関数から求めて</p>
 <p><span class="math display">
 \begin{aligned}
 \begin{cases}
-\frac{\partial}{\partial\boldsymbol{a}}\mathcal{L}(\boldsymbol{a})&amp;=&amp;2\boldsymbol{a}-X^T\boldsymbol{\lambda}&amp;=&amp;0 \\
-\frac{\partial}{\partial\boldsymbol{\lambda}}\mathcal{L}(\boldsymbol{a})&amp;=&amp;\boldsymbol{y}-X\boldsymbol{a}&amp;=&amp;0
+\frac{\partial}{\partial{\boldsymbol a}}\mathcal{L}({\boldsymbol a})&amp;=&amp;2{\boldsymbol a}-X^T{\boldsymbol \lambda}&amp;=&amp;0 \\
+\frac{\partial}{\partial{\boldsymbol \lambda}}\mathcal{L}({\boldsymbol a})&amp;=&amp;{\boldsymbol y}-X{\boldsymbol a}&amp;=&amp;0
 \end{cases}
 \end{aligned}
 </span></p>
@@ -2748,14 +2748,14 @@ a_n
 <p><span class="math display">
 \begin{aligned}
 \begin{cases}
-\boldsymbol{a}&amp;=&amp;\frac{1}{2}X^T\lambda \\
-\boldsymbol{y}&amp;=&amp;X\boldsymbol{a}
-\end{cases}\leftrightarrow\boldsymbol{y}=\frac{1}{2}X X^T\lambda
+{\boldsymbol a}&amp;=&amp;\frac{1}{2}X^T\lambda \\
+{\boldsymbol y}&amp;=&amp;X{\boldsymbol a}
+\end{cases}\leftrightarrow{\boldsymbol y}=\frac{1}{2}X X^T\lambda
 \end{aligned}
 </span></p>
 <p><span class="math inline">m\lt n'</span> ならば <span class="math inline">X X^T</span> は正則なので</p>
-<p><span class="math display">\lambda=2(X X^T)^{-1}\boldsymbol{y}\leftrightarrow \boldsymbol{a}=X^T(X X^T)^{-1}\boldsymbol{y}</span></p>
-<p><span class="math inline">X\boldsymbol{a}=X\left\{X^T(X X^T)^{-1}\boldsymbol{y}\right\}=(X X^T)(X X^T)^{-1}\boldsymbol{y}=\boldsymbol{y}</span> よりこの正規方程式の解が一般逆行列として成立していることが確認できる.</p>
+<p><span class="math display">\lambda=2(X X^T)^{-1}{\boldsymbol y}\leftrightarrow {\boldsymbol a}=X^T(X X^T)^{-1}{\boldsymbol y}</span></p>
+<p><span class="math inline">X{\boldsymbol a}=X\left\{X^T(X X^T)^{-1}{\boldsymbol y}\right\}=(X X^T)(X X^T)^{-1}{\boldsymbol y}={\boldsymbol y}</span> よりこの正規方程式の解が一般逆行列として成立していることが確認できる.</p>
 <h3 id="制限つき最小二乗法">制限つき最小二乗法</h3>
 <p>最後に, 重複がある(ランク落ちである)ケースを考える. この場合は, <span class="math inline">X^T X, X X^T</span> がともに特異行列となってしまうため, 対象の行列に対してまず特異値分解(以下 SVD)を行う.</p>
 <div class="m-def">
@@ -2775,15 +2775,15 @@ X = U\Sigma V^T \\ {\rm where}\ \Sigma=\left(\begin{array}{ccccc}\lambda_1&amp;\
 <p>これは</p>
 <p><span class="math display">
 \begin{aligned}
-\displaystyle\sum^{r}_{i=1}\lambda_i\boldsymbol{u_i}\boldsymbol{v_i}^T\ {\rm where}
+\displaystyle\sum^{r}_{i=1}\lambda_i{\boldsymbol u_i}{\boldsymbol v_i}^T\ {\rm where}
 \ \begin{array}{cc}
-(\boldsymbol{u_1},\cdots,\boldsymbol{u_m})^T
+({\boldsymbol u_1},\cdots,{\boldsymbol u_m})^T
 &amp;=&amp;\left(\begin{array}{ccc}
 u_{11}&amp;\cdots&amp;u_{1m} \\
 \vdots&amp;\ddots&amp;\vdots\\ 
 u_{m1}&amp;\cdots&amp;u_{mm}
 \end{array}\right)&amp;=&amp;U \\
-(\boldsymbol{v_1},\cdots,\boldsymbol{v_{n'}})^T
+({\boldsymbol v_1},\cdots,{\boldsymbol v_{n'}})^T
 &amp;=&amp;\left(\begin{array}{ccc}
 v_{11}&amp;\cdots&amp;v_{1n'} \\
 \vdots&amp;\ddots&amp;\vdots\\
@@ -2792,7 +2792,7 @@ v_{n'1}&amp;\cdots&amp;v_{n'n'}
 \end{array}
 \end{aligned}
 </span></p>
-<p>と同値であり, 一般に <span class="math inline">\lambda_i</span> を特異値, <span class="math inline">\boldsymbol{u_i}</span> を左特異ベクトル <span class="math inline">\boldsymbol{v_i}</span> を右特異ベクトルという.</p>
+<p>と同値であり, 一般に <span class="math inline">\lambda_i</span> を特異値, <span class="math inline">{\boldsymbol u_i}</span> を左特異ベクトル <span class="math inline">{\boldsymbol v_i}</span> を右特異ベクトルという.</p>
 <p><strong>TODO: 詳解を追記</strong></p>
 <h3 id="オーバーフィッティングと正則化およびその評価">オーバーフィッティングと正則化およびその評価</h3>
 <p>先に, 次数に応じた近似の遷移が観察できるアニメーションを示したが, あまり次数を大きくすると, データ点の間で誤差が大きくなってしまうことがある. これをオーバーフィッティングという. 先と同様, <span class="math inline">x_i=i-1, y_i=\sin(x_i)+\epsilon, i=1,2,\cdots,11</span> に対する各次元での係数を見てみると(<span class="math inline">(5)</span> では, 係数のベクトルを <span class="math inline">(a_0,a_1,\cdots,a_n)^T</span> と並べているが, 下記は <span class="math inline">(a_n,a_{n-1},\cdots,a_0)^T</span> の順である),</p>
@@ -2846,37 +2846,37 @@ v_{n'1}&amp;\cdots&amp;v_{n'n'}
 <p><img src="/roki.log/2019/01/3/least_squares/image9.png" title="non regulared 1" width="320" alt="non regulared 1" /> <img src="/roki.log/2019/01/3/least_squares/image10.png" title="non regulared 2" width="320" alt="non regulared 2" /></p>
 </div>
 <p>天下り的になってしまうが, このような現象は推定する係数に対して標本数が少ないようなときによく遭遇する. その特徴として, いま示したように, 係数の絶対値が大きくなることが挙げられる. 従って, 次数を適当に固定した上で(この場合 <span class="math inline">n=</span>データ数<span class="math inline">-1</span>, すなわちデータ数から機械的に次数を決定する), 係数を絶対値を制限することができれば, これを防ぐことができるだろう. 具体的な手法として, 式 <span class="math inline">(4)</span> に対してノルムを加え, その最小化を求めるといったような<a href="/roki.log/2019/01/3/least_squares/#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>手法が広く知られている. この手法は, ノルムに対して, 次のように平滑化パラメータ <span class="math inline">\lambda \geq 0</span> を作用させることで正則化の強度を設定することができる.</p>
-<p><span class="math display">\epsilon(\boldsymbol{a})_\lambda=\sum^m_{i=1}(y_i-f_n(\boldsymbol{x}_i))^2+\underbrace{\lambda R(\boldsymbol{a})}_{\rm 正則化項}</span></p>
+<p><span class="math display">\epsilon({\boldsymbol a})_\lambda=\sum^m_{i=1}(y_i-f_n({\boldsymbol x}_i))^2+\underbrace{\lambda R({\boldsymbol a})}_{\rm 正則化項}</span></p>
 <p>このような最適化を正則化法という. こうすると, モデルの変動が大きくなるにつれて正則化項も大きくなり, それが最小化問題へのペナルティとなって, 結果的に滑らかな曲線の推定に繋がる. ただし, 過剰に大きいパラメータをとると, 高次の項へのペナルティが強くなってしまうことで, 結局, 高次の項を無視するのと同等となってしまい, 低次の関数でモデルを作るのと同等になってしまう. 従って, 依然として適切なパラメータの設定が要されるわけだが, モデルの次数を決定するよりかは楽である.</p>
 <p>またパラメータ <span class="math inline">\lambda</span> を標本数で割った形式が取られることもある.</p>
-<p><span class="math display">\epsilon(\boldsymbol{a})_\lambda=\sum^m_{i=1}(y_i-f_n(\boldsymbol{x}_i))^2+\underbrace{\frac{\lambda}{m} R(\boldsymbol{a})}_{\rm 正則化項}</span></p>
+<p><span class="math display">\epsilon({\boldsymbol a})_\lambda=\sum^m_{i=1}(y_i-f_n({\boldsymbol x}_i))^2+\underbrace{\frac{\lambda}{m} R({\boldsymbol a})}_{\rm 正則化項}</span></p>
 <p>両者の違いは正則化項の影響度である. 先に, 推定する係数に対して標本数が少ないようなときにオーバーフィッティングはよく起こると述べたが, ならば当然, 標本数が十分である場合には正則化項は必要ない. パラメータ <span class="math inline">\lambda</span> を標本数で割ってやれば, 標本数の増加に従って正則化項の影響度を抑制できる. どちらを用いるかはその時々で選択の余地があるだろう.</p>
-<p>例えば, <span class="math inline">\lambda</span> を標本数に依らず直接作用させる形式で <span class="math inline">R(\boldsymbol{v})</span> を <span class="math inline">L^2</span> ノルムとする<a href="/roki.log/2019/01/3/least_squares/#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>と,</p>
+<p>例えば, <span class="math inline">\lambda</span> を標本数に依らず直接作用させる形式で <span class="math inline">R({\boldsymbol v})</span> を <span class="math inline">L^2</span> ノルムとする<a href="/roki.log/2019/01/3/least_squares/#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>と,</p>
 <p><span class="math display">
 \begin{aligned}
-\epsilon(\boldsymbol{a})_\lambda&amp;=&amp;\sum^m_{i=1}(y_i-f_n(\boldsymbol{x}_i))^2+\lambda\sum_{j=0}^{n}a^2_j \\
-&amp;=&amp;(\boldsymbol{y}-X\boldsymbol{a})^T(\boldsymbol{y}-X\boldsymbol{a})+\lambda\boldsymbol{a}^T\boldsymbol{a}
+\epsilon({\boldsymbol a})_\lambda&amp;=&amp;\sum^m_{i=1}(y_i-f_n({\boldsymbol x}_i))^2+\lambda\sum_{j=0}^{n}a^2_j \\
+&amp;=&amp;({\boldsymbol y}-X{\boldsymbol a})^T({\boldsymbol y}-X{\boldsymbol a})+\lambda{\boldsymbol a}^T{\boldsymbol a}
 \end{aligned}
 </span></p>
-<p>先と同様に <span class="math inline">\nabla\epsilon(\boldsymbol{a})_\lambda=0</span> とおいて,</p>
+<p>先と同様に <span class="math inline">\nabla\epsilon({\boldsymbol a})_\lambda=0</span> とおいて,</p>
 <p><span class="math display">
 \begin{aligned}
-\nabla\epsilon(\boldsymbol{a})_\lambda&amp;=&amp;-2X^T(\boldsymbol{y}-X\boldsymbol{a})+2\lambda\boldsymbol{a} \\
-&amp;=&amp;2(\lambda I+X^T X)\boldsymbol{a}-2X^T\boldsymbol{y}\\ &amp;=&amp;0
+\nabla\epsilon({\boldsymbol a})_\lambda&amp;=&amp;-2X^T({\boldsymbol y}-X{\boldsymbol a})+2\lambda{\boldsymbol a} \\
+&amp;=&amp;2(\lambda I+X^T X){\boldsymbol a}-2X^T{\boldsymbol y}\\ &amp;=&amp;0
 \end{aligned}
 </span></p>
 <p>従ってこの正規方程式の解は,</p>
-<p><span class="math display">\boldsymbol{a}=(\lambda I+X^T X)^{-1}X^T\boldsymbol{y}</span></p>
-<p>となる. <span class="math inline">\boldsymbol{a}</span> を求めるに際する時間計算量について加味すると, 逆行列を計算するよりも LU 分解を行った方が良いので,</p>
-<p><span class="math display">(\lambda I+X^T X)\boldsymbol{a}=X^T\boldsymbol{y}</span></p>
+<p><span class="math display">{\boldsymbol a}=(\lambda I+X^T X)^{-1}X^T{\boldsymbol y}</span></p>
+<p>となる. <span class="math inline">{\boldsymbol a}</span> を求めるに際する時間計算量について加味すると, 逆行列を計算するよりも LU 分解を行った方が良いので,</p>
+<p><span class="math display">(\lambda I+X^T X){\boldsymbol a}=X^T{\boldsymbol y}</span></p>
 <p>としておく. この正規方程式を用いて, 平滑化パラメータ <span class="math inline">\lambda=0.1,1,10</span> を適用しプロットすると,</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="/roki.log/2019/01/3/least_squares/#cb3-1" aria-hidden="true"></a>λ<span class="op">&gt;</span> <span class="fu">mapM_</span> (\i <span class="ot">-&gt;</span> plot <span class="op">$</span> <span class="dt">PP</span> (<span class="st">&quot;./image&quot;</span> <span class="op">++</span> <span class="fu">show</span> i <span class="op">++</span> <span class="st">&quot;.png&quot;</span>) (<span class="st">&quot;parameter = &quot;</span> <span class="op">++</span> <span class="fu">show</span> i) <span class="st">&quot;points&quot;</span> <span class="st">&quot;line&quot;</span> dd <span class="op">$</span> fromJust <span class="op">$</span> implicitFn <span class="op">$</span> fromJust <span class="op">$</span> resolveRegular i dd) [<span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">10</span>]</span></code></pre></div>
 <p>次のようになる.</p>
 <div class="box has-text-centered is-shadowless">
 <p><img src="/roki.log/2019/01/3/least_squares/image0.1.png" title="regulared 0.1" width="320" alt="regulared 0.1" /> <img src="/roki.log/2019/01/3/least_squares/image1.0.png" title="regulared 1.0" width="320" alt="regulared 1.0" /> <img src="/roki.log/2019/01/3/least_squares/image10.0.png" title="regulared 10.0" width="320" alt="regulared 10.0" /></p>
 </div>
-<p>問題は, どのようにしてオーバーフィッティングを評価するかである. データセット <span class="math inline">\bf x</span> に対し, 真の値 <span class="math inline">t_i</span> を <span class="math inline">D=\left\{({\bf x_1},t_1), ({\bf x_2},t_2),\cdots,({\bf x_m},t_m)\right\} {\rm where}\ t_i=g+u_i\ (\because\ \ {\text (ii) より})</span> とし, 回帰分析によって得られるモデル <span class="math inline">\hat{f}_n({\bf y_i})=f_n(\boldsymbol{x'_i})\ {\rm where}\ \boldsymbol{x'_i}=({\bf y_i^0},{\bf y_i^1},\cdots,{\bf y_i^n})^T (\because \ {\text (10) より})</span> との差を次のように定義する.</p>
-<p><span class="math display">L(t_i, \hat{f}_n(\boldsymbol{{\bf x_i}})):=(t_i-\hat{f}_n(\boldsymbol{{\bf x_i}}))^2</span></p>
+<p>問題は, どのようにしてオーバーフィッティングを評価するかである. データセット <span class="math inline">\bf x</span> に対し, 真の値 <span class="math inline">t_i</span> を <span class="math inline">D=\left\{({\bf x_1},t_1), ({\bf x_2},t_2),\cdots,({\bf x_m},t_m)\right\} {\rm where}\ t_i=g+u_i\ (\because\ \ {\text (ii) より})</span> とし, 回帰分析によって得られるモデル <span class="math inline">\hat{f}_n({\bf y_i})=f_n({\boldsymbol x'_i})\ {\rm where}\ {\boldsymbol x'_i}=({\bf y_i^0},{\bf y_i^1},\cdots,{\bf y_i^n})^T (\because \ {\text (10) より})</span> との差を次のように定義する.</p>
+<p><span class="math display">L(t_i, \hat{f}_n({\boldsymbol {\bf x_i}})):=(t_i-\hat{f}_n({\boldsymbol {\bf x_i}}))^2</span></p>
 <p>この <span class="math inline">L</span> は損失関数といわれる. ここで, <span class="math inline">\bf x_i</span> と <span class="math inline">t_i</span> が得られる同時確率を考慮すると, 損失の期待値は</p>
 <p><span class="math display">
 \begin{aligned}
@@ -3054,23 +3054,23 @@ E\left[L(t_i,\hat{f}_n({\bf x_i}))\right]={\rm Bias}\left[\hat{f}_n({\bf x_i})\r
 <figure>
 <img src="/roki.log/2019/01/3/least_squares/outliers.png" title="lenear equations" width="600" alt /><figcaption>lenear equations</figcaption>
 </figure>
-<p>これを防ぐ方法はいくつか存在する. 以下, 説明のために改めて, <span class="math inline">p</span> 個の独立変数を有する多重線形回帰モデルを <span class="math display">\boldsymbol{y}=X'\boldsymbol{\beta}+\boldsymbol{u}</span> とする. ここで <span class="math inline">\boldsymbol{\beta}=\boldsymbol{a}</span> で <span class="math inline">X'</span> は説明変数の行 <span class="math inline">\boldsymbol{x'_i}=(x'_{i1}, x'_{i2},\cdots,x'_{ip})^T</span> を有するフルランク行列 <span class="math inline">X'\in\mathbb{R}^{m\times p}</span> であり, <span class="math inline">\boldsymbol{u}</span> は <a href="/roki.log/2018/10/28/probabilityTerms/#iid">i.i.d</a> かつ <span class="math inline">\mathrm{N}(0,\sigma^2)</span> に従う確率誤差のベクトル <span class="math inline">\boldsymbol{u}=(u_1,u_2,\cdots,u_m)^T\in\mathbb{R}^{m\times 1}</span> とする. なおこの定義に従うと, (Ordinary least squares より)通常の最小二乗法は次の式で定義できる.</p>
+<p>これを防ぐ方法はいくつか存在する. 以下, 説明のために改めて, <span class="math inline">p</span> 個の独立変数を有する多重線形回帰モデルを <span class="math display">{\boldsymbol y}=X'{\boldsymbol \beta}+{\boldsymbol u}</span> とする. ここで <span class="math inline">{\boldsymbol \beta}={\boldsymbol a}</span> で <span class="math inline">X'</span> は説明変数の行 <span class="math inline">{\boldsymbol x'_i}=(x'_{i1}, x'_{i2},\cdots,x'_{ip})^T</span> を有するフルランク行列 <span class="math inline">X'\in\mathbb{R}^{m\times p}</span> であり, <span class="math inline">{\boldsymbol u}</span> は <a href="/roki.log/2018/10/28/probabilityTerms/#iid">i.i.d</a> かつ <span class="math inline">\mathrm{N}(0,\sigma^2)</span> に従う確率誤差のベクトル <span class="math inline">{\boldsymbol u}=(u_1,u_2,\cdots,u_m)^T\in\mathbb{R}^{m\times 1}</span> とする. なおこの定義に従うと, (Ordinary least squares より)通常の最小二乗法は次の式で定義できる.</p>
 <p><span class="math display">
 \begin{aligned}
-\mathrm{OLS}(X',\boldsymbol{y})&amp;:=&amp;\mathrm{arg}\min_\boldsymbol{\boldsymbol{\beta}}\sum^m_{i=1}r(\boldsymbol{\beta})^2_i \tag{14} \\
+\mathrm{OLS}(X',{\boldsymbol y})&amp;:=&amp;\mathrm{arg}\min_{\boldsymbol {\boldsymbol \beta}}\sum^m_{i=1}r({\boldsymbol \beta})^2_i \tag{14} \\
 &amp;=&amp;(11)
 \end{aligned}
 </span></p>
-<p>ここで <span class="math inline">r(\boldsymbol{\beta})_i</span> は <span class="math inline">r(\boldsymbol{\beta})_i=y_i-\boldsymbol{x}_i\boldsymbol{\beta}</span> である(<span class="math inline">(4)</span> の偏差の部分). 以下, パラメータのベクトル <span class="math inline">\boldsymbol{\beta}</span> を明示的に示す必要がないときには <span class="math inline">r(\boldsymbol{\beta})_i</span> を <span class="math inline">r_i</span> と示すこととする.</p>
+<p>ここで <span class="math inline">r({\boldsymbol \beta})_i</span> は <span class="math inline">r({\boldsymbol \beta})_i=y_i-{\boldsymbol x}_i{\boldsymbol \beta}</span> である(<span class="math inline">(4)</span> の偏差の部分). 以下, パラメータのベクトル <span class="math inline">{\boldsymbol \beta}</span> を明示的に示す必要がないときには <span class="math inline">r({\boldsymbol \beta})_i</span> を <span class="math inline">r_i</span> と示すこととする.</p>
 <h3 id="最小刈込み二乗法">最小刈込み二乗法</h3>
 <p>一言でいえば, この方法は単純に外れ値を最小二乗法の対象から除外してしまう方法である(以下 Least trimmed squares<a href="/roki.log/2019/01/3/least_squares/#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> より LTS と記述)といわれる.</p>
 <p><span class="math display">
 \begin{aligned}
-\mathrm{LTS}(X,\boldsymbol{y},k)&amp;:=&amp;\mathrm{arg}\min_\boldsymbol{\beta}\sum^k_{i=1}r(\boldsymbol{\beta})^2_{(i)} \\
-&amp;&amp;{\rm s.t.\ } r(\boldsymbol{\beta})^2_{(1)}\leq r(\boldsymbol{\beta})^2_{(2)}\leq\cdots\leq r(\boldsymbol{\beta})^2_{(m)}
+\mathrm{LTS}(X,{\boldsymbol y},k)&amp;:=&amp;\mathrm{arg}\min_{\boldsymbol \beta}\sum^k_{i=1}r({\boldsymbol \beta})^2_{(i)} \\
+&amp;&amp;{\rm s.t.\ } r({\boldsymbol \beta})^2_{(1)}\leq r({\boldsymbol \beta})^2_{(2)}\leq\cdots\leq r({\boldsymbol \beta})^2_{(m)}
 \end{aligned}
 </span></p>
-<p>ここで <span class="math inline">r(\boldsymbol{\beta})_{(i)}</span> は <span class="math inline">i</span> 番目に小さい残差を示す. 要するに, <span class="math inline">m</span> 個の偏差の二乗を昇順で並べ, 適当なパラメータ <span class="math inline">k\ (k\leq m)</span> に対して <span class="math inline">\sum^k_{i=1}(r^2)_{i:m}</span> を最小化する回帰係数を求めることをいう. 当然, <span class="math inline">k=m</span> とすると, 通常の最小二乗法と同じ結果となるが, <span class="math inline">k\lt m</span> で設定することで <span class="math inline">m-k</span> 個の大きな偏差をもつデータを無視できる. LTS は次の手順で実行する.</p>
+<p>ここで <span class="math inline">r({\boldsymbol \beta})_{(i)}</span> は <span class="math inline">i</span> 番目に小さい残差を示す. 要するに, <span class="math inline">m</span> 個の偏差の二乗を昇順で並べ, 適当なパラメータ <span class="math inline">k\ (k\leq m)</span> に対して <span class="math inline">\sum^k_{i=1}(r^2)_{i:m}</span> を最小化する回帰係数を求めることをいう. 当然, <span class="math inline">k=m</span> とすると, 通常の最小二乗法と同じ結果となるが, <span class="math inline">k\lt m</span> で設定することで <span class="math inline">m-k</span> 個の大きな偏差をもつデータを無視できる. LTS は次の手順で実行する.</p>
 <p><strong>TODO: LTS の手順</strong></p>
 <p><strong>TODO: LTS による近似の実装</strong></p>
 <p>また, 各データ点に対して重み(確率分布)を付与し, それらを単なる算術平均として捉えるのではなく, 期待値として捉えるようにする方法が思いつく. 実際にこれらはそれぞれ名前がついていて, 前者は最小刈り込み二乗法, 後者はロバスト推定といわれる.</p>
@@ -3173,7 +3173,7 @@ x+2y&amp;=&amp;3  \\
 0 &amp; -2
 \end{array}\right)
 </span></p>
-<p>これを理解しておくと後述する LU 分解の理解に容易くなる. ここで, この時間計算量について, 一般の <span class="math inline">n</span> 次線形連立方程式 <span class="math inline">X\boldsymbol{a}=\boldsymbol{y}\ {\rm where}\ X\in\mathbb{R}^{n\times n}, \boldsymbol{a}\in\mathbb{R}^{n\times 1}, \boldsymbol{y}\in\mathbb{R}^{n\times 1}</span> を用いて考えるする.</p>
+<p>これを理解しておくと後述する LU 分解の理解に容易くなる. ここで, この時間計算量について, 一般の <span class="math inline">n</span> 次線形連立方程式 <span class="math inline">X{\boldsymbol a}={\boldsymbol y}\ {\rm where}\ X\in\mathbb{R}^{n\times n}, {\boldsymbol a}\in\mathbb{R}^{n\times 1}, {\boldsymbol y}\in\mathbb{R}^{n\times 1}</span> を用いて考えるする.</p>
 <p><span class="math display">\left(\begin{array}{ccccc}
 x_{11} &amp; x_{12} &amp; x_{13} &amp; \cdots &amp; x_{1n} \\
 x_{21} &amp; x_{22} &amp; x_{23} &amp; \cdots &amp; x_{2n} \\
@@ -3463,10 +3463,10 @@ x_{11} &amp; x_{12} &amp; x_{13} &amp; \cdots &amp; x_{1n} \\
 <h2 id="lu-分解">LU 分解</h2>
 <p>漸く本題の LU 分解(LR 分解, 三角分解)について. 簡単のために式 <span class="math inline">(1)</span> を使って LU 分解の導出をする. 式 <span class="math inline">(1)</span> は次の式と同値である.</p>
 <p><span class="math display">
-A^{(0)}\left(\begin{array}{c}x \\ y\end{array}\right)=\boldsymbol{v}
-\ {\rm where}\ A^{(0)}=\left(\begin{array}{cc}1 &amp; 2 \\ 3 &amp; 4\end{array}\right),\boldsymbol{v}=\left(\begin{array}{c}3\\ 5\end{array}\right)
+A^{(0)}\left(\begin{array}{c}x \\ y\end{array}\right)={\boldsymbol v}
+\ {\rm where}\ A^{(0)}=\left(\begin{array}{cc}1 &amp; 2 \\ 3 &amp; 4\end{array}\right),{\boldsymbol v}=\left(\begin{array}{c}3\\ 5\end{array}\right)
 </span></p>
-<p><span class="math inline">{A^{(0)}}^{-1}\boldsymbol{v}</span> とすれば <span class="math inline">(x,y)^T</span> は求まるが, 逆行列の計算はガウスの消去法により <span class="math inline">\frac{1}{3}O(n^3)</span> の時間計算量がかかる. 一定の条件下でそれよりも高速に求める方法を考えることとする. いま <span class="math inline">A^{(0)}</span> を徐に上三角行列にすることを考えると, ガウスの消去法の前進消去より</p>
+<p><span class="math inline">{A^{(0)}}^{-1}{\boldsymbol v}</span> とすれば <span class="math inline">(x,y)^T</span> は求まるが, 逆行列の計算はガウスの消去法により <span class="math inline">\frac{1}{3}O(n^3)</span> の時間計算量がかかる. 一定の条件下でそれよりも高速に求める方法を考えることとする. いま <span class="math inline">A^{(0)}</span> を徐に上三角行列にすることを考えると, ガウスの消去法の前進消去より</p>
 <p><span class="math display">
 A^{(1)}=L^{(1)}A^{(0)}=\left(\begin{array}{cc}1 &amp; 2 \\ 0 &amp; -2\end{array}\right)
 \leftrightarrow
@@ -3475,12 +3475,12 @@ A^{(0)}={L^{(1)}}^{-1}A^{(1)}
 </span></p>
 <p>従って</p>
 <p><span class="math display">
-{L^{(1)}}^{-1}A^{(1)}\left(\begin{array}{c}x \\ y\end{array}\right)=\boldsymbol{v}
+{L^{(1)}}^{-1}A^{(1)}\left(\begin{array}{c}x \\ y\end{array}\right)={\boldsymbol v}
 </span></p>
-<p>ここで, <span class="math inline">\boldsymbol{b}=A^{(1)}(x,y)^T</span> とおくと, 上の式は <span class="math inline">{L^{(1)}}^{-1}\boldsymbol{b}=\boldsymbol{v}</span> と同値であり, この式を用いて <span class="math inline">\boldsymbol{b}</span> について解くことができる. まずこの時間計算量を考えるとする. <span class="math inline">L^{(1)}</span> は元々前進消去のための行列であり, それは必ず下三角行列である. 正則な下三角行列の逆行列は下三角行列であり(証明略), いま <span class="math inline">L^{(1)}</span> が正則であるとする(これが特異となるような場合には後述する PLU 分解が有効)と, その計算は前進代入(上記後退代入の下三角行列バージョンと考えればよい)を実行すればよいので, 時間計算量は <span class="math inline">\frac{1}{2}O(n^2)\ \because</span> となる.</p>
-<p>その後に <span class="math inline">A^{(1)}(x,y)^T=\boldsymbol{b}</span> を <span class="math inline">(x,y)^T</span> について解くわけであるが, <span class="math inline">A^{(1)}</span> は上三角行列であるので, その計算にはガウスの消去法の後退代入を実行すれば良く, 従ってその時間計算量は <span class="math inline">\frac{1}{2}O(n^2)\ \because</span> である.</p>
+<p>ここで, <span class="math inline">{\boldsymbol b}=A^{(1)}(x,y)^T</span> とおくと, 上の式は <span class="math inline">{L^{(1)}}^{-1}{\boldsymbol b}={\boldsymbol v}</span> と同値であり, この式を用いて <span class="math inline">{\boldsymbol b}</span> について解くことができる. まずこの時間計算量を考えるとする. <span class="math inline">L^{(1)}</span> は元々前進消去のための行列であり, それは必ず下三角行列である. 正則な下三角行列の逆行列は下三角行列であり(証明略), いま <span class="math inline">L^{(1)}</span> が正則であるとする(これが特異となるような場合には後述する PLU 分解が有効)と, その計算は前進代入(上記後退代入の下三角行列バージョンと考えればよい)を実行すればよいので, 時間計算量は <span class="math inline">\frac{1}{2}O(n^2)\ \because</span> となる.</p>
+<p>その後に <span class="math inline">A^{(1)}(x,y)^T={\boldsymbol b}</span> を <span class="math inline">(x,y)^T</span> について解くわけであるが, <span class="math inline">A^{(1)}</span> は上三角行列であるので, その計算にはガウスの消去法の後退代入を実行すれば良く, 従ってその時間計算量は <span class="math inline">\frac{1}{2}O(n^2)\ \because</span> である.</p>
 <p>よって, この一連の操作における時間計算量は <span class="math inline">\frac{1}{3}O(n^3)</span> であり, 部分ピボットつきガウスの消去法を実行した場合と変わらない.</p>
-<p>しかし, <span class="math inline">L U</span> を流用できる(つまり, 共通の <span class="math inline">A^{(0)}</span> に対し異なる右辺ベクトル <span class="math inline">\boldsymbol{v}</span> から成る連立方程式を解く)とすればどうだろう. この場合, やらなければならない計算は前進代入および後退代入のみなので, 全体の時間計算量は <span class="math inline">\frac{1}{2}O(n^2)</span> となり, 先よりも高速に解を得ることができる.</p>
+<p>しかし, <span class="math inline">L U</span> を流用できる(つまり, 共通の <span class="math inline">A^{(0)}</span> に対し異なる右辺ベクトル <span class="math inline">{\boldsymbol v}</span> から成る連立方程式を解く)とすればどうだろう. この場合, やらなければならない計算は前進代入および後退代入のみなので, 全体の時間計算量は <span class="math inline">\frac{1}{2}O(n^2)</span> となり, 先よりも高速に解を得ることができる.</p>
 <p>いまの説明では, 式 \(\) において <span class="math inline">A^{(0)}</span> を <span class="math inline">{L^{(1)}}^{-1}</span> と <span class="math inline">A^{(1)}</span> に分解したが, これを LU 分解(<span class="math inline">L={L^{(1)}}^{-1},U=A^{(1)}</span>)といい, <span class="math inline">L^{(i)}</span> が正則ならば, 一般の場合においても同様にしていうことができる.</p>
 <div class="m-def">
 <header class="m-def-title">
@@ -3533,7 +3533,7 @@ A^{(1)}=
 0 &amp; 0 &amp; 1
 \end{array}\right)}_{A^{(2)}}
 </span></p>
-<p>より <span class="math display">L=(L^{(2)}L^{(1)})^{-1}=\left(\begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 2 &amp; 1 &amp; 0 \\ -1 &amp; -1 &amp; 1 \end{array}\right),U=A^{(2)}</span> 実際には, すべてを減算で考えることで, <span class="math inline">(L^{(2)}L^{(1)})^{-1}</span> の計算は楽に済む(つまり <span class="math inline">A^{0}=(\boldsymbol{a_1}^T,\boldsymbol{a_2}^T,\boldsymbol{a_3}^T)^T</span> としたとき <span class="math inline">\underline{2}\boldsymbol{a_1}-\boldsymbol{a_2}, \underline{-1}\boldsymbol{a_1}-\boldsymbol{a_3}, \underline{-1}\boldsymbol{a_2}-\boldsymbol{a_3}</span> より <span class="math inline">L</span> が導けるということ).</p>
+<p>より <span class="math display">L=(L^{(2)}L^{(1)})^{-1}=\left(\begin{array}{ccc} 1 &amp; 0 &amp; 0 \\ 2 &amp; 1 &amp; 0 \\ -1 &amp; -1 &amp; 1 \end{array}\right),U=A^{(2)}</span> 実際には, すべてを減算で考えることで, <span class="math inline">(L^{(2)}L^{(1)})^{-1}</span> の計算は楽に済む(つまり <span class="math inline">A^{0}=({\boldsymbol a_1}^T,{\boldsymbol a_2}^T,{\boldsymbol a_3}^T)^T</span> としたとき <span class="math inline">\underline{2}{\boldsymbol a_1}-{\boldsymbol a_2}, \underline{-1}{\boldsymbol a_1}-{\boldsymbol a_3}, \underline{-1}{\boldsymbol a_2}-{\boldsymbol a_3}</span> より <span class="math inline">L</span> が導けるということ).</p>
 <p>この導出過程を見ればなんとなく LU 分解が一意となることは直感的にも納得できるが, 一応証明を与えておく.</p>
 <div class="m-thm">
 <header class="m-thm-title">
@@ -3567,7 +3567,7 @@ A=\left(\begin{array}{ccc}
 \end{array}\right)
 \end{aligned}
 </span></p>
-<p>見てわかるように, 前進消去の段階で <span class="math inline">-8\div 0</span> となってしまい計算できない. しかし, これも部分ピボット選択付きガウスの消去法と同様に, 絶対値最大の値がピボットとなるように行を予め入れ替えておけば, 計算が続行できる. そのような手続きのある LU 分解は PLU 分解といわれ, 置換行列 <span class="math inline">P\in\mathbb{R}^{m\times n}</span> をつかって, <span class="math inline">A=P L U</span> とする. 以下 <span class="math inline">A</span> をつかって導出してみることとする. <span class="math inline">\boldsymbol{a_1}^T</span> と <span class="math inline">\boldsymbol{a_2}^T</span> を入れ替えれば良いので,</p>
+<p>見てわかるように, 前進消去の段階で <span class="math inline">-8\div 0</span> となってしまい計算できない. しかし, これも部分ピボット選択付きガウスの消去法と同様に, 絶対値最大の値がピボットとなるように行を予め入れ替えておけば, 計算が続行できる. そのような手続きのある LU 分解は PLU 分解といわれ, 置換行列 <span class="math inline">P\in\mathbb{R}^{m\times n}</span> をつかって, <span class="math inline">A=P L U</span> とする. 以下 <span class="math inline">A</span> をつかって導出してみることとする. <span class="math inline">{\boldsymbol a_1}^T</span> と <span class="math inline">{\boldsymbol a_2}^T</span> を入れ替えれば良いので,</p>
 <p><span class="math display">
 \begin{aligned}
 \underbrace{\left(\begin{array}{ccc}
@@ -3622,7 +3622,7 @@ A&amp;=&amp;P L U\\
 \end{array}\right)
 \end{aligned}
 </span></p>
-<p>ここで <span class="math inline">\boldsymbol{a}\in\mathbb{R}^{n\times 1},\boldsymbol{v}\in\mathbb{R}^{n\times 1}</span> に対して <span class="math inline">P L U \boldsymbol{a}=\boldsymbol{v}</span> というように, PLU 分解を用いて連立方程式解くことを考えると, <span class="math inline">L\underbrace{(U\boldsymbol{a})}_{\boldsymbol{b}}=P^{-1}\boldsymbol{v}</span> だから先と同様にまず前進代入によって <span class="math inline">\boldsymbol{b}</span> を求め(このときの <span class="math inline">P^{-1}\boldsymbol{v}</span> は <span class="math inline">P^{-1}=P^{(1)}</span> であり, また置換行列であるので, その計算は単に <span class="math inline">\boldsymbol{v}</span> を並び替えるだけである), <span class="math inline">U\boldsymbol{a}=\boldsymbol{b}</span> を <span class="math inline">\boldsymbol{a}</span> について後退代入によって求めればよい.</p>
+<p>ここで <span class="math inline">{\boldsymbol a}\in\mathbb{R}^{n\times 1},{\boldsymbol v}\in\mathbb{R}^{n\times 1}</span> に対して <span class="math inline">P L U {\boldsymbol a}={\boldsymbol v}</span> というように, PLU 分解を用いて連立方程式解くことを考えると, <span class="math inline">L\underbrace{(U{\boldsymbol a})}_{{\boldsymbol b}}=P^{-1}{\boldsymbol v}</span> だから先と同様にまず前進代入によって <span class="math inline">{\boldsymbol b}</span> を求め(このときの <span class="math inline">P^{-1}{\boldsymbol v}</span> は <span class="math inline">P^{-1}=P^{(1)}</span> であり, また置換行列であるので, その計算は単に <span class="math inline">{\boldsymbol v}</span> を並び替えるだけである), <span class="math inline">U{\boldsymbol a}={\boldsymbol b}</span> を <span class="math inline">{\boldsymbol a}</span> について後退代入によって求めればよい.</p>
 <p>さて, 数学的な言葉では, 以上のように書き下すことで十分であるが, これをプログラムで組むことを考えると, 様々な工夫やアプローチが考えられる. まず <span class="math inline">L, U</span> はそれぞれ必ず上三角行列, 下三角行列であり <span class="math inline">0</span> や <span class="math inline">1</span> の部分をそのまま持っているのは無駄である. 従って <span class="math inline">L, U</span> の値は次のように一つの行列として持っておけば十分.</p>
 <p><span class="math display">
 \left(\begin{array}{ccc}
@@ -3668,7 +3668,7 @@ A&amp;=&amp;P L U\\
 <span id="cb2-14"><a href="/roki.log/2019/01/1/lu_decomposition/#cb2-14" aria-hidden="true"></a><span class="dt">Just</span> (array (<span class="dv">0</span>,<span class="dv">3</span>) [(<span class="dv">0</span>,<span class="fl">0.6666666666666667</span>),(<span class="dv">1</span>,<span class="fl">0.6666666666666666</span>),(<span class="dv">2</span>,<span class="op">-</span><span class="fl">1.0</span>),(<span class="dv">3</span>,<span class="fl">1.0</span>)])</span>
 <span id="cb2-15"><a href="/roki.log/2019/01/1/lu_decomposition/#cb2-15" aria-hidden="true"></a>λ<span class="op">&gt;</span> fromJust plu <span class="ot">`assign`</span> (listArray (<span class="dv">0</span>, <span class="dv">3</span>) [<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>])<span class="ot"> ::</span> <span class="dt">Maybe</span> (<span class="dt">Array</span> <span class="dt">Int</span> <span class="dt">Double</span>)</span>
 <span id="cb2-16"><a href="/roki.log/2019/01/1/lu_decomposition/#cb2-16" aria-hidden="true"></a><span class="dt">Just</span> (array (<span class="dv">0</span>,<span class="dv">3</span>) [(<span class="dv">0</span>,<span class="fl">1.666666666666667</span>),(<span class="dv">1</span>,<span class="fl">0.8666666666666667</span>),(<span class="dv">2</span>,<span class="op">-</span><span class="fl">0.8</span>),(<span class="dv">3</span>,<span class="fl">1.2</span>)])</span></code></pre></div>
-ところで, LU 分解をしておくと逆行列も簡単に求めることがすぐに示せる. 逆行列とはそもそも <span class="math inline">A A^{-1} =I</span> であり, <span class="math inline">A^{-1}=(\boldsymbol{a^{-1}_1},\boldsymbol{a^{-1}_2},\cdots,\boldsymbol{a^{-1}}_m), I=(\boldsymbol{I_1},\boldsymbol{I_2},\cdots,\boldsymbol{I_m})</span> とすると行列の積の定義より <span class="math inline">A \boldsymbol{a^{-1}_i}=\boldsymbol{I_i}\ {\rm where\ } i\in\mathbb{Z}^{+}, 1\leq i\leq m</span> だから, <span class="math inline">A=L U</span> と分解して <span class="math inline">1</span> から <span class="math inline">m</span> までのすべての <span class="math inline">\boldsymbol{a^{-1}}_i</span> を得てそれらをそのまま 1 つの行列とすればよい. 当然ながら, 構成される方程式のうち変わる部分は <span class="math inline">\boldsymbol{a^{-1}}_i</span> と <span class="math inline">I_i</span> の部分だけなので, LU 分解は一度行うだけで済む. プログラムでの実行例. <em onclick="obj=document.getElementById('open_inverse').style; obj.display=(obj.display=='none')?'block':'none';"> <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a> </em>
+ところで, LU 分解をしておくと逆行列も簡単に求めることがすぐに示せる. 逆行列とはそもそも <span class="math inline">A A^{-1} =I</span> であり, <span class="math inline">A^{-1}=({\boldsymbol a^{-1}_1},{\boldsymbol a^{-1}_2},\cdots,{\boldsymbol a^{-1}}_m), I=({\boldsymbol I_1},{\boldsymbol I_2},\cdots,{\boldsymbol I_m})</span> とすると行列の積の定義より <span class="math inline">A {\boldsymbol a^{-1}_i}={\boldsymbol I_i}\ {\rm where\ } i\in\mathbb{Z}^{+}, 1\leq i\leq m</span> だから, <span class="math inline">A=L U</span> と分解して <span class="math inline">1</span> から <span class="math inline">m</span> までのすべての <span class="math inline">{\boldsymbol a^{-1}}_i</span> を得てそれらをそのまま 1 つの行列とすればよい. 当然ながら, 構成される方程式のうち変わる部分は <span class="math inline">{\boldsymbol a^{-1}}_i</span> と <span class="math inline">I_i</span> の部分だけなので, LU 分解は一度行うだけで済む. プログラムでの実行例. <em onclick="obj=document.getElementById('open_inverse').style; obj.display=(obj.display=='none')?'block':'none';"> <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a> </em>
 <div id="open_inverse" style="display:none;clear:both;">
 <script src="https://gist-it.appspot.com/https://github.com/falgon/PlayLinearAlgebra/blob/7a387f803e1ee30d3e7e83915b88eea18d7e096b/src/Math/Matrix/Core.hs?slice=306:324"></script>
 </div>
@@ -3677,8 +3677,8 @@ A&amp;=&amp;P L U\\
 <span id="cb3-3"><a href="/roki.log/2019/01/1/lu_decomposition/#cb3-3" aria-hidden="true"></a>{       <span class="dv">1</span> <span class="op">%</span> <span class="dv">2</span>   (<span class="op">-</span><span class="dv">1</span>) <span class="op">%</span> <span class="dv">2</span>        <span class="dv">1</span> <span class="op">%</span> <span class="dv">1</span>   }</span>
 <span id="cb3-4"><a href="/roki.log/2019/01/1/lu_decomposition/#cb3-4" aria-hidden="true"></a>{       <span class="dv">1</span> <span class="op">%</span> <span class="dv">2</span>   <span class="dv">1</span> <span class="op">%</span> <span class="dv">2</span>   (<span class="op">-</span><span class="dv">2</span>) <span class="op">%</span> <span class="dv">1</span>        }</span>
 <span id="cb3-5"><a href="/roki.log/2019/01/1/lu_decomposition/#cb3-5" aria-hidden="true"></a>{       (<span class="op">-</span><span class="dv">1</span>) <span class="op">%</span> <span class="dv">1</span>        <span class="dv">1</span> <span class="op">%</span> <span class="dv">1</span>   (<span class="op">-</span><span class="dv">1</span>) <span class="op">%</span> <span class="dv">1</span>        }</span></code></pre></div>
-<p>ただし, 逆行列の計算には今述べたようにすべての <span class="math inline">\boldsymbol{I^{-1}}_i</span> に関して代入操作を行わなければならないので, <span class="math inline">A\boldsymbol{x}=\boldsymbol{v}</span> といった方程式を解く目的で逆行列 <span class="math inline">A^{-1}</span> を求めることはただの愚行である.</p>
-また, LU 分解は行列式の計算も簡単にする. <span class="math inline">A= L U</span> ならば積の行列式は行列式の積(証明略)なので <span class="math inline">\left|A\right|=\left|L U\right|=\left|L\right|\left|U\right|</span> であるが, 上および下三角行列の行列式は対角成分の積(証明略)であるので <span class="math inline">\left|L\right|=1</span> である. よって <span class="math inline">\left|A\right|=\prod_{i=1}^{n}\boldsymbol{u}_{ii}</span> である. 置換行列 <span class="math inline">P</span> を考慮すれば, いま <span class="math inline">S</span> を LU 分解の過程で行の入れ替えを行った回数としたとき, <span class="math inline">\left|A\right|=\left|P\right|\left|L\right|\left|U\right|=(-1)^S \prod_{i=1}^{n}\boldsymbol{u}_{ii}</span> となる. また, 後述する Crout 法では <span class="math inline">U</span> のすべての対角成分を <span class="math inline">1</span> とするので, その場合 <span class="math inline">\left|A\right| = (-1)^S \prod_{i=1}^{n}\boldsymbol{l}_{ii}</span> となる. <em onclick="obj=document.getElementById('open_det').style; obj.display=(obj.display=='none')?'block':'none';"> <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a> </em>
+<p>ただし, 逆行列の計算には今述べたようにすべての <span class="math inline">{\boldsymbol I^{-1}}_i</span> に関して代入操作を行わなければならないので, <span class="math inline">A{\boldsymbol x}={\boldsymbol v}</span> といった方程式を解く目的で逆行列 <span class="math inline">A^{-1}</span> を求めることはただの愚行である.</p>
+また, LU 分解は行列式の計算も簡単にする. <span class="math inline">A= L U</span> ならば積の行列式は行列式の積(証明略)なので <span class="math inline">\left|A\right|=\left|L U\right|=\left|L\right|\left|U\right|</span> であるが, 上および下三角行列の行列式は対角成分の積(証明略)であるので <span class="math inline">\left|L\right|=1</span> である. よって <span class="math inline">\left|A\right|=\prod_{i=1}^{n}{\boldsymbol u}_{ii}</span> である. 置換行列 <span class="math inline">P</span> を考慮すれば, いま <span class="math inline">S</span> を LU 分解の過程で行の入れ替えを行った回数としたとき, <span class="math inline">\left|A\right|=\left|P\right|\left|L\right|\left|U\right|=(-1)^S \prod_{i=1}^{n}{\boldsymbol u}_{ii}</span> となる. また, 後述する Crout 法では <span class="math inline">U</span> のすべての対角成分を <span class="math inline">1</span> とするので, その場合 <span class="math inline">\left|A\right| = (-1)^S \prod_{i=1}^{n}{\boldsymbol l}_{ii}</span> となる. <em onclick="obj=document.getElementById('open_det').style; obj.display=(obj.display=='none')?'block':'none';"> <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a> </em>
 <div id="open_det" style="display:none;clear:both;">
 <script src="https://gist-it.appspot.com/https://github.com/falgon/PlayLinearAlgebra/blob/7a387f803e1ee30d3e7e83915b88eea18d7e096b/src/Math/Matrix/Core.hs?slice=326:340"></script>
 </div>
@@ -3956,7 +3956,7 @@ Fail
 \end{array}\right)
 \end{aligned}
 </span></p>
-<p>なお <span class="math inline">\partial f(x,y)</span> はヤコビ行列といわれる. 実際にコンピュータで計算する際には, <span class="math inline">{\partial f(x_{n},y_{n})}^{-1}(f_{1}(x_{n}, y_{n}),f_{2}(x_{n},y_{n}))^T</span> を求めるのは計算量と誤差の観点から見て困難なので, <span class="math inline">\partial f(x_{n},y_{n})\boldsymbol{a}=(f_{1}(x_{n}, y_{n}),f_{2}(x_{n},y_{n}))^T</span> を LU 分解などで解き <span class="math inline">(x_n,y_n)^T-\boldsymbol{a}</span> と解くことになる.</p>
+<p>なお <span class="math inline">\partial f(x,y)</span> はヤコビ行列といわれる. 実際にコンピュータで計算する際には, <span class="math inline">{\partial f(x_{n},y_{n})}^{-1}(f_{1}(x_{n}, y_{n}),f_{2}(x_{n},y_{n}))^T</span> を求めるのは計算量と誤差の観点から見て困難なので, <span class="math inline">\partial f(x_{n},y_{n}){\boldsymbol a}=(f_{1}(x_{n}, y_{n}),f_{2}(x_{n},y_{n}))^T</span> を LU 分解などで解き <span class="math inline">(x_n,y_n)^T-{\boldsymbol a}</span> と解くことになる.</p>
 <p>因みに, 上記で描画される接線は, 単純に ラグランジュの補完公式より <span class="math inline">y-y_{1}=\frac{y_{2}-y_{1}}{x_{2}-x_{1}}(x-x_{1})</span> を用いて描いている. 具体的には接線の関数を <span class="math inline">g(x^{\star})</span> としたとき, 接点と <span class="math inline">y_{2}=0</span> であるときの 2 点 <span class="math inline">(x,f(x)),(x-\frac{f(x)}{f'(x)},0)</span> を使って</p>
 <p><span class="math display">
 \begin{aligned}
