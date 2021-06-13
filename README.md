@@ -18,8 +18,15 @@ The roki's website and blog.
 
 ```sh
 $ git clone --recursive git@github.com:falgon/roki-web.git && cd roki-web
-$ nvm install && nvm use
+$ nvm install && nvm use && npm i
 $ stack build
+```
+
+When nvm is missing...
+
+```sh
+$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+$ . $HOME/.nvm/nvm.sh
 ```
 
 ## Usage
