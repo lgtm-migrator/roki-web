@@ -22,13 +22,6 @@ $ nvm install && nvm use && npm i
 $ stack build
 ```
 
-When nvm is missing...
-
-```sh
-$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
-$ . $HOME/.nvm/nvm.sh
-```
-
 ## Usage
 
 Building a site
@@ -95,10 +88,20 @@ $ mv .github/workflows/scheduled/my-awesome-scheduled-post.yaml .github/workflow
 Update blog posts using docker container
 
 ```sh
-$ pushd ./docker && docker-compose run preview; popd # start a preview server
-$ pushd ./docker && docker-compose run build; popd # build blog posts
-$ pushd ./docker && docker-compose run clean; popd # clean the generated docs
-$ DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker && docker-compose run spa; popd # run spa
+# start a preview server
+$ pushd ./docker \
+    && docker-compose up -d preview \
+    && docker-compose logs -f preview \
+    ; popd
+
+# build blog posts
+$ pushd ./docker && docker-compose run build; popd
+
+# clean the generated docs
+$ pushd ./docker && docker-compose run clean; popd
+
+# Reservation posting
+$ DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker && docker-compose run spa; popd
 ```
 
 When using a pre-built image (Requires PAT with `read:packages` permission)
