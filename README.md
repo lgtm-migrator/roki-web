@@ -22,6 +22,13 @@ $ nvm install && nvm use && npm i
 $ stack build
 ```
 
+When nvm is missing...
+
+```sh
+$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+$ . $HOME/.nvm/nvm.sh
+```
+
 ## Usage
 
 Building a site
