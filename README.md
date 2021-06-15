@@ -95,19 +95,44 @@ $ mv .github/workflows/scheduled/my-awesome-scheduled-post.yaml .github/workflow
 Update blog posts using docker container
 
 ```sh
-$ pushd ./docker && docker-compose run preview; popd # start a preview server
-$ pushd ./docker && docker-compose run build; popd # build blog posts
-$ pushd ./docker && docker-compose run clean; popd # clean the generated docs
-$ DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker && docker-compose run spa; popd # run spa
+# start a preview server
+$ pushd ./docker \
+    && docker-compose up -d preview \
+    && docker-compose logs -f preview \
+    ; popd
+
+# build blog posts
+$ pushd ./docker && docker-compose run build; popd
+
+# clean the generated docs
+$ pushd ./docker && docker-compose run clean; popd
+
+# Reservation posting
+$ DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker && docker-compose run spa; popd
 ```
 
-When using a pre-built image...
+When using a pre-built image (Requires PAT with `read:packages` permission)
 
 ```sh
-$ pushd ./docker && docker-compose -f docker-compose-ghpr.yml run preview; popd # start a preview server
-$ pushd ./docker && docker-compose -f docker-compose-ghpr.yml run build; popd # build blog posts
-$ pushd ./docker && docker-compose -f docker-compose-ghpr.yml run clean; popd # clean the generated docs
-$ DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker && docker-compose -f docker-compose-ghpr.yml run spa; popd # run spa
+$ cat ~/.ghcr.txt | docker login ghcr.io -u falgon --password-stdin
+$ docker pull docker.pkg.github.com/falgon/roki-web/roki-web-env:latest
+
+# start a preview server
+$ pushd ./docker \
+    && docker-compose -f docker-compose-ghpr.yml up -d preview \
+    && docker-compose -f docker-compose-ghpr.yml logs -f preview \
+    ; popd
+
+# build blog posts
+$ pushd ./docker && docker-compose -f docker-compose-ghpr.yml run build; popd
+
+# clean the generated docs
+$ pushd ./docker && docker-compose -f docker-compose-ghpr.yml run clean; popd
+
+# Reservation posting
+$ DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker \
+    && docker-compose -f docker-compose-ghpr.yml run spa \
+    ; popd
 ```
 
 Develop/build inside docker container
@@ -117,10 +142,12 @@ $ pushd ./docker && docker-compose up -d dev && popd
 $ docker exec -it roki-web-dev bash
 ```
 
-When using a pre-built image...
+When using a pre-built image (Requires PAT with `read:packages` permission)
 
 ```sh
-$ pushd ./docker && docker-compose -f docker-compose-ghpr.yml up -d dev && popd
+$ cat ~/.ghcr.txt | docker login ghcr.io -u falgon --password-stdin
+$ docker pull docker.pkg.github.com/falgon/roki-web/roki-web-dev:latest
+$ pushd ./docker && docker-compose -f docker-compose-ghpr.yml up -d dev; popd
 $ docker exec -it roki-web-dev bash
 ```
 
