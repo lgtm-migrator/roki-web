@@ -11,6 +11,7 @@ jobs:
     environment:
       TZ: /usr/share/zoneinfo/Asia/Tokyo
     steps:
+    - checkout
     - run:
         name: Setup tools
         command: |
@@ -20,6 +21,7 @@ jobs:
           echo -n "$SKICKA_TOKEN_CACHE_JSON" | base64 --decode > $HOME/.skicka.tokencache.json
           sed -i -e "s/;clientid=YOUR_GOOGLE_APP_CLIENT_ID/clientid=$GOOGLE_CLIENT_ID/g" $HOME/.skicka.config
           sed -i -e "s/;clientsecret=YOUR_GOOGLE_APP_SECRET/clientsecret=$GOOGLE_CLIENT_SECRET/g" $HOME/.skicka.config
+          curl -sSL https://get.haskellstack.org/ | sh
     - run:
         name: Set variables
         command: |
@@ -39,16 +41,26 @@ jobs:
     - run:
         name: Add comment
         command: |
-          echo "$CIRCLE_BRANCH"
-          pr_response=$(curl -s --location --request GET "https://api.github.com/repos/falgon/roki-web/pulls?head=falgon:$CIRCLE_BRANCH&state=open")
-          if [ -z "$pr_response" ]; then
+          PR_RESPONSE=$(curl -s --location --request GET "https://api.github.com/repos/falgon/roki-web/pulls?head=falgon:$CIRCLE_BRANCH&state=open")
+          if [ -z "$PR_RESPONSE" ]; then
             echo "No PR found to update"
           else
-            pr_comment_url=$(echo $pr_response | jq -r ".[]._links.comments.href")
+            pr_comment_url=$(echo "$PR_RESPONSE" | jq -r ".[]._links.comments.href")
             curl -X POST \
               -H 'Content-Type:application/json' \
               -d '{"body":"* [Build log]('"$CIRCLE_BUILD_URL)\r\n"'* Preview build with this PR (commit): <'"$ARTIFACTS_URL"'>"}' \
               "$pr_comment_url?access_token=$YBGH_TOKEN"
+          fi
+    - run:
+        name: Notify LINE
+        command: |
+          PR_RESPONSE=$(curl -s --location --request GET "https://api.github.com/repos/falgon/roki-web/pulls?head=falgon:$CIRCLE_BRANCH&state=open")
+          if [ -z "$PR_RESPONSE" ]; then
+            echo "No PR found to update"
+          else
+            pr_url=$(echo "$PR_RESPONSE" | jq -r ".[]._links.html.href")
+            # eval is needed for the CIRCLE_WORKING_DIRECTORY variable as it contains a non-expanded '~'
+            eval ${CIRCLE_WORKING_DIRECTORY}/tools/circleci/NotifyLine.hs --pr-url "$pr_url" --artifacts-url "$ARTIFACTS_URL"
           fi
 
 workflows:
