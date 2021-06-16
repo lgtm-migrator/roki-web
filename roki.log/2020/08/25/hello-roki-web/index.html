@@ -324,6 +324,15 @@ site-system git@github.com:falgon/roki-web.git (push)</code></pre>
 <img src="../../../../../roki.log/2020/08/25/hello-roki-web/auto-delete.png" width="640" alt /><figcaption>予約投稿完了後に自動発行される PR</figcaption>
 </figure>
 <p>ここで, PR のマージを忘れてしまうと先に述べたのと同じことになってしまうのだが, かといって, 事前に確認もなく draft ブランチへ変更を加えたくもなかった. 今回は, これらの兼ね合いを考慮した上で, そこそこ納得のいく落とし所がつけられたのではないかと思っている.</p>
+<h2 id="追記-3-20210626">追記 3 (2021/06/26)</h2>
+<p>CircleCI の Artifacts へのアップロードが完了した後に <a href="https://notify-bot.line.me/ja/" target="_blank" rel="nofollow noopener">LINE Notify</a> を用いて通知するようにした (<a href="https://github.com/falgon/roki-web/pull/159" target="_blank" rel="nofollow noopener">#159</a>).</p>
+<figure>
+<img src="https://user-images.githubusercontent.com/1241783/122118953-9dd50680-ce63-11eb-9f7b-c15d135fb1bb.jpeg" width="320" alt /><figcaption><a href="https://notify-bot.line.me/ja/" target="_blank" rel="nofollow noopener">LINE Notify</a> によるウェブサイトビルド完了通知</figcaption>
+</figure>
+<p>CircleCI の Environment Variables に API トークンを <code>LINE_NOTIFY_TOKEN</code> としてセットし, 以下のように叩いている.</p>
+<div style="height: 400px; overflow-y: scroll;">
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/02b82883ce313505cdf7c1bc009bd39f8ed86cc8/tools/circleci/NotifyLine.hs"></script>
+</div>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
