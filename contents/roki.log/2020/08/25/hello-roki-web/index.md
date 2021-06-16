@@ -446,6 +446,21 @@ $ stack exec spa -- cexpr -d $(date "+%m-%d-%R")
 今回は, これらの兼ね合いを考慮した上で, 
 そこそこ納得のいく落とし所がつけられたのではないかと思っている.
 
+## 追記 3 (2021/06/26)
+
+CircleCI の Artifacts へのアップロードが完了した後に
+[LINE Notify](https://notify-bot.line.me/ja/)
+を用いて通知するようにした ([#159](https://github.com/falgon/roki-web/pull/159)).
+
+![[LINE Notify](https://notify-bot.line.me/ja/) によるウェブサイトビルド完了通知](https://user-images.githubusercontent.com/1241783/122118953-9dd50680-ce63-11eb-9f7b-c15d135fb1bb.jpeg){ width=320px }
+
+CircleCI の Environment Variables に API トークンを `LINE_NOTIFY_TOKEN`
+としてセットし, 以下のように叩いている. 
+
+<div style="height: 400px; overflow-y: scroll;">
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/02b82883ce313505cdf7c1bc009bd39f8ed86cc8/tools/circleci/NotifyLine.hs"></script>
+</div>
+
 [^1]: それよりも前は 2016 年に[はてなブログ (Roki のチラ裏)](https://roki.hateblo.jp/) で技術系の記事を書いていた.
 さらにそれよりも前はアメーバブログで技術系の記事を書いていたが, 
 随分前にもう消してしまっていた...特別意識しているわけではないが, 
