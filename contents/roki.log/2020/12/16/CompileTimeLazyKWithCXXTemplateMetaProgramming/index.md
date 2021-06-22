@@ -256,7 +256,7 @@ mpl-lazyk/tests/text/parsec.cpp は,
 </li>
 </ul>
 </div>
-<div id="tab-content" class="mb-3" style="max-height: 400px; overflow-y: scroll;">
+<div id="tab-content" class="mb-3" style="height: 400px; overflow-y: scroll;">
 <div class="is-active acontent" data-content="1">
 <script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/mlk/text/parsec.hpp" type="text/javascript"></script>
 </div>
