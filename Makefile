@@ -16,13 +16,14 @@ watch-prebuild:
 	@cat ${HOME}/.ghcr.txt | docker login docker.pkg.github.com -u falgon --password-stdin
 	@docker pull docker.pkg.github.com/falgon/roki-web/roki-web-env:latest
 	@pushd ./docker \
-		&& docker-compose -f docker-compose-ghpr.yml up -d preview \
+		&& docker-compose --compatibility -f docker-compose-ghpr.yml up -d preview \
 		&& docker-compose -f docker-compose-ghpr.yml logs -f preview \
 		; popd
 
 stop-watch-prebuild:
 	@pushd ./docker \
-		&& docker-compose -f docker-compose-ghpr.yml stop preview
+		&& docker-compose --compatibility -f docker-compose-ghpr.yml stop preview \
+		; popd
 
 create-pr-master-develop:
 	@gh pr create -t "WIP master <- develop" \
