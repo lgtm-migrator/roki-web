@@ -22,4 +22,12 @@ stop-watch-prebuild:
 	@pushd ./docker \
 		&& docker-compose -f docker-compose-ghpr.yml stop preview
 
-.PHONY: init watch watch-prebuild
+create-pr-master-develop:
+	@gh pr create -t "WIP master <- develop" \
+		-a @me \
+		-l automerge -l dependencies \
+		-B master \
+		-b "Merge the develop branch into the master branch and deploy" \
+		-H develop
+
+.PHONY: init watch watch-prebuild stop-watch-prebuild create-pr-master-develop
