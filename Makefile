@@ -1,3 +1,5 @@
+SHELL=/bin/bash
+
 init:
 	@nvm install
 	@nvm use
