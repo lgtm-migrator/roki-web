@@ -155,7 +155,7 @@ haskellJp = TL.unpack $ renderText $ do
 googleAdSense :: String
 googleAdSense = TL.unpack $ renderText $ script_ [
     data_ "ad-client" "ca-pub-5658861742931397"
-  , async_ mempty 
+  , async_ mempty
   , src_ "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
   ]
     TL.empty
