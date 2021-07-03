@@ -98,6 +98,7 @@ listPageRules isPreview title faIcons tags bc pgs = paginateRules pgs $ \pn pat 
                 <> tagCloudField' "tag-cloud" tags
                 <> blogTitleCtx (blogName bc)
                 <> constField "blog-description" (blogDescription bc)
+                <> constField "header-additional-component" (blogHeaderAdditional bc)
                 <> gSuiteCtx bc
             postCtx' = teaserField "teaser" (blogContentSnapshot bc)
                 <> postCtx isPreview tags
@@ -118,6 +119,7 @@ blogRules isPreview bc faIcons = do
     let postCtx' = postCtx isPreview tags
             <> tagCloudField' "tag-cloud" tags
             <> blogTitleCtx (blogName bc)
+            <> constField "header-additional-component" (blogHeaderAdditional bc)
             <> constField "blog-description" (blogDescription bc)
             <> gSuiteCtx bc
             <> if isPreview then katexJsCtx else mempty
