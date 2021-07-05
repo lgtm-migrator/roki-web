@@ -45,6 +45,7 @@ rules bcs faIcons = do
                 >>= FA.render faIcons
 
     match "CNAME" $ route idRoute >> compile copyFileCompiler
+    match "ads.txt" $ route idRoute >> compile copyFileCompiler
     where
         indexPath = fromGlob $ intercalateDir [contentsRoot, "pages", "index.html"]
         rootTemplate = fromFilePath $ intercalateDir [contentsRoot, "templates", "site", "default.html"]
