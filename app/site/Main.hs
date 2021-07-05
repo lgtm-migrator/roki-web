@@ -152,6 +152,24 @@ haskellJp = TL.unpack $ renderText $ do
           , alt_"Supported By Haskell-jp."
           ]
 
+adSense :: String
+adSense = TL.unpack $ renderText $ do
+    script_ [
+        async_ mempty
+      , src_ "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      ]
+        TL.empty
+    ins_ [
+        class_ "adsbygoogle"
+      , style_ "display:block"
+      , data_ "ad-client" "ca-pub-5658861742931397"
+      , data_ "ad-slot" "9559934596"
+      , data_ "ad-format" "auto"
+      , data_ "full-width-responsive" "true"
+      ]
+        mempty
+    script_ "(adsbygoogle = window.adsbygoogle || []).push({});"
+
 googleAdSense :: String
 googleAdSense = TL.unpack $ renderText $ script_ [
     data_ "ad-client" "ca-pub-5658861742931397"
@@ -185,7 +203,7 @@ diaryConf = B.BlogConfig {
     B.blogName = AB.blogName
   , B.blogDescription = AB.blogDesc
   , B.blogHeaderAdditional = googleAdSense
-  , B.blogFooterAdditional = mempty
+  , B.blogFooterAdditional = adSense
   , B.blogTagBuilder = AB.buildTags
   , B.blogTagPagesPath = AB.tagPagesPath
   , B.blogEntryPattern = AB.entryPattern
