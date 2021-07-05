@@ -7,11 +7,15 @@ module Contexts.Field (
   , imageField
   , yearMonthArchiveField
   , searchBoxResultField
+  , haskellJpLogo
+  , gAdSenseHeader
+  , gAdSenseBody
 ) where
 
 import           Control.Monad       (forM_, liftM2)
 import           Control.Monad.Trans (lift)
 import           Data.Function       (on)
+import           Data.Functor        ((<&>))
 import           Data.List           (isSuffixOf, sortBy)
 import           Data.Maybe          (catMaybes, fromMaybe)
 import qualified Data.Text           as T
@@ -52,8 +56,9 @@ descriptionField key len = field key $ const $
 
 tagsField' :: String -> Tags -> Context a
 tagsField' key tags = field key $ \item -> do
-    tags' <- getTags $ itemIdentifier item
-    links <- catMaybes <$> mapM (liftM2 (<$>) toLink' (getRoute . tagsMakeId tags)) tags'
+    links <- getTags (itemIdentifier item)
+        >>= mapM (liftM2 (<$>) toLink' (getRoute . tagsMakeId tags))
+        <&> catMaybes
     if null links
         then noResult ("Field " ++ key ++ ": tag not set (" ++ show (itemIdentifier item) ++ ")")
         else return $ TL.unpack $ renderText $ mconcat $ map (span_ [class_ "tag is-dark"]) links
@@ -99,8 +104,47 @@ buildYearMonthArchiveField ya ma pageYear = fmap TL.unpack $ renderTextT $
                                 toHtml $ year ++ "/" ++ month ++  " (" ++ show (length mids) ++ ")"
 
 yearMonthArchiveField :: String -> YearlyArchives -> MonthlyArchives -> Maybe String -> Context a
-yearMonthArchiveField key ya ma s = field key $ const $ buildYearMonthArchiveField ya ma s
+yearMonthArchiveField key ya ma s = field key
+    $ const
+    $ buildYearMonthArchiveField ya ma s
 
 searchBoxResultField :: Context String
 searchBoxResultField = constField "body" $
-    TL.unpack $ renderText $ div_ [class_ "gcse-searchresults-only"] ""
+    TL.unpack $ renderText $ div_ [class_ "gcse-searchresults-only"] mempty
+
+haskellJpLogo :: Html ()
+haskellJpLogo =
+    a_ [ href_ "https://haskell.jp/blog/posts/links.html#roki.dev/roki.log/" ] $
+        img_ [
+            width_ "234"
+          , class_ "mt-1"
+          , src_ "https://haskell.jp/img/supported-by-haskell-jp.svg"
+          , alt_"Supported By Haskell-jp."
+          ]
+
+gAdSenseBody :: Html ()
+gAdSenseBody = do
+    script_ [
+        async_ mempty
+      , src_ "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      ]
+        TL.empty
+    ins_ [
+        class_ "adsbygoogle"
+      , style_ "display:block"
+      , data_ "ad-client" "ca-pub-5658861742931397"
+      , data_ "ad-slot" "9559934596"
+      , data_ "ad-format" "auto"
+      , data_ "full-width-responsive" "true"
+      ]
+        mempty
+    script_ "(adsbygoogle = window.adsbygoogle || []).push({});"
+
+gAdSenseHeader :: Html ()
+gAdSenseHeader = script_ [
+    data_ "ad-client" "ca-pub-5658861742931397"
+  , async_ mempty
+  , src_ "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+  ]
+    TL.empty
+

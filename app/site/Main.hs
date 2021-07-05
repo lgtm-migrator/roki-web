@@ -16,8 +16,9 @@ import qualified Config.Blog              as B
 import qualified Config.Blogs.AnotherBlog as AB
 import qualified Config.Blogs.TechBlog    as TB
 import           Config.RegexUtils        (intercalateDir)
+import           Contexts.Field           (gAdSenseBody, gAdSenseHeader,
+                                           haskellJpLogo)
 import           Lucid.Base               (renderText)
-import           Lucid.Html5
 import qualified Rules.Blog               as B
 import qualified Rules.IndexPage          as IP
 import qualified Rules.Media              as Media
@@ -37,23 +38,33 @@ data Opts = Opts
 
 {-# INLINE buildCmd #-}
 buildCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
-buildCmd = OA.command "build" $ OA.info (pure $ const Build) $ OA.progDesc "Generate the site"
+buildCmd = OA.command "build"
+    $ OA.info (pure $ const Build)
+    $ OA.progDesc "Generate the site"
 
 {-# INLINE checkCmd #-}
 checkCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
-checkCmd = OA.command "check" $ OA.info (pure $ const $ Check False) $ OA.progDesc "Validate the site output"
+checkCmd = OA.command "check"
+    $ OA.info (pure $ const $ Check False)
+    $ OA.progDesc "Validate the site output"
 
 {-# INLINE cleanCmd #-}
 cleanCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
-cleanCmd = OA.command "clean" $ OA.info (pure $ const Clean) $ OA.progDesc "Clean up and remove cache"
+cleanCmd = OA.command "clean"
+    $ OA.info (pure $ const Clean)
+    $ OA.progDesc "Clean up and remove cache"
 
 {-# INLINE deployCmd #-}
 deployCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
-deployCmd = OA.command "deploy" $ OA.info (pure $ const Deploy) $ OA.progDesc $ "Upload/deploy " <> siteName
+deployCmd = OA.command "deploy"
+    $ OA.info (pure $ const Deploy)
+    $ OA.progDesc $ "Upload/deploy " <> siteName
 
 {-# INLINE rebuildCmd #-}
 rebuildCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
-rebuildCmd = OA.command "rebuild" $ OA.info (pure $ const Rebuild) $ OA.progDesc "Clean and build again"
+rebuildCmd = OA.command "rebuild"
+    $ OA.info (pure $ const Rebuild)
+    $ OA.progDesc "Clean and build again"
 
 {-# INLINE serverCmd #-}
 serverCmd :: OA.Mod OA.CommandFields (Configuration -> Command)
@@ -141,49 +152,12 @@ optsParser = OA.info (OA.helper <*> versionOption <*> programOptions) $ mconcat 
       ]
   ]
 
-
-haskellJp :: String
-haskellJp = TL.unpack $ renderText $ do
-    a_ [href_ "https://haskell.jp/blog/posts/links.html#roki.dev/roki.log/"] $
-        img_ [
-            width_ "234"
-          , class_ "mt-1"
-          , src_ "https://haskell.jp/img/supported-by-haskell-jp.svg"
-          , alt_"Supported By Haskell-jp."
-          ]
-
-adSense :: String
-adSense = TL.unpack $ renderText $ do
-    script_ [
-        async_ mempty
-      , src_ "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-      ]
-        TL.empty
-    ins_ [
-        class_ "adsbygoogle"
-      , style_ "display:block"
-      , data_ "ad-client" "ca-pub-5658861742931397"
-      , data_ "ad-slot" "9559934596"
-      , data_ "ad-format" "auto"
-      , data_ "full-width-responsive" "true"
-      ]
-        mempty
-    script_ "(adsbygoogle = window.adsbygoogle || []).push({});"
-
-googleAdSense :: String
-googleAdSense = TL.unpack $ renderText $ script_ [
-    data_ "ad-client" "ca-pub-5658861742931397"
-  , async_ mempty
-  , src_ "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-  ]
-    TL.empty
-
 techBlogConf :: B.BlogConfig Rules
 techBlogConf = B.BlogConfig {
     B.blogName = TB.blogName
   , B.blogDescription = TB.blogDesc
   , B.blogHeaderAdditional = mempty
-  , B.blogFooterAdditional = haskellJp
+  , B.blogFooterAdditional = TL.unpack $ renderText haskellJpLogo
   , B.blogTagBuilder = TB.buildTags
   , B.blogTagPagesPath = TB.tagPagesPath
   , B.blogEntryPattern = TB.entryPattern
@@ -202,8 +176,8 @@ diaryConf :: B.BlogConfig Rules
 diaryConf = B.BlogConfig {
     B.blogName = AB.blogName
   , B.blogDescription = AB.blogDesc
-  , B.blogHeaderAdditional = googleAdSense
-  , B.blogFooterAdditional = adSense
+  , B.blogHeaderAdditional = TL.unpack $ renderText gAdSenseHeader
+  , B.blogFooterAdditional = TL.unpack $ renderText gAdSenseBody
   , B.blogTagBuilder = AB.buildTags
   , B.blogTagPagesPath = AB.tagPagesPath
   , B.blogEntryPattern = AB.entryPattern
@@ -232,7 +206,10 @@ main = do
           ]
 
     hakyllWithArgs conf (Options (optVerbose opts) $ mapIL (optInternalLinks opts) $ optCmd opts $ conf) $ do
-        Media.rules >> Vendor.rules (optPreviewFlag opts) >> Style.rules >> Js.rules
+        Media.rules
+            *> Vendor.rules (optPreviewFlag opts)
+            *> Style.rules
+            *> Js.rules
         faIcons <- fold <$> preprocess FA.loadFontAwesome
         mapM_ (flip (B.blogRules (optPreviewFlag opts)) faIcons) blogConfs
         IP.rules blogConfs faIcons
