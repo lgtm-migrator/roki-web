@@ -8,8 +8,42 @@
         <name>Roki</name>
         <email>falgon53@yahoo.co.jp</email>
     </author>
-    <updated>2020-12-16T00:00:00Z</updated>
+    <updated>2021-07-10T16:14:17Z</updated>
     <entry>
+    <title>技術書典 11 にて Git (一部) を自作する記事を執筆した</title>
+    <link href="https://roki.dev/roki.log/2021/07/10/SelfMadeTinyGit/index.html" />
+    <id>https://roki.dev/roki.log/2021/07/10/SelfMadeTinyGit/index.html</id>
+    <published>2021-07-10T16:14:17Z</published>
+    <updated>2021-07-10T16:14:17Z</updated>
+    <summary type="html"><![CDATA[<p><a href="https://techbookfest.org/event/tbf11">技術書典 11</a> に出展の <a href="https://techbookfest.org/product/6185615265628160">KLab Tech Book Vol.8</a> 第七章にて『ミニマル Git を自作しよう』という記事を執筆した. <br /> 技術書典 11 オンラインマーケットから電子 + 物理本セットは 1000 円, 電子版のみは無料で頒布されている.</p>
+<figure>
+<img src="/roki.log/2021/07/10/SelfMadeTinyGit/tbf11.png" width="250" alt /><figcaption><a href="https://techbookfest.org/product/6185615265628160">KLab Tech Book Vol.8</a></figcaption>
+</figure>
+<p>この本に関する公式的な案内は『<a href="https://www.klab.com/jp/blog/tech/2021/tbf11.html">技術書典11で同人誌を頒布します &amp; 既刊PDFダウンロードページ</a>』にて掲載中である. 本記事は, その記事執筆に関するレポートである.<br></p>
+<!--more-->
+<p>なお, このブログは個人ブログであり, また注意書きとして, 既にサイトトップ部分で</p>
+<blockquote>
+<p>All opinions expressed by Author on this blog is solely Author’s opinions and do not reflect the opinions of the company to which I belong.</p>
+</blockquote>
+<p>と示しているので言うまでもないことではあるのだが, 記事の特性上, 社名が文章内に含まれることとなるため, ここにあらためて明示する. <strong>ここに示された意見や感想等は, 私個人のものであり, 所属する組織を代表するものではない.</strong></p>
+<h2 id="内容について">内容について</h2>
+<p>大雑把に言えば, これを読むと, Git の内部構造 (Git オブジェクトモデル, インデックス, データ構造) を理解し, インデックス化からコミットまでの主要コマンド 8 つ (<code>add</code>, <code>cat-file</code>, <code>diff</code>, <code>hash-object</code>, <code>init</code>, <code>ls-files</code>, <code>status</code>, <code>commit</code>) を実装できるようになるはず (?) の内容となっている. Git にまつわる各種概念や用語, 仕様等の紹介を通じて, 概形を把握し, その後, 詳細な実装に立ち入っていく. 実装例の説明自体には Haskell を用いているが, それほど技巧的なことはしていないつもりであるので, 拒絶反応をせずに, むしろ, それなりに簡素な作りで実際に動かすことができるという点に着目していただけると嬉しい.</p>
+<div class="has-text-centered mt-3 mb-3">
+<p><i class="fab fa-github fa-fw"></i> <a href="https://github.com/falgon/hmgit">falgon/hmgit - HMGit (Haskell Minimal Git)</a></p>
+</div>
+<p>実行例やオプション等の説明はすべて README に載っている. 実装をもし読む場合は, その参考になればと <a href="https://falgon.github.io/hmgit/">Haddock</a> も一応生成しておいた. コードや設計についてはとくにここで新たに述べることもないので, 上記 KLab Tech Book Vol.8 やリポジトリの中身を確認してほしい.</p>
+<blockquote class="twitter-tweet" data-align="center">
+<p lang="ja" dir="ltr">
+無駄にこんな感じで遊べます <a href="https://t.co/L0vtu8fOpy">pic.twitter.com/L0vtu8fOpy</a>
+</p>
+— Roki (@530506) <a href="https://twitter.com/530506/status/1413741996783534083?ref_src=twsrc%5Etfw">July 10, 2021</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>私の書いた記事では, 出来る限り図を挿入し, Git にまつわる各種概念やコミット, ブランチ, リファレンスの関係を視覚的に捉えられるよう意識した. これは (文字情報だけでも Git について理解することはできるのだろうが), それら概念の関係図を頭の中で描いてみようとするときに発生するコストを抑えられるはずなので, 積極的に行った. また, 記事の執筆過程での下調べ中に知った Git に関する細かい経緯や, 実装するにあたって若干ハマるかもしれないファイルモード等に関する話題等, 所々にニッチ (?) な内容のコラムを挿入するようにした. 書かれているコマンドについては, ページの進みにあわせて実行していくことができるようになっているはずである.</p>
+<h2 id="結">結</h2>
+<p>このような発出をしていくことは個人的にも好きなので, またの機会があれば続けていきたい. 個人的にはぜひ一読いただき, なにかリアクション等いただけると嬉しい. そして, サンプル実装や文章構成への改善案, また, もし間違い等に気付いた場合についても指摘をいただけると嬉しい.<br> 最後に, このような機会を設けてくださった各所関係者の皆様や, 私の文章の校生, レビュー等に関わってくださった共著者のみなさまへ, 改めてこの場を借りて感謝の念を表したい.</p>]]></summary>
+</entry>
+<entry>
     <title>C++ テンプレートメタプログラミングによるコンパイル時 Lazy K インタプリタ</title>
     <link href="https://roki.dev/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/index.html" />
     <id>https://roki.dev/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/index.html</id>
@@ -5699,42 +5733,6 @@ P(C\mid B) &amp;=&amp; \dfrac{P(B\mid C)P(C)}{P(B)}&amp;=&amp;\dfrac{1\cdot \dfr
 <li id="fn5" role="doc-endnote"><p>証明: <a href="/roki.log/2018/07/13/elgamalEncryption/#fermatstheorem">フェルマーの小定理</a><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6" role="doc-endnote"><p>この補足は冗長的かもしれないが, <span class="math inline">n</span> が素数 <span class="math inline">p</span> である場合, <span class="math inline">\mathbb{Z}_p^{\ast}</span> が構成されるから, これから取った代表は素数 <span class="math inline">p</span> と互いに素であることから, 既約代表である. この事実も, 一般に \(\) から \(\) へのような式変形が実行できることとの整合を示す.<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7" role="doc-endnote"><p>補足. 郡 <span class="math inline">G</span> とその部分郡 <span class="math inline">H</span> があるとき, <span class="math inline">H</span> は郡であるから単位元 <span class="math inline">e\in H</span> を含む. よって, <span class="math inline">^\exists a\in G</span> の剰余類を <span class="math inline">aH=\left\{ah\mid h\in H\right\}</span> としたとき(簡単のため, 左剰余類として式をおいたが, これに深い意味はない.), <span class="math inline">a=ae\in aH</span> より <span class="math inline">a\in aH</span> である. この <span class="math inline">a</span> を剰余類 <span class="math inline">aH</span> の代表という. また郡 <span class="math inline">G</span> は, 異なる <span class="math inline">a_i</span> を代表とした剰余類 <span class="math inline">a_iH</span> によって類別できる(<span class="math inline">\displaystyle G=\bigcup_i a_iH</span>). この <span class="math inline">\mid G:H\mid</span> 個の類別に対して, 各剰余類から代表の元を取り, 構成した集合を, <span class="math inline">G</span> の <span class="math inline">H</span> に対する代表系という.<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>]]></summary>
-</entry>
-<entry>
-    <title>VRRP on AWS VPC-EC2</title>
-    <link href="https://roki.dev/roki.log/2018/07/23/ec2failover/index.html" />
-    <id>https://roki.dev/roki.log/2018/07/23/ec2failover/index.html</id>
-    <published>2018-07-23T06:05:00Z</published>
-    <updated>2018-07-23T06:05:00Z</updated>
-    <summary type="html"><![CDATA[<p>本エントリでは, VPC-EC2 で MASTER 側のヘルスが確認できなくなったときに, VRRP を用いてフェールオーバし, 一定度の可用性担保を実現する場合について<a href="/roki.log/2018/07/23/ec2failover/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>取り上げる. VRRP の実装としては keepalived を用いることとする.</p>
-<h2 id="前提">前提</h2>
-<p>次のシチュエーションを前提としている.</p>
-<ul>
-<li>インスタンスが 2 つ以上作成済みで, 24, 80 番ポートを SG の設定で開けてあり, どちらにおいても apache2 と keepalived が稼働している.</li>
-<li>keepalived.conf にそれぞれ MASTER と BACKUP が設定済みで, VPC-EC2 のルートテーブルにて, いまの設定にあわせて 1 つに VIP (192.168.1.1/32) が設定してある.</li>
-</ul>
-<p>このシチュエーションがオンプレミス環境上の話であれば, 何の問題もなく, これでフェールオーバが実現できるのだが, AWS EC2 でこれを実現するためには, AWS のルートテーブル側の VIP ターゲットをも貼り直す操作が必要となり, この操作については, ある程度自分で実装しなければならない. いくらか調べて見ると, awscli で同様の環境を作っている事例を多く見るのだが, 本エントリでは諸事情より AWS SDK for go を使って, 操作することとした.</p>
-<!--more-->
-<h2 id="設定と実装">設定と実装</h2>
-<p>結論からいえば, keepalived はユニキャストに対応しているので, それらの設定を行い, 互いに監視して, MASTER または BACKUP となったときに自動でルートテーブルを操作すれば良い. もう少し細かく言えば, 冗長構成のうち監視対象となるインスタンスのプライベート IP を設定すれば良い.</p>
-<p>そのついでに, VIP が設定されていることを簡単に取得できるように, VIP が設定されたインスタンスにタグを設定するようにしたい. さらに, 毎度 keepalived.conf を作成するのは手間を要するので, 冗長構成の中から監視対象や VIP などを自動検出して, keepalived.conf を生成するようにもしたい.</p>
-<p>ということで, これらの要件を自動化するべく実装した.</p>
-<div class="box has-text-centered is-shadowless">
-<p><i class="fab fa-github mr-2"></i> <a href="https://github.com/falgon/VKUVC">VKUVC - VPC-EC2 + Keepalived Utilities = VRRP on Cloud</a></p>
-</div>
-<p>動いている様子のデモビデオを録画した.</p>
-<div class="box has-text-centered is-shadowless">
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/b6y3CnaTiG0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-</iframe>
-</div>
-<h2 id="余談">余談</h2>
-<p>今回 keepalived.conf の生成のために, はじめて<code>text/template</code>パッケージを用いた. といっても簡単な使い方しかしていないので, 今回のような事例の他にも, まだまだ応用範囲は広そうだが, それにしても中々便利であった. また今回で golang を使ってなにかモノを作ったのは <a href="/roki.log/2018/07/8/awsec2tag/">2 回目</a>であるが, 段々と慣れてきたような気もする. とくに, AWS SDK に関しては, まあ元々使いやすいのは十分にあるのだが, 以前よりも大分勝手がわかってきた気がする.</p>
-<section class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1" role="doc-endnote"><p>普通にロードバランサもあるので, 選択肢としてこれに限るというわけではない.<a href="/roki.log/2018/07/23/ec2failover/#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>]]></summary>
 </entry>
