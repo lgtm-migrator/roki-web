@@ -40,7 +40,7 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 \\(\left\lt a,b\right\gt\in R\\) ならば \\(a\\) と \\(b\\) は関係 \\(R\\) にあるといい, 
 \\(R(a,b)\\) または \\(aRb\\) と書く.
 
-\\[R:={\left\lt a,b\right\gt\mid a\in A,b\in B,aRb}\\]
+\\[R:=\{\left\lt a,b\right\gt\mid a\in A,b\in B,aRb\}\\]
 
 \\((a,b)\not\in R\\) ならば \\(a\\) と \\(b\\) は関係 \\(R\\) にないといい, 
 \\(\overline{R}(a,b)\\) または \\(a\overline{R}b\\) と書く.
@@ -49,17 +49,17 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 例えば, 自然数の集合 \\(\mathbb{N}\\) に対し, その[同値関係](#equivalence_relation) "\\(=\\)" 
 を順序体を用いて新たに
 
-\\[R:={\left\lt n,n\right\gt\mid n\in \mathbb{N}}\subseteq\mathbb{N}^2\\]
+\\[R:=\{\left\lt n,n\right\gt\mid n\in \mathbb{N}\}\subseteq\mathbb{N}^2\\]
 
 と定義すると \\(a,b\in \mathbb{N}\\) に対して \\(a R_=b\Leftrightarrow a=b\\) である.
-また, 集合 \\(X={1,2,3}\\) に対し, その[順序関係](#orderd_relation) \\(R_\gt\subseteq X^2\\) 
+また, 集合 \\(X={1,2,3}\\) に対し, その[順序関係](#ordered_relation) \\(R_\gt\subseteq X^2\\) 
 を大なりの関係 "\\(\gt\\)" とすると \\(R_\gt\\) は
 
-\\[R_\gt={\left\lt 2,1\right\gt, \left\lt 3,1\right\gt, \left\lt 3,2\right\gt}\\]
+\\[R_\gt=\{\left\lt 2,1\right\gt, \left\lt 3,1\right\gt, \left\lt 3,2\right\gt\}\\]
 
 となる. ここで, 逆関係を導入する. 関係 \\(R\\) の逆関係は \\(B\\) から \\(A\\) への関係, すなわち
 
-\\[R^{-1}:={\left\lt b,a\right\gt\mid a\in A, b\in B, aRb}\\]
+\\[R^{-1}:=\{\left\lt b,a\right\gt\mid a\in A, b\in B, aRb\}\\]
 
 と定義される. 従って, 例えば集合 \\(X\\) に対する \\(R_\gt\\) の逆関係は 
 \\(R_\gt^{-1}={\left\lt 1,2\right\gt, \left\lt 1,3\right\gt, \left\lt 2,3\right\gt}\\) である.
@@ -73,7 +73,7 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 \\(\left\lt a_1,a_2,\cdots,a_n\right\gt\in R\\) ならば \\(a_1,a_2,\cdots,a_n\\) は 関係
 \\(R\\) にあるといい, \\(R(a_1,a_2,\cdots,a_n)\\) と書く.
 
-\\[R:={\left\lt a_1,a_2,\cdots,a_n\right\gt\mid a_1\in A_1,a_2\in A_2,\cdots,a_n\in A_n, R(a_1,a_2,\cdots,a_n)}\subseteq\prod_{i=1}^{n}A_i\\]
+\\[R:=\{\left\lt a_1,a_2,\cdots,a_n\right\gt\mid a_1\in A_1,a_2\in A_2,\cdots,a_n\in A_n, R(a_1,a_2,\cdots,a_n)\}\subseteq\prod_{i=1}^{n}A_i\\]
 
 また \\(\left\lt a_1,a_2,\cdots,a_n\right\gt\not\subseteq R\\) ならば \\(a_1,a_2,\cdots,a_n\\) は
 関係 \\(R\\) にないといい, \\(\overline{R}(a_1,a_2,\cdots,a_n)\\) と書く.
@@ -127,7 +127,7 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 しかし, \\(x\lt y\\) ならば \\(y\lt x\\) ではないので, \\(\lt\\) は \\(\mathbb{R}\\) の下で対象律を満たさない.
 また, 別の例として, 例えば平面状のすべての三角形から成る集合 \\(A\\) と, 相似の関係 \\(R\\) を組み合わせると \\(R\\) は
 \\(A\\) 上で対象律を満たす. 
-\\[R={\left\lt x,y\right\gt\mid x,y\in A,x\ {\rm と}\ y\ {\rm は相似}}\subseteq A^2\\]
+\\[R=\{\left\lt x,y\right\gt\mid x,y\in A,x\ {\rm と}\ y\ {\rm は相似}\}\subseteq A^2\\]
 なお, これは[同値律](#equiv_relation)を満たす. 対象律の特徴を挙げると:
 
 * 必ずしも \\(x=y\\) ではない
@@ -234,9 +234,10 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 <div class="m-def">
 <header class="m-def-title"><p><span id="ordered_relation">半順序</span></p></header>
 <div class="m-def-content">
-  <a href="#previous_order">前順序関係</a> \\(R\\) が集合 \\(A\\) 
-  上で<a href="#antisymmetric_relation">反対象律</a>を満たすとき, \\(R\\) は \\(A\\) 上の半順序関係という.
-  </div>
+<a href="#previous_order">前順序関係</a> \\(R\\) が集合 \\(A\\) 
+上で<a href="#antisymmetric_relation">反対象律</a>を満たすとき, \\(R\\) は \\(A\\) 上の半順序関係といい,
+\\(A\\) を半順序集合 (poset) という.
+</div>
 </div>
 
 例えば, 集合族上の包含関係 \\(\subset\\) は以下の通り半順序である.
@@ -271,10 +272,12 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 <li>\\(a\gtrsim a_0\\) ならば \\(a=a_0\\) のとき \\(a_0\\) を \\(A\\) の極大(要素|元)という</li>
 <li>\\(a\lesssim a_0\\) ならば \\(a=a_0\\) のとき \\(a_0\\) を \\(A\\) の極小(要素|元)という</li>
 </ul>
-  </div>
+\\(A\\) に最小元が存在するとき, \\(A\\) は点付き (pointed) であるという.
+また, 最大値, 最小値あるいは極大値,
+極小値を総じて extremum という (<a href="#ref1">参考文献 1</a>, <a href="#ref2">参考文献 2</a>).
+</div>
 </div>
 
-なお最大値, 最小値あるいは極大値, 極小値を総じて extremum という ([参考文献 1](#ref1), [参考文献 2](#ref2)).
 例えば, 自然数全体の集合 \\(\mathbb{N}\\) の最小要素は \\(0\\) であるが, 最大要素は存在しない. 
 実数全体の集合 \\(\mathbb{R}\\) には最(大|小)要素が存在しない[^5].
 集合 \\(X={x_1,x_2,x_3}\\) に対して順序集合 
@@ -336,15 +339,45 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 </figure>
 
 <div class="m-def">
-<header class="m-def-title"><p><span id="upper_least_bound">全順序</span></p></header>
+<header class="m-def-title"><p><span id="complete_order">全順序</span></p></header>
 <div class="m-def-content">
 <a href="#ordered_relation">半順序関係</a> \\(R\\) が集合 \\(A\\) 上の任意の要素に対して比較可能であるとき, \\(R\\) は \\(A\\) 上の全順序関係という.
 </div>
 </div>
 
-任意の全順序集合は有向集合である.
+任意の全順序集合の有限部分集合は明らかに最大要素がただ 1 つ存在するため有界であるので, 有向集合である.
 その他, 例えば, 大小関係 \\(\leq\\) 
 は自然数の集合 \\(\mathbb{N}\\) 上で全順序関係である.
+
+<div class="m-def">
+<header class="m-def-title"><p><span id="omega_chain">\\(\omega\\) 鎖</span></p></header>
+<div class="m-def-content">
+<a href="#ordered_relation">半順序関係</a> \\(R\\) と集合 \\(A\\) の組 \\(\left(A,R\right)\\)
+に対し, 二項関係 \\(\left\{\left\lt a_0,a_1\right\gt,\left\lt a_1,a_2\right\gt,\cdots\right\}\subseteq R\\) に関する \\(A\\) の元の列
+\\[a_0\ R\ a_1\ R\ a_2\ R \cdots\\]
+を \\(\omega\\) 鎖という.
+列 \\(\left\lt a_0,a_1,a_2,\cdots\right\gt\\) は自然数の集合と 1 対 1 に対応し,
+\\(i\leq j\Rightarrow \left\lt a_i,a_j\right\gt\in R\\).
+</div>
+</div>
+
+\\(\omega\\) 鎖は (関係 \\(R\\) の部分集合と示したように),
+自然数の連鎖と同型の半順序集合の部分集合についてをいい,
+全順序集合と同じ理由より明らかに有向集合である.
+教科書によっては, \\(\omega\\) 鎖が上限を持つ構造を [cpo](#cpo_def)
+や \\(\omega\\)-[cpo](#cpo_def) ということがある.
+
+上記で定義した二項関係と集合間の射について定義する.
+
+<div class="m-def">
+<header class="m-def-title"><p><span id="monotone_def">単調 (monotone)</span></p></header>
+<div class="m-def-content">
+<a href="#ordered_relation">半順序関係</a> \\(R_0,R_1\subseteq R\\)
+と集合 \\(A_0,A_1\subseteq A\\) の組 \\(\left(A_0,R_0\right),\left(A_1,R_1\right)\\) 
+と射 \\(f:A_0\rightarrow A_1\\) について以下が成りたつとき, \\(f\\) は単調である (または単調関数) という.
+\\[^\forall a_0,a_1\in A_0.\left\lt a_0,a_1\right\gt\in R_0\Rightarrow \left\lt f(a_0),f(a_1)\right\gt\in R_1\\]
+</div>
+</div>
 
 ## ハッセ図
 
@@ -417,9 +450,9 @@ x\mid y{\rm\ かつ}\ y\mid z{\rm\ ならば}\ x\mid z
 </div>
 
 <div class="m-def">
-<header class="m-def-title"><p><span id="dcpo_def">有向完備半順序 (directed complete partial order) 集合</span></p></header>
+<header class="m-def-title"><p><span id="dcpo_def">有向完備半順序 (directed-complete partial order) 集合</span></p></header>
 <div class="m-def-content">
-  <a href="#ordered_relation">半順序</a>集合 \\(A\\) の任意の有向部分集合 \\(X\subseteq A\\) について, 
+<a href="#ordered_relation">半順序</a>集合 \\(A\\) の任意の有向部分集合 \\(X\subseteq A\\) について, 
 \\(X\\) の上限 \\(\sup X\in A\\) が存在するとき, \\(A\\) を有向完備半順序
 dcpo (directed complete partial order) 集合という.
 </div>
@@ -427,17 +460,64 @@ dcpo (directed complete partial order) 集合という.
 
 いま \\(X\subseteq A\\) を有限有向部分集合としたとき, 
 有限半順序集合 \\(A\\) の部分集合 \\(X\\) は, \\(A\\) の半順序関係により必ず有向部分集合となる.
-つまり, 有限半順序集合は有向完備半順序集合になる.
+つまり, 有限半順序集合は dcpo 集合になる.
 従って, [図 3](#hasse1), [図 4](#hasse3), [図 5](#hasse2) で示される集合は
 dcpo 集合である
 (上記の定義のニュアンスとして, 
 たまに任意の部分集合が有向部分集合でなければならないと捉えられる場合があるが,
 そうではなく, あくまで有向部分集合として構成可能な部分集合のうちという意味合いである).
+教科書によっては, dcpo を単に完備半順序, また cpo ということがある.
+また, すべての \\(\omega\\) 鎖はその定義より有向集合であるから,
+dcpo は (その部分集合に \\(\omega\\) 鎖が存在する場合) 
+\\(\omega\\) 鎖が上限を持つとして \\(\omega\\)-cpo である.
+その逆は必ずしも成り立たない. 
 
 <div class="m-def">
-<header class="m-def-title"><p><span id="cpo_def">完備半順序 (complete partial order) 集合</span></p></header>
+<header class="m-def-title"><p><span id="continuous_def">連続 (continuous)</span></p></header>
 <div class="m-def-content">
-次の 2 つの条件を満たす半順序集合 \\(A\\) を完備半順序集合 cpo (complete partial order) という.
+<a href="#dcpo_def">dcpo</a> 集合 \\(D,D'\\) について, <a href="#monotone_def">単調関数</a>
+\\(f:D\rightarrow D'\\) が以下を満たすとき, (Scott-) 連続 (continuous) であるという.
+\\[^\forall A\subseteq D.f(\sup A)=\sup\left\{f(a)\mid a\in A\right\}\\]
+ここで \\(A\\) は<a href="#directed_set_def">有向集合</a>.
+</div>
+</div>
+
+<div class="m-def">
+<header class="m-def-title"><p><span id="compact_def">コンパクト (compact)</span></p></header>
+<div class="m-def-content">
+<a href="#dcpo_def">dcpo</a> \\(R\\) と集合 \\(D\\) の組 \\((D,R)\\) に対し,
+以下の条件を満たすとき, \\(x\in D\\) はコンパクトであるという.
+\\[^\forall A\subseteq D. \left\lt x,\sup A\right\gt\in R\Rightarrow ^\exists y\in A.\left\lt x,y\right\gt \in R\tag{\htmlId{compact}{1}}\\]
+ここで \\(A\\) は有向集合.
+なお, 条件式 \\(\href{#compact}{1}\\) を満たす元全体を次のように書くこともある.
+\\[\mathrm{K}(D):=\left\{x\mid\text{条件式}\ \href{#compact}{1}\ \text{を満たす} x\in D\right\}\\]
+</div>
+</div>
+
+<div class="m-def">
+<header class="m-def-title"><p><span id="algebraic_def">代数的 (algebraic)</span></p></header>
+<div class="m-def-content">
+<a href="#dcpo_def">dcpo</a> \\(R\\) と集合 \\(D\\) の組 \\((D,R)\\) に対し,
+以下の条件を満たすとき, \\(D\\) は代数的であるという.
+\\[^\forall x\in D,A=\left\{a\in\mathrm{K}(D)\mid \left\lt a,x\right\gt\in R\right\}.A\text{ は有向集合}\land\sup A=x\\]
+</div>
+</div>
+
+<div class="m-def">
+<header class="m-def-title"><p><span id="basis_def">基底 (basis)</span></p></header>
+<div class="m-def-content">
+<a href="#dcpo_def">dcpo</a> \\(R\\) と集合 \\(D\\) の組 \\((D,R)\\) 対し,
+以下の条件を満たすとき, \\(A\subseteq\mathrm{K}(D)\\) を \\(D\\) の基底という.
+\\[^\forall x\in D,A=\left\{a\in A\mid \left\lt a,x\right\gt\in R\right\}.A\text{ は有向集合}\land\sup A=x\\]
+</div>
+</div>
+
+ここで \\(A\\) が \\(D\\) の基底であるとき, \\(D\\) は代数的であり \\(\mathrm{K}(D)=A\\) である.
+
+<div class="m-def">
+<header class="m-def-title"><p><span id="cpo_def"><a href="#extremum">点付き</a>有向完備半順序 (pointed directed-complete partial order) 集合</span></p></header>
+<div class="m-def-content">
+次の 2 つの条件を満たす<a href="#ordered_relation">半順序</a>集合 \\(A\\) を<a href="#extremum">点付き</a>有向完備半順序集合 cppo (pointed directed-complete partial order) という.
 <ol>
 <li>\\(A\\) は <a href="#dcpo_def">dcpo</a> 集合</li>
 <li>\\(A\\) は最小元をもつ</li>
@@ -447,15 +527,26 @@ dcpo 集合である
 
 以下にいくつかの例を示す.
 
-* [図 3](#hasse1) および [図 5](#hasse2) で示される集合は dcpo でありかつ最小元をもつため cpo だが,
-[図 4](#hasse4) は最小元をもたないため, cpo ではない
+* 任意の集合 \\(A\\) について, \\(A\\) の部分集合全体の集合 \\(\mathcal{P}(A)=\left\{S\mid S\subseteq A\right\}\\) は,
+集合の包含関係 \\(\subseteq\\) との組 \\(\left(\mathcal{P}(A),\subseteq\right)\\) で [cppo](#cpo_def) となる
+(さらに, すべての \\(P\subseteq\mathcal{P}(A)\\) について \\(P\\) の上限 \\(\sup P\in\mathcal{P}(A)\\) が存在するから,
+\\(\mathcal{P}(A)\\) は[完備束](#lattice_def)でもある)
+* [図 3](#hasse1) および [図 5](#hasse2) で示される集合は [dcpo](#dcpo_def) でありかつ最小元をもつため [cppo](#cpo_def) だが,
+[図 4](#hasse4) は最小元をもたないため, [cppo](#cpo_def) ではない
 * \\((\mathbb{N}, \leq)\\) は, 有向集合として \\(\mathbb{N}\subseteq\mathbb{N}\\) が取れるが, 
-その上限は存在しないので, cpo ではない. 
+その上限は存在しないので, [cppo](#cpo_def) ではない. 
 ここで, \\(\infty = \max \mathbb{N}\\) となるように拡張した
-\\((\mathbb{N}\cup{\infty},\leq)\\) で考えると, cpo になる.
+\\((\mathbb{N}\cup\{\infty\},\leq)\\) で考えると, [cppo](#cpo_def) になる
 
+教科書によっては, [cppo](#cpo_def) を単に完備半順序, また cpo ということがある.
 
-なお, cpo は上限をもつ $\omega$ 鎖と定義することもできる.
+<div class="m-def">
+<header class="m-def-title"><p><span id="continuous_def">正格, 厳密 (strict)</span></p></header>
+<div class="m-def-content">
+<a href="#cpo_def">cppo</a> 集合 \\(D,D'\\) について, 射 \\(f:D\rightarrow D'\\)
+が最小元を保つ \\(f(\min D)=\min D\in D'\\) とき, \\(f\\) は正格または厳密であるという.
+</div>
+</div>
 
 <div class="m-def">
 <header class="m-def-title"><p><span id="lattice_def">束</span></p></header>
@@ -473,9 +564,9 @@ dcpo 集合である
 いま半順序集合 \\(S\\) の任意の要素 \\(a,b\\) について, 
 上限を \\[\sup\left\{a,b\right\}:=\left\{x\mid ^\forall m\in M(x\lesssim m),x\in M\right\}, 
 M=\left\{m\mid a,b\lesssim m,m\in S\right\}\\]
-下限を \\[\inf{a,b}:=\left\{x\mid ^\forall m\in M(x\gtrsim m),x\in M\right\},
+下限を \\[\inf\{a,b\}:=\left\{x\mid ^\forall m\in M(x\gtrsim m),x\in M\right\},
 M=\left\{m\mid a,b\gtrsim m,m\in S\right\}\\] と書くこととすると,
-\\(\sup{a,b},\inf{a,b}\\) はそれぞれ \\(a\lor b,a\land b\\) と同値である.
+\\(\sup\left\{a,b\right\},\inf\left\{a,b\right\}\\) はそれぞれ \\(a\lor b,a\land b\\) と同値である.
 すなわち, 束とは, \\(x, y\\) 
 について上限と下限が存在する半順序集合のことである[^10].
 また, 
@@ -573,7 +664,7 @@ x&=&x\lor 0\\
 2. <a id="ref2" href="https://www.encyclopediaofmath.org/index.php?title=Maximum_and_minimum_of_a_function">Maximum and minimum of a function - Encyclopedia of Mathematics</a> 2019/3/15 アクセス.
 3. 赤間世紀, 長田康敬, 玉城史朗 (2006)『<a id="ref3" class="disabled">情報数学入門</a>』共立出版. ISBN-13: 978-4320018143
 4. "Directed complete partial orders", <http://math.chapman.edu/~jipsen/structures/doku.php/directed_complete_partial_orders> 2020/7/9 アクセス.
-
+5. S. Abramsky, A. Jung: Domain theory. In S. Abramsky, D. M. Gabbay, T. S. E. Maibaum, editors (1994)『Handbook of Logic in Computer Science, vol. III』, Oxford University Press.
 
 [^1]: 例えば \\(xy\\) 座標平面を \\(\mathbb{R}^2\\) と書くのは, それが実数二つのペアの集合と考えられるからである.
 [^2]: 任意の整数 \\(a,b,c,n\in \mathbb{N}\\) に対して \begin{aligned}a\equiv b \pmod n\\ a\equiv b\pmod n&\rightarrow& b\equiv a\pmod n\\ a\equiv b, b\equiv c\pmod n &\rightarrow& a\equiv c\pmod n\end{aligned} であることを容易に確かめられる. 従って, 合同は同値関係である.
