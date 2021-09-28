@@ -47,7 +47,7 @@ jobs:
           else
             pr_comment_url=$(echo "$PR_RESPONSE" | jq -r ".[]._links.comments.href")
             curl -X POST \
-              -H "Authorization: token $YBGH_TOKEN"
+              -H "Authorization: token $YBGH_TOKEN" \
               -H 'Content-Type:application/json' \
               -d '{"body":"* [Build log]('"$CIRCLE_BUILD_URL)\r\n"'* Preview build with this PR (commit): <'"$ARTIFACTS_URL"'>"}' \
               "$pr_comment_url"
