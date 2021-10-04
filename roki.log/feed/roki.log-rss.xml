@@ -2003,14 +2003,14 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 <div class="m-def">
 <header class="m-def-title">
 <p>
-<span id="symmetric_relation">対象律</span>
+<span id="symmetric_relation">対称律</span>
 </p>
 </header>
 <div class="m-def-content">
-二項関係 <span class="math inline">R\subseteq A\times B</span>, また <span class="math inline">x,y\in A\cap B</span> があって, <span class="math inline">\left\lt x,y\right\gt\in R</span> ならば <span class="math inline">\left\lt y,x\right\gt \in R</span> が存在するとき, <span class="math inline">R</span> は対象律を満たすという.
+二項関係 <span class="math inline">R\subseteq A\times B</span>, また <span class="math inline">x,y\in A\cap B</span> があって, <span class="math inline">\left\lt x,y\right\gt\in R</span> ならば <span class="math inline">\left\lt y,x\right\gt \in R</span> が存在するとき, <span class="math inline">R</span> は対称律を満たすという.
 </div>
 </div>
-<p>例えば, 実数の集合 <span class="math inline">\mathbb{R}</span> をとってみると, 自明な例でいえば, 任意の <span class="math inline">^\forall x,y\in\mathbb{R}</span> に対して <span class="math inline">x=y</span> ならば <span class="math inline">y=x</span> なので <span class="math inline">=</span> は <span class="math inline">\mathbb{R}</span> の下で対象律を満たす. しかし, <span class="math inline">x\lt y</span> ならば <span class="math inline">y\lt x</span> ではないので, <span class="math inline">\lt</span> は <span class="math inline">\mathbb{R}</span> の下で対象律を満たさない. また, 別の例として, 例えば平面状のすべての三角形から成る集合 <span class="math inline">A</span> と, 相似の関係 <span class="math inline">R</span> を組み合わせると <span class="math inline">R</span> は <span class="math inline">A</span> 上で対象律を満たす. <span class="math display">R=\{\left\lt x,y\right\gt\mid x,y\in A,x\ {\rm と}\ y\ {\rm は相似}\}\subseteq A^2</span> なお, これは<a href="/roki.log/2019/03/15/Relation/#equiv_relation">同値律</a>を満たす. 対象律の特徴を挙げると:</p>
+<p>例えば, 実数の集合 <span class="math inline">\mathbb{R}</span> をとってみると, 自明な例でいえば, 任意の <span class="math inline">^\forall x,y\in\mathbb{R}</span> に対して <span class="math inline">x=y</span> ならば <span class="math inline">y=x</span> なので <span class="math inline">=</span> は <span class="math inline">\mathbb{R}</span> の下で対称律を満たす. しかし, <span class="math inline">x\lt y</span> ならば <span class="math inline">y\lt x</span> ではないので, <span class="math inline">\lt</span> は <span class="math inline">\mathbb{R}</span> の下で対称律を満たさない. また, 別の例として, 例えば平面状のすべての三角形から成る集合 <span class="math inline">A</span> と, 相似の関係 <span class="math inline">R</span> を組み合わせると <span class="math inline">R</span> は <span class="math inline">A</span> 上で対称律を満たす. <span class="math display">R=\{\left\lt x,y\right\gt\mid x,y\in A,x\ {\rm と}\ y\ {\rm は相似}\}\subseteq A^2</span> なお, これは<a href="/roki.log/2019/03/15/Relation/#equiv_relation">同値律</a>を満たす. 対称律の特徴を挙げると:</p>
 <ul>
 <li>必ずしも <span class="math inline">x=y</span> ではない</li>
 <li>真に大きい/小さい関係はあり得ない. <span class="math inline">R\not=\ \prec</span> かつ <span class="math inline">R\not=\ \succ</span> (すべてのありとあらゆる集合上で <span class="math inline">x\prec y ならば y\not\prec x</span> なので)</li>
@@ -2018,20 +2018,20 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 <div class="m-def">
 <header class="m-def-title">
 <p>
-<span id="antisymmetric_relation">反対象律</span>
+<span id="antisymmetric_relation">反対称律</span>
 </p>
 </header>
 <div class="m-def-content">
-二項関係 <span class="math inline">R\subseteq A\times B</span>, また <span class="math inline">x,y\in A\cap B</span> があって, <span class="math inline">\left\lt x,y\right\gt\in R</span> に対し <span class="math inline">\left\lt y,x\right\gt\in R</span> が存在するならば <span class="math inline">x=y</span> のとき, <span class="math inline">R</span> は反対象律を満たすという.
+二項関係 <span class="math inline">R\subseteq A\times B</span>, また <span class="math inline">x,y\in A\cap B</span> があって, <span class="math inline">\left\lt x,y\right\gt\in R</span> に対し <span class="math inline">\left\lt y,x\right\gt\in R</span> が存在するならば <span class="math inline">x=y</span> のとき, <span class="math inline">R</span> は反対称律を満たすという.
 </div>
 </div>
 <p>例えば, 集合 <span class="math inline">A=\{a_1,a_2\}</span> に対して 二項関係を:</p>
 <ul>
-<li><span class="math inline">R=\{\left\lt a_1,a_1\right\gt,\left\lt a_2,a_2\right\gt\}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対象律</a>を満たし) 反対象律を満たす. なお, これは<a href="/roki.log/2019/03/15/Relation/#equiv_relation">同値律</a>を満たす.</li>
-<li><span class="math inline">R=\{\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt\}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対象律</a>を満たさないが) 反対象律を満たす.</li>
-<li><span class="math inline">R=\{\left\lt a_1,a_2\right\gt,\left\lt a_2,a_1\right\gt\}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対象律</a>を満たすが) 反対象律を満たさない.</li>
+<li><span class="math inline">R=\{\left\lt a_1,a_1\right\gt,\left\lt a_2,a_2\right\gt\}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対称律</a>を満たし) 反対称律を満たす. なお, これは<a href="/roki.log/2019/03/15/Relation/#equiv_relation">同値律</a>を満たす.</li>
+<li><span class="math inline">R=\{\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt\}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対称律</a>を満たさないが) 反対称律を満たす.</li>
+<li><span class="math inline">R=\{\left\lt a_1,a_2\right\gt,\left\lt a_2,a_1\right\gt\}</span> とおくと, <span class="math inline">R</span> は <span class="math inline">A</span> 上で (<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対称律</a>を満たすが) 反対称律を満たさない.</li>
 </ul>
-<p>反対象律の特徴を挙げると:</p>
+<p>反対称律の特徴を挙げると:</p>
 <ul>
 <li>対象的な二項関係が存在するとき, 必ず <span class="math inline">x=y</span></li>
 </ul>
@@ -2065,7 +2065,7 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 </p>
 </header>
 <div class="m-def-content">
-<a href="/roki.log/2019/03/15/Relation/#previous_order">前順序関係</a> <span class="math inline">R</span> が集合 <span class="math inline">A</span> 上で<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対象律</a>を満たすとき, <span class="math inline">R</span> は <span class="math inline">A</span> 上で同値律を満たすという. また:
+<a href="/roki.log/2019/03/15/Relation/#previous_order">前順序関係</a> <span class="math inline">R</span> が集合 <span class="math inline">A</span> 上で<a href="/roki.log/2019/03/15/Relation/#symmetric_relation">対称律</a>を満たすとき, <span class="math inline">R</span> は <span class="math inline">A</span> 上で同値律を満たすという. また:
 <ul>
 <li>
 <span class="math inline">\{y\in X\mid xRy\}</span> を <span class="math inline">x</span> の同値類といい, <span class="math inline">\left[x\right]_R</span> や <span class="math inline">\left[x\right]</span> と書く. このときの <span class="math inline">x</span> は, 同値類 <span class="math inline">\left[x\right]</span> の代表元という
@@ -2080,7 +2080,7 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 <ul>
 <li>反射律: 任意の <span class="math inline">m\in\mathbb{Z}</span> に対して <span class="math inline">m-m=0\cdot p</span> なので <span class="math inline">m\equiv_p m</span></li>
 <li>推移律: 任意の <span class="math inline">m,n,k\in\mathbb{Z}</span> に対して <span class="math inline">m\equiv_p n</span> かつ <span class="math inline">n\equiv_p k</span> と仮定すると, ある <span class="math inline">d,d'\in\mathbb{Z}</span> に対して <span class="math inline">m-n=d\cdot p</span> かつ <span class="math inline">n-k=d'\cdot p</span> で, このとき <span class="math inline">m-k=(m-n)+(n-k)=(d+d')\cdot p</span> である. <span class="math inline">d+d'\in\mathbb{Z}</span> なので, <span class="math inline">m\equiv_p k</span></li>
-<li>対象律: 任意の <span class="math inline">m,n\in\mathbb{Z}</span> に対して <span class="math inline">m\equiv_p n</span> と仮定すると, ある <span class="math inline">d\in\mathbb{Z}</span> に対して <span class="math inline">m-n=d\cdot p</span> だから <span class="math inline">n-m=(-d)\cdot p</span> で, <span class="math inline">-d\in\mathbb{Z}</span> だから <span class="math inline">n\equiv_p m</span></li>
+<li>対称律: 任意の <span class="math inline">m,n\in\mathbb{Z}</span> に対して <span class="math inline">m\equiv_p n</span> と仮定すると, ある <span class="math inline">d\in\mathbb{Z}</span> に対して <span class="math inline">m-n=d\cdot p</span> だから <span class="math inline">n-m=(-d)\cdot p</span> で, <span class="math inline">-d\in\mathbb{Z}</span> だから <span class="math inline">n\equiv_p m</span></li>
 </ul>
 <p>と同値律を満たすことがわかる.</p>
 <p>同値類や商集合の例として, 集合 <span class="math inline">X={1,3,6,10,11,15,16}\subseteq \mathbb{N}</span> の要素 <span class="math inline">1</span> を代表元とし, いまその同値関係を <span class="math inline">5</span> を法とした合同<a href="/roki.log/2019/03/15/Relation/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>で考えると, <span class="math inline">1</span> の同値類 <span class="math inline">\left[1\right]_R={x\mid 1\equiv x\pmod{5}}</span> は <span class="math inline">\left[1\right]_R={1,6,11,16}</span> である<a href="/roki.log/2019/03/15/Relation/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. また,</p>
@@ -2092,7 +2092,7 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 </p>
 </header>
 <div class="m-def-content">
-<p><a href="/roki.log/2019/03/15/Relation/#previous_order">前順序関係</a> <span class="math inline">R</span> が集合 <span class="math inline">A</span> 上で<a href="/roki.log/2019/03/15/Relation/#antisymmetric_relation">反対象律</a>を満たすとき, <span class="math inline">R</span> は <span class="math inline">A</span> 上の半順序関係といい, <span class="math inline">A</span> を半順序集合 (poset) という.</p>
+<p><a href="/roki.log/2019/03/15/Relation/#previous_order">前順序関係</a> <span class="math inline">R</span> が集合 <span class="math inline">A</span> 上で<a href="/roki.log/2019/03/15/Relation/#antisymmetric_relation">反対称律</a>を満たすとき, <span class="math inline">R</span> は <span class="math inline">A</span> 上の半順序関係といい, <span class="math inline">A</span> を半順序集合 (poset) という.</p>
 </div>
 </div>
 <p>例えば, 集合族上の包含関係 <span class="math inline">\subset</span> は以下の通り半順序である.</p>
@@ -2162,7 +2162,7 @@ g_3&amp;=&amp;x_1\land x_2\land x_3\land x_4\lor x_1\land x_2\land x_3\land x'_4
 <p>集合 <span class="math inline">A\not=\emptyset</span> と<a href="/roki.log/2019/03/15/Relation/#previous_order">前順序関係</a> <span class="math inline">R</span> との組 <span class="math inline">(A,R)</span> に対し, <span class="math inline">A</span> の任意の有限部分集合 <span class="math inline">X\subseteq A</span> の上界 <span class="math inline">\sup X\in A</span> が存在するとき, <span class="math inline">A</span> を有向 (directed) 集合という.</p>
 </div>
 </div>
-<p>有向集合は, <a href="/roki.log/2019/03/15/Relation/#antisymmetric_relation">反対象律</a>を要請されていないので, 必ずしも<a href="/roki.log/2019/03/15/Relation/#ordered_relation">半順序</a>集合とはならないことに注意. 例えば, 集合 <span class="math inline">A=\{a_1,a_2,a_3\}</span> と関係 <span class="math inline">R=\{\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt,\left\lt a_1,a_3\right\gt, \left\lt a_2,a_2\right\gt,\left\lt a_3,a_3\right\gt,\left\lt a_3,a_1\right\gt,\left\lt a_3,a_2\right\gt\}</span> の組は, 半順序でない有向集合である (<span class="math inline">\left\lt a_1,a_3\right\gt,\left\lt a_3,a_1\right\gt\in R</span> だが, <span class="math inline">a_1=a_3</span> は要請していない).</p>
+<p>有向集合は, <a href="/roki.log/2019/03/15/Relation/#antisymmetric_relation">反対称律</a>を要請されていないので, 必ずしも<a href="/roki.log/2019/03/15/Relation/#ordered_relation">半順序</a>集合とはならないことに注意. 例えば, 集合 <span class="math inline">A=\{a_1,a_2,a_3\}</span> と関係 <span class="math inline">R=\{\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt,\left\lt a_1,a_3\right\gt, \left\lt a_2,a_2\right\gt,\left\lt a_3,a_3\right\gt,\left\lt a_3,a_1\right\gt,\left\lt a_3,a_2\right\gt\}</span> の組は, 半順序でない有向集合である (<span class="math inline">\left\lt a_1,a_3\right\gt,\left\lt a_3,a_1\right\gt\in R</span> だが, <span class="math inline">a_1=a_3</span> は要請していない).</p>
 <figure style="text-align:center;" id="directed_but_not_poset_fig">
 <img src="/roki.log/2019/03/15/Relation/directed_but_not_poset.svg" />
 <figcaption>
