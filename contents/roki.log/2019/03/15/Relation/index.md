@@ -114,45 +114,45 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 しかし, \\(x\lt x\\) は成立しないので, \\(\lt\\) は \\(\mathbb{R}\\) の下で反射律を満たさない.
 
 <div class="m-def">
-<header class="m-def-title"><p><span id="symmetric_relation">対象律</span></p></header>
+<header class="m-def-title"><p><span id="symmetric_relation">対称律</span></p></header>
 <div class="m-def-content">
   二項関係 \\(R\subseteq A\times B\\), また \\(x,y\in A\cap B\\) があって, \\(\left\lt x,y\right\gt\in R\\) ならば
-  \\(\left\lt y,x\right\gt \in R\\) が存在するとき, \\(R\\) は対象律を満たすという.
+  \\(\left\lt y,x\right\gt \in R\\) が存在するとき, \\(R\\) は対称律を満たすという.
   </div>
 </div>
 
 例えば, 実数の集合 \\(\mathbb{R}\\) をとってみると, 自明な例でいえば, 任意の \\(^\forall x,y\in\mathbb{R}\\) に対して
 \\(x=y\\) ならば \\(y=x\\) なので \\(=\\) は \\(\mathbb{R}\\) 
-の下で対象律を満たす.
-しかし, \\(x\lt y\\) ならば \\(y\lt x\\) ではないので, \\(\lt\\) は \\(\mathbb{R}\\) の下で対象律を満たさない.
+の下で対称律を満たす.
+しかし, \\(x\lt y\\) ならば \\(y\lt x\\) ではないので, \\(\lt\\) は \\(\mathbb{R}\\) の下で対称律を満たさない.
 また, 別の例として, 例えば平面状のすべての三角形から成る集合 \\(A\\) と, 相似の関係 \\(R\\) を組み合わせると \\(R\\) は
-\\(A\\) 上で対象律を満たす. 
+\\(A\\) 上で対称律を満たす. 
 \\[R=\{\left\lt x,y\right\gt\mid x,y\in A,x\ {\rm と}\ y\ {\rm は相似}\}\subseteq A^2\\]
-なお, これは[同値律](#equiv_relation)を満たす. 対象律の特徴を挙げると:
+なお, これは[同値律](#equiv_relation)を満たす. 対称律の特徴を挙げると:
 
 * 必ずしも \\(x=y\\) ではない
 * 真に大きい/小さい関係はあり得ない. \\(R\not=\ \prec\\) かつ \\(R\not=\ \succ\\) (すべてのありとあらゆる集合上で \\(x\prec y ならば y\not\prec x\\) なので)
 
 <div class="m-def">
-<header class="m-def-title"><p><span id="antisymmetric_relation">反対象律</span></p></header>
+<header class="m-def-title"><p><span id="antisymmetric_relation">反対称律</span></p></header>
 <div class="m-def-content">
   二項関係 \\(R\subseteq A\times B\\), また \\(x,y\in A\cap B\\) があって, \\(\left\lt x,y\right\gt\in R\\) に対し 
   \\(\left\lt y,x\right\gt\in R\\) 
-  が存在するならば \\(x=y\\) のとき, \\(R\\) は反対象律を満たすという.
+  が存在するならば \\(x=y\\) のとき, \\(R\\) は反対称律を満たすという.
   </div>
 </div>
 
 例えば, 集合 \\(A=\{a_1,a_2\}\\) に対して
 二項関係を:
 
-* \\(R=\{\left\lt a_1,a_1\right\gt,\left\lt a_2,a_2\right\gt\}\\) とおくと, \\(R\\) は \\(A\\) 上で ([対象律](#symmetric_relation)を満たし) 反対象律を満たす.
+* \\(R=\{\left\lt a_1,a_1\right\gt,\left\lt a_2,a_2\right\gt\}\\) とおくと, \\(R\\) は \\(A\\) 上で ([対称律](#symmetric_relation)を満たし) 反対称律を満たす.
 なお, これは[同値律](#equiv_relation)を満たす.
 * \\(R=\{\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt\}\\) とおくと,
-\\(R\\) は \\(A\\) 上で ([対象律](#symmetric_relation)を満たさないが) 反対象律を満たす.
+\\(R\\) は \\(A\\) 上で ([対称律](#symmetric_relation)を満たさないが) 反対称律を満たす.
 * \\(R=\{\left\lt a_1,a_2\right\gt,\left\lt a_2,a_1\right\gt\}\\) とおくと,
-\\(R\\) は \\(A\\) 上で ([対象律](#symmetric_relation)を満たすが) 反対象律を満たさない.
+\\(R\\) は \\(A\\) 上で ([対称律](#symmetric_relation)を満たすが) 反対称律を満たさない.
 
-反対象律の特徴を挙げると:
+反対称律の特徴を挙げると:
 
 * 対象的な二項関係が存在するとき, 必ず \\(x=y\\)
 
@@ -188,7 +188,7 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 <div class="m-def">
 <header class="m-def-title"><p><span id="equiv_relation">同値</span></p></header>
 <div class="m-def-content">
-  <a href="#previous_order">前順序関係</a> \\(R\\) が集合 \\(A\\) 上で<a href="#symmetric_relation">対象律</a>を満たすとき, 
+  <a href="#previous_order">前順序関係</a> \\(R\\) が集合 \\(A\\) 上で<a href="#symmetric_relation">対称律</a>を満たすとき, 
   \\(R\\) は \\(A\\) 上で同値律を満たすという.
   また:
   <ul>
@@ -208,7 +208,7 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 * 反射律: 任意の \\(m\in\mathbb{Z}\\) に対して \\(m-m=0\cdot p\\) なので \\(m\equiv_p m\\)
 * 推移律: 任意の \\(m,n,k\in\mathbb{Z}\\) に対して \\(m\equiv_p n\\) かつ \\(n\equiv_p k\\) と仮定すると, ある \\(d,d'\in\mathbb{Z}\\) に対して \\(m-n=d\cdot p\\) かつ \\(n-k=d'\cdot p\\) で,
 このとき \\(m-k=(m-n)+(n-k)=(d+d')\cdot p\\) である. \\(d+d'\in\mathbb{Z}\\) なので, \\(m\equiv_p k\\)
-* 対象律: 任意の \\(m,n\in\mathbb{Z}\\) に対して \\(m\equiv_p n\\) と仮定すると, ある \\(d\in\mathbb{Z}\\) に対して \\(m-n=d\cdot p\\) だから \\(n-m=(-d)\cdot p\\) で,
+* 対称律: 任意の \\(m,n\in\mathbb{Z}\\) に対して \\(m\equiv_p n\\) と仮定すると, ある \\(d\in\mathbb{Z}\\) に対して \\(m-n=d\cdot p\\) だから \\(n-m=(-d)\cdot p\\) で,
 \\(-d\in\mathbb{Z}\\) だから \\(n\equiv_p m\\)
 
 と同値律を満たすことがわかる.
@@ -235,7 +235,7 @@ $$R=\left\{\left\lt a, b\right\gt\mid a,b,c\in\mathbb{N}, a=b^2\ {\rm かつ}\ b
 <header class="m-def-title"><p><span id="ordered_relation">半順序</span></p></header>
 <div class="m-def-content">
 <a href="#previous_order">前順序関係</a> \\(R\\) が集合 \\(A\\) 
-上で<a href="#antisymmetric_relation">反対象律</a>を満たすとき, \\(R\\) は \\(A\\) 上の半順序関係といい,
+上で<a href="#antisymmetric_relation">反対称律</a>を満たすとき, \\(R\\) は \\(A\\) 上の半順序関係といい,
 \\(A\\) を半順序集合 (poset) という.
 </div>
 </div>
@@ -321,7 +321,7 @@ A\subset B{\rm\ かつ}\ B\subset C{\rm\ ならば}\ A\subset C
 </div>
 </div>
 
-有向集合は, [反対象律](#antisymmetric_relation)を要請されていないので,
+有向集合は, [反対称律](#antisymmetric_relation)を要請されていないので,
 必ずしも[半順序](#ordered_relation)集合とはならないことに注意.
 例えば, 集合 \\(A=\{a_1,a_2,a_3\}\\) と関係 
 \\(R=\{\left\lt a_1,a_1\right\gt,\left\lt a_1,a_2\right\gt,\left\lt a_1,a_3\right\gt,
