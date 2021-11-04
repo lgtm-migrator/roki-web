@@ -16,17 +16,17 @@ jobs:
         name: Set variables
         command: |
           echo 'export FN=<< pipeline.parameters.GITHUB_SHA >>-docs.tar.xz' >> $BASH_ENV
-          echo 'export PATH=$HOME/go/bin:$PATH' >> $BASH_ENV
+          echo 'export PATH=/go/bin:$PATH' >> $BASH_ENV
           echo "export ARTIFACTS_URL=\"https://$CIRCLE_BUILD_NUM-280922552-gh.circle-artifacts.com/0/index.html\"" >> $BASH_ENV
           source $HOME/.bashrc
     - restore_cache:
-        key: skicka-2021-11-latest
+        key: skicka-2021-11-05-latest
     - run:
         name: Setup tools
         command: |
           sudo apt-get -qq update && sudo apt-get install -qq -y jq
           if ! hash skicka 2>/dev/null; then
-            go get -v github.com/google/skicka
+            go install github.com/google/skicka@latest
             skicka init
             echo -n "$SKICKA_TOKEN_CACHE_JSON" | base64 --decode > $HOME/.skicka.tokencache.json
             sed -i -e "s/;clientid=YOUR_GOOGLE_APP_CLIENT_ID/clientid=$GOOGLE_CLIENT_ID/g" $HOME/.skicka.config
@@ -34,9 +34,10 @@ jobs:
           fi
           curl -sSL https://get.haskellstack.org/ | sh
     - save_cache:
-        key: skicka-2021-11-latest
+        key: skicka-2021-11-05-latest
         paths:
-          - ~/go
+          - /go
+          - ~/.cache/go-build
           - ~/.skicka.tokencache.json
           - ~/.skicka.config
     - run:
