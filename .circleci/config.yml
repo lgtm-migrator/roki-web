@@ -21,7 +21,7 @@ jobs:
           echo "export ARTIFACTS_URL=\"https://$CIRCLE_BUILD_NUM-280922552-gh.circle-artifacts.com/0/index.html\"" >> $BASH_ENV
           source $HOME/.bashrc
     - restore_cache:
-        key: skicka-2021-11-05-latest
+        key: skicka-2021-11-06-latest
     - run:
         name: Setup tools
         command: |
@@ -35,7 +35,7 @@ jobs:
           fi
           curl -sSL https://get.haskellstack.org/ | sh
     - save_cache:
-        key: skicka-2021-11-05-latest
+        key: skicka-2021-11-06-latest
         paths:
           - ~/.go/bin
           - ~/.cache/go-build
