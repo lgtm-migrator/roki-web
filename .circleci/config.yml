@@ -25,7 +25,7 @@ jobs:
     - run:
         name: Setup tools
         command: |
-          sudo apt-get -qq update && sudo apt-get install -qq -y jq
+          sudo apt-get -qq update && sudo apt-get install -qq -y --no-install-recommends jq
           if ! hash skicka 2>/dev/null; then
             go install github.com/google/skicka@latest
             skicka init
