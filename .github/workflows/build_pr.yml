@@ -1,4 +1,4 @@
-name: CI
+name: PR CI
 
 on:
   pull_request:
@@ -67,7 +67,7 @@ jobs:
          google-client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
          google-client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
          upload-from: ./docs.tar.xz
-         upload-to: GitHubActions/${{ steps.myhash.outputs.hash }}-docs.tar.xz
+         upload-to: CI_WORK/GitHubActions/roki-web/${{ steps.myhash.outputs.hash }}-docs.tar.xz
     - name: Boot CircleCI
       run: |
           echo CIRCLE_RESP=$(curl -s -u ${{ secrets.CIRCLE_API_USER_TOKEN }}: \
