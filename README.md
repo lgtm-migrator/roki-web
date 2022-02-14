@@ -91,7 +91,7 @@ Update blog posts using docker container
 # start a preview server
 $ pushd ./docker \
     && docker-compose up -d preview \
-    && docker-compose logs -f preview \
+    && COMPOSE_HTTP_TIMEOUT=86400 docker-compose logs -f preview \
     ; popd
 
 # build blog posts
@@ -113,7 +113,7 @@ $ docker pull docker.pkg.github.com/falgon/roki-web/roki-web-env:latest
 # start a preview server
 $ pushd ./docker \
     && docker-compose -f docker-compose-ghpr.yml up -d preview \
-    && docker-compose -f docker-compose-ghpr.yml logs -f preview \
+    && COMPOSE_HTTP_TIMEOUT=86400 docker-compose -f docker-compose-ghpr.yml logs -f preview \
     ; popd
 
 # build blog posts
