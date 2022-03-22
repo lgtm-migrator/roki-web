@@ -17,16 +17,16 @@ The roki's website and blog.
 ## Setup
 
 ```sh
-$ git clone --recursive git@github.com:falgon/roki-web.git && cd roki-web
-$ nvm install && nvm use && npm i
-$ stack build
+git clone --recursive git@github.com:falgon/roki-web.git && cd roki-web
+nvm install && nvm use && npm i
+stack build
 ```
 
 ## Usage
 
 Building a site
 ```sh
-$ stack exec site -- --help
+stack exec site -- --help
 Usage: site [--version] [--preview] [-v|--verbose] [--internal-links] COMMAND
   The static site roki.dev compiler version 0.1.0.0 powerted by Hakyll
 
@@ -46,12 +46,12 @@ Available commands:
   server                   Start a preview server
   watch                    Autocompile on changes and start a preview server
 
-$ stack exec site -- build --preview # fast build (This does not render KaTeX)
-$ stack exec site -- build # release build
+stack exec site -- build --preview # fast build (This does not render KaTeX)
+stack exec site -- build # release build
 ```
 Scheduled posting
 ```sh
-$ stack exec spa -- --help
+stack exec spa -- --help
 Usage: spa [--version] COMMAND [-d|--date date] [-b|--branch-name ARG] [-y]
   The roki-web Scheduling Post Action manager 0.1.0.0
 
@@ -68,9 +68,9 @@ Available commands:
   yaml                     generate GitHub Actions yaml from template
   clean                    clean up and remove cache
 
-$ stack exec spa -- cexpr -d $(date "+%m-%d-%R") # from current time
+stack exec spa -- cexpr -d $(date "+%m-%d-%R") # from current time
 00 15 11 09 *
-$ stack exec spa -- yaml -d $(date "+%m-%d-%R") -b my-awesome-scheduled-post # from current time
+stack exec spa -- yaml -d $(date "+%m-%d-%R") -b my-awesome-scheduled-post # from current time
 current branch name is: draft
 Are you sure you want to continue connecting? (y/N)y
 Initialising...
@@ -82,48 +82,48 @@ Compiling
   updated tools/scheduled_post/template.yml
   updated my-awesome-scheduled-post.yml
 Success
-$ mv .github/workflows/scheduled/my-awesome-scheduled-post.yaml .github/workflows/ && rmdir .github/workflows/scheduled # apply
+mv .github/workflows/scheduled/my-awesome-scheduled-post.yaml .github/workflows/ && rmdir .github/workflows/scheduled # apply
 ```
 
 Update blog posts using docker container
 
 ```sh
 # start a preview server
-$ pushd ./docker \
+pushd ./docker \
     && docker-compose up -d preview \
     && COMPOSE_HTTP_TIMEOUT=86400 docker-compose logs -f preview \
     ; popd
 
 # build blog posts
-$ pushd ./docker && docker-compose run build; popd
+pushd ./docker && docker-compose run build; popd
 
 # clean the generated docs
-$ pushd ./docker && docker-compose run clean; popd
+pushd ./docker && docker-compose run clean; popd
 
 # Reservation posting
-$ DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker && docker-compose run spa; popd
+DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker && docker-compose run spa; popd
 ```
 
 When using a pre-built image (Requires PAT with `read:packages` permission)
 
 ```sh
-$ cat ~/.ghcr.txt | docker login ghcr.io -u falgon --password-stdin
-$ docker pull docker.pkg.github.com/falgon/roki-web/roki-web-env:latest
+cat ~/.ghcr.txt | docker login ghcr.io -u falgon --password-stdin
+docker pull docker.pkg.github.com/falgon/roki-web/roki-web-env:latest
 
 # start a preview server
-$ pushd ./docker \
+pushd ./docker \
     && docker-compose -f docker-compose-ghpr.yml up -d preview \
     && COMPOSE_HTTP_TIMEOUT=86400 docker-compose -f docker-compose-ghpr.yml logs -f preview \
     ; popd
 
 # build blog posts
-$ pushd ./docker && docker-compose -f docker-compose-ghpr.yml run build; popd
+pushd ./docker && docker-compose -f docker-compose-ghpr.yml run build; popd
 
 # clean the generated docs
-$ pushd ./docker && docker-compose -f docker-compose-ghpr.yml run clean; popd
+pushd ./docker && docker-compose -f docker-compose-ghpr.yml run clean; popd
 
 # Reservation posting
-$ DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker \
+DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker \
     && docker-compose -f docker-compose-ghpr.yml run spa \
     ; popd
 ```
@@ -131,17 +131,17 @@ $ DATE=$(date "+%m-%d-%R") BRANCH_NAME="hoge" pushd ./docker \
 Develop/build inside docker container
 
 ```sh
-$ pushd ./docker && docker-compose up -d dev && popd
-$ docker exec -it roki-web-dev bash
+pushd ./docker && docker-compose up -d dev && popd
+docker exec -it roki-web-dev bash
 ```
 
 When using a pre-built image (Requires PAT with `read:packages` permission)
 
 ```sh
-$ cat ~/.ghcr.txt | docker login ghcr.io -u falgon --password-stdin
-$ docker pull docker.pkg.github.com/falgon/roki-web/roki-web-dev:latest
-$ pushd ./docker && docker-compose -f docker-compose-ghpr.yml up -d dev; popd
-$ docker exec -it roki-web-dev bash
+cat ~/.ghcr.txt | docker login ghcr.io -u falgon --password-stdin
+docker pull docker.pkg.github.com/falgon/roki-web/roki-web-dev:latest
+pushd ./docker && docker-compose -f docker-compose-ghpr.yml up -d dev; popd
+docker exec -it roki-web-dev bash
 ```
 
 ## System overview
