@@ -18,7 +18,7 @@ jobs:
           echo 'export FN=<< pipeline.parameters.GITHUB_SHA >>-docs.tar.xz' >> $BASH_ENV
           echo 'export GOPATH="$HOME/.go"' >> $BASH_ENV
           echo 'export PATH="$HOME/.go/bin:$PATH"' >> $BASH_ENV
-          echo "export ARTIFACTS_URL=\"https://$CIRCLE_BUILD_NUM-280922552-gh.circle-artifacts.com/0/index.html\"" >> $BASH_ENV
+          echo "export ARTIFACTS_URL=\"https://output.circle-artifacts.com/output/job/$CIRCLE_WORKFLOW_JOB_ID/artifacts/0/index.html\"" >> $BASH_ENV
           source $HOME/.bashrc
     - restore_cache:
         key: skicka-2021-11-06-latest
