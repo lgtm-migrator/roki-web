@@ -6,7 +6,7 @@ const addEventNavBar = () => {
             
         // navbar
         if (navbarBurgers.length > 0) {
-            navbarBurgers.forEach(el => {
+            navbarBurgers.forEach((el) => {
                 el.addEventListener("click", () => {
                     const target = document.getElementById(el.dataset.target);
                     el.classList.toggle("is-active");
