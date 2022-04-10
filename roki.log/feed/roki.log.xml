@@ -8,8 +8,158 @@
         <name>Roki</name>
         <email>falgon53@yahoo.co.jp</email>
     </author>
-    <updated>2021-07-10T16:14:17Z</updated>
+    <updated>2022-04-10T09:05:34Z</updated>
     <entry>
+    <title>簡易認証, 指定時間実行可能な LINE Bot の自作</title>
+    <link href="https://roki.dev/roki.log/2022/04/10/LineBotDevelopment/index.html" />
+    <id>https://roki.dev/roki.log/2022/04/10/LineBotDevelopment/index.html</id>
+    <published>2022-04-10T09:05:34Z</published>
+    <updated>2022-04-10T09:05:34Z</updated>
+    <summary type="html"><![CDATA[<p>普段業務外では LINE 株式会社 (以下 LINE 社) が提供する LINE というメッセンジャーアプリ上でやり取りをすることが多いので, そのインタフェース上で色々と動かせたりするとそれなりに便利かもと最近思い始めた. そこで, 筆者の考える基本的な機能を備えた LINE Bot を一旦作ってみることとした. 本エントリはその備忘録である. 下記のリポジトリに成果物を公開している.</p>
+<div class="has-text-centered mt-2 mb-2">
+<p><i class="fab fa-github fa-fw"></i> <a href="https://github.com/falgon/line-bot-kiirotori">falgon/line-bot-kiirotori - My LINE Bot </a></p>
+</div>
+<h2 id="基本構成">基本構成</h2>
+<p>今回は個人利用/小規模であり, 特別な費用を発生させたくなかったので <a href="https://www.oracle.com/cloud/">Oracle Cloud Infrastructure</a> (以下 OCI) の Always Free 枠である Ubuntu インスタンス上にサーバを構成した<a href="/roki.log/2022/04/10/LineBotDevelopment/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. 同インスタンス上では Jitsi Meet<a href="/roki.log/2022/04/10/LineBotDevelopment/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> という別のウェブサービスを nginx を用いて運用していたので, それをそのままリバースプロキシとしても利用し, Bot サーバへの通信を HTTPS 化した. これらはサブドメインに従ってリクエストを振り分けているが, それぞれの SSL 証明書を作成するのは手間がかかるので, 今回は (let’s encrypt の) ワイルドカード証明書で管理することとした. ドメイン管理には Google Domains を使っているが, TXT レコードを随時更新する API が用意されておらず, 現状手動更新が必須となっている. これは追々なんとかしたい<a href="/roki.log/2022/04/10/LineBotDevelopment/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<!--more-->
+<h2 id="line-bot-の実装">LINE Bot の実装</h2>
+<p>LINE Bot を実装するにあたって, 特徴的ないくつかのトピックについて取り上げる.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-1" aria-hidden="true"></a>$ <span class="ex">line-bot-kiirotori</span> --help</span>
+<span id="cb1-2"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-2" aria-hidden="true"></a><span class="ex">Usage</span>: line-bot-kiirotori [--version] [-c<span class="kw">|</span><span class="ex">--config</span> <span class="op">&lt;</span>config file path<span class="op">&gt;</span>] </span>
+<span id="cb1-3"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-3" aria-hidden="true"></a>                          [<span class="ex">-s</span><span class="kw">|</span><span class="ex">--cron-schedule</span> <span class="op">&lt;</span>cron-schedule file path<span class="op">&gt;</span>] </span>
+<span id="cb1-4"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-4" aria-hidden="true"></a>                          [<span class="ex">-q</span><span class="kw">|</span><span class="ex">--quiet</span>] COMMAND</span>
+<span id="cb1-5"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-5" aria-hidden="true"></a>  <span class="ex">line-bot-kiirotori</span></span>
+<span id="cb1-6"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-6" aria-hidden="true"></a></span>
+<span id="cb1-7"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-7" aria-hidden="true"></a><span class="ex">Available</span> options:</span>
+<span id="cb1-8"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-8" aria-hidden="true"></a>  <span class="ex">-h</span>,--help                Show this help text</span>
+<span id="cb1-9"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-9" aria-hidden="true"></a>  <span class="ex">--version</span>                Prints the line-bot-kiirotori suite version</span>
+<span id="cb1-10"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-10" aria-hidden="true"></a>  <span class="ex">-q</span>,--quiet               Quiet log output</span>
+<span id="cb1-11"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-11" aria-hidden="true"></a></span>
+<span id="cb1-12"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-12" aria-hidden="true"></a><span class="ex">Available</span> commands:</span>
+<span id="cb1-13"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-13" aria-hidden="true"></a>  <span class="ex">serve</span>                    boot server</span>
+<span id="cb1-14"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-14" aria-hidden="true"></a>$ <span class="ex">line-bot-kiirotori</span> --version</span>
+<span id="cb1-15"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-15" aria-hidden="true"></a>　　　　 Ｖ</span>
+<span id="cb1-16"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-16" aria-hidden="true"></a>　　 ／￣￣￣＼　/<span class="kw">|</span></span>
+<span id="cb1-17"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-17" aria-hidden="true"></a>　　 　●＿＿●  Ｖ <span class="kw">|</span>     <span class="ex">__</span>   _ _            __             _</span>
+<span id="cb1-18"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-18" aria-hidden="true"></a>　 ｜　 <span class="kw">(</span>･＿･<span class="kw">)</span>　 ノ    <span class="ex">/</span> /__(_<span class="kw">|</span><span class="ex">_</span>)<span class="ex">________</span>  / /_____  _____(_)</span>
+<span id="cb1-19"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-19" aria-hidden="true"></a>　 /　　 ヽノ　 ｜    <span class="ex">/</span> //_/ / / ___/ __ \/ __/ __ \/ ___/ /</span>
+<span id="cb1-20"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-20" aria-hidden="true"></a>　<span class="kw">(</span><span class="ex">_</span>ノ　　　　　ﾉ    / ,<span class="op">&lt;</span> / / / /  / /_/ / /_/ /_/ / /  / /</span>
+<span id="cb1-21"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-21" aria-hidden="true"></a>　　＼＿＿＿＿／    <span class="ex">/_</span>/<span class="kw">|</span><span class="ex">_/_/_/_/</span>   \____/\__/\____/_/  /_/</span>
+<span id="cb1-22"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-22" aria-hidden="true"></a>　　　 ｜　｜</span>
+<span id="cb1-23"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-23" aria-hidden="true"></a>　　　 个　个</span>
+<span id="cb1-24"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-24" aria-hidden="true"></a></span>
+<span id="cb1-25"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-25" aria-hidden="true"></a></span>
+<span id="cb1-26"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-26" aria-hidden="true"></a><span class="ex">version</span>: 0.1.0.0</span>
+<span id="cb1-27"><a href="/roki.log/2022/04/10/LineBotDevelopment/#cb1-27" aria-hidden="true"></a><span class="ex">built</span> commit hash: 6efc35754150917de47bdf5ef3a56e4d81322098</span></code></pre></div>
+<h3 id="チャネルアクセストークン-v2.1-の発行と管理">チャネルアクセストークン v2.1 の発行と管理</h3>
+<p>LINE Bot を作成するのには LINE 社の提供する <a href="https://developers.line.biz/ja/docs/messaging-api/">Messaging API</a> を利用する. LINE Messaging API を利用したボットは, LINE プラットフォームから送信される Webhook イベントに対して LINE プラットフォームへ応答する必要がある.</p>
+<figure>
+<img src="/roki.log/2022/04/10/LineBotDevelopment/messaging-api-architecture.f40bffbb.png" alt /><figcaption>LINE Messaging API の仕組み, <a href="https://developers.line.biz/ja/docs/messaging-api/overview/#how-messaging-api-works">LINE Developers</a> から引用</figcaption>
+</figure>
+<p>この LINE プラットフォーム間のやりとりでは, 通信している相手がサービスの利用権限を持つ本人であることを証明するために, LINE 社の提供する<a href="https://developers.line.biz/ja/docs/messaging-api/channel-access-tokens/#what-are-channel-access-tokens">チャネルアクセストークン</a>を用いた認証プロセスを経る. チャネルアクセストークンには, 任意の有効期限が指定できるチャネルアクセストークン v2.1, 短期のチャネルアクセストークン, 長期のチャネルアクセストークンという 3 つの種類がある. これらの中でも LINE 社はチャネルアクセストークン v2.1 を推奨しており, その特徴として発行に JSON Web Token (以下 JWT) 使用し, 期限を任意 (最大 30 日) に指定できる点が挙げられる. 今回は個人利用ではあるものの, 期限を<i>良い感じ</i>に短くしたアクセストークンを使って<i>無駄に</i>セキュリティを強化したいところであったので, チャネルアクセストークン v2.1 を使用することとした<a href="/roki.log/2022/04/10/LineBotDevelopment/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+<p>チャンネルアクセストークン v2.1 の発行方法/概要は<a href="https://developers.line.biz/ja/docs/messaging-api/generate-json-web-token/#create-an-assertion-signing-key">ドキュメント</a>を参照頂くとして, まずは Haskell での JWT の生成例から順に示す. Haskell で行う場合, <a href="https://hackage.haskell.org/package/jose">jose</a> パッケージを利用すると楽である. <a href="https://developers.line.biz/ja/docs/messaging-api/generate-json-web-token/#generate-jwt">ドキュメント</a>の要請するオブジェクトに従うと, ヘッダーとペイロードは, 例えば以下のように定義できる.</p>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2F31b9cdbcdbe19b821406966320378b68a82a0184%2Fsrc%2FLBKiirotori%2FAccessToken%2FJWT.hs%23L38-L62&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+<p>これとアサーション署名キー<a href="/roki.log/2022/04/10/LineBotDevelopment/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>の秘密鍵を使って署名してやれば, JWT が出来上がる.</p>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2Fc0c766a480e3ecd117be2c3e4045b80382dd5cd7%2Fsrc%2FLBKiirotori%2FAccessToken%2FJWT.hs%23L63-L82&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+<p>指定のエンドポイントへ 生成した JWT を使って以下のようなリクエストを投げれば, チャネルアクセストークンが発行される.</p>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2Fc0c766a480e3ecd117be2c3e4045b80382dd5cd7%2Fsrc%2FLBKiirotori%2FAccessToken%2FCore.hs%23L73-L83&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+<p><a href="https://developers.line.biz/ja/reference/messaging-api/#issue-channel-access-token-v2.1-response">レスポンス</a>には発行されたチャネルアクセストークンの他にキー ID や有効期限が切れるまでの秒数等が含まれている. 本実装においては, 予め有効期限を時刻に変換したりキー ID を含めたり等して Redis に保存するようにしている. アクセストークンを使用する際は, 有効なアクセストークンが保管できている場合そのキーを流用し, そうでなければ再度取得する. 概ね, ドキュメント記載の下図の構造となっている.</p>
+<figure>
+<img src="/roki.log/2022/04/10/LineBotDevelopment/using_keyID_procedure_01.75272508.png" alt /><figcaption>チャネルアクセストークンの管理, <a href="https://developers.line.biz/ja/docs/messaging-api/generate-json-web-token/#issue_a_channel_access_token_v2_1">LINE Developers</a> から引用</figcaption>
+</figure>
+<h3 id="生のリクエストボディを-servant-で扱う">生のリクエストボディを Servant で扱う</h3>
+<p>リクエストが LINE プラットフォームから送信されたことを検証するためには, チャネルシークレットを秘密鍵とした HMAC-SHA256 アルゴリズムによるリクエストボディのダイジェスト値を Base64 エンコードした値と, リクエストヘッダーに含まれる <code>x-line-signature</code> の値を比較する<a href="/roki.log/2022/04/10/LineBotDevelopment/#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. 今回 Bot の WEB API 開発に <a href="https://hackage.haskell.org/package/servant">servant</a> というライブラリを用いているが, 便利なことに API の定義で <code>ReqBody '[JSON] B.ByteString</code> とすると, データ型に落とし込まれた状態でリクエストボディを扱うことができる. しかし, 今回のように<strong>生のリクエストボディを扱いたい</strong>場合は余計なお世話であったので, 以下のように生のリクエストボディを扱うための型を新たに定義して使用した.</p>
+<div class="mt-2 mb-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2F43bb4c381b8c86520866af68ac50eecf0806e761%2Fsrc%2FLBKiirotori%2FWebhook%2FCore.hs%23L85-L110&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+<p><a href="https://stackoverflow.com/a/67912095/8345717">SO に同様の Q.A. がある</a>がこの回答には具体的な実装例が記載されていなかったので, 上述のとおり記載することとした.</p>
+<h3 id="起動と停止の制御">起動と停止の制御</h3>
+<p>ボットの動作は下記のように systemd ユニットとして管理することとした.</p>
+<div class="mt-2 mb-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2Fmain%2Fetc%2Fsystemd%2Fline-bot-kiirotori.service&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+<p>nginx の再起動や <code>sites-available</code>, <code>sites-enable</code> への一連の処理も含めてしまうことでサービスとしての管理を簡素なものとして完結させることができる. 欲をいうと, LINE Developers コンソールの Webhook 設定画面では Webhook 利用のオン/オフを切り替えることができるようになっているが, 例えばこれに対する WEB API でもあれば, 起動時に API を叩いてオン, 停止時に API を叩いてオフというふうにしたかったところであるが, 現状 LINE 社はこれに対する API 提供しているか, 定かでなかった.</p>
+<blockquote class="twitter-tweet tw-align-center">
+<p lang="ja" dir="ltr">
+LINE Messagin API, Webhook URL を設定する API はあるんだけど, Webhook の有効/無効を切り替える API はないのかな
+</p>
+— Roki (@530506) <a href="https://twitter.com/530506/status/1474654997212430340?ref_src=twsrc%5Etfw">December 25, 2021</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<h2 id="簡易認証">簡易認証</h2>
+<p><a href="https://www.linebiz.com/jp/service/line-official-account/account-type/">LINE 公式アカウントのアカウント種別</a>に記載があるように, 未認証アカウントは LINE アプリ内の検索結果に露出されることはない. 従って, 認証しない限り勝手に検索された上で使われるといったことは起こらない. しかし, 同じグループ内に所属して友達追加し, 他のグループに招待するといった使い方で他ユーザが勝手に使用することはできてしまう. よって, 特定グループ内のみで使用できるよう制限するためには何らかの認証の仕組みが必要である. これに伴い, 今回は 1 対 1 のトークルーム, グループ, ルーム (<span class="math inline">\fallingdotseq</span> グループ<a href="/roki.log/2022/04/10/LineBotDevelopment/#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>) のいずれにおいてもまず第一に認証に成功しなければボットの全ての機能を利用できない仕組みをつくった. といってもその仕組みは一定間隔でランダムに文字列を生成, redis に書き込み, その文字列と合致するか否かで認証判定するという非常に簡素なものである. 以下にその認証文字列の生成機構の部分を抜粋して記載する.</p>
+<div id="tabs" class="tabs is-toggle is-boxed is-centered mb-0">
+<ul>
+<li class="is-active" data-tab="1">
+<a> <span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span> <span>line-bot-kiirotori/docker/redis/Dockerfile</span> </a>
+</li>
+<li data-tab="2">
+<a> <span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span> <span>line-bot-kiirotori/docker/redis/crontab</span> </a>
+</li>
+<li data-tab="3">
+<a> <span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span> <span>line-bot-kiirotori/docker/redis/get-pin-code.sh</span> </a>
+</li>
+<li data-tab="4">
+<a> <span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span> <span>line-bot-kiirotori/docker/redis/set-pin-code.sh</span> </a>
+</li>
+<li data-tab="5">
+<a> <span class="icon is-small"><i class="fas fa-file-code fa-fw"></i></span> <span>line-bot-kiirotori/docker/redis/start.sh</span> </a>
+</li>
+</ul>
+</div>
+<div id="tab-content" class="mb-2" style="max-height: 400px; overflow-y: scroll;">
+<div class="is-active acontent" data-content="1">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2F62a6c47072dbeb9a5897c486ee3d081465412d07%2Fdocker%2Fredis%2FDockerfile&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+<div class="acontent" data-content="2">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2F62a6c47072dbeb9a5897c486ee3d081465412d07%2Fdocker%2Fredis%2Fcrontab&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+<div class="acontent" data-content="3">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2F62a6c47072dbeb9a5897c486ee3d081465412d07%2Fdocker%2Fredis%2Fget-pin-code.sh&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+<div class="acontent" data-content="4">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2F62a6c47072dbeb9a5897c486ee3d081465412d07%2Fdocker%2Fredis%2Fset-pin-code.sh&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+<div class="acontent" data-content="5">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2F62a6c47072dbeb9a5897c486ee3d081465412d07%2Fdocker%2Fredis%2Fstart.sh&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+</div>
+<script type="text/javascript" src="/js/uniq_tab.js"></script>
+<p>この仕組み上 redis が動いているホストに SSH 接続できなければ生成されるランダム文字列を取得できないので, ボット機能の使用可否は SSH 認証が担保することとなる.</p>
+<h2 id="指定時間実行">指定時間実行</h2>
+<p>指定時間に決まったプッシュメッセージを送りたいといったことは割とあるので, それを実現する機能についても実装してみた. 実行内容は, 下記のように crontab の亜種のような形式でファイルに記載して定義する.</p>
+<div class="mt-2 mb-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2F6efc35754150917de47bdf5ef3a56e4d81322098%2FREADME.md%3Fplain%3D1%23L78-L80&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+<p>この定義には crontab のように変数を使用することもできる. 実装は, <a href="https://hackage.haskell.org/package/cron">cron パッケージ</a>により提供されているパーサと, パーサコンビネータの組み合わせにより成っている.</p>
+<div class="mt-2 mb-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fline-bot-kiirotori%2Fblob%2F6efc35754150917de47bdf5ef3a56e4d81322098%2Fsrc%2FLBKiirotori%2FSchedule%2FParser.hs%23L178-L190&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
+<h2 id="結">結</h2>
+<p>基盤作りはできたので, 追って色々と Bot として便利そうな機能を追加していきたい.</p>
+<figure>
+<img src="/roki.log/2022/04/10/LineBotDevelopment/ss.jpg" title="自作LINE Botの基本動作の様子" width="280" alt /><figcaption>自作 LINE Bot の基本動作の様子</figcaption>
+</figure>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Bot 自体の話題とは逸れてしまうが, OCI 無料枠のインスタンスにつくグローバル IP アドレスは静的にできないようであった (要検証ー) ので, <a href="https://ddns.kuku.lu/">DDNS Now</a> をつかっていたが, ふと契約済みである Google Domains をよく確認してみると, DDNS の機能もついていたことを知った. 適当に更新のためのシェルスクリプトを書こうと考えていたが, <a href="https://github.com/ddclient/ddclient">ddclient</a> という便利なツールを発見したので, こちらを利用することとした.<a href="/roki.log/2022/04/10/LineBotDevelopment/#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p><a href="https://meet.jit.si/" class="uri">https://meet.jit.si/</a><a href="/roki.log/2022/04/10/LineBotDevelopment/#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p><code>_acme-challenge</code> の問い合わせだけ手元に用意した DNS に向けて, その DNS を更新するようにし, 指定した TXT レコードを返せば良さそう<a href="/roki.log/2022/04/10/LineBotDevelopment/#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>現在は 10 分としている<a href="/roki.log/2022/04/10/LineBotDevelopment/#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>今回は <a href="https://github.com/lestrrat-go/jwx">jwx</a> というツールを使ってアサーション署名キーのキー (JSON Web Key, 以下 JWK) ペアを生成し, その秘密キーを適当な設定ファイル (toml) から読み込むようにした<a href="/roki.log/2022/04/10/LineBotDevelopment/#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>LINE プラットフォームから送信されたということをさらに強固なものとするために, IP アドレスで制限でもかけられぬものかと見てみていたが, <a href="https://developers.line.biz/ja/faq/#what-is-ip-address-of-line-platform">そういったものの公開はしていない</a>とのことであった.<a href="/roki.log/2022/04/10/LineBotDevelopment/#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>LINE のルーム (複数人トーク) はグループトークに統合されている. c.f. <a href="https://guide.line.me/ja/friends-and-groups/create-groups.html" class="uri">https://guide.line.me/ja/friends-and-groups/create-groups.html</a><a href="/roki.log/2022/04/10/LineBotDevelopment/#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>]]></summary>
+</entry>
+<entry>
     <title>技術書典 11 にて Git (一部) を自作する記事を執筆した</title>
     <link href="https://roki.dev/roki.log/2021/07/10/SelfMadeTinyGit/index.html" />
     <id>https://roki.dev/roki.log/2021/07/10/SelfMadeTinyGit/index.html</id>
@@ -5677,142 +5827,6 @@ P(C\mid B) &amp;=&amp; \dfrac{P(B\mid C)P(C)}{P(B)}&amp;=&amp;\dfrac{1\cdot \dfr
 <li id="fn3" role="doc-endnote"><p>他のどのようなドアの組み合わせをとっても, プレーヤーが <span class="math inline">1</span> つドアを選択し, モンティが <span class="math inline">1</span> つヤギのドアを選択するという規則には影響しないから, この前提による一般性の欠如を懸念する必要はない.<a href="/roki.log/2018/07/26/bayestheorem/#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4" role="doc-endnote"><p>注: 一応述べておくと, ベイズの定理で使われている変数 <span class="math inline">A, B, C</span> は, このドア <span class="math inline">A, B, C</span> とは無関係である.<a href="/roki.log/2018/07/26/bayestheorem/#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5" role="doc-endnote"><p>図は matplotlib で<a href="https://gist.github.com/falgon/5deb211abce5ac715257f55402a22307">生成</a>.<a href="/roki.log/2018/07/26/bayestheorem/#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>]]></summary>
-</entry>
-<entry>
-    <title>オイラーの定理とカーマイケルの定理</title>
-    <link href="https://roki.dev/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/index.html" />
-    <id>https://roki.dev/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/index.html</id>
-    <published>2018-07-25T00:32:00Z</published>
-    <updated>2018-07-25T00:32:00Z</updated>
-    <summary type="html"><![CDATA[<p>以前の記事, <a href="/roki.log/2018/07/13/elgamalEncryption/">エルガマル暗号</a>では, エルガマル暗号に関する諸々の前提の説明と, その実装について示した. 同エントリ内で, フェルマーの小定理<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>については取り扱ったものの, その一般形であるオイラーの定理およびカーマイケルの定理について<a href="/roki.log/2018/07/13/elgamalEncryption/#fn-5">特に触れなかった</a>ため, 本エントリでそれらに関してまとめる. しばしば値の確認には, 簡単のため Haskell を使う.</p>
-<!--more-->
-<h2 id="オイラーの定理">オイラーの定理</h2>
-<p>いま, <a href="/roki.log/2018/07/13/elgamalEncryption/#fermattest">フェルマーテスト</a>を定義したとき, <span class="math inline">FT_n(a)</span> をパスするには (すなわち, フェルマーの小定理が示す合同式が成り立つには), 要件として, 既約剰余類郡 <span class="math inline">\mathbb{Z}^{\ast}_n</span> の各要素と <span class="math inline">^\exists a\ \in\mathbb{Z}</span> の積が全て異なり, <span class="math inline">\bmod n</span> の既約代表系のすべての積と合同でなければならない. たとえば, 法 <span class="math inline">n=8</span> による合同関係で構成する剰余類の完全代表系<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>は <span class="math inline">0,1,2,3,4,5,6,7</span> であるが, <span class="math inline">a=2</span> としてしまうと, 既約剰余類郡が構成できていないので, 次のようにしても完全代表系が得られない(積をわざわざ示していないが, 非合同でないことは, 各要素の積が全て異なっていない時点で明白である).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#cb1-1" aria-hidden="true"></a><span class="dt">Prelude</span><span class="op">&gt;</span> [x <span class="op">*</span> <span class="dv">2</span> <span class="ot">`rem`</span> <span class="dv">8</span> <span class="op">|</span> x <span class="ot">&lt;-</span> [<span class="dv">0</span><span class="op">..</span><span class="dv">7</span>]]</span>
-<span id="cb1-2"><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#cb1-2" aria-hidden="true"></a>[<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>]</span></code></pre></div>
-<p>そこで, 先に述べた剰余類の既約代表系を考える. これは <span class="math inline">\phi(8)=4</span> 個<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>で, <span class="math inline">1,3,5,7</span> である. これを同じように, <span class="math inline">\left\{1\cdot a,\ 3\cdot a,\ 5\cdot a,\ 7\cdot a\right\}</span> とし, 先の要件を確認すると, <a href="/roki.log/2018/07/13/elgamalEncryption/#lem2">この補題2</a>より, <span class="math inline">\bmod 8</span> で全体として <span class="math inline">\left\{1,3,5,7\right\}</span> と一致していて, <span class="math display">1\cdot 3\cdot 5\cdot 7\equiv 1\cdot 3\cdot 5\cdot 7\cdot a^4\pmod{8}\tag{1}</span> <span class="math inline">\gcd(1\cdot 3\cdot 5\cdot 7,8)=1</span> だから, <span class="math inline">1\cdot 3\cdot 5\cdot 7</span> を約して, <span class="math display">a^4\equiv 1\pmod{8}\tag{2}</span> これは, <span class="math inline">\gcd(a,n)=1</span> ということの他に, <span class="math inline">a</span> および <span class="math inline">n</span> の値に依存した論ではない. すなわち,</p>
-<div class="m-thm">
-<header class="m-thm-title">
-<p>
-<span id="eulerstheorem">オイラーの定理</span>
-</p>
-</header>
-<div class="m-thm-content">
-<span class="math display">a^{\phi(n)}\equiv 1\pmod{n}\ (2\leq n\in\mathbb{Z}^{+},\ \gcd(a,n)=1)</span>
-</div>
-</div>
-<p>がいえる<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#cb2-1" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span><span class="op">&gt;</span> euler'sTheorem n <span class="ot">=</span> [a <span class="ot">`modExp`</span> (totient n) <span class="op">$</span> n <span class="op">|</span> a <span class="ot">&lt;-</span> [<span class="dv">2</span><span class="op">..</span>], <span class="fu">gcd</span> a n <span class="op">==</span> <span class="dv">1</span>]</span>
-<span id="cb2-2"><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#cb2-2" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span><span class="op">&gt;</span> <span class="fu">all</span> (<span class="op">==</span><span class="dv">1</span>) <span class="op">$</span> <span class="fu">take</span> <span class="dv">100</span> <span class="op">$</span> euler'sTheorem <span class="dv">8</span></span>
-<span id="cb2-3"><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#cb2-3" aria-hidden="true"></a><span class="dt">True</span></span></code></pre></div>
-<p><span class="math inline">n</span> が素数 <span class="math inline">p</span> であるとき, <span class="math inline">\phi(p)=p-1</span> で, フェルマーの小定理<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>となる<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
-<h2 id="ラグランジュの定理">ラグランジュの定理</h2>
-<p>いま述べた<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#eulerstheorem">オイラーの定理</a>は, ラグランジュの定理を使っても証明できる. ラグランジュの定理は,</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-<span id="lagrangestheorem">ラグランジュの定理</span>
-</p>
-</header>
-<div class="m-def-content">
-有限郡 <span class="math inline">G</span> の部分郡 <span class="math inline">H</span> の位数 <span class="math inline">\mid H\mid</span> は, <span class="math inline">G</span> の位数 <span class="math inline">\mid G\mid</span> の約数となる. <span class="math display">\mid G\mid\ =\ \mid G:H\mid \mid H\mid</span>
-</div>
-</div>
-<p>である.</p>
-<div class="m-proof">
-<header class="m-proof-title">
-<p>
-<span id="euclidean">ラグランジュの定理</span>
-</p>
-</header>
-<div class="m-proof-content">
-<p>有限郡 <span class="math inline">G</span> の部分郡 <span class="math inline">H</span> による類別が <span class="math inline">\displaystyle G=\bigcup_i^r a_iH</span> であるとき, <span class="math inline">\mid G\mid=r\mid H\mid</span> といえる. この <span class="math inline">r</span> は <span class="math inline">r=\mid G:H\mid</span> そのものなので, <span class="math inline">\mid G\mid\ =\ \mid G:H\mid\mid H\mid</span>.</p>
-</div>
-</div>
-<p>ごく直感的な定理である. これを使えば, <a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#eulerstheorem">オイラーの定理</a>は次のように証明できる.</p>
-<div class="m-lem">
-<header class="m-lem-title">
-<p>
-補題 1
-</p>
-</header>
-<div class="m-lem-content">
-<p>有限郡 <span class="math inline">G</span> とその元 <span class="math inline">^\forall g\in G</span> に対し, <span class="math inline">g^{\mid G\mid}=e</span>. <span class="math inline">e\in G</span> は単位元.</p>
-</div>
-</div>
-<div class="m-proof">
-<header class="m-proof-title">
-<p>
-<span id="euclidean">補題 1</span>
-</p>
-</header>
-<div class="m-proof-content">
-<p>巡回部分郡 <span class="math inline">H=\lt g\gt</span> の元 <span class="math inline">g</span> の位数 <span class="math inline">\mid H\mid</span> は, 巡回して <span class="math inline">g^i=e</span> となる最小の <span class="math inline">i\in\mathbb{N}</span> であるといえる. すなわち <span class="math display">g^{\mid H\mid}=e</span> ここで, 商集合の位数を両辺に次のように与える. <span class="math display">(g^{\mid H\mid})^{\mid G:H\mid}=(e)^{\mid G:H\mid}</span> 左辺は指数法則により, また右辺は単位元の繰り返しだから, これを次のようにかける. <span class="math display">g^{\mid H\mid\mid G:H\mid}=e</span> ラグランジュの定理より <span class="math display">g^{\mid G\mid}=e</span></p>
-</div>
-</div>
-<div class="m-proof">
-<header class="m-proof-title">
-<p>
-<span id="euclidean">オイラーの定理</span>
-</p>
-</header>
-<div class="m-proof-content">
-<p><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#eulerstheorem">オイラーの定理</a>を仮定したとき, 脚注<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>より剰余類 <span class="math inline">\overline{a}</span> は法 <span class="math inline">n</span> に関する既約剰余類郡 <span class="math inline">\mathbb{Z}^{\ast}_{n}</span> に含まれる.<br />
-<span class="math inline">\mid\mathbb{Z}^{\ast}_{n}\mid=\phi(n)</span> だから補題 1 より <span class="math inline">\overline{a}^{\phi(n)}=\overline{a^{\phi(n)}}=\overline{1}</span>.</p>
-</div>
-</div>
-<h2 id="カーマイケルの定理">カーマイケルの定理</h2>
-<p><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#eulerstheorem">オイラーの定理</a>で用いる <span class="math inline">\phi</span> 関数は, <span class="math inline">a^{m}\equiv 1\pmod{n}\ (m\in{N}, \gcd(a,n)=1</span> を成立させる最小の整数 <span class="math inline">m</span> を持ち得ない. たとえば, <span class="math inline">n=8</span> では, 先の通り確かに <span class="math inline">m=\phi(8)=4</span> で合同式が満足できたが, <span class="math inline">m=2</span> としても, これを満足できる.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#cb3-1" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span><span class="op">&gt;</span> <span class="fu">all</span> (<span class="op">==</span><span class="dv">1</span>) <span class="op">$</span> <span class="fu">take</span> <span class="dv">100</span> <span class="op">$</span> [a <span class="ot">`modExp`</span> <span class="dv">2</span> <span class="op">$</span> <span class="dv">8</span> <span class="op">|</span> a <span class="ot">&lt;-</span> [<span class="dv">2</span><span class="op">..</span>], <span class="fu">gcd</span> a <span class="dv">8</span> <span class="op">==</span> <span class="dv">1</span>]</span>
-<span id="cb3-2"><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#cb3-2" aria-hidden="true"></a><span class="dt">True</span></span></code></pre></div>
-<p>カーマイケルの <span class="math inline">\lambda</span> 関数は, 与えられた整数 <span class="math inline">n</span> に対して同合同式を満足する最小の <span class="math inline">m</span> を定義より自明に与える.</p>
-<div class="m-def">
-<header class="m-def-title">
-<p>
-カーマイケルの <span class="math inline">\lambda</span> 関数
-</p>
-</header>
-<div class="m-def-content">
-扱う文字を全て整数とし, <span class="math inline">\lambda(n)</span> は <span class="math display">
-  \begin{array}{lcl}
-  \lambda(1)&amp;:=&amp;1\\
-  \lambda(2)&amp;:=&amp;1\\
-  \lambda(4)&amp;:=&amp;4\\
-  \lambda(2^k)&amp;:=&amp;\phi(2^k)\ (0\leq k\leq 2)\\
-  \lambda(2^k)&amp;:=&amp;2^{k-2}=\dfrac{\phi(2^k)}{2}\ (e\geq 3)\\
-  \lambda(p^h)&amp;:=&amp;\phi(p^h)=(p-1)\cdot p^{h-1}\ (p\ is\ an\ odd\ prime, h\geq 1)\\
-  \lambda(2^kp_1^{h_1}p_2^{h_2}p_3^{h_3}\cdots p_t^{h_t})&amp;:=&amp;\mathrm{lcm}(\lambda(2^k),\lambda(p_1^{h_1}),\lambda(p_2^{h_2}),\lambda(p_3^{h_3}),\cdots,\lambda(p_t^{h_t}))\ (p_n\ is\ an\ odd\ prime, k\geq 0, h_n\geq 1)
-  \end{array}
-  </span> と定義する.
-</div>
-</div>
-<div class="m-thm">
-<header class="m-thm-title">
-<p>
-<span id="carmichelstheorem">カーマイケルの定理</span>
-</p>
-</header>
-<div class="m-thm-content">
-<p><span class="math display">a^{\lambda(n)}\equiv 1\pmod{n}\ (2\leq n\in\mathbb{Z}^{+},\ \gcd(a,n)=1)</span></p>
-</div>
-</div>
-<p>実装して確かめてみる.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#cb4-1" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span><span class="op">&gt;</span> <span class="kw">let</span> carmichael'sLambda n <span class="ot">=</span> <span class="fu">head</span> [k <span class="op">|</span> k <span class="ot">&lt;-</span> [<span class="dv">1</span><span class="op">..</span>], <span class="fu">and</span> [(m <span class="ot">`modExp`</span> k <span class="op">$</span> n) <span class="op">&lt;</span> <span class="dv">2</span> <span class="op">|</span> m <span class="ot">&lt;-</span> [<span class="dv">1</span><span class="op">..</span>n] <span class="fu">gcd</span> m n <span class="op">&lt;</span> <span class="dv">2</span>]]</span>
-<span id="cb4-2"><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#cb4-2" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span><span class="op">&gt;</span> <span class="kw">let</span> carmichael'sTheorem n <span class="ot">=</span> [a <span class="ot">`modExp`</span> (carmichael'sLambda n) <span class="op">$</span> n <span class="op">|</span> a <span class="ot">&lt;-</span> [<span class="dv">2</span><span class="op">..</span>], <span class="fu">gcd</span> a n <span class="op">==</span> <span class="dv">1</span>]</span>
-<span id="cb4-3"><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#cb4-3" aria-hidden="true"></a><span class="op">*</span><span class="dt">Main</span><span class="op">&gt;</span> <span class="fu">all</span> (<span class="op">==</span><span class="dv">1</span>) <span class="op">$</span> <span class="fu">take</span> <span class="dv">100</span> <span class="op">$</span> carmichael'sTheorem <span class="dv">8</span></span>
-<span id="cb4-4"><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#cb4-4" aria-hidden="true"></a><span class="dt">True</span></span></code></pre></div>
-<section class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1" role="doc-endnote"><p>証明: <a href="/roki.log/2018/07/13/elgamalEncryption/#fermatstheorem">フェルマーの小定理</a><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>補足. 郡 <span class="math inline">G</span> とその部分郡 <span class="math inline">H</span> があるとき, <span class="math inline">H</span> は郡であるから単位元 <span class="math inline">e\in H</span> を含む. よって, <span class="math inline">^\exists a\in G</span> の剰余類を <span class="math inline">aH=\left\{ah\mid h\in H\right\}</span> としたとき(簡単のため, 左剰余類として式をおいたが, これに深い意味はない.), <span class="math inline">a=ae\in aH</span> より <span class="math inline">a\in aH</span> である. この <span class="math inline">a</span> を剰余類 <span class="math inline">aH</span> の代表という. また郡 <span class="math inline">G</span> は, 異なる <span class="math inline">a_i</span> を代表とした剰余類 <span class="math inline">a_iH</span> によって類別できる(<span class="math inline">\displaystyle G=\bigcup_i a_iH</span>). この <span class="math inline">\mid G:H\mid</span> 個の類別に対して, 各剰余類から代表の元を取り, 構成した集合を, <span class="math inline">G</span> の <span class="math inline">H</span> に対する代表系という.<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>ここで, <span class="math inline">\phi</span> は, <a href="/roki.log/2018/07/13/elgamalEncryption/#totientf">オイラーのトーシェント関数</a>.<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>コード内の<code>totient</code>と<code>modExp</code>は, それぞれ以前の投稿のうち, <a href="/roki.log/2018/07/13/elgamalEncryption/#totientf">オイラーのトーシェント関数の実装部分</a>と, <a href="/roki.log/2018/07/13/elgamalEncryption/#modexpref">カーマイケル数を得るための実装</a>を利用.<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>証明: <a href="/roki.log/2018/07/13/elgamalEncryption/#fermatstheorem">フェルマーの小定理</a><a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>この補足は冗長的かもしれないが, <span class="math inline">n</span> が素数 <span class="math inline">p</span> である場合, <span class="math inline">\mathbb{Z}_p^{\ast}</span> が構成されるから, これから取った代表は素数 <span class="math inline">p</span> と互いに素であることから, 既約代表である. この事実も, 一般に \(\) から \(\) へのような式変形が実行できることとの整合を示す.<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>補足. 郡 <span class="math inline">G</span> とその部分郡 <span class="math inline">H</span> があるとき, <span class="math inline">H</span> は郡であるから単位元 <span class="math inline">e\in H</span> を含む. よって, <span class="math inline">^\exists a\in G</span> の剰余類を <span class="math inline">aH=\left\{ah\mid h\in H\right\}</span> としたとき(簡単のため, 左剰余類として式をおいたが, これに深い意味はない.), <span class="math inline">a=ae\in aH</span> より <span class="math inline">a\in aH</span> である. この <span class="math inline">a</span> を剰余類 <span class="math inline">aH</span> の代表という. また郡 <span class="math inline">G</span> は, 異なる <span class="math inline">a_i</span> を代表とした剰余類 <span class="math inline">a_iH</span> によって類別できる(<span class="math inline">\displaystyle G=\bigcup_i a_iH</span>). この <span class="math inline">\mid G:H\mid</span> 個の類別に対して, 各剰余類から代表の元を取り, 構成した集合を, <span class="math inline">G</span> の <span class="math inline">H</span> に対する代表系という.<a href="/roki.log/2018/07/25/eulers_theorem_and_carmichels_theorem/#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>]]></summary>
 </entry>
