@@ -180,10 +180,12 @@
 <!--more-->
 <h2 id="構成">構成</h2>
 <p>構成そのものはかなり単純だと思う. はじめに, いくつかのパラメータを指定する. 数は多いが, AWS EC2 の環境構築に最低限必要となるような要素に限られているはず.</p>
-<script src="https://gist-it.appspot.com/https://github.com/falgon/edcc/blob/5f4cd53830691275e5c250ef2051adca9d1162d6/README.md?slice=10:44"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fedcc%2Fblob%2F5f4cd53830691275e5c250ef2051adca9d1162d6%2FREADME.md%23L11-L44&amp;style=github&amp;showLineNumbers=on&amp;showFileMeta=on&amp;fetchFromJsDelivr=on"></script>
+</div>
 <p>ここで指定したパラメータに応じて, 環境を構築する. その際, AWS のユーザーデータ<a href="../../../../../roki.log/2018/08/15/aws_ec2_distcc/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>機能を使って, distcc とコンパイラ<a href="../../../../../roki.log/2018/08/15/aws_ec2_distcc/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>のセットアップ, ホストインスタンス(実際にコンパイルを実行するインスタンス)の決定, 各インスタンスの環境構築における進捗の同期等を行い, ビルドスクリプトを実行する.</p>
 <p>一応, ここに酷いアクティビティ図がある.</p>
-<div style="height: 400px; overflow-y: scroll;">
+<div style="text-align:center; height: 400px; overflow-y: scroll;">
 <p><img width="700" src="https://raw.githubusercontent.com/falgon/edcc/4a052baece667b6baf6d3e41ff3f0741faee5bed/assets/fig.png" alt="ugly activity diagram"></p>
 </div>
 <h2 id="実装">実装</h2>
@@ -194,12 +196,16 @@
 <p>まず, 起動したインスタンスのすべてに必要となるパッケージのインストールやセットアップを実行する必要があるが, これは構成にて述べたように, AWS EC2 の機能のうちの 1 つである, ユーザーデータ<a href="../../../../../roki.log/2018/08/15/aws_ec2_distcc/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>を利用して実行することとした.</p>
 <p>予め使用言語に対する指定として, Go で実装することを定められていたので, 今回の実装を Go で行ったことに対する深い意味合いは特別ないが, とりあえずそこまで深く考えず Go の便利な標準パッケージ, <code>text/template</code>を利用して, 一程度の情報伝達を行うこととした. <code>text/template</code>は, かなりお手軽に<a href="../../../../../roki.log/2018/07/23/ec2failover/">設定ファイルの生成</a>のほか, トークンの衝突さえなければ, コードに直接埋め込むことができるので, それを元にコードの生成をすることもでき, 大変良い.</p>
 <p>ビルドスクリプトおよびセットアップスクリプトは, それぞれ, ビルド実行のスクリプト<a href="../../../../../roki.log/2018/08/15/aws_ec2_distcc/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>と, ユーザーデータとして渡される, 必要パッケージのセットアップスクリプト<a href="../../../../../roki.log/2018/08/15/aws_ec2_distcc/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>のことを示している. ビルドスクリプトは, 以下に示す変数を利用して任意に記述してもらう<a href="../../../../../roki.log/2018/08/15/aws_ec2_distcc/#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>ものとして, セットアップスクリプトは, 殆どの場合, 中身を弄る必要はないと思われる. 今のところ, 各スクリプトは bash スクリプトとして記述する必要がある. それぞれで利用できる変数は, 次の通りである.</p>
-<script src="https://gist-it.appspot.com/https://github.com/falgon/edcc/blob/5f4cd53830691275e5c250ef2051adca9d1162d6/README.md?slice=46:63"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fedcc%2Fblob%2F5f4cd53830691275e5c250ef2051adca9d1162d6%2FREADME.md%23L47-L63&amp;style=github&amp;showLineNumbers=on&amp;showFileMeta=on&amp;fetchFromJsDelivr=on"></script>
+</div>
 <p>大体各変数の予測はつくだろうし, 説明にもあるとおりなのだが, 一点, 必ずビルドスクリプト内に記述しなければならないのは, <code>{{.build_success}}</code>または<code>{{.build_failed}}</code>である. これは, <code>{{.Include_WriteStatus}}</code>を予め記述しておくことで利用できるようになる. それぞれビルドの成功, また失敗といった結果を通知するための命令(内部はただの bash 関数)であるが, このどちらをも指定しなかった場合, ビルドはまだ終わっていないと認識して, 永遠に停止することはない(マネジメントコンソールや awscli などで自分でクリーンナップを行う必要がある.).</p>
 <p>この仕様は, Travis CI を利用しているときに, ステータスコードが 0 以外の場合においても, 処理を続行したいときが個人的には何度かあったことに由来している.</p>
 <p>また, セットアップの進捗をインスタンス間でどのように同期するかであるが, EC2 においても各メタ情報を HTTP リクエストで取得できることを真似て, 各インスタンスで nginx による HTTP サーバ<a href="../../../../../roki.log/2018/08/15/aws_ec2_distcc/#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>を稼働させ, そのトップページに自身の状態の JSON を出力しておき, それを curl で得るということにした.</p>
 <p>結局, そのほかの詳細はリポジトリ内の README を見てほしい. 実行例は次の通りである.</p>
-<script src="https://gist-it.appspot.com/https://github.com/falgon/edcc/blob/5f4cd53830691275e5c250ef2051adca9d1162d6/README.md?slice=68:102"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fedcc%2Fblob%2F5f4cd53830691275e5c250ef2051adca9d1162d6%2FREADME.md%23L69-L102&amp;style=github&amp;showLineNumbers=on&amp;showFileMeta=on&amp;fetchFromJsDelivr=on"></script>
+</div>
 <h2 id="感想">感想</h2>
 <p>とにかく時間のない中であったので, 妥協してしまった点がいくらかあり, その点で個人的には悔しい部分があるが, 今回の実装で大分総合的に EC2 関係の IaaS やら SaaS 周りを活用できたかと思うので, 取り組めたこと自体には満足をしている.</p>
 <p>別の話題だが, 講義内で利用する AWS リソースの支払いは, ありがたい事に大学側が持っていてくれていたのだが, これでもう講義が終わってしまうので, 犬が西向きゃ尾は東というものであるが, 続けて自分で本格的に取り組むのには, ある程度の出費が必要となる. 今のところ, まだ無料利用枠は残っているので, それを利用できることが救いであるが, 講義でよく使っていた t2.medium と無料利用枠対象の t2.micro とでは, やはり処理性能に若干の違いを感じる. なんだか今回のエントリには, やたらと諺が出てきて自分も奇怪に感じるが, まあこれは, 起きて半畳寝て一畳, 天下取っても二合半ということなのだろう.</p>
