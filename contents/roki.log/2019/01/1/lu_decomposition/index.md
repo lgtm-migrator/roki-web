@@ -692,7 +692,9 @@ Haskell で書いたわけだが, 普通の ST モナドによる実装とリス
 <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a>
 </em>
 <div id="open_lu" style="display:none;clear:both;">
-<script src="https://gist-it.appspot.com/https://github.com/falgon/PlayLinearAlgebra/blob/7a387f803e1ee30d3e7e83915b88eea18d7e096b/src/Math/Matrix/Core.hs?slice=138:217"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2FPlayLinearAlgebra%2Fblob%2F7a387f803e1ee30d3e7e83915b88eea18d7e096b%2Fsrc%2FMath%2FMatrix%2FCore.hs%23L139-L217&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 </div>
 ```haskell
 λ> :m Data.Array Math.Matrix.LU
@@ -715,9 +717,10 @@ Just (array (0,2) [(0,1),(1,0),(2,2)],
 <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a>
 </em>
 <div id="open_resolveLinearEq" style="display:none;clear:both;">
-<script src="https://gist-it.appspot.com/https://github.com/falgon/PlayLinearAlgebra/blob/7a387f803e1ee30d3e7e83915b88eea18d7e096b/src/Math/Matrix/Core.hs?slice=258:305"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2FPlayLinearAlgebra%2Fblob%2F7a387f803e1ee30d3e7e83915b88eea18d7e096b%2Fsrc%2FMath%2FMatrix%2FCore.hs%23L259-L305&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
 </div>
-
+</div>
 ```haskell
 λ> resolveLinearEq' [[1,2,7,6],[2,4,4,2],[1,8,5,2],[2,4,3,3]] [6,2,12,5] :: Maybe (Array Int Rational)
 Just (array (0,3) [(0,(-3) % 1),(1,2 % 1),(2,(-1) % 1),(3,2 % 1)])
@@ -748,7 +751,9 @@ Just (array (0,3) [(0,1.666666666666667),(1,0.8666666666666667),(2,-0.8),(3,1.2)
 <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a>
 </em>
 <div id="open_inverse" style="display:none;clear:both;">
-<script src="https://gist-it.appspot.com/https://github.com/falgon/PlayLinearAlgebra/blob/7a387f803e1ee30d3e7e83915b88eea18d7e096b/src/Math/Matrix/Core.hs?slice=306:324"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2FPlayLinearAlgebra%2Fblob%2F7a387f803e1ee30d3e7e83915b88eea18d7e096b%2Fsrc%2FMath%2FMatrix%2FCore.hs%23L307-L324&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 </div>
 
 ```haskell
@@ -773,9 +778,10 @@ Just
 <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a>
 </em>
 <div id="open_det" style="display:none;clear:both;">
-<script src="https://gist-it.appspot.com/https://github.com/falgon/PlayLinearAlgebra/blob/7a387f803e1ee30d3e7e83915b88eea18d7e096b/src/Math/Matrix/Core.hs?slice=326:340"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2FPlayLinearAlgebra%2Fblob%2F7a387f803e1ee30d3e7e83915b88eea18d7e096b%2Fsrc%2FMath%2FMatrix%2FCore.hs%23L327-L340&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
 </div>
-
+</div>
 ```haskell
 λ> determinant $ toMat $ listArray ((0,0),(2,2)) [3,1,1,5,1,3,2,0,1]
 2.0

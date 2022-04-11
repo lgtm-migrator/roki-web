@@ -17,7 +17,9 @@ Prelude Data.Tuple.Extra> uncurry (+) $ (+42) &&& (*2) $ 42
 C++11 以降では, Variadic templates が使えるので, [Data.Tuple.Extra](http://hackage.Haskell.org/package/extra-1.6.8) ([Control.Arrow](http://hackage.Haskell.org/package/base-4.11.1.0/docs/Control-Arrow.html)) の`first`, `second`関数のように, タプルの 1 番目, 2 番目に作用させるといった関数をそれぞれ別個作る必要はない.
 従って, これを作用させるタプルのインデックス値で指定できるようにしてみた(`srook::tuple::utility::nth`). 他のものも同様, なんとなく似た感じになるように, なんとなくやってみた(?).
 
-<script src="https://gist-it.appspot.com/github.com/falgon/SrookCppLibraries/blob/develop/tests/tuple/utility/test.cpp"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2FSrookCppLibraries%2Fblob%2Fdevelop%2Ftests%2Ftuple%2Futility%2Ftest.cpp&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 結局, 関数を次々と呼び出す構文をすっきりと見せるために, Range TS のように`operator|`をオーバーロードした.
 C++14 以降では Return type deduction が使えるが, やはり型を明示的に書きたかったので, そのあたりでいくらかテンプレートメタプログラミングをした.

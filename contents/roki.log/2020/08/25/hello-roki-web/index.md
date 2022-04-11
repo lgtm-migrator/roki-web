@@ -93,7 +93,9 @@ Hakyll はあくまでも static site generator
 ビルド時に \\(\KaTeX\\) のレンダリングを行わないようにし,
 生成される HTML の `head` の中に \\(\KaTeX\\) を動的にレンダリングする js ファイルを埋め込むようにした.
 
-<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/af49165391316846dbfbd41056b0a0d14f0e2640/README.md?slice=18:40"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Faf49165391316846dbfbd41056b0a0d14f0e2640%2FREADME.md%23L19-L40&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 別の似たような事例として, 不必要な js ファイルの読み込みを行わないようにするといった工夫ができる.
 このブログでは [d3.js](https://d3js.org/) と [math.js](https://mathjs.org/) を使えるようにしてあるのだが,
@@ -108,7 +110,9 @@ Hakyll はあくまでも static site generator
 (`teaser` に含まれているかとは無関係に),
 その記事一覧のページにスクリプト読み込みを埋め込むようにしている.
 
-<script src="https://gist-it.appspot.com/github/falgon/roki-web/blog/a496b4fe14d6e0b26861f47fac800fb5f1d1222e/src/Rules/Blog/Core.hs?slice=72:77"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2F2799f109cbc8c8d9065d30b23d7f768fc98f9975%2Fsrc%2FRules%2FBlog%2FCore.hs%23L74-L79&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 ...というように, 様々なパフォーマンスに対するニーズについて柔軟に対応ができる点も, 
 Hakyll の良いところであると思う.
@@ -123,12 +127,15 @@ Dhall は簡単に言えば, json に型, 関数, インポートの機能が乗
 例えば, 以下のように各ジャンルについて Union で定義し, 文字列への射を定義することで,
 誤った文字列の設定を静的に防ぐといったことができる.
 
-<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/dca4914dad8f00c167e3eea9ba0de6221cdd4243/contents/config/contributions/Type/Genre.dhall"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Fdca4914dad8f00c167e3eea9ba0de6221cdd4243%2Fcontents%2Fconfig%2Fcontributions%2FType%2FGenre.dhall&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 Haskell との親和性も高く, 例えば `Dhall.input` 等で簡単に読み込むことができる.
 
-<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/ab69900746e7ffa9c4a7ec2a4d3c84429e52f406/src/Config/Contributions.hs?slice=16:45"></script>
-
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Fab69900746e7ffa9c4a7ec2a4d3c84429e52f406%2Fsrc%2FConfig%2FContributions.hs%23L17-L45&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 ### RSS/Atom Feed や Site map
 
 このサイトは, トップの個人ページの下に二つのブログがぶら下がっている構造をしており,
@@ -141,7 +148,9 @@ Site map については標準の機能として盛り込まれていないの�
 Hakyll のサイトからも紹介されている[このブログ記事](https://robertwpearce.com/hakyll-pt-2-generating-a-sitemap-xml-file.html)の通り, Feed の生成と同様,
 以下のように XML 用のテンプレートファイルを読ませたり (Lucid 等の) DSL で生成したもの等を使えば良い.
 
-<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/a496b4fe14d6e0b26861f47fac800fb5f1d1222e/src/Rules/Blog/Core.hs?slice=215:227"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Fa496b4fe14d6e0b26861f47fac800fb5f1d1222e%2Fsrc%2FRules%2FBlog%2FCore.hs%23L216-L227&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 
 ### バージョン情報の埋め込み
@@ -159,8 +168,9 @@ Git のコミットハッシュ値を埋め込むのには
 [`Development.GitRev.gitHash`](http://hackage.haskell.org/package/gitrev-1.3.1/docs/Development-GitRev.html#v:gitHash) 
 が非常に便利で役立った.
 
-<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/d8a997823c03ebf8008f56c6cebf870e66140545/app/site/Main.hs?slice=95:104"></script>
-
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Fd8a997823c03ebf8008f56c6cebf870e66140545%2Fapp%2Fsite%2FMain.hs%23L96-L104&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 ### CSS フレームワーク Bulma
 
@@ -178,7 +188,9 @@ Git のコミットハッシュ値を埋め込むのには
 また, 数学系の記事を書く際には「定義」, 「命題」, ... といったような見出しをつけたいものだが,
 このスタイルの作成についても助けられた (Bulma が便利というのもあるが, 単純に SCSS の展開能力にも助けられた).
 
-<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/f5735daf569603ba872b9ee56820dfbbbbe4423e/contents/scss/blog/_mixins.scss"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Ff5735daf569603ba872b9ee56820dfbbbbe4423e%2Fcontents%2Fscss%2Fblog%2F_mixins.scss&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 これを使って, 例えば以下のように書けば
 
@@ -242,7 +254,9 @@ Git のコミットハッシュ値を埋め込むのには
 javascript を直接書き込める Action で, 手軽に導入が勧められる.
 以下の処理においては, GitHub pages の状態がデプロイ完了になるまでポーリングさせている.
 
-<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/415890efb43ac2e286b721b09a2881337a0245f0/.github/workflows/build.yml?slice=96:128"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2F415890efb43ac2e286b721b09a2881337a0245f0%2F.github%2Fworkflows%2Fbuild.yml%23L97-L128&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 さて, ここまで見てみて, もしかすると, 
 どうやって roki-web と roki-web-post 側で同期を取っているのか,
@@ -457,8 +471,8 @@ CircleCI の Artifacts へのアップロードが完了した後に
 CircleCI の Environment Variables に API トークンを `LINE_NOTIFY_TOKEN`
 としてセットし, 以下のように叩いている. 
 
-<div style="height: 400px; overflow-y: scroll;">
-<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/02b82883ce313505cdf7c1bc009bd39f8ed86cc8/tools/circleci/NotifyLine.hs"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2F02b82883ce313505cdf7c1bc009bd39f8ed86cc8%2Ftools%2Fcircleci%2FNotifyLine.hs&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
 </div>
 
 [^1]: それよりも前は 2016 年に[はてなブログ (Roki のチラ裏)](https://roki.hateblo.jp/) で技術系の記事を書いていた.

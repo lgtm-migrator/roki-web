@@ -17,7 +17,9 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 構成そのものはかなり単純だと思う. はじめに, いくつかのパラメータを指定する. 
 数は多いが, AWS EC2 の環境構築に最低限必要となるような要素に限られているはず.
 
-<script src="https://gist-it.appspot.com/https://github.com/falgon/edcc/blob/5f4cd53830691275e5c250ef2051adca9d1162d6/README.md?slice=10:44"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fedcc%2Fblob%2F5f4cd53830691275e5c250ef2051adca9d1162d6%2FREADME.md%23L11-L44&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 ここで指定したパラメータに応じて, 環境を構築する. 
 その際, AWS のユーザーデータ[^1]機能を使って, distcc とコンパイラ[^2]のセットアップ, 
@@ -27,7 +29,7 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 
 一応, ここに酷いアクティビティ図がある.
 
-<div style="height: 400px; overflow-y: scroll;">
+<div style="text-align:center; height: 400px; overflow-y: scroll;">
 <img width="700" src="https://raw.githubusercontent.com/falgon/edcc/4a052baece667b6baf6d3e41ff3f0741faee5bed/assets/fig.png" alt="ugly activity diagram">
 </div>
 
@@ -59,7 +61,9 @@ header-warn: この記事は, <a href="https://falgon.github.io/roki.log/">旧�
 今のところ, 各スクリプトは bash スクリプトとして記述する必要がある.
 それぞれで利用できる変数は, 次の通りである.
 
-<script src="https://gist-it.appspot.com/https://github.com/falgon/edcc/blob/5f4cd53830691275e5c250ef2051adca9d1162d6/README.md?slice=46:63"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fedcc%2Fblob%2F5f4cd53830691275e5c250ef2051adca9d1162d6%2FREADME.md%23L47-L63&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 大体各変数の予測はつくだろうし, 説明にもあるとおりなのだが, 一点, 必ずビルドスクリプト内に記述しなければならないのは,
 `{{.build_success}}`または`{{.build_failed}}`である.
@@ -79,7 +83,9 @@ EC2 においても各メタ情報を HTTP リクエストで取得できるこ�
 結局, そのほかの詳細はリポジトリ内の README を見てほしい.
 実行例は次の通りである.
 
-<script src="https://gist-it.appspot.com/https://github.com/falgon/edcc/blob/5f4cd53830691275e5c250ef2051adca9d1162d6/README.md?slice=68:102"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fedcc%2Fblob%2F5f4cd53830691275e5c250ef2051adca9d1162d6%2FREADME.md%23L69-L102&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 ## 感想
 

@@ -94,7 +94,9 @@ Lazy K のプログラムを実行するときの大まかな処理の内容は,
 この一連の流れを C++ テンプレートのインスタンス化によって行うために,
 まず \\(\lambda\\) 計算を抽象構文木として扱うためのノードについて, 以下のように定義しています.
 
-<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/combinators.hpp?slice=7:31" type="text/javascript" ></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Fapp%2Fcombinators.hpp%23L8-L31&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 \\(\lambda\\) 式の計算体系には \\(\alpha\\) 変換と呼ばれる変換規則が定められていますが,
 入力されたソースコードから成る変数の名前 (すなわち文字) に対して 
@@ -115,7 +117,9 @@ $$\begin{array}{lcl}
 
 これらは, それぞれ先に定義した型を用いて下記のように定義しています.
 
-<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/combinators.hpp?slice=32:38" type="text/javascript" ></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Fapp%2Fcombinators.hpp%23L33-L38&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 続いて, 名無し項の \\(\beta\\) 簡約について考えてみます.
 例えば
@@ -218,8 +222,8 @@ $$\begin{array}{lcl}
 以上が, 名無し項の \\(\beta\\) 簡約に関する形式的な定義となります.
 また, 今回の処理系全体の実装としては, 以下のようになっています.
 
-<div style="max-height: 400px; overflow-y: scroll;">
-<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/evaluate.hpp" type="text/javascript" ></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Fapp%2Fevaluate.hpp&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
 </div>
 
 ## パーサコンビネータ
@@ -258,10 +262,14 @@ mpl-lazyk/tests/text/parsec.cpp は,
 </div>
 <div id="tab-content" class="mb-3" style="height: 400px; overflow-y: scroll;">
 <div class="is-active acontent" data-content="1">
-<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/mlk/text/parsec.hpp" type="text/javascript"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Fmlk%2Ftext%2Fparsec.hpp&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 </div>
 <div class="acontent" data-content="2">
-<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/tests/text/parsec.cpp" type="text/javascript"></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Ftests%2Ftext%2Fparsec.cpp&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 </div>
 </div>
 <script type="text/javascript" src="/js/uniq_tab.js"></script>
@@ -276,7 +284,9 @@ mpl-lazyk/tests/text/parsec.cpp は,
 最初のアクションの値を捨てるという動作で統一しています.
 つまり, 以下のテストで示されるように, `::dbind<便利な型>` と `::便利な型` は等価な関係にあります.
 
-<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/tests/text/parsec.cpp?slice=466:503" type="text/javascript" ></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Ftests%2Ftext%2Fparsec.cpp%23L467-L503&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 なお, 実装における各命名については, 
 Haskell や圏論にインスパイアされた形式をとっています
@@ -440,7 +450,9 @@ using lor_t = typename lor<Lhs, Rhs>::type;
 `pTerm` の定義には `pCb` が, `pCb` の定義には `pTerm` が含まれており,
 これらはいわゆる相互再帰の形となっています.
 
-<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/parse.hpp?slice=40:72" type="text/javascript" ></script>
+<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
+<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Fapp%2Fparse.hpp%23L41-L72&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+</div>
 
 これらは,
 パーサコンビネータを「うまくテンプレートのインスタンス化のタイミングを制御すること」で遅延評価するように実装しており,
