@@ -246,9 +246,7 @@ M_1M_2M_3\cdots M_n&amp;:=&amp;\left(\left(\cdots\left(\left(M_1M_2\right)M_3\ri
 <li><span class="math inline">E'</span> をチャーチ数のリストと見なし, 文字列に変換, 出力する</li>
 </ol>
 <p>今回行った実装では, この一連の流れを C++ テンプレートのインスタンス化によって行うために, まず <span class="math inline">\lambda</span> 計算を抽象構文木として扱うためのノードについて, 以下のように定義しています.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Fapp%2Fcombinators.hpp%23L8-L31&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/combinators.hpp?slice=7:31" type="text/javascript"></script>
 <p><span class="math inline">\lambda</span> 式の計算体系には <span class="math inline">\alpha</span> 変換と呼ばれる変換規則が定められていますが, 入力されたソースコードから成る変数の名前 (すなわち文字) に対して この <span class="math inline">\alpha</span> 変換の処理を愚直に行っていくのは少々大変そうです. そこで, これを避けるために, <span class="math inline">\lambda</span> 式内の変数を自然数 (変数が自然数のある位置から何番目の <span class="math inline">\lambda</span> によって束縛されているか, どれだけ離れているか) で表現するようにします. これを <span class="math inline">\lambda</span> 式の de Bruijn index 化といい, それによって表される項を名無し項, もしくは de Bruijn index 項といいます<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. 以下は, 先に定義した <span class="math inline">\mathrm{S},\mathrm{K},\mathrm{I}</span> による例です. プログラムでの扱いを容易にするため, <span class="math inline">0</span> からのカウントによって表記しています.</p>
 <p><span class="math display">\begin{array}{lcl}
 \mathrm{S}&amp;\xrightarrow{\text{de Bruijn index}}&amp;\lambda\lambda\lambda2\ 0(1\ 0) \\
@@ -256,9 +254,7 @@ M_1M_2M_3\cdots M_n&amp;:=&amp;\left(\left(\cdots\left(\left(M_1M_2\right)M_3\ri
 \mathrm{I}&amp;\xrightarrow{\text{de Bruijn index}}&amp;\lambda 0
 \end{array}</span></p>
 <p>これらは, それぞれ先に定義した型を用いて下記のように定義しています.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Fapp%2Fcombinators.hpp%23L33-L38&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/combinators.hpp?slice=32:38" type="text/javascript"></script>
 <p>続いて, 名無し項の <span class="math inline">\beta</span> 簡約について考えてみます. 例えば <span class="math inline">\left(\lambda\lambda 3\ 1\left(\lambda 0\ 2\right)\right)M</span> の <span class="math inline">\beta</span> 簡約について, 置換対象を <span class="math inline">\Box_n</span> として表記すると, <span class="math inline">\left(\lambda\lambda 3\Box_1\left(\lambda 0\Box_2\right)\right)M</span> になります. de Bruijn index の性質上, <span class="math inline">M</span> の内部の自由変数の index は, 置換対象からの <span class="math inline">\lambda</span> 式のネスト分追加されていなければなりません. いま, <span class="math inline">M=\left(\lambda 4\ 0\right)</span> としたとき, <span class="math inline">\Box_1</span> への置換結果は, <span class="math inline">\Box_1</span> の束縛位置から 1 つの <span class="math inline">\lambda</span> 式の下にあるため <span class="math inline">\left(\lambda 5\ 0\right)</span>, <span class="math inline">\Box_2</span> への置換結果は, <span class="math inline">\Box_2</span> の束縛位置から 2 つの <span class="math inline">\lambda</span> 式の下にあるため <span class="math inline">\left(\lambda 6\ 0\right)</span> となります (先に index のカウントを <span class="math inline">0</span> から始めるようにしたため, 置換対象の変数の index を <span class="math inline">n</span> としたとき, 置き換える側の <span class="math inline">\lambda</span> 式内のすべての自由変数の index へ単に <span class="math inline">n</span> を加えれば良くなっています).</p>
 <p>また, <span class="math inline">M</span> への置き換えによって <span class="math inline">\lambda</span> のネストが一段なくなるので, 適用される <span class="math inline">\lambda</span> 式の自由変数はデクリメントされなければなりません. よって <span class="math inline">\lambda 2\Box_1\left(\lambda 0\Box_2\right)</span> という形になり, 結果として以下を得ます.</p>
 <p><span class="math display">
@@ -320,8 +316,8 @@ M_1M_2M_3\cdots M_n&amp;:=&amp;\left(\left(\cdots\left(\left(M_1M_2\right)M_3\ri
 &amp;=&amp;\lambda 2\left(\lambda 5\ 0\right)\left(\lambda 0\left(\lambda 6\ 0\right)\right)
 \end{array}</span></p>
 <p>以上が, 名無し項の <span class="math inline">\beta</span> 簡約に関する形式的な定義となります. また, 今回の処理系全体の実装としては, 以下のようになっています.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Fapp%2Fevaluate.hpp&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+<div style="max-height: 400px; overflow-y: scroll;">
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/evaluate.hpp" type="text/javascript"></script>
 </div>
 <h2 id="パーサコンビネータ">パーサコンビネータ</h2>
 <p>ここからは, パーサの実装の話題に移ります. 構文解析の有名な手法の 1 つとしては, モナディックなパーサコンビネータをつくるといったことが挙げられます. 単純なパーサコンビネータの最低限必要な機能を考えると, 未処理の入力文字列の状態と, その入力文字列に対する異常性を管理できればよいでしょう. このように考えると, 状態モナド変換子と Either モナドを合成することでうまく扱えそうです. これに従い, 今回の実装では <code>state_transformer</code> と <code>either</code> を実装し, それらの合成をラップする形で必要最低限のパーサーコンビネータを作っています (mpl-lazyk/mlk/text/parsec.hpp). mpl-lazyk/tests/text/parsec.cpp は, この実装に対するユニットテストですが, その使用例として見ることもできるので, そのような意図で下記に掲載します.</p>
@@ -337,21 +333,15 @@ M_1M_2M_3\cdots M_n&amp;:=&amp;\left(\left(\cdots\left(\left(M_1M_2\right)M_3\ri
 </div>
 <div id="tab-content" class="mb-3" style="height: 400px; overflow-y: scroll;">
 <div class="is-active acontent" data-content="1">
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Fmlk%2Ftext%2Fparsec.hpp&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/mlk/text/parsec.hpp" type="text/javascript"></script>
 </div>
 <div class="acontent" data-content="2">
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Ftests%2Ftext%2Fparsec.cpp&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/tests/text/parsec.cpp" type="text/javascript"></script>
 </div>
 </div>
 <script type="text/javascript" src="/js/uniq_tab.js"></script>
 <p><code>state_transformer</code> と <code>either</code> の合成はモナドなので, スコープ解決演算子 <code>::</code> でメソッドチェインのように記述できます. 2 つのアクションを順番に実行し, 最初のアクションで生成された値を 2 番目のアクションに渡す <code>bind</code>, <code>bind</code> と同様ですが, 最初のアクションの値を捨てる <code>dbind</code>, モナドの型に値を包む <code>eta</code> を基本として, その他パーサを容易に記述するための“便利な型”をいくつか定義しています. ここで, <code>bind</code>, <code>dbind</code>, <code>eta</code> 以外のそれら“便利な型”は, 最初のアクションの値を捨てるという動作で統一しています. つまり, 以下のテストで示されるように, <code>::dbind&lt;便利な型&gt;</code> と <code>::便利な型</code> は等価な関係にあります.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Ftests%2Ftext%2Fparsec.cpp%23L467-L503&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/tests/text/parsec.cpp?slice=466:503" type="text/javascript"></script>
 <p>なお, 実装における各命名については, Haskell や圏論にインスパイアされた形式をとっています (例えば, <code>eta</code> は圏論の <span class="math inline">\eta</span> など).</p>
 <h2 id="c-テンプレートと遅延評価">C++ テンプレートと遅延評価</h2>
 <p>C++ テンプレートはチューリング完全な純粋関数型言語<a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>であり, うまくテンプレートのインスタンス化のタイミングを制御することで, いわゆる遅延評価的な評価戦略によって計算させることができます. 例を 1 つ挙げましょう. 説明の便宜上, まず以下のようなモノを定義します.</p>
@@ -453,9 +443,7 @@ M_1M_2M_3\cdots M_n&amp;:=&amp;\left(\left(\cdots\left(\left(M_1M_2\right)M_3\ri
 <span id="cb6-26"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-26" aria-hidden="true"></a><span class="kw">template</span> &lt;<span class="kw">class</span> Lhs, <span class="kw">class</span> Rhs&gt;</span>
 <span id="cb6-27"><a href="/roki.log/2020/12/16/CompileTimeLazyKWithCXXTemplateMetaProgramming/#cb6-27" aria-hidden="true"></a><span class="kw">using</span> <span class="dt">lor_t</span> = <span class="kw">typename</span> lor&lt;Lhs, Rhs&gt;::type;</span></code></pre></div>
 <p>これが, 冒頭で述べた, 「うまくテンプレートのインスタンス化のタイミングを制御すること」の一例であり, このような工夫によってインスタンス化を遅らせることが可能である事実は, 今回作ったような, パーサコンビネータによるパーサの実装に関して, 重要な意味がありました. 例えば, 以下は今回実装したパーサの一部ですが, <code>pTerm</code> の定義には <code>pCb</code> が, <code>pCb</code> の定義には <code>pTerm</code> が含まれており, これらはいわゆる相互再帰の形となっています.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fmpl-lazyk%2Fblob%2Fabe9289af6b781b5556b010f98c78d9207db2af8%2Fapp%2Fparse.hpp%23L41-L72&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/mpl-lazyk/blob/abe9289af6b781b5556b010f98c78d9207db2af8/app/parse.hpp?slice=40:72" type="text/javascript"></script>
 <p>これらは, パーサコンビネータを「うまくテンプレートのインスタンス化のタイミングを制御すること」で遅延評価するように実装しており, それがもし不可能であったならば, 今回のような方法での実装は恐らくかなわなかったでしょう.</p>
 <h2 id="成果物">成果物</h2>
 <p>実装は下記リポジトリにて公開しています.</p>
@@ -649,44 +637,30 @@ Some of the techniques herein are admittedly tricky to grasp, especially the tem
 <p>今回, この新個人サイトとブログを新設するにおいては, Haskell 製の static site generator である <a href="https://jaspervdj.be/hakyll/">Hakyll</a> を使った. 一言に static site generator と聞くと, テンプレートがいくつかあって, それのうちの何かを選び, 場合によってはカスタムなどして, また config があって, そこに任意のほげほげを設定して…というイメージが湧くかもしれない. Hakyll においても, 勿論そのような使い方が可能なのだが, Hakyll はあくまでも static site generator そのものを作るためのライブラリであるという点で特徴的である (と私は感じている). これにより, static site の細かい部分にまで手を付けることができるのである. <br /><br /></p>
 <p>例えば, 上記で問題視していた「MathJax が重い」についてであるが, これについてはまず <span class="math inline">\KaTeX</span> へ移行することで対応を行おうと当初考えていた. しかしよくよく考えてみると, <a href="https://hackage.haskell.org/package/hakyll-4.13.4.0/docs/Hakyll-Core-UnixFilter.html#v:unixFilter"><code>unixFilter</code></a> といったような, 外部のプログラムを <code>Compiler</code> として扱うための便利な関数もあるので, こういったものを使って <span class="math inline">\KaTeX</span> から吐き出される数式のタグをサイト生成時に埋め込めれば, わざわざ javascript から動的に書き換える必要すらないのでは…となり<a href="/roki.log/2020/08/25/hello-roki-web/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, 今回はそのように実装することで, 静的な数式レンダリングが行えるようになった<a href="/roki.log/2020/08/25/hello-roki-web/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. <br /><br /></p>
 <p>ただこれについては, ビルド時間が比較的長くなるという問題がある. 後述しているように, このウェブサイトのビルド, デプロイに関してはすべて GitHub Actions 上で行っているのもあり, デプロイ前のビルドで時間がかかっても, (GitHub Actions 上で許される範囲内ならば) 特別問題はないのだが, 手元で記事のプレビューをすぐしたいとき等にこれはストレスになる (Hakyll はデフォルト (<a href="https://hackage.haskell.org/package/hakyll-4.13.4.0/docs/Hakyll-Main.html#v:hakyll"><code>hakyll</code></a>, <a href="https://hackage.haskell.org/package/hakyll-4.13.4.0/docs/Hakyll-Main.html#v:hakyllWith"><code>hakyllWith</code></a> 等) で <code>watch</code> オプションが使えるようになっている. これは, 記事等の更新があった場合に自動でビルドを再実行してくれるものである). 今回は <code>hakllWithArgs</code> を用いて, まずこちらでプログラムへの引数を拡張し, それによって static site のビルドの挙動を切り替えられるようにすることでこの問題に対処した. 具体的には, 以下の <code>--preview</code> フラグをセットして実行することにより, ビルド時に <span class="math inline">\KaTeX</span> のレンダリングを行わないようにし, 生成される HTML の <code>head</code> の中に <span class="math inline">\KaTeX</span> を動的にレンダリングする js ファイルを埋め込むようにした.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Faf49165391316846dbfbd41056b0a0d14f0e2640%2FREADME.md%23L19-L40&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/af49165391316846dbfbd41056b0a0d14f0e2640/README.md?slice=18:40"></script>
 <p>別の似たような事例として, 不必要な js ファイルの読み込みを行わないようにするといった工夫ができる. このブログでは <a href="https://d3js.org/">d3.js</a> と <a href="https://mathjs.org/">math.js</a> を使えるようにしてあるのだが, 全ての記事でこれらを利用するわけではないので, そのようなときはスクリプトファイルの読み込みを抑えたい. ある記事でこれらのうちの何かが使われたとき, スクリプトファイルの読み込みが必要になるであろうシーンは, 単一の記事を表示するときと, <code>teaser</code> 内にそれが表示範囲として入っていてかつ記事一覧を表示するときであり, 単一の記事を表示しているときは, 単に <code>metadataField</code> にその読み込みの記述があるかないかで判定できるが, 記事一覧を表示するときはその表示される記事一覧の <code>teaser</code> に表示範囲として含まれているか判定しなければならない. が, <code>teaser</code> 内のコンテンツまで読んで判定するとなると, 後々なにか変わった読み込み方をしたくなったときなどに柔軟な対応ができなくなる等の懸念事項があったので, 今回は記事一覧に表示される記事の <code>metadataField</code> に読み込みの記述があれば (<code>teaser</code> に含まれているかとは無関係に), その記事一覧のページにスクリプト読み込みを埋め込むようにしている.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2F2799f109cbc8c8d9065d30b23d7f768fc98f9975%2Fsrc%2FRules%2FBlog%2FCore.hs%23L74-L79&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blog/a496b4fe14d6e0b26861f47fac800fb5f1d1222e/src/Rules/Blog/Core.hs?slice=72:77"></script>
 <p>…というように, 様々なパフォーマンスに対するニーズについて柔軟に対応ができる点も, Hakyll の良いところであると思う.</p>
 <h3 id="リッチな設定ファイル">リッチな設定ファイル</h3>
 <p><a href="/">個人ページ</a>の Contributions の一覧は (より多く増やしていきたいという気持ちも込めて) HTML テンプレートに直接埋め込むのではなく, 外部ファイルから読み込むようにしている. その外部ファイルの形式として, 今回は <a href="https://github.com/dhall-lang/dhall-lang">Dhall</a> を採用した. Dhall は簡単に言えば, json に型, 関数, インポートの機能が乗っかった設定ファイル言語である<a href="/roki.log/2020/08/25/hello-roki-web/#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. ここでは Dhall そのものについて詳しくは説明しないが, 例えば, 以下のように各ジャンルについて Union で定義し, 文字列への射を定義することで, 誤った文字列の設定を静的に防ぐといったことができる.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Fdca4914dad8f00c167e3eea9ba0de6221cdd4243%2Fcontents%2Fconfig%2Fcontributions%2FType%2FGenre.dhall&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/dca4914dad8f00c167e3eea9ba0de6221cdd4243/contents/config/contributions/Type/Genre.dhall"></script>
 <p>Haskell との親和性も高く, 例えば <code>Dhall.input</code> 等で簡単に読み込むことができる.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Fab69900746e7ffa9c4a7ec2a4d3c84429e52f406%2Fsrc%2FConfig%2FContributions.hs%23L17-L45&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/ab69900746e7ffa9c4a7ec2a4d3c84429e52f406/src/Config/Contributions.hs?slice=16:45"></script>
 <h3 id="rssatom-feed-や-site-map">RSS/Atom Feed や Site map</h3>
 <p>このサイトは, トップの個人ページの下に二つのブログがぶら下がっている構造をしており, よって, Site map や Atom に関してそれぞれのブログから提供する必要がある.</p>
 <p>これは, 標準の <code>renderRSS</code> や <code>renderAtom</code> では対応できないのだが, <code>renderRssWithTemplates</code> や <code>renderAtomWithTemplates</code> で独自の XML テンプレートやコンテキストを渡すことができるので, サイトの構造に合わせて柔軟な対応ができる. Site map については標準の機能として盛り込まれていないのだが, Hakyll のサイトからも紹介されている<a href="https://robertwpearce.com/hakyll-pt-2-generating-a-sitemap-xml-file.html">このブログ記事</a>の通り, Feed の生成と同様, 以下のように XML 用のテンプレートファイルを読ませたり (Lucid 等の) DSL で生成したもの等を使えば良い.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Fa496b4fe14d6e0b26861f47fac800fb5f1d1222e%2Fsrc%2FRules%2FBlog%2FCore.hs%23L216-L227&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/a496b4fe14d6e0b26861f47fac800fb5f1d1222e/src/Rules/Blog/Core.hs?slice=215:227"></script>
 <h3 id="バージョン情報の埋め込み">バージョン情報の埋め込み</h3>
 <p>このブログ及びウェブページを生成するアプリケーションのバージョン情報には <a href="https://github.com/falgon/roki-web/blob/72473891c2bb4c31534aafa0b8d76ae88cfe3683/roki-web.cabal#L10">Cabal ファイル</a>で定義されたパッケージバージョンと Git のコミットハッシュ値を埋め込んでいる.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="/roki.log/2020/08/25/hello-roki-web/#cb1-1" aria-hidden="true"></a>$ <span class="ex">stack</span> exec site -- --version</span>
 <span id="cb1-2"><a href="/roki.log/2020/08/25/hello-roki-web/#cb1-2" aria-hidden="true"></a><span class="ex">The</span> static site roki.dev compiler</span>
 <span id="cb1-3"><a href="/roki.log/2020/08/25/hello-roki-web/#cb1-3" aria-hidden="true"></a><span class="ex">version</span>: 0.1.0.0, commit hash: d4dcc402eb6ac271ec070a539e206580ad9cbe5e</span></code></pre></div>
 <p>Git のコミットハッシュ値を埋め込むのには <a href="http://hackage.haskell.org/package/gitrev-1.3.1/docs/Development-GitRev.html#v:gitHash"><code>Development.GitRev.gitHash</code></a> が非常に便利で役立った.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Fd8a997823c03ebf8008f56c6cebf870e66140545%2Fapp%2Fsite%2FMain.hs%23L96-L104&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/d8a997823c03ebf8008f56c6cebf870e66140545/app/site/Main.hs?slice=95:104"></script>
 <h3 id="css-フレームワーク-bulma">CSS フレームワーク Bulma</h3>
 <p>このブログは CSS のフレームワークとして <a href="https://bulma.io/">Bulma</a> を使用している. 当初は以前のブログと同様に Bootstrap を使おうかと考えていたが, 極力 javascript をなくし, 最小構成を軽くしたいと考えていたため, こちらを採用した. ウェブサイトのデザインについて疎い私であっても, 一応このような“それなりにそれっぽい”見た目を構成できたという点において, この CSS フレームワークには助けられたといえる. 個人的に非常に便利だったのが, Bulma の提供している <a href="https://bulma.io/documentation/helpers/">Helpers</a> で, これは単に色の定数値や <code>margin</code>, <code>padding</code> 等に関するショートカットが用意されているのだが, 「ほんのちょっと手を入れたい」というときのタイプ数がかなり抑えられるので, 精神的負担が少なく, とても良いものであった.</p>
 <p>また, 数学系の記事を書く際には「定義」, 「命題」, … といったような見出しをつけたいものだが, このスタイルの作成についても助けられた (Bulma が便利というのもあるが, 単純に SCSS の展開能力にも助けられた).</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2Ff5735daf569603ba872b9ee56820dfbbbbe4423e%2Fcontents%2Fscss%2Fblog%2F_mixins.scss&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/f5735daf569603ba872b9ee56820dfbbbbe4423e/contents/scss/blog/_mixins.scss"></script>
 <p>これを使って, 例えば以下のように書けば</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb2-1"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-1" aria-hidden="true"></a><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;m-prop&quot;</span><span class="kw">&gt;</span></span>
 <span id="cb2-2"><a href="/roki.log/2020/08/25/hello-roki-web/#cb2-2" aria-hidden="true"></a><span class="kw">&lt;header</span><span class="ot"> class=</span><span class="st">&quot;m-prop-title&quot;</span><span class="kw">&gt;&lt;p&gt;</span>ABC 予想<span class="kw">&lt;/p&gt;&lt;/header&gt;</span></span>
@@ -715,9 +689,7 @@ ABC 予想
 <img src="https://user-images.githubusercontent.com/1241783/90969880-d99b8a00-e538-11ea-8f35-684365e14406.png" title="個人ページ/ブログ管理の構造" width="640" alt /><figcaption>個人ページ/ブログ管理の構造</figcaption>
 </figure>
 <p>執筆時点現在では, 少なくとも GitHub 上において「プライベートブランチ」なる概念は存在しない. 従って, 非公開情報を扱いたいのならば, 必然的にそれをプライベートリポジトリとして扱う必要があるが, この構成はドラフトとリリースでリポジトリの公開情報をそれぞれわけることができるということに加えて, ブログ記事そのものに対する管理と, ウェブサイトを生成するアプリケーションの管理を分離することができるという利点がある. 例えば, ブログ記事の管理のほうで扱われるのは Markdown テキスト, 画像などのメディアファイル, 記事内で使うような js ファイル等であり, これらの linter やメディアファイルへの自動圧縮などの CI/CD を構成する際に, アプリケーションの CI と完全に分離できるのである.<br /><br /> なお, この構成をするのには既存の Action である <a href="https://github.com/peaceiris/actions-gh-pages">GitHub Actions for GitHub Pages</a> が非常に役立った. 特に, 既存のファイルを残すように設定できたり, 外部のプロジェクトへ Push できる設定項目については特筆すべき内容で, この Action のおかげで全体の構成をスムーズに行うことが出来たといっても過言ではない. <br /><br /> 次に, パフォーマンス計測についてであるが, 一応デプロイした後に, Google PageSpeed Insights で, <a href="https://github.com/falgon/roki-web/runs/1027626194?check_suite_focus=true">デプロイ後の状態を計測させるようにしている</a>. 現状, PC 版は 90, モバイル版は 65 を閾値として取り敢えず合否を設定しているが, モバイル版のスコアをもう少し上げられるようにしていきたいところである. これには, <a href="https://github.com/actions/github-script">actions/github-script</a> が非常に役立った. javascript を直接書き込める Action で, 手軽に導入が勧められる. 以下の処理においては, GitHub pages の状態がデプロイ完了になるまでポーリングさせている.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2F415890efb43ac2e286b721b09a2881337a0245f0%2F.github%2Fworkflows%2Fbuild.yml%23L97-L128&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/415890efb43ac2e286b721b09a2881337a0245f0/.github/workflows/build.yml?slice=96:128"></script>
 <p>さて, ここまで見てみて, もしかすると, どうやって roki-web と roki-web-post 側で同期を取っているのか, 普段はこの環境でどのようにブログの更新等行うのか等, 疑問に思うかもしれないので少し補足しておく. まず, ブログ記事の更新は, すべて roki-web-post リポジトリ内で行う. roki-web リポジトリ内では, ブログ記事については一切触らない. これをもし触ってしまうと, GitHub Actions によって roki-web の master ブランチにプッシュした際にコンフリクトすることになるので, この点では注意が必要である (が, まあもし間違えて触ってしまったとしてもそこは Git なので別になんとかなる). 反対に, ウェブサイトを生成するアプリケーションについて, roki-web-post では一切触らない. ウェブサイトを生成するアプリケーションについて何らかの変更を加えたい場合は, roki-web のみから行うようにする. <br /> 次に roki-web で何らかの変更が加えられたときに, roki-web-post がどのようにそれを取り込めばよいかであるが, これは単純に remote を複数登録しておいて, 場合によって切り替えて pull してくれば良い. もっと言えば, 下記のように設定しているので,</p>
 <pre><code>$ git remote -v
 origin  git@github.com:falgon/roki-web-post.git (fetch)
@@ -800,8 +772,8 @@ site-system git@github.com:falgon/roki-web.git (push)</code></pre>
 <img src="https://user-images.githubusercontent.com/1241783/122118953-9dd50680-ce63-11eb-9f7b-c15d135fb1bb.jpeg" width="320" alt /><figcaption><a href="https://notify-bot.line.me/ja/">LINE Notify</a> によるウェブサイトビルド完了通知</figcaption>
 </figure>
 <p>CircleCI の Environment Variables に API トークンを <code>LINE_NOTIFY_TOKEN</code> としてセットし, 以下のように叩いている.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Froki-web%2Fblob%2F02b82883ce313505cdf7c1bc009bd39f8ed86cc8%2Ftools%2Fcircleci%2FNotifyLine.hs&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
+<div style="height: 400px; overflow-y: scroll;">
+<script src="https://gist-it.appspot.com/github/falgon/roki-web/blob/02b82883ce313505cdf7c1bc009bd39f8ed86cc8/tools/circleci/NotifyLine.hs"></script>
 </div>
 <section class="footnotes" role="doc-endnotes">
 <hr />
@@ -3939,9 +3911,7 @@ A&amp;=&amp;P L U\\
 </span></p>
 また, 置換行列 <span class="math inline">P</span> はただの並び替えでなので, これも各インデックスへの対応関係をテーブルにでもしておけば十分. サンプル実装, 実行例を下記に示す. Haskell で書いたわけだが, 普通の ST モナドによる実装とリストによる実装をそれぞれ行った. <em onclick="obj=document.getElementById('open_lu').style; obj.display=(obj.display=='none')?'block':'none';"> <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a> </em>
 <div id="open_lu" style="display:none;clear:both;">
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2FPlayLinearAlgebra%2Fblob%2F7a387f803e1ee30d3e7e83915b88eea18d7e096b%2Fsrc%2FMath%2FMatrix%2FCore.hs%23L139-L217&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/https://github.com/falgon/PlayLinearAlgebra/blob/7a387f803e1ee30d3e7e83915b88eea18d7e096b/src/Math/Matrix/Core.hs?slice=138:217"></script>
 </div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="/roki.log/2019/01/1/lu_decomposition/#cb1-1" aria-hidden="true"></a>λ<span class="op">&gt;</span> <span class="op">:</span>m <span class="dt">Data.Array</span> <span class="dt">Math.Matrix.LU</span></span>
 <span id="cb1-2"><a href="/roki.log/2019/01/1/lu_decomposition/#cb1-2" aria-hidden="true"></a>λ<span class="op">&gt;</span> lu [[<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>],[<span class="op">-</span><span class="dv">8</span>,<span class="dv">8</span>,<span class="dv">1</span>],[<span class="dv">2</span>,<span class="op">-</span><span class="dv">2</span>,<span class="dv">0</span>]]<span class="ot"> ::</span> <span class="dt">Maybe</span> (<span class="dt">PLU</span> <span class="dt">Array</span> <span class="dt">Int</span> <span class="dt">Double</span>)</span>
@@ -3958,9 +3928,7 @@ A&amp;=&amp;P L U\\
 <span id="cb1-13"><a href="/roki.log/2019/01/1/lu_decomposition/#cb1-13" aria-hidden="true"></a>)</span></code></pre></div>
 連立方程式を解く. <em onclick="obj=document.getElementById('open_resolveLinearEq').style; obj.display=(obj.display=='none')?'block':'none';"> <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a> </em>
 <div id="open_resolveLinearEq" style="display:none;clear:both;">
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2FPlayLinearAlgebra%2Fblob%2F7a387f803e1ee30d3e7e83915b88eea18d7e096b%2Fsrc%2FMath%2FMatrix%2FCore.hs%23L259-L305&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/https://github.com/falgon/PlayLinearAlgebra/blob/7a387f803e1ee30d3e7e83915b88eea18d7e096b/src/Math/Matrix/Core.hs?slice=258:305"></script>
 </div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="/roki.log/2019/01/1/lu_decomposition/#cb2-1" aria-hidden="true"></a>λ<span class="op">&gt;</span> resolveLinearEq' [[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">7</span>,<span class="dv">6</span>],[<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>],[<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">5</span>,<span class="dv">2</span>],[<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">3</span>]] [<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">12</span>,<span class="dv">5</span>]<span class="ot"> ::</span> <span class="dt">Maybe</span> (<span class="dt">Array</span> <span class="dt">Int</span> <span class="dt">Rational</span>)</span>
 <span id="cb2-2"><a href="/roki.log/2019/01/1/lu_decomposition/#cb2-2" aria-hidden="true"></a><span class="dt">Just</span> (array (<span class="dv">0</span>,<span class="dv">3</span>) [(<span class="dv">0</span>,(<span class="op">-</span><span class="dv">3</span>) <span class="op">%</span> <span class="dv">1</span>),(<span class="dv">1</span>,<span class="dv">2</span> <span class="op">%</span> <span class="dv">1</span>),(<span class="dv">2</span>,(<span class="op">-</span><span class="dv">1</span>) <span class="op">%</span> <span class="dv">1</span>),(<span class="dv">3</span>,<span class="dv">2</span> <span class="op">%</span> <span class="dv">1</span>)])</span>
@@ -3980,9 +3948,7 @@ A&amp;=&amp;P L U\\
 <span id="cb2-16"><a href="/roki.log/2019/01/1/lu_decomposition/#cb2-16" aria-hidden="true"></a><span class="dt">Just</span> (array (<span class="dv">0</span>,<span class="dv">3</span>) [(<span class="dv">0</span>,<span class="fl">1.666666666666667</span>),(<span class="dv">1</span>,<span class="fl">0.8666666666666667</span>),(<span class="dv">2</span>,<span class="op">-</span><span class="fl">0.8</span>),(<span class="dv">3</span>,<span class="fl">1.2</span>)])</span></code></pre></div>
 ところで, LU 分解をしておくと逆行列も簡単に求めることがすぐに示せる. 逆行列とはそもそも <span class="math inline">A A^{-1} =I</span> であり, <span class="math inline">A^{-1}=({\boldsymbol a^{-1}_1},{\boldsymbol a^{-1}_2},\cdots,{\boldsymbol a^{-1}}_m), I=({\boldsymbol I_1},{\boldsymbol I_2},\cdots,{\boldsymbol I_m})</span> とすると行列の積の定義より <span class="math inline">A {\boldsymbol a^{-1}_i}={\boldsymbol I_i}\ {\rm where\ } i\in\mathbb{Z}^{+}, 1\leq i\leq m</span> だから, <span class="math inline">A=L U</span> と分解して <span class="math inline">1</span> から <span class="math inline">m</span> までのすべての <span class="math inline">{\boldsymbol a^{-1}}_i</span> を得てそれらをそのまま 1 つの行列とすればよい. 当然ながら, 構成される方程式のうち変わる部分は <span class="math inline">{\boldsymbol a^{-1}}_i</span> と <span class="math inline">I_i</span> の部分だけなので, LU 分解は一度行うだけで済む. プログラムでの実行例. <em onclick="obj=document.getElementById('open_inverse').style; obj.display=(obj.display=='none')?'block':'none';"> <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a> </em>
 <div id="open_inverse" style="display:none;clear:both;">
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2FPlayLinearAlgebra%2Fblob%2F7a387f803e1ee30d3e7e83915b88eea18d7e096b%2Fsrc%2FMath%2FMatrix%2FCore.hs%23L307-L324&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/https://github.com/falgon/PlayLinearAlgebra/blob/7a387f803e1ee30d3e7e83915b88eea18d7e096b/src/Math/Matrix/Core.hs?slice=306:324"></script>
 </div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="/roki.log/2019/01/1/lu_decomposition/#cb3-1" aria-hidden="true"></a>λ<span class="op">&gt;</span> inverse' [[<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>],[<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>],[<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>]]<span class="ot"> ::</span> <span class="dt">Maybe</span> (<span class="dt">Matrix</span> <span class="dt">Array</span> <span class="dt">Int</span> <span class="dt">Rational</span>)</span>
 <span id="cb3-2"><a href="/roki.log/2019/01/1/lu_decomposition/#cb3-2" aria-hidden="true"></a><span class="dt">Just</span></span>
@@ -3992,9 +3958,7 @@ A&amp;=&amp;P L U\\
 <p>ただし, 逆行列の計算には今述べたようにすべての <span class="math inline">{\boldsymbol I^{-1}}_i</span> に関して代入操作を行わなければならないので, <span class="math inline">A{\boldsymbol x}={\boldsymbol v}</span> といった方程式を解く目的で逆行列 <span class="math inline">A^{-1}</span> を求めることはただの愚行である.</p>
 また, LU 分解は行列式の計算も簡単にする. <span class="math inline">A= L U</span> ならば積の行列式は行列式の積(証明略)なので <span class="math inline">\left|A\right|=\left|L U\right|=\left|L\right|\left|U\right|</span> であるが, 上および下三角行列の行列式は対角成分の積(証明略)であるので <span class="math inline">\left|L\right|=1</span> である. よって <span class="math inline">\left|A\right|=\prod_{i=1}^{n}{\boldsymbol u}_{ii}</span> である. 置換行列 <span class="math inline">P</span> を考慮すれば, いま <span class="math inline">S</span> を LU 分解の過程で行の入れ替えを行った回数としたとき, <span class="math inline">\left|A\right|=\left|P\right|\left|L\right|\left|U\right|=(-1)^S \prod_{i=1}^{n}{\boldsymbol u}_{ii}</span> となる. また, 後述する Crout 法では <span class="math inline">U</span> のすべての対角成分を <span class="math inline">1</span> とするので, その場合 <span class="math inline">\left|A\right| = (-1)^S \prod_{i=1}^{n}{\boldsymbol l}_{ii}</span> となる. <em onclick="obj=document.getElementById('open_det').style; obj.display=(obj.display=='none')?'block':'none';"> <a style="font-style: normal; cursor:pointer;">クリックで実装を開く.</a> </em>
 <div id="open_det" style="display:none;clear:both;">
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2FPlayLinearAlgebra%2Fblob%2F7a387f803e1ee30d3e7e83915b88eea18d7e096b%2Fsrc%2FMath%2FMatrix%2FCore.hs%23L327-L340&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/https://github.com/falgon/PlayLinearAlgebra/blob/7a387f803e1ee30d3e7e83915b88eea18d7e096b/src/Math/Matrix/Core.hs?slice=326:340"></script>
 </div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="/roki.log/2019/01/1/lu_decomposition/#cb4-1" aria-hidden="true"></a>λ<span class="op">&gt;</span> determinant <span class="op">$</span> toMat <span class="op">$</span> listArray ((<span class="dv">0</span>,<span class="dv">0</span>),(<span class="dv">2</span>,<span class="dv">2</span>)) [<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>]</span>
 <span id="cb4-2"><a href="/roki.log/2019/01/1/lu_decomposition/#cb4-2" aria-hidden="true"></a><span class="fl">2.0</span></span>
@@ -5701,12 +5665,10 @@ f'(x)&amp;=&amp;\lim_{h\to 0}\frac{\cos(x+h)-\cos x}{h}\\
 <!--more-->
 <h2 id="構成">構成</h2>
 <p>構成そのものはかなり単純だと思う. はじめに, いくつかのパラメータを指定する. 数は多いが, AWS EC2 の環境構築に最低限必要となるような要素に限られているはず.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fedcc%2Fblob%2F5f4cd53830691275e5c250ef2051adca9d1162d6%2FREADME.md%23L11-L44&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/https://github.com/falgon/edcc/blob/5f4cd53830691275e5c250ef2051adca9d1162d6/README.md?slice=10:44"></script>
 <p>ここで指定したパラメータに応じて, 環境を構築する. その際, AWS のユーザーデータ<a href="/roki.log/2018/08/15/aws_ec2_distcc/#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>機能を使って, distcc とコンパイラ<a href="/roki.log/2018/08/15/aws_ec2_distcc/#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>のセットアップ, ホストインスタンス(実際にコンパイルを実行するインスタンス)の決定, 各インスタンスの環境構築における進捗の同期等を行い, ビルドスクリプトを実行する.</p>
 <p>一応, ここに酷いアクティビティ図がある.</p>
-<div style="text-align:center; height: 400px; overflow-y: scroll;">
+<div style="height: 400px; overflow-y: scroll;">
 <p><img width="700" src="https://raw.githubusercontent.com/falgon/edcc/4a052baece667b6baf6d3e41ff3f0741faee5bed/assets/fig.png" alt="ugly activity diagram"></p>
 </div>
 <h2 id="実装">実装</h2>
@@ -5717,16 +5679,12 @@ f'(x)&amp;=&amp;\lim_{h\to 0}\frac{\cos(x+h)-\cos x}{h}\\
 <p>まず, 起動したインスタンスのすべてに必要となるパッケージのインストールやセットアップを実行する必要があるが, これは構成にて述べたように, AWS EC2 の機能のうちの 1 つである, ユーザーデータ<a href="/roki.log/2018/08/15/aws_ec2_distcc/#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>を利用して実行することとした.</p>
 <p>予め使用言語に対する指定として, Go で実装することを定められていたので, 今回の実装を Go で行ったことに対する深い意味合いは特別ないが, とりあえずそこまで深く考えず Go の便利な標準パッケージ, <code>text/template</code>を利用して, 一程度の情報伝達を行うこととした. <code>text/template</code>は, かなりお手軽に<a href="/roki.log/2018/07/23/ec2failover/">設定ファイルの生成</a>のほか, トークンの衝突さえなければ, コードに直接埋め込むことができるので, それを元にコードの生成をすることもでき, 大変良い.</p>
 <p>ビルドスクリプトおよびセットアップスクリプトは, それぞれ, ビルド実行のスクリプト<a href="/roki.log/2018/08/15/aws_ec2_distcc/#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>と, ユーザーデータとして渡される, 必要パッケージのセットアップスクリプト<a href="/roki.log/2018/08/15/aws_ec2_distcc/#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>のことを示している. ビルドスクリプトは, 以下に示す変数を利用して任意に記述してもらう<a href="/roki.log/2018/08/15/aws_ec2_distcc/#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>ものとして, セットアップスクリプトは, 殆どの場合, 中身を弄る必要はないと思われる. 今のところ, 各スクリプトは bash スクリプトとして記述する必要がある. それぞれで利用できる変数は, 次の通りである.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fedcc%2Fblob%2F5f4cd53830691275e5c250ef2051adca9d1162d6%2FREADME.md%23L47-L63&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/https://github.com/falgon/edcc/blob/5f4cd53830691275e5c250ef2051adca9d1162d6/README.md?slice=46:63"></script>
 <p>大体各変数の予測はつくだろうし, 説明にもあるとおりなのだが, 一点, 必ずビルドスクリプト内に記述しなければならないのは, <code>{{.build_success}}</code>または<code>{{.build_failed}}</code>である. これは, <code>{{.Include_WriteStatus}}</code>を予め記述しておくことで利用できるようになる. それぞれビルドの成功, また失敗といった結果を通知するための命令(内部はただの bash 関数)であるが, このどちらをも指定しなかった場合, ビルドはまだ終わっていないと認識して, 永遠に停止することはない(マネジメントコンソールや awscli などで自分でクリーンナップを行う必要がある.).</p>
 <p>この仕様は, Travis CI を利用しているときに, ステータスコードが 0 以外の場合においても, 処理を続行したいときが個人的には何度かあったことに由来している.</p>
 <p>また, セットアップの進捗をインスタンス間でどのように同期するかであるが, EC2 においても各メタ情報を HTTP リクエストで取得できることを真似て, 各インスタンスで nginx による HTTP サーバ<a href="/roki.log/2018/08/15/aws_ec2_distcc/#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>を稼働させ, そのトップページに自身の状態の JSON を出力しておき, それを curl で得るということにした.</p>
 <p>結局, そのほかの詳細はリポジトリ内の README を見てほしい. 実行例は次の通りである.</p>
-<div class="mb-2 mt-2" style="max-height: 400px; overflow-y: scroll;">
-<script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2Ffalgon%2Fedcc%2Fblob%2F5f4cd53830691275e5c250ef2051adca9d1162d6%2FREADME.md%23L69-L102&style=github&showLineNumbers=on&showFileMeta=on&fetchFromJsDelivr=on"></script>
-</div>
+<script src="https://gist-it.appspot.com/https://github.com/falgon/edcc/blob/5f4cd53830691275e5c250ef2051adca9d1162d6/README.md?slice=68:102"></script>
 <h2 id="感想">感想</h2>
 <p>とにかく時間のない中であったので, 妥協してしまった点がいくらかあり, その点で個人的には悔しい部分があるが, 今回の実装で大分総合的に EC2 関係の IaaS やら SaaS 周りを活用できたかと思うので, 取り組めたこと自体には満足をしている.</p>
 <p>別の話題だが, 講義内で利用する AWS リソースの支払いは, ありがたい事に大学側が持っていてくれていたのだが, これでもう講義が終わってしまうので, 犬が西向きゃ尾は東というものであるが, 続けて自分で本格的に取り組むのには, ある程度の出費が必要となる. 今のところ, まだ無料利用枠は残っているので, それを利用できることが救いであるが, 講義でよく使っていた t2.medium と無料利用枠対象の t2.micro とでは, やはり処理性能に若干の違いを感じる. なんだか今回のエントリには, やたらと諺が出てきて自分も奇怪に感じるが, まあこれは, 起きて半畳寝て一畳, 天下取っても二合半ということなのだろう.</p>
