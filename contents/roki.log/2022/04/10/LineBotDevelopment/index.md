@@ -93,7 +93,7 @@ LINE 社の提供する[チャネルアクセストークン](https://developers
 期限を<i>良い感じ</i>に短くしたアクセストークンを使って<i>無駄に</i>セキュリティを強化したいところであったので,
 チャネルアクセストークン v2.1 を使用することとした[^4].
 
-チャンネルアクセストークン v2.1 の発行方法/概要は[ドキュメント](https://developers.line.biz/ja/docs/messaging-api/generate-json-web-token/#create-an-assertion-signing-key)を参照頂くとして,
+チャネルアクセストークン v2.1 の発行方法/概要は[ドキュメント](https://developers.line.biz/ja/docs/messaging-api/generate-json-web-token/#create-an-assertion-signing-key)を参照頂くとして,
 まずは Haskell での JWT の生成例から順に示す.
 Haskell で行う場合, [jose](https://hackage.haskell.org/package/jose) パッケージを利用すると楽である.
 [ドキュメント](https://developers.line.biz/ja/docs/messaging-api/generate-json-web-token/#generate-jwt)の要請するオブジェクトに従うと,
