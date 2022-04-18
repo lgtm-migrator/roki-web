@@ -17,7 +17,7 @@ import qualified Config.Blogs.AnotherBlog as AB
 import qualified Config.Blogs.TechBlog    as TB
 import           Config.RegexUtils        (intercalateDir)
 import           Contexts.Field           (gAdSenseBeforeContentBody,
-                                           gAdSenseBody, gAdSenseHeader,
+                                           gAdSenseFooter, gAdSenseHeader,
                                            haskellJpLogo)
 import           Lucid.Base               (renderText)
 import qualified Rules.Blog               as B
@@ -180,7 +180,7 @@ diaryConf = B.BlogConfig {
   , B.blogDescription = AB.blogDesc
   , B.blogHeaderAdditional = TL.unpack $ renderText gAdSenseHeader
   , B.blogBeforeContentBodyAdditional = TL.unpack $ renderText gAdSenseBeforeContentBody
-  , B.blogFooterAdditional = TL.unpack $ renderText gAdSenseBody
+  , B.blogFooterAdditional = TL.unpack $ renderText gAdSenseFooter
   , B.blogTagBuilder = AB.buildTags
   , B.blogTagPagesPath = AB.tagPagesPath
   , B.blogEntryPattern = AB.entryPattern

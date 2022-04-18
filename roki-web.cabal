@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f2b72aa8fdcfdca218a13dcd95e343c45dae7063e25873812bc6ee570a6ac758
+-- hash: d520c759f68b70ff64cfb04eaccea08d88e985ec08c403ae7622bd1c0bc0972a
 
 name:           roki-web
 version:        1.0.0.0
@@ -39,6 +39,8 @@ library
       Contexts
       Contexts.Core
       Contexts.Field
+      Contexts.Field.GAdsense
+      Contexts.Field.PowertedBy
       Contexts.Utils
       Hakyll.Web.Feed.Extra
       Media
