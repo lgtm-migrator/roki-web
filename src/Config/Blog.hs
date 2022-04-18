@@ -12,6 +12,7 @@ data BlogConfig m = BlogConfig {
     blogName                   :: String
   , blogDescription            :: String
   , blogHeaderAdditional       :: String
+  , blogBeforeMainAdditional   :: String
   , blogFooterAdditional       :: String
   , blogTagBuilder             :: m Tags
   , blogTagPagesPath           :: FilePath -> FilePath

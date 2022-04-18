@@ -3,6 +3,11 @@ $for(js)$
 <script defer type="text/javascript" src="$src-script$"></script>
 $endfor$
 $endif$
+$if(before-main-additional-component)$
+<div class="content has-text-centered mt-3">
+    $before-main-additional-component$
+</div>
+$endif$
 <main class="section main" role="main">
     <article class="container">
         <div class="card mb-1 is-shadowless">
