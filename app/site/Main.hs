@@ -16,8 +16,9 @@ import qualified Config.Blog              as B
 import qualified Config.Blogs.AnotherBlog as AB
 import qualified Config.Blogs.TechBlog    as TB
 import           Config.RegexUtils        (intercalateDir)
-import           Contexts.Field           (gAdSenseBeforeContentBody, gAdSenseBody,
-                                           gAdSenseHeader, haskellJpLogo)
+import           Contexts.Field           (gAdSenseBeforeContentBody,
+                                           gAdSenseBody, gAdSenseHeader,
+                                           haskellJpLogo)
 import           Lucid.Base               (renderText)
 import qualified Rules.Blog               as B
 import qualified Rules.IndexPage          as IP
