@@ -10,7 +10,7 @@ module Contexts.Field (
   , haskellJpLogo
   , gAdSenseHeader
   , gAdSenseBody
-  , gAdSenseBeforeMain
+  , gAdSenseBeforeContentBody
 ) where
 
 import           Control.Monad       (forM_, liftM2)
@@ -123,8 +123,8 @@ haskellJpLogo =
           , alt_"Supported By Haskell-jp."
           ]
 
-gAdSenseBeforeMain :: Html ()
-gAdSenseBeforeMain = do
+gAdSenseBeforeContentBody :: Html ()
+gAdSenseBeforeContentBody = do
     script_ [
         async_ mempty
       , src_ "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5658861742931397"
