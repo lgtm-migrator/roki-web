@@ -1,4 +1,4 @@
-name: Build Dockerfile and Push GitHub Package Registry
+name: docker-build-deployment
 on:
   push:
     branches: [master]

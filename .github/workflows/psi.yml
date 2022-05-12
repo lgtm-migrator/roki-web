@@ -1,4 +1,4 @@
-name: Manually PSI
+name: manually-PSI
 on:
   workflow_dispatch:
     inputs:
