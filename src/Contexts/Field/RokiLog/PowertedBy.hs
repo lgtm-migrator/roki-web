@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Contexts.Field.PowertedBy (
+module Contexts.Field.RokiLog.PowertedBy (
     haskellJpLogo
 ) where
 

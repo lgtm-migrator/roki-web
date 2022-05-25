@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Contexts.Field.GAdsense (
+module Contexts.Field.RokiDiary.GAdsense (
     gAdSenseHeader
   , gAdSenseBeforeContentBody
   , gAdSenseFooter

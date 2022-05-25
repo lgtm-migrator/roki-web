@@ -7,8 +7,6 @@ module Contexts.Field (
   , imageField
   , yearMonthArchiveField
   , searchBoxResultField
-  , module Contexts.Field.GAdsense
-  , module Contexts.Field.PowertedBy
 ) where
 
 import           Control.Monad             (forM_, liftM2)
@@ -29,8 +27,6 @@ import qualified Text.HTML.TagSoup         as TS
 
 import           Archives                  (Archives (..), MonthlyArchives,
                                             YearlyArchives)
-import           Contexts.Field.GAdsense
-import           Contexts.Field.PowertedBy
 
 toLink :: String -> String -> Html ()
 toLink text path = a_ [href_ (T.pack $ toUrl path)] $ span_ $ toHtml text
