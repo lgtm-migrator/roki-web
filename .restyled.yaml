@@ -12,6 +12,7 @@ statuses:
   error: true
 labels:
   - refactoring
+  - automerge
 ignore_labels:
   - restyled-ignore
-
+request_review: author
