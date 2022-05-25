@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d520c759f68b70ff64cfb04eaccea08d88e985ec08c403ae7622bd1c0bc0972a
+-- hash: 66bb1c61d4e036f477dc3dada73818a451a46c8c1f28b6b91563835fc2671ddb
 
 name:           roki-web
 version:        1.0.0.0
@@ -39,8 +39,11 @@ library
       Contexts
       Contexts.Core
       Contexts.Field
-      Contexts.Field.GAdsense
-      Contexts.Field.PowertedBy
+      Contexts.Field.RokiDiary
+      Contexts.Field.RokiDiary.GAdsense
+      Contexts.Field.RokiLog
+      Contexts.Field.RokiLog.GAdsense
+      Contexts.Field.RokiLog.PowertedBy
       Contexts.Utils
       Hakyll.Web.Feed.Extra
       Media

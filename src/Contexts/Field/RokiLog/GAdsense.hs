@@ -1,7 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Contexts.Field.GAdsense (
-    gAdSenseHeader
-  , gAdSenseBeforeContentBody
+module Contexts.Field.RokiLog.GAdsense (
+    gAdSenseBeforeContentBody
   , gAdSenseFooter
 ) where
 
@@ -21,7 +20,7 @@ gAdSenseBeforeContentBody = do
         class_ "adsbygoogle"
       , style_ "display:block"
       , data_ "ad-client" "ca-pub-5658861742931397"
-      , data_ "ad-slot" "9593271026"
+      , data_ "ad-slot" "9716211878"
       , data_ "ad-format" "auto"
       , data_ "full-width-responsive" "true"
       ]
@@ -41,15 +40,8 @@ gAdSenseFooter = do
       , style_ "display:block"
       , data_ "ad-format" "autorelaxed"
       , data_ "ad-client" "ca-pub-5658861742931397"
-      , data_ "ad-slot" "1547222058"
+      , data_ "ad-slot" "7636558034"
       ]
         mempty
     script_ "(adsbygoogle = window.adsbygoogle || []).push({});"
 
-gAdSenseHeader :: Html ()
-gAdSenseHeader = script_ [
-    data_ "ad-client" "ca-pub-5658861742931397"
-  , async_ mempty
-  , src_ "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-  ]
-    TL.empty

@@ -7,30 +7,26 @@ module Contexts.Field (
   , imageField
   , yearMonthArchiveField
   , searchBoxResultField
-  , module Contexts.Field.GAdsense
-  , module Contexts.Field.PowertedBy
 ) where
 
-import           Control.Monad             (forM_, liftM2)
-import           Control.Monad.Trans       (lift)
-import           Data.Function             (on)
-import           Data.Functor              ((<&>))
-import           Data.List                 (isSuffixOf, sortBy)
-import           Data.Maybe                (catMaybes, fromMaybe)
-import qualified Data.Text                 as T
-import qualified Data.Text.Lazy            as TL
-import           Data.Time.Format          (TimeLocale (..), formatTime)
-import           Data.Time.LocalTime       (TimeZone (..), utcToLocalTime)
+import           Control.Monad       (forM_, liftM2)
+import           Control.Monad.Trans (lift)
+import           Data.Function       (on)
+import           Data.Functor        ((<&>))
+import           Data.List           (isSuffixOf, sortBy)
+import           Data.Maybe          (catMaybes, fromMaybe)
+import qualified Data.Text           as T
+import qualified Data.Text.Lazy      as TL
+import           Data.Time.Format    (TimeLocale (..), formatTime)
+import           Data.Time.LocalTime (TimeZone (..), utcToLocalTime)
 import           Hakyll
-import           Lucid.Base                (Html, ToHtml (..), renderText,
-                                            renderTextT, toHtml)
+import           Lucid.Base          (Html, ToHtml (..), renderText,
+                                      renderTextT, toHtml)
 import           Lucid.Html5
-import qualified Text.HTML.TagSoup         as TS
+import qualified Text.HTML.TagSoup   as TS
 
-import           Archives                  (Archives (..), MonthlyArchives,
-                                            YearlyArchives)
-import           Contexts.Field.GAdsense
-import           Contexts.Field.PowertedBy
+import           Archives            (Archives (..), MonthlyArchives,
+                                      YearlyArchives)
 
 toLink :: String -> String -> Html ()
 toLink text path = a_ [href_ (T.pack $ toUrl path)] $ span_ $ toHtml text

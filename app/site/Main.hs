@@ -16,9 +16,8 @@ import qualified Config.Blog              as B
 import qualified Config.Blogs.AnotherBlog as AB
 import qualified Config.Blogs.TechBlog    as TB
 import           Config.RegexUtils        (intercalateDir)
-import           Contexts.Field           (gAdSenseBeforeContentBody,
-                                           gAdSenseFooter, gAdSenseHeader,
-                                           haskellJpLogo)
+import qualified Contexts.Field.RokiDiary as RokiDiary
+import qualified Contexts.Field.RokiLog   as RokiLog
 import           Lucid.Base               (renderText)
 import qualified Rules.Blog               as B
 import qualified Rules.IndexPage          as IP
@@ -158,8 +157,8 @@ techBlogConf = B.BlogConfig {
     B.blogName = TB.blogName
   , B.blogDescription = TB.blogDesc
   , B.blogHeaderAdditional = mempty
-  , B.blogBeforeContentBodyAdditional = mempty
-  , B.blogFooterAdditional = TL.unpack $ renderText haskellJpLogo
+  , B.blogBeforeContentBodyAdditional = TL.unpack $ renderText RokiLog.gAdSenseBeforeContentBody
+  , B.blogFooterAdditional = TL.unpack $ renderText RokiLog.footerAdditionalComponent
   , B.blogTagBuilder = TB.buildTags
   , B.blogTagPagesPath = TB.tagPagesPath
   , B.blogEntryPattern = TB.entryPattern
@@ -178,9 +177,9 @@ diaryConf :: B.BlogConfig Rules
 diaryConf = B.BlogConfig {
     B.blogName = AB.blogName
   , B.blogDescription = AB.blogDesc
-  , B.blogHeaderAdditional = TL.unpack $ renderText gAdSenseHeader
-  , B.blogBeforeContentBodyAdditional = TL.unpack $ renderText gAdSenseBeforeContentBody
-  , B.blogFooterAdditional = TL.unpack $ renderText gAdSenseFooter
+  , B.blogHeaderAdditional = TL.unpack $ renderText RokiDiary.gAdSenseHeader
+  , B.blogBeforeContentBodyAdditional = TL.unpack $ renderText RokiDiary.gAdSenseBeforeContentBody
+  , B.blogFooterAdditional = TL.unpack $ renderText RokiDiary.gAdSenseFooter
   , B.blogTagBuilder = AB.buildTags
   , B.blogTagPagesPath = AB.tagPagesPath
   , B.blogEntryPattern = AB.entryPattern
