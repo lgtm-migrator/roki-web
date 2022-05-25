@@ -1,5 +1,6 @@
 module Contexts.Field.RokiLog (
-    footerAdditionalComponent
+    gAdSenseBeforeContentBody
+  , footerAdditionalComponent
 ) where
 
 import           Contexts.Field.RokiLog.GAdsense
