@@ -93,15 +93,20 @@ jobs:
         echo "$HOME/.go/bin:$PATH" >> $GITHUB_PATH
     - name: Setup Skicka
       if: steps.skicka-cache.outputs.cache-hit != 'true'
+      shell: bash
       run: |
         wget -q https://dl.google.com/go/go1.17.9.linux-amd64.tar.gz
         tar -C "$HOME" -xzf go1.17.9.linux-amd64.tar.gz
         mv "$HOME/go" "$HOME/.go"
         go install github.com/google/skicka@latest
         skicka init
-        echo -n "${{ secrets.SKICKA_TOKENCACHE_JSON }}" > "$HOME/.skicka.tokencache.json"
-        sed -i -e "s/;clientid=YOUR_GOOGLE_APP_CLIENT_ID/clientid=${{ secrets.GOOGLE_CLIENT_ID }}/g" "$HOME/.skicka.config"
-        sed -i -e "s/;clientsecret=YOUR_GOOGLE_APP_SECRET/clientsecret=${{ secrets.GOOGLE_CLIENT_SECRET }}/g" "$HOME/.skicka.config"
+        echo -n "$SKICKA_TOKENCACHE_JSON" > "$HOME/.skicka.tokencache.json"
+        sed -i -e "s/;clientid=YOUR_GOOGLE_APP_CLIENT_ID/clientid=$GOOGLE_CLIENT_ID/g" "$HOME/.skicka.config"
+        sed -i -e "s/;clientsecret=YOUR_GOOGLE_APP_SECRET/clientsecret=$GOOGLE_CLIENT_SECRET/g" "$HOME/.skicka.config"
+      env:
+        SKICKA_TOKENCACHE_JSON: ${{ secrets.SKICKA_TOKENCACHE_JSON }}
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
     - name: Upload to Google Drive
       run: |
         skicka -no-browser-auth upload -ignore-times \
