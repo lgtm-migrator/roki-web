@@ -21,47 +21,23 @@ jobs:
       uses: actions/checkout@v2
       with:
         submodules: true
-    - name: Setup GHC
-      uses: haskell/actions/setup@v1
-      with:
-        ghc-version: '8.8.3'
-        enable-stack: true
-        stack-version: '2.7.3'
     - name: Stack cache
       uses: actions/cache@v2
       id: stack-cache
       with:
         path: ~/.stack
         key: stack-v2-${{ runner.os }}-${{ hashFiles('stack.yaml') }}
-    - name: Skicka cache
-      uses: actions/cache@v2
-      id: skicka-cache
+    - name: Setup GHC
+      uses: haskell/actions/setup@v1
       with:
-        path: |
-          ~/.go
-          ~/.cache/go-build
-          ~/.skicka.tokencache.json
-          ~/.skicka.config
-        key: go-v1-${{ runner.os }}
-    - name: Setup Tools
+        ghc-version: '8.8.3'
+        enable-stack: true
+        stack-version: '2.7.3'
+    - name: Setup XMLlint
       run: |
         sudo apt-get -qq -o=Dpkg::Use-Pty=0 update
         sudo apt-get -qq -o=Dpkg::Use-Pty=0 install -y --no-install-recommends libxml2-utils
         xmllint --version
-        if [ ! -e "$HOME/.go" ]; then
-          export GOPATH="$HOME/.go"
-          export PATH="$HOME/.go/bin:$PATH"
-          wget -q https://dl.google.com/go/go1.17.9.linux-amd64.tar.gz
-          tar -C "$HOME" -xzf go1.17.9.linux-amd64.tar.gz
-          mv "$HOME/go" "$HOME/.go"
-          "$HOME/.go/bin/go" install github.com/google/skicka@latest
-          "$HOME/.go/bin/skicka" init
-          echo -n "${{ secrets.SKICKA_TOKENCACHE_JSON }}" > "$HOME/.skicka.tokencache.json"
-          sed -i -e "s/;clientid=YOUR_GOOGLE_APP_CLIENT_ID/clientid=${{ secrets.GOOGLE_CLIENT_ID }}/g" "$HOME/.skicka.config"
-          sed -i -e "s/;clientsecret=YOUR_GOOGLE_APP_SECRET/clientsecret=${{ secrets.GOOGLE_CLIENT_SECRET }}/g" "$HOME/.skicka.config"
-        fi
-        echo 'export GOPATH="$HOME/.go"' >> $GITHUB_PATH
-        echo 'export PATH="$HOME/.go/bin:$PATH"' >> $GITHUB_PATH
     - name: Setup Stack
       if: steps.stack-cache.outputs.cache-hit != 'true'
       run: |
@@ -88,8 +64,36 @@ jobs:
         xmllint docs/roki.diary/sitemap.xml --noout
         xmllint docs/roki.diary/feed/roki.diary.xml --noout
         tar cvf docs.tar.xz docs
+    - name: Skicka cache
+      uses: actions/cache@v2
+      id: skicka-cache
+      with:
+        path: |
+          ~/.go
+          ~/.cache/go-build
+          ~/.skicka.tokencache.json
+          ~/.skicka.config
+        key: go-v2-${{ runner.os }}
+    - name: Setup Go Path
+      run: |
+        echo 'export GOPATH="$HOME/.go"' >> $GITHUB_PATH
+        echo 'export PATH="$HOME/.go/bin:$PATH"' >> $GITHUB_PATH
+    - name: Setup Skicka
+      if: steps.skicka-cache.outputs.cache-hit != 'true'
+      run: |
+        wget -q https://dl.google.com/go/go1.17.9.linux-amd64.tar.gz
+        tar -C "$HOME" -xzf go1.17.9.linux-amd64.tar.gz
+        mv "$HOME/go" "$HOME/.go"
+        go install github.com/google/skicka@latest
+        skicka init
+        echo -n "${{ secrets.SKICKA_TOKENCACHE_JSON }}" > "$HOME/.skicka.tokencache.json"
+        sed -i -e "s/;clientid=YOUR_GOOGLE_APP_CLIENT_ID/clientid=${{ secrets.GOOGLE_CLIENT_ID }}/g" "$HOME/.skicka.config"
+        sed -i -e "s/;clientsecret=YOUR_GOOGLE_APP_SECRET/clientsecret=${{ secrets.GOOGLE_CLIENT_SECRET }}/g" "$HOME/.skicka.config"
     - name: Upload to Google Drive
-      run: skicka -no-browser-auth upload -ignore-times ./docs.tar.xz CI_WORK/GitHubActions/roki-web/${{ steps.myhash.outputs.hash }}-docs.tar.xz
+      run: |
+        skicka -no-browser-auth upload -ignore-times \
+          ./docs.tar.xz \
+          CI_WORK/GitHubActions/roki-web/${{ steps.myhash.outputs.hash }}-docs.tar.xz
     - name: Boot CircleCI
       run: |
           echo CIRCLE_RESP=$(curl -s -u ${{ secrets.CIRCLE_API_USER_TOKEN }}: \
