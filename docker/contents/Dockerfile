@@ -46,8 +46,10 @@ ENV LANG=ja_JP.UTF-8 \
     LC_ALL=ja_JP.UTF-8
 COPY --chown=rw-c:rw-c --from=bin /root/dist /home/rw-c/bin
 WORKDIR /home/rw-c/bin
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
-    && source ~/.bashrc \
+RUN curl -s -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    && export NVM_DIR="$HOME/.nvm" \
+    && . "$NVM_DIR/nvm.sh" \
+    && . "$NVM_DIR/bash_completion" \
     && nvm install \
     && nvm use \
     && npm i
