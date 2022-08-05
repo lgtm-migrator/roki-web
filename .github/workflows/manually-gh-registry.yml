@@ -38,7 +38,6 @@ jobs:
         echo "ENV_GH_REGISTRY=docker.pkg.github.com/${{ github.repository }}/$(echo $ENV_IMAGE_NAME | cut -f2 -d/):$IMAGE_TAG" >> $GITHUB_ENV
         echo "DEV_GH_REGISTRY=docker.pkg.github.com/${{ github.repository }}/$(echo $DEV_IMAGE_NAME | cut -f2 -d/):$IMAGE_TAG" >> $GITHUB_ENV
     - name: Set the image tag outputs
-      if: ${{ github.event.inputs.to_push == 'true' }}
       id: img_tag_step
       run: echo "::set-output name=name::$IMAGE_TAG"
     - name: Set env image outputs
