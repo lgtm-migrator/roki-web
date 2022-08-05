@@ -57,8 +57,6 @@ jobs:
       if: ${{ github.event.inputs.to_push == 'true' }}
       id: dev_registry_step
       run: echo "::set-output name=name::$DEV_GH_REGISTRY"
-    - name: Login GitHub Registry
-      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u owner --password-stdin
   build-env-image:
     runs-on: ubuntu-20.04
     needs: setup
