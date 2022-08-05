@@ -61,6 +61,7 @@ jobs:
     runs-on: ubuntu-20.04
     needs: setup
     if: github.repository == 'falgon/roki-web'
+    steps:
     - name: Build the env image
       shell: bash
       run: |
@@ -80,6 +81,7 @@ jobs:
     runs-on: ubuntu-20.04
     needs: setup
     if: github.repository == 'falgon/roki-web'
+    steps:
     - name: Build the env image
       shell: bash
       run: |
