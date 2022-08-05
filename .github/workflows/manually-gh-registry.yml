@@ -52,9 +52,6 @@ jobs:
       if: ${{ github.event.inputs.to_push == 'true' }}
       id: dev_registry_step
       run: echo "::set-output name=name::$DEV_GH_REGISTRY"
-    - name: Login GitHub Registry
-      if: ${{ github.event.inputs.to_push == 'true' }}
-      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u owner --password-stdin
     - name: Build images
       shell: bash
       run: |
@@ -98,6 +95,8 @@ jobs:
       run: |
         docker load --input /tmp/env_img.tar
         docker load --input /tmp/dev_img.tar
+    - name: Login GitHub Registry
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u owner --password-stdin
     - name: Push to GitHub Package Registry
       shell: bash
       run: |
