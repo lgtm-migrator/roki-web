@@ -72,7 +72,6 @@ jobs:
   push:
     runs-on: ubuntu-20.04
     needs: build
-    if: ${{ github.event.inputs.to_push == 'true' }}
     steps:
     - name: Download the env image
       uses: actions/download-artifact@v2
@@ -90,6 +89,7 @@ jobs:
         docker load --input /tmp/env_img.tar
         docker load --input /tmp/dev_img.tar
     - name: Push to GitHub Package Registry
+      if: ${{ github.event.inputs.to_push == 'true' }}
       shell: bash
       run: |
         docker tag ${{ needs.build.outputs.env_img_name }} ${{ needs.build.outputs.env_gh_registry }}
