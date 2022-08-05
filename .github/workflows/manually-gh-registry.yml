@@ -102,6 +102,6 @@ jobs:
       shell: bash
       run: |
         docker tag ${{ needs.build.outputs.env_img_name }} ${{ needs.build.outputs.env_gh_registry }}
-        docker tag ${{ needs.build.outputs.dev_img_name }} ${{ needs.build.outputs.dev_gh_registry }} 
+        docker tag ${{ needs.build.outputs.dev_img_name }} ${{ needs.build.outputs.dev_gh_registry }}
         docker push ${{ needs.build.outputs.env_gh_registry }}
         docker push ${{ needs.build.outputs.dev_gh_registry }}
