@@ -92,7 +92,6 @@ jobs:
     - name: Build the dev image
       shell: bash
       run: |
-        echo ${{ needs.setup.outputs.img_tag }}
         ROKI_WEB_ENV_IMAGE_TAG=${{ needs.setup.outputs.img_tag }} ROKI_WEB_DEV_IMAGE_TAG=${{ needs.setup.outputs.img_tag }} pushd ./docker && \
           docker-compose build --no-cache dev; \
         popd
@@ -108,7 +107,7 @@ jobs:
   push:
     runs-on: ubuntu-20.04
     needs: [setup, build-env-image, build-dev-image]
-    if: ${{ github.event.inputs.to_push == 'true' }} && github.repository == 'falgon/roki-web'
+    if: github.event.inputs.to_push == 'true' && github.repository == 'falgon/roki-web'
     steps:
     - name: Download the env image
       uses: actions/download-artifact@v2
