@@ -107,7 +107,7 @@ jobs:
   push:
     runs-on: ubuntu-20.04
     needs: [setup, build-env-image, build-dev-image]
-    if: github.event.inputs.to_push == 'true' && github.repository == 'falgon/roki-web'
+    if: ${{ github.event.inputs.to_push == 'true' && github.repository == 'falgon/roki-web' }}
     steps:
     - name: Download the env image
       uses: actions/download-artifact@v2
