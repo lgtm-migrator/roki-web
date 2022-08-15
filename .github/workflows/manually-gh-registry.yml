@@ -3,12 +3,12 @@ on:
   workflow_dispatch:
     inputs:
       to_push:
-        description: 'push the built container'
+        description: 'Push the built containers'
         required: true
         default: false
         type: boolean
       enable_notify:
-        description: 'send notification after image build'
+        description: 'Send notification after image build'
         required: true
         default: true
         type: boolean
