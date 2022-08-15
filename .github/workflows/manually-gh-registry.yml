@@ -136,7 +136,7 @@ jobs:
         ACTIONS_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         curl -X POST https://notify-api.line.me/api/notify \
           -H "Authorization: Bearer ${{ secrets.LINE_NOTIFY_TOKEN }}" \
-          -d "Push to gh-registry completed!%0a$ACTIONS_URL"
+          -d "roki.dev docker image build completed!%0a$ACTIONS_URL"
   push:
     runs-on: ubuntu-20.04
     needs: [setup, build-env-image, build-dev-image]
