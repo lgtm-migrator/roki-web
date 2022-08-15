@@ -13,7 +13,7 @@ on:
         default: true
         type: boolean
   push:
-    branches: [master, ci-build-docker-matrix]
+    branches: [master]
     tags:
       - v*
 env:
@@ -132,11 +132,14 @@ jobs:
     steps:
     - name: Notify LINE
       shell: bash
+      env:
+        API_ENDPOINT: https://notify-api.line.me/api/notify
+        LINE_NOTIFY_TOKEN: ${{ secrets.LINE_NOTIFY_TOKEN }}
+        ACTIONS_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       run: |
-        ACTIONS_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        curl -X POST https://notify-api.line.me/api/notify \
-          -H "Authorization: Bearer ${{ secrets.LINE_NOTIFY_TOKEN }}" \
-          -d "roki.dev docker image build completed!%0a$ACTIONS_URL"
+        curl -X POST $API_ENDPOINT \
+          -H "Authorization: Bearer $LINE_NOTIFY_TOKEN" \
+          -d "message=roki.dev docker image build completed!%0a$ACTIONS_URL"
   push:
     runs-on: ubuntu-20.04
     needs: [setup, build-env-image, build-dev-image]
