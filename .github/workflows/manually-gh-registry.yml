@@ -7,6 +7,11 @@ on:
         required: true
         default: false
         type: boolean
+      enable_notify:
+        description: 'send notification after image build'
+        required: true
+        default: true
+        type: boolean
   push:
     branches: [master, ci-build-docker-matrix]
     tags:
@@ -25,6 +30,7 @@ jobs:
       env_gh_registry: ${{ steps.env_registry_step.outputs.name }}
       dev_gh_registry: ${{ steps.dev_registry_step.outputs.name }}
       to_push: ${{ steps.to_push_step.outputs.flag }}
+      enable_notify: ${{ steps.enable_notify_step.outputs.flag }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -44,6 +50,8 @@ jobs:
         echo "DEV_GH_REGISTRY=docker.pkg.github.com/${{ github.repository }}/$(echo $DEV_IMAGE_NAME | cut -f2 -d/):$IMAGE_TAG" >> $GITHUB_ENV
         [[ "${{ github.event_name }}" = "push" ]] && TO_PUSH=true || TO_PUSH=${{ github.event.inputs.to_push }}
         echo "TO_PUSH=$TO_PUSH" >> $GITHUB_ENV
+        [[ "${{ github.event_name }}" = "push" ]] && ENABLE_NOTIFY=false || ENABLE_NOTIFY=${{ github.event.inputs.enable_notify }}
+        echo "ENABLE_NOTIFY=$ENABLE_NOTIFY" >> $GITHUB_ENV
     - name: Set the image tag outputs
       id: img_tag_step
       run: echo "::set-output name=name::$IMAGE_TAG"
@@ -66,6 +74,9 @@ jobs:
     - name: Set to_push flag outputs
       id: to_push_step
       run: echo "::set-output name=flag::$TO_PUSH"
+    - name: Set enable_notify flag outputs
+      id: enable_notify_step
+      run: echo "::set-output name=flag::$ENABLE_NOTIFY"
   build-env-image:
     runs-on: ubuntu-20.04
     needs: setup
@@ -143,3 +154,15 @@ jobs:
         docker tag ${{ needs.setup.outputs.dev_img_name }} ${{ needs.setup.outputs.dev_gh_registry }}
         docker push ${{ needs.setup.outputs.env_gh_registry }}
         docker push ${{ needs.setup.outputs.dev_gh_registry }}
+  notify-line:
+    runs-on: ubuntu-20.04
+    needs: [setup, push]
+    if: ${{ needs.setup.outputs.enable_notify == 'true' && github.repository == 'falgon/roki-web' }}
+    steps:
+    - name: Notify LINE
+      shell: bash
+      run: |
+        ACTIONS_URL=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        curl -X POST https://notify-api.line.me/api/notify \
+          -H "Authorization: Bearer ${{ secrets.LINE_NOTIFY_TOKEN }}" \
+          -d "Push to gh-registry completed!%0a$ACTIONS_URL"
