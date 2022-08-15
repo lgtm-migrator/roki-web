@@ -14,6 +14,11 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     if: github.repository == 'falgon/roki-web'
+    outputs:
+      env_img_name: ${{ steps.env_img_step.outputs.name }}
+      dev_img_name: ${{ steps.dev_img_step.outputs.name }}
+      env_gh_registry: ${{ steps.env_registry_step.outputs.name }}
+      dev_gh_registry: ${{ steps.dev_registry_step.outputs.name }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -31,23 +36,41 @@ jobs:
         echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
         echo "ENV_GH_REGISTRY=docker.pkg.github.com/${{ github.repository }}/$(echo $ENV_IMAGE_NAME | cut -f2 -d/):$IMAGE_TAG" >> $GITHUB_ENV
         echo "DEV_GH_REGISTRY=docker.pkg.github.com/${{ github.repository }}/$(echo $DEV_IMAGE_NAME | cut -f2 -d/):$IMAGE_TAG" >> $GITHUB_ENV
-    - name: Login GitHub Registry
-      if: ${{ github.event.inputs.to_push }}
-      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u owner --password-stdin
-    - name: Build Image
+    - name: Set env image outputs
+      if: ${{ github.event.inputs.to_push == 'true' }}
+      id: env_img_step
+      run: echo "::set-output name=name::$ENV_IMAGE_NAME"
+    - name: Set dev image outputs
+      if: ${{ github.event.inputs.to_push == 'true' }}
+      id: dev_img_step
+      run: echo "::set-output name=name::$DEV_IMAGE_NAME"
+    - name: Set env registry outputs
+      if: ${{ github.event.inputs.to_push == 'true' }}
+      id: env_registry_step
+      run: echo "::set-output name=name::$ENV_GH_REGISTRY"
+    - name: Set dev registry outputs
+      if: ${{ github.event.inputs.to_push == 'true' }}
+      id: dev_registry_step
+      run: echo "::set-output name=name::$DEV_GH_REGISTRY"
+    - name: Build images
       shell: bash
       run: |
         ROKI_WEB_ENV_IMAGE_TAG=$IMAGE_TAG ROKI_WEB_DEV_IMAGE_TAG=$IMAGE_TAG pushd ./docker && \
           docker-compose build --no-cache preview dev; \
         popd
+    - name: Save images with tar
+      if: ${{ github.event.inputs.to_push == 'true' }}
+      run: |
         docker save $ENV_IMAGE_NAME > /tmp/env_img.tar
         docker save $DEV_IMAGE_NAME > /tmp/dev_img.tar
-    - name: Upload env image
+    - name: Upload the env image
+      if: ${{ github.event.inputs.to_push == 'true' }}
       uses: actions/upload-artifact@v2
       with:
         name: env_img
         path: /tmp/env_img.tar
-    - name: Upload dev image
+    - name: Upload the dev image
+      if: ${{ github.event.inputs.to_push == 'true' }}
       uses: actions/upload-artifact@v2
       with:
         name: dev_img
@@ -55,14 +78,14 @@ jobs:
   push:
     runs-on: ubuntu-20.04
     needs: build
-    if: ${{ github.event.inputs.to_push }}
+    if: ${{ github.event.inputs.to_push == 'true' }}
     steps:
-    - name: Download env image
+    - name: Download the env image
       uses: actions/download-artifact@v2
       with:
         name: env_img
         path: /tmp
-    - name: Download dev image
+    - name: Download the dev image
       uses: actions/download-artifact@v2
       with:
         name: dev_img
@@ -72,10 +95,12 @@ jobs:
       run: |
         docker load --input /tmp/env_img.tar
         docker load --input /tmp/dev_img.tar
+    - name: Login GitHub Registry
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u owner --password-stdin
     - name: Push to GitHub Package Registry
       shell: bash
       run: |
-        docker tag $ENV_IMAGE_NAME $ENV_GH_REGISTRY
-        docker tag $DEV_IMAGE_NAME $DEV_GH_REGISTRY
-        docker push $ENV_GH_REGISTRY
-        docker push $DEV_GH_REGISTRY
+        docker tag ${{ needs.build.outputs.env_img_name }} ${{ needs.build.outputs.env_gh_registry }}
+        docker tag ${{ needs.build.outputs.dev_img_name }} ${{ needs.build.outputs.dev_gh_registry }}
+        docker push ${{ needs.build.outputs.env_gh_registry }}
+        docker push ${{ needs.build.outputs.dev_gh_registry }}
