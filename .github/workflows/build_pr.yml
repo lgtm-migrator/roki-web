@@ -86,6 +86,7 @@ jobs:
           ~/.cache/go-build
           ~/.skicka.tokencache.json
           ~/.skicka.config
+          ~/.skicka.metadata.cache
         key: go-v2-${{ runner.os }}
     - name: Setup Go Path
       run: |
